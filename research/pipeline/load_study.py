@@ -40,6 +40,16 @@ def main() -> None:
                  h["id"], h["version"], h.get("parent_id")),
             )
         print(f"{path.name}: {len(spec['hypotheses'])} hypotheses")
+    rel_path = STUDY / "open-coding-relevance.json"
+    if rel_path.exists():
+        rel = json.loads(rel_path.read_text())
+        relevant = set(rel["relevant"])
+        conn.executemany(
+            "INSERT OR REPLACE INTO relevance VALUES (?, ?, ?, ?, ?)",
+            [(d["doc_id"], rel["coder"], int(i in relevant), "open coding", 0)
+             for i, d in enumerate(sample)],
+        )
+        print(f"{rel_path.name}: {len(relevant)} of {len(sample)} relevant")
     conn.commit()
 
 
