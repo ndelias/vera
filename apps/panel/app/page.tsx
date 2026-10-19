@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Arrow } from "@/components/Arrow";
 import { BarChart } from "@/components/BarChart";
 import { ColumnChart } from "@/components/ColumnChart";
-import { SOURCES, overview, postsByMonth, rounds, sourceCounts, stageCounts } from "@/lib/data";
+import { FAMILIES, SOURCES, familyOf, overview, postsByMonth, rounds, sourceCounts, stageCounts } from "@/lib/data";
 import { day, month, monthShort, num, pct } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -13,11 +13,16 @@ export default function Overview() {
   const monthRows = postsByMonth();
   const allRounds = rounds();
   const sources = sourceCounts();
-  const series = SOURCES.filter((src) => sources.some((c) => c.source === src.key));
-  const months = [...new Set(monthRows.map((m) => m.month))].map((m) => ({
-    month: m,
-    values: Object.fromEntries(monthRows.filter((r) => r.month === m).map((r) => [r.source, r.posts])),
-  }));
+  // Months stack by source family, so the chart stays at three series.
+  const series = FAMILIES.filter((f) => sources.some((c) => familyOf(c.source) === f.key));
+  const months = [...new Set(monthRows.map((m) => m.month))].map((m) => {
+    const values: Record<string, number> = {};
+    for (const r of monthRows.filter((r) => r.month === m)) {
+      const fam = familyOf(r.source);
+      values[fam] = (values[fam] ?? 0) + r.posts;
+    }
+    return { month: m, values };
+  });
   const rate = o.judged ? o.relevant / o.judged : 0;
   const estimate = Math.round(o.corpus * rate);
   const lastMonth = months[months.length - 1]?.month;
@@ -88,8 +93,8 @@ export default function Overview() {
         <div className="section-head">
           <h2>Where the posts come from</h2>
           <p>
-            Hacker News is mostly engineers. The Stack Exchange sites add designers and project and product
-            managers. Hover for how many were read and found to be about a pain.
+            Hacker News is mostly engineers. Stack Exchange and Reddit add designers, project and product
+            managers, and marketers. Hover for how many were read and found to be about a pain.
           </p>
         </div>
         <div className="card">
@@ -111,14 +116,14 @@ export default function Overview() {
         <div className="section-head">
           <h2>Posts per month</h2>
           <p>
-            Corpus posts by the month they were written. Hacker News starts in October 2024; the Stack Exchange
-            sites go back five years because they&apos;re small. The last month is partial.
+            Corpus posts by the month they were written. Hacker News and Reddit start in October 2024; the
+            Stack Exchange sites go back five years because they&apos;re small. The last month is partial.
           </p>
         </div>
         <div className="card">
           <ColumnChart
             caption="Corpus posts per month, by source"
-            series={series.map((src) => ({ key: src.key, label: src.label }))}
+            series={series.map((f) => ({ key: f.key, label: f.label }))}
             everyNth={6}
             columns={months.map((m) => ({
               key: m.month,
@@ -135,8 +140,9 @@ export default function Overview() {
         <div className="section-head">
           <h2>By stage of the work</h2>
           <p>
-            Hacker News posts by the part of a product team&apos;s work their search terms covered. A post can
-            count in more than one stage. The Stack Exchange rounds took whole sites, so they have no stage.
+            Posts by the part of a product team&apos;s work their search terms covered. A post can count in
+            more than one stage. Stack Exchange posts and Reddit comments have no stage: they came in as whole
+            sites or whole threads, not through a term.
           </p>
         </div>
         <div className="card">
