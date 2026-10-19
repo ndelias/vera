@@ -67,17 +67,12 @@ export function stageCounts(): StageCount[] {
 export const FAMILIES = [
   { key: "hn", label: "Hacker News" },
   { key: "se", label: "Stack Exchange" },
-  { key: "reddit", label: "Reddit" },
 ] as const;
 
 export const SOURCES = [
   { key: "hn", label: "Hacker News", short: "HN", family: "hn" },
   { key: "ux-se", label: "UX Stack Exchange", short: "UX SE", family: "se" },
   { key: "pm-se", label: "Project Management SE", short: "PM SE", family: "se" },
-  { key: "r-productmanagement", label: "r/ProductManagement", short: "r/PM", family: "reddit" },
-  { key: "r-uxdesign", label: "r/UXDesign", short: "r/UXD", family: "reddit" },
-  { key: "r-userexperience", label: "r/userexperience", short: "r/UX", family: "reddit" },
-  { key: "r-marketing", label: "r/marketing", short: "r/mkt", family: "reddit" },
 ] as const;
 
 export const familyOf = (source: string) => SOURCES.find((s) => s.key === source)?.family ?? "other";

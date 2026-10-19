@@ -93,8 +93,7 @@ export default function Overview() {
         <div className="section-head">
           <h2>Where the posts come from</h2>
           <p>
-            Hacker News is mostly engineers. Stack Exchange and Reddit add designers, project and product
-            managers, and marketers. Hover for how many were read and found to be about a pain.
+            Hacker News is mostly engineers. Stack Exchange adds designers and project and product managers. Hover for how many were read and found to be about a pain.
           </p>
         </div>
         <div className="card">
@@ -116,7 +115,7 @@ export default function Overview() {
         <div className="section-head">
           <h2>Posts per month</h2>
           <p>
-            Corpus posts by the month they were written. Hacker News and Reddit start in October 2024; the
+            Corpus posts by the month they were written. Hacker News starts in October 2024; the
             Stack Exchange sites go back five years because they&apos;re small. The last month is partial.
           </p>
         </div>
@@ -141,8 +140,8 @@ export default function Overview() {
           <h2>By stage of the work</h2>
           <p>
             Posts by the part of a product team&apos;s work their search terms covered. A post can count in
-            more than one stage. Stack Exchange posts and Reddit comments have no stage: they came in as whole
-            sites or whole threads, not through a term.
+            more than one stage. Stack Exchange posts have no stage: they came in as whole sites, not through
+            a term.
           </p>
         </div>
         <div className="card">
