@@ -1,7 +1,8 @@
 """Collects every question and answer from Stack Exchange sites in a window.
 
-Uses the public Stack Exchange API (no key: 300 requests a day per IP). A
-query with q "*" means the whole site. Raw pages go to data/raw/se/.
+Uses the public Stack Exchange API (no key: 300 requests a day per IP, and
+no page past 25, so the window is pulled in 90-day slices). A query with
+q "*" means the whole site. Raw pages go to data/raw/se/.
 
     python3 research/pipeline/collect_se.py research/studies/01-discovery/queries-r3.json
 """
@@ -10,6 +11,7 @@ import gzip
 import json
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -17,6 +19,7 @@ from collect_hn import MIN_WORDS, epoch, to_text
 from db import ROOT, connect
 
 API = "https://api.stackexchange.com/2.3"
+SLICE = 90 * 24 * 3600
 RAW_DIR = ROOT / "data" / "raw" / "se"
 # Default filter plus the post body.
 FILTER = "withbody"
@@ -32,7 +35,12 @@ def get(path: str, params: dict) -> dict:
             if data.get("backoff"):
                 time.sleep(data["backoff"] + 1)
             return data
-        except Exception:
+        except urllib.error.HTTPError as e:
+            body = gzip.decompress(e.read()) if e.headers.get("Content-Encoding") == "gzip" else e.read()
+            if attempt == 3 or e.code in (400, 403):
+                raise RuntimeError(f"{e.code} {body[:300]!r} for {url}") from e
+            time.sleep(2 ** (attempt + 1))
+        except OSError:
             if attempt == 3:
                 raise
             time.sleep(2 ** (attempt + 1))
@@ -40,6 +48,14 @@ def get(path: str, params: dict) -> dict:
 
 
 def pull(site: str, kind: str, start: int, end: int) -> tuple[list[dict], int]:
+    items, quota = [], None
+    for lo in range(start, end, SLICE):
+        got, quota = pull_slice(site, kind, lo, min(lo + SLICE, end))
+        items += got
+    return items, quota
+
+
+def pull_slice(site: str, kind: str, start: int, end: int) -> tuple[list[dict], int]:
     items, page, quota = [], 1, None
     while True:
         data = get(kind, {

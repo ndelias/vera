@@ -1,14 +1,17 @@
-"""Draws the open-coding sample: 30 corpus posts per stage, fixed seed.
+"""Draws open-coding samples with a fixed seed.
 
-Equal per stage so every stage gets read. That's right for finding which
-pains exist. How often each pain occurs is measured later, by coding the
-whole corpus.
+Round 2 (Hacker News): 30 corpus posts per stage. Round 3 (Stack Exchange,
+no stages): 50 posts per source. Equal per group so every group gets read.
+That's right for finding which pains exist. How often each pain occurs is
+measured later, by coding the whole corpus.
 
-    python3 research/pipeline/sample_open_coding.py
+    python3 research/pipeline/sample_open_coding.py        # round 2
+    python3 research/pipeline/sample_open_coding.py r3     # round 3
 """
 
 import json
 import random
+import sys
 
 from db import ROOT, connect
 
@@ -43,5 +46,18 @@ def main() -> None:
         print(f"  {stage:<13} {len(by_stage[stage]):>6} in corpus")
 
 
+def main_r3() -> None:
+    conn = connect()
+    out = ROOT / "studies" / "01-discovery" / "open-coding-sample-r3.json"
+    rng = random.Random(SEED + 3)
+    sample = []
+    for source in ("ux-se", "pm-se"):
+        pool = [r[0] for r in conn.execute(
+            "SELECT id FROM corpus WHERE source = ? ORDER BY id", (source,))]
+        sample += [{"doc_id": d, "source": source} for d in rng.sample(pool, 50)]
+    out.write_text(json.dumps({"seed": SEED + 3, "per_source": 50, "docs": sample}, indent=1))
+    print(f"{len(sample)} posts → {out.relative_to(ROOT)}")
+
+
 if __name__ == "__main__":
-    main()
+    main_r3() if sys.argv[1:] == ["r3"] else main()

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Arrow } from "@/components/Arrow";
-import { post } from "@/lib/data";
+import { post, sourceLabel } from "@/lib/data";
 import { day, num } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +18,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
         <Link href="/posts"><Arrow dir="left" />All posts</Link>
       </p>
       <div className="page-head">
-        <p className="eyebrow">{doc.source.toUpperCase()} {doc.kind} · {day(doc.created_at)}</p>
+        <p className="eyebrow">{sourceLabel(doc.source)} · {doc.kind} · {day(doc.created_at)}</p>
         {doc.title ? <h1 style={{ fontSize: 28 }}>{doc.title}</h1> : null}
       </div>
 
@@ -32,7 +32,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
               <dt>Words</dt><dd>{num(doc.words)}</dd>
               {doc.points !== null ? (<><dt>Points</dt><dd>{doc.points}</dd></>) : null}
               <dt>Original</dt>
-              <dd><a href={doc.url} rel="noreferrer">Hacker News<Arrow dir="out" /></a></dd>
+              <dd><a href={doc.url} rel="noreferrer">{sourceLabel(doc.source)}<Arrow dir="out" /></a></dd>
             </dl>
           </div>
 
@@ -47,7 +47,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
                   <tr key={`${m.round_id}-${m.query_id}`}>
                     <td>
                       <Link href={`/posts?query=${encodeURIComponent(m.query_id)}`}><code>{m.q}</code></Link>
-                      <div className="muted" style={{ fontSize: 12 }}>{m.stage}</div>
+                      {m.stage ? <div className="muted" style={{ fontSize: 12 }}>{m.stage}</div> : null}
                     </td>
                     <td>{m.round_id}</td>
                     <td>{m.exact ? "yes" : "no"}</td>

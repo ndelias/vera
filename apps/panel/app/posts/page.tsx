@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Arrow } from "@/components/Arrow";
-import { PAGE_SIZE, STAGE_ORDER, posts, rounds, type PostFilters } from "@/lib/data";
+import { PAGE_SIZE, SOURCES, STAGE_ORDER, posts, rounds, type PostFilters } from "@/lib/data";
 import { day, num } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Posts" };
@@ -13,7 +13,9 @@ const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v
 
 function readFilters(sp: Search): PostFilters {
   const judged = first(sp.judged);
+  const source = first(sp.source);
   return {
+    source: SOURCES.some((s) => s.key === source) ? source : undefined,
     q: first(sp.q)?.slice(0, 200),
     stage: STAGE_ORDER.includes(first(sp.stage) as never) ? first(sp.stage) : undefined,
     round: Number(first(sp.round)) || undefined,
@@ -26,6 +28,7 @@ function readFilters(sp: Search): PostFilters {
 function hrefWith(f: PostFilters, page: number) {
   const p = new URLSearchParams();
   if (f.q) p.set("q", f.q);
+  if (f.source) p.set("source", f.source);
   if (f.stage) p.set("stage", f.stage);
   if (f.round) p.set("round", String(f.round));
   if (f.query) p.set("query", f.query);
@@ -48,8 +51,8 @@ export default async function Posts({ searchParams }: { searchParams: Promise<Se
         <p className="eyebrow">Corpus</p>
         <h1>Posts</h1>
         <p className="lede">
-          Every post in the corpus, newest first. Filter by stage, round or search term, or by whether it was
-          read and judged to be about a pain.
+          Every post in the corpus, newest first. Filter by source, stage, round or search term, or by whether
+          it was read and judged to be about a pain.
         </p>
       </div>
 
@@ -57,6 +60,15 @@ export default async function Posts({ searchParams }: { searchParams: Promise<Se
         <label className="field">
           Text
           <input type="search" name="q" defaultValue={f.q ?? ""} placeholder="e.g. waiting on review" />
+        </label>
+        <label className="field">
+          Source
+          <select name="source" defaultValue={f.source ?? ""}>
+            <option value="">All</option>
+            {SOURCES.map((s) => (
+              <option key={s.key} value={s.key}>{s.label}</option>
+            ))}
+          </select>
         </label>
         <label className="field">
           Stage
@@ -87,7 +99,7 @@ export default async function Posts({ searchParams }: { searchParams: Promise<Se
         </label>
         {f.query ? <input type="hidden" name="query" value={f.query} /> : null}
         <button className="button" type="submit">Filter</button>
-        {f.q || f.stage || f.round || f.query || f.judged ? <Link href="/posts">Clear</Link> : null}
+        {f.q || f.source || f.stage || f.round || f.query || f.judged ? <Link href="/posts">Clear</Link> : null}
       </form>
 
       <p className="muted" style={{ marginBottom: 12 }}>
@@ -100,7 +112,7 @@ export default async function Posts({ searchParams }: { searchParams: Promise<Se
             <tr>
               <th>Date</th>
               <th>Post</th>
-              <th>Stage</th>
+              <th>Source</th>
               <th>Read</th>
             </tr>
           </thead>
@@ -121,6 +133,7 @@ export default async function Posts({ searchParams }: { searchParams: Promise<Se
                 </td>
                 <td>
                   <span className="chips">
+                    <span className="chip">{SOURCES.find((s) => s.key === r.source)?.short ?? r.source}</span>
                     {r.stages?.split(",").map((s) => <span key={s} className="chip">{s}</span>)}
                   </span>
                 </td>

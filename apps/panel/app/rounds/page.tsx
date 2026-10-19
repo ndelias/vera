@@ -46,9 +46,9 @@ export default function Rounds() {
                   {terms.map((q) => (
                     <tr key={q.id}>
                       <td>
-                        <Link href={`/posts?query=${encodeURIComponent(q.id)}&round=${q.round_id}`}><code>{q.q}</code></Link>
+                        <Link href={`/posts?query=${encodeURIComponent(q.id)}&round=${q.round_id}`}><code>{q.q === "*" ? "every post" : q.q}</code></Link>
                       </td>
-                      <td className="muted">{q.stage}</td>
+                      <td className="muted">{q.stage ?? "–"}</td>
                       <td className="num">{num(q.hits_total)}</td>
                       <td className="num">{num(q.hits_pulled)}</td>
                       <td className="num">{pct(q.exact, q.hits_pulled)}</td>

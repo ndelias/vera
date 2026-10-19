@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Arrow } from "@/components/Arrow";
 import { BarChart } from "@/components/BarChart";
 import { ColumnChart } from "@/components/ColumnChart";
-import { overview, postsByMonth, rounds, stageCounts } from "@/lib/data";
+import { SOURCES, overview, postsByMonth, rounds, sourceCounts, stageCounts } from "@/lib/data";
 import { day, month, monthShort, num, pct } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -10,8 +10,14 @@ export const dynamic = "force-dynamic";
 export default function Overview() {
   const o = overview();
   const stages = stageCounts();
-  const months = postsByMonth();
+  const monthRows = postsByMonth();
   const allRounds = rounds();
+  const sources = sourceCounts();
+  const series = SOURCES.filter((src) => sources.some((c) => c.source === src.key));
+  const months = [...new Set(monthRows.map((m) => m.month))].map((m) => ({
+    month: m,
+    values: Object.fromEntries(monthRows.filter((r) => r.month === m).map((r) => [r.source, r.posts])),
+  }));
   const rate = o.judged ? o.relevant / o.judged : 0;
   const estimate = Math.round(o.corpus * rate);
   const lastMonth = months[months.length - 1]?.month;
@@ -30,8 +36,8 @@ export default function Overview() {
       <section className="hero" aria-label="Corpus size">
         <span className="hero-value">{num(o.corpus)}</span>
         <p className="muted">
-          posts in the corpus, from {num(o.pulled)} pulled across {allRounds.length} rounds ·{" "}
-          {day(o.first)} – {day(o.last)}
+          posts in the corpus, from {num(o.pulled)} pulled across {allRounds.length} rounds and{" "}
+          {sources.length} sources · {day(o.first)} – {day(o.last)}
         </p>
       </section>
 
@@ -80,17 +86,45 @@ export default function Overview() {
 
       <section className="section">
         <div className="section-head">
+          <h2>Where the posts come from</h2>
+          <p>
+            Hacker News is mostly engineers. The Stack Exchange sites add designers and project and product
+            managers. Hover for how many were read and found to be about a pain.
+          </p>
+        </div>
+        <div className="card">
+          <BarChart
+            caption="Corpus posts per source"
+            bars={sources.map((c) => ({
+              label: SOURCES.find((src) => src.key === c.source)?.label ?? c.source,
+              value: c.corpus,
+              detail: c.judged
+                ? `${c.relevant} of ${c.judged} read were about a pain · since ${day(c.first)}`
+                : `none read yet · since ${day(c.first)}`,
+              href: `/posts?source=${c.source}`,
+            }))}
+          />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="section-head">
           <h2>Posts per month</h2>
-          <p>Corpus posts by the month they were written. The last month is partial.</p>
+          <p>
+            Corpus posts by the month they were written. Hacker News starts in October 2024; the Stack Exchange
+            sites go back five years because they&apos;re small. The last month is partial.
+          </p>
         </div>
         <div className="card">
           <ColumnChart
-            caption="Corpus posts per month"
+            caption="Corpus posts per month, by source"
+            series={series.map((src) => ({ key: src.key, label: src.label }))}
+            everyNth={6}
             columns={months.map((m) => ({
               key: m.month,
               label: month(m.month),
               tick: monthShort(m.month),
-              value: m.posts,
+              values: m.values,
               partial: m.month === lastMonth,
             }))}
           />
@@ -101,8 +135,8 @@ export default function Overview() {
         <div className="section-head">
           <h2>By stage of the work</h2>
           <p>
-            Which part of a product team&apos;s work each post came from (via its search terms). A post can count in
-            more than one stage. Hover for how many of those read were about a pain.
+            Hacker News posts by the part of a product team&apos;s work their search terms covered. A post can
+            count in more than one stage. The Stack Exchange rounds took whole sites, so they have no stage.
           </p>
         </div>
         <div className="card">

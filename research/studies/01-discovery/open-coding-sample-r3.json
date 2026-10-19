@@ -1,0 +1,406 @@
+{
+ "seed": 20261022,
+ "per_source": 50,
+ "docs": [
+  {
+   "doc_id": "ux-se:149611",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:148150",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:144805",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:142326",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:147250",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:147026",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:147106",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:141387",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:143981",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:142528",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:145364",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:145241",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:148662",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:143480",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:145243",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:144358",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:155177",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:143684",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:145747",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:152771",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:141435",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:143666",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:149956",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:144163",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:149509",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:153464",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:142485",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:142575",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:144316",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:144286",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:153005",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:142650",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:143520",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:146903",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:155287",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:155302",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:149219",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:143228",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:144907",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:152443",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:152013",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:143107",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:152219",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:152994",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:142265",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:143870",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:151338",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:155635",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:145567",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "ux-se:142500",
+   "source": "ux-se"
+  },
+  {
+   "doc_id": "pm-se:35640",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33437",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34214",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33498",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34016",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34546",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33747",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33290",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33510",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33443",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34257",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33816",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34727",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34499",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34481",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34893",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33442",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35231",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34627",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35602",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35286",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33411",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34200",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33370",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35324",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35734",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34787",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35942",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34230",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33289",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35191",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34482",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33360",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33864",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35702",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33343",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35275",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35147",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33678",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34031",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35608",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34575",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34541",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35229",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34577",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35011",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:34212",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35213",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:33372",
+   "source": "pm-se"
+  },
+  {
+   "doc_id": "pm-se:35606",
+   "source": "pm-se"
+  }
+ ]
+}

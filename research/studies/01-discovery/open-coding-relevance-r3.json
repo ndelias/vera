@@ -1,0 +1,28 @@
+{
+ "sample": "open-coding-sample-r3.json",
+ "coder": "claude-opus-5-5",
+ "note": "Round 3 open coding. Every sample post not listed is judged not relevant. UX Stack Exchange is almost entirely design-craft Q&A (which pattern, which control), not team problems.",
+ "relevant": [
+  51,
+  54,
+  55,
+  56,
+  60,
+  61,
+  63,
+  64,
+  69,
+  71,
+  75,
+  76,
+  77,
+  79,
+  81,
+  86,
+  90,
+  93,
+  94,
+  96,
+  99
+ ]
+}

@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 
+export type Series = { key: string; label: string };
 export type Column = {
   key: string;
   label: string;
   /** Short axis label; falls back to label. */
   tick?: string;
-  value: number;
+  values: Record<string, number>;
   partial?: boolean;
 };
 
@@ -17,15 +18,42 @@ const niceMax = (n: number) => {
 };
 
 const compact = (n: number) => (n >= 1000 ? `${n / 1000}K` : String(n));
+const fmt = (n: number) => n.toLocaleString("en-US");
 
-/** Columns over time, one series. Each column is its own hover/focus target. */
-export function ColumnChart({ columns, caption, everyNth = 3 }: { columns: Column[]; caption: string; everyNth?: number }) {
+/**
+ * Columns over time, stacked by series in a fixed order (slot 1 at the
+ * baseline). Each column is one hover/focus target; the tooltip lists every
+ * series at that point.
+ */
+export function ColumnChart({
+  columns,
+  series,
+  caption,
+  everyNth = 3,
+}: {
+  columns: Column[];
+  series: Series[];
+  caption: string;
+  everyNth?: number;
+}) {
   const [active, setActive] = useState<number | null>(null);
-  const max = niceMax(Math.max(1, ...columns.map((c) => c.value)));
+  const totals = columns.map((c) => series.reduce((n, s) => n + (c.values[s.key] ?? 0), 0));
+  const max = niceMax(Math.max(1, ...totals));
   const ticks = [0, max / 2, max];
+  const stacked = series.length > 1;
 
   return (
     <figure style={{ margin: 0 }}>
+      {stacked ? (
+        <ul className="legend" aria-label="Series">
+          {series.map((s, i) => (
+            <li key={s.key}>
+              <span className="legend-key" style={{ background: `var(--s${i + 1})` }} />
+              {s.label}
+            </li>
+          ))}
+        </ul>
+      ) : null}
       <div className="columns">
         <div className="columns-axis" aria-hidden="true">
           {ticks.map((t) => (
@@ -43,16 +71,23 @@ export function ColumnChart({ columns, caption, everyNth = 3 }: { columns: Colum
                 className="column"
                 role="listitem"
                 tabIndex={0}
-                aria-label={`${c.label}: ${c.value.toLocaleString("en-US")}${c.partial ? " (partial month)" : ""}`}
+                aria-label={`${c.label}: ${series.map((s) => `${s.label} ${fmt(c.values[s.key] ?? 0)}`).join(", ")}${c.partial ? " (partial month)" : ""}`}
                 onPointerEnter={() => setActive(i)}
                 onPointerLeave={() => setActive(null)}
                 onFocus={() => setActive(i)}
                 onBlur={() => setActive(null)}
               >
-                <div
-                  className={`column-fill${c.partial ? " is-partial" : ""}`}
-                  style={{ height: `${(c.value / max) * 100}%` }}
-                />
+                <div className={`column-stack${c.partial ? " is-partial" : ""}`} style={{ height: `${(totals[i] / max) * 100}%` }}>
+                  {series.map((s, si) =>
+                    c.values[s.key] ? (
+                      <div
+                        key={s.key}
+                        className="column-seg"
+                        style={{ flexGrow: c.values[s.key], background: `var(--s${si + 1})` }}
+                      />
+                    ) : null,
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -62,12 +97,20 @@ export function ColumnChart({ columns, caption, everyNth = 3 }: { columns: Colum
               role="tooltip"
               style={{
                 left: `${((active + 0.5) / columns.length) * 100}%`,
-                top: `${100 - (columns[active].value / max) * 100}%`,
+                top: `${100 - (totals[active] / max) * 100}%`,
               }}
             >
-              <strong>{columns[active].value.toLocaleString("en-US")}</strong>
-              {columns[active].label}
-              {columns[active].partial ? " · partial" : ""}
+              <span className="tooltip-head">
+                {columns[active].label}
+                {columns[active].partial ? " · partial" : ""}
+              </span>
+              {series.map((s, si) => (
+                <span key={s.key} className="tooltip-row">
+                  {stacked ? <span className="tooltip-key" style={{ background: `var(--s${si + 1})` }} /> : null}
+                  <strong>{fmt(columns[active].values[s.key] ?? 0)}</strong>
+                  {stacked ? <span>{s.label}</span> : null}
+                </span>
+              ))}
             </div>
           ) : null}
         </div>
@@ -90,11 +133,19 @@ export function ColumnChart({ columns, caption, everyNth = 3 }: { columns: Colum
         <div className="table-wrap">
           <table>
             <caption className="muted" style={{ textAlign: "left", paddingBottom: 8 }}>{caption}</caption>
+            <thead>
+              <tr>
+                <th>Month</th>
+                {series.map((s) => <th key={s.key} className="num">{s.label}</th>)}
+                {stacked ? <th className="num">Total</th> : null}
+              </tr>
+            </thead>
             <tbody>
-              {columns.map((c) => (
+              {columns.map((c, i) => (
                 <tr key={c.key}>
                   <td>{c.label}{c.partial ? " (partial)" : ""}</td>
-                  <td className="num">{c.value.toLocaleString("en-US")}</td>
+                  {series.map((s) => <td key={s.key} className="num">{fmt(c.values[s.key] ?? 0)}</td>)}
+                  {stacked ? <td className="num">{fmt(totals[i])}</td> : null}
                 </tr>
               ))}
             </tbody>

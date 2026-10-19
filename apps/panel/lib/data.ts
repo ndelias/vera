@@ -4,7 +4,7 @@ import { all, one } from "./db";
 const STAGES_OF = `
   SELECT m.doc_id, q.stage FROM match_checks m
   JOIN queries q ON q.id = m.query_id AND q.round_id = m.round_id
-  WHERE m.exact = 1`;
+  WHERE m.exact = 1 AND q.stage IS NOT NULL`;
 
 export const STAGE_ORDER = [
   "plan", "spec", "design", "build", "review", "qa", "release", "feedback", "docs", "coordination",
@@ -64,18 +64,49 @@ export function stageCounts(): StageCount[] {
   return rows.sort((a, b) => b.posts - a.posts);
 }
 
-export type MonthCount = { month: string; posts: number };
+export const SOURCES = [
+  { key: "hn", label: "Hacker News", short: "HN", site: "news.ycombinator.com" },
+  { key: "ux-se", label: "UX Stack Exchange", short: "UX SE", site: "ux.stackexchange.com" },
+  { key: "pm-se", label: "Project Management SE", short: "PM SE", site: "pm.stackexchange.com" },
+] as const;
+
+export const sourceLabel = (key: string) => SOURCES.find((s) => s.key === key)?.label ?? key;
+
+export type SourceCount = {
+  source: string;
+  pulled: number;
+  corpus: number;
+  judged: number;
+  relevant: number;
+  first: number;
+  last: number;
+};
+
+export function sourceCounts(): SourceCount[] {
+  return all<SourceCount>(`
+    SELECT d.source,
+      COUNT(*) AS pulled,
+      SUM(d.id IN (SELECT id FROM corpus)) AS corpus,
+      COUNT(r.doc_id) AS judged,
+      COALESCE(SUM(r.relevant), 0) AS relevant,
+      MIN(d.created_at) AS first,
+      MAX(d.created_at) AS last
+    FROM documents d LEFT JOIN relevance r ON r.doc_id = d.id
+    GROUP BY d.source ORDER BY corpus DESC`);
+}
+
+export type MonthCount = { month: string; source: string; posts: number };
 
 export function postsByMonth(): MonthCount[] {
   return all<MonthCount>(`
-    SELECT strftime('%Y-%m', created_at, 'unixepoch') AS month, COUNT(*) AS posts
-    FROM corpus GROUP BY month ORDER BY month`);
+    SELECT strftime('%Y-%m', created_at, 'unixepoch') AS month, source, COUNT(*) AS posts
+    FROM corpus GROUP BY month, source ORDER BY month`);
 }
 
 export type QueryRow = {
   id: string;
   round_id: number;
-  stage: string;
+  stage: string | null;
   q: string;
   hits_total: number;
   hits_pulled: number;
@@ -91,6 +122,7 @@ export function queryRows(): QueryRow[] {
 }
 
 export type PostFilters = {
+  source?: string;
   stage?: string;
   round?: number;
   query?: string;
@@ -101,6 +133,7 @@ export type PostFilters = {
 
 export type PostRow = {
   id: string;
+  source: string;
   created_at: number;
   kind: string;
   title: string | null;
@@ -118,6 +151,10 @@ export const PAGE_SIZE = 50;
 export function posts(f: PostFilters): { rows: PostRow[]; total: number } {
   const where: string[] = [];
   const params: (string | number)[] = [];
+  if (f.source) {
+    where.push(`d.source = ?`);
+    params.push(f.source);
+  }
   if (f.stage) {
     where.push(`d.id IN (SELECT doc_id FROM (${STAGES_OF}) WHERE stage = ?)`);
     params.push(f.stage);
@@ -140,7 +177,7 @@ export function posts(f: PostFilters): { rows: PostRow[]; total: number } {
   const clause = where.length ? `WHERE ${where.join(" AND ")}` : "";
   const total = one<{ n: number }>(`SELECT COUNT(*) AS n FROM corpus d ${clause}`, ...params)!.n;
   const rows = all<PostRow>(
-    `SELECT d.id, d.created_at, d.kind, d.title, substr(d.text, 1, 320) AS excerpt, d.words, length(d.text) > 320 AS truncated,
+    `SELECT d.id, d.source, d.created_at, d.kind, d.title, substr(d.text, 1, 320) AS excerpt, d.words, length(d.text) > 320 AS truncated,
        d.points, d.url,
        (SELECT group_concat(DISTINCT stage) FROM (${STAGES_OF}) s WHERE s.doc_id = d.id) AS stages,
        (SELECT relevant FROM relevance r WHERE r.doc_id = d.id LIMIT 1) AS relevant
@@ -164,7 +201,7 @@ export type Post = {
   words: number;
 };
 
-export type PostMatch = { query_id: string; round_id: number; q: string; stage: string; exact: number };
+export type PostMatch = { query_id: string; round_id: number; q: string; stage: string | null; exact: number };
 export type PostJudgment = { coder: string; relevant: number; reason: string | null };
 export type PostCoding = { code_id: string; code_version: number; label: string; coder: string; evidence: string | null };
 

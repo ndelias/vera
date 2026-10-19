@@ -1,0 +1,12 @@
+{
+  "round": 3,
+  "note": "From round 3 open coding.",
+  "hypotheses": [
+    {
+      "id": "H6",
+      "version": 1,
+      "statement": "Waiting on reviews and approvals is a pain shared across roles: engineers describe it as code review overload, PMs as approval chains. Together it is the single largest group of relevant posts.",
+      "disproved_if": "review-overload + approval-delays together are not the most frequent pair of codes in the coded corpus, or approval-delays appears in under 5% of relevant PM posts."
+    }
+  ]
+}

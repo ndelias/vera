@@ -28,6 +28,11 @@
   /* Data marks: validated single series on --bg (dataviz validator, light). */
   --series: #2a78d6;
   --series-soft: #86b6ef;
+  /* Categorical slots in fixed order (validated: adjacent CVD 9.2, light;
+     orange and aqua under 3:1 on the card, so legend + table view are required). */
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
   --good: #0ca30c;
   --critical: #d03b3b;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -46,6 +51,9 @@
     --accent: #7d93ff;
     --series: #3987e5;
     --series-soft: #184f95;
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
   }
 }
 :root[data-theme="dark"] {
@@ -58,6 +66,9 @@
   --accent: #7d93ff;
   --series: #3987e5;
   --series-soft: #184f95;
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
 }
 
 *,
@@ -362,24 +373,71 @@ code {
   justify-content: center;
   cursor: default;
 }
-.column-fill {
+.column-stack {
   width: 100%;
   max-width: 24px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
   border-radius: 4px 4px 0 0;
-  background: var(--series);
+  overflow: hidden;
   transition: filter 120ms var(--ease);
 }
-.column:hover .column-fill,
-.column:focus-visible .column-fill {
+.column-seg {
+  flex-basis: 0;
+  min-height: 1px;
+}
+.column:hover .column-stack,
+.column:focus-visible .column-stack {
   filter: brightness(1.12);
 }
-.column-fill.is-partial {
-  background: repeating-linear-gradient(
-    135deg,
-    var(--series-soft) 0 4px,
-    transparent 4px 7px
-  );
-  box-shadow: inset 0 0 0 1.5px var(--series);
+/* A partial month keeps its colors under a hatch, so it reads as incomplete. */
+.column-stack.is-partial {
+  position: relative;
+}
+.column-stack.is-partial::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg, transparent 0 4px, var(--surface) 4px 6px);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.legend-key {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.tooltip-head {
+  display: block;
+  margin-bottom: 2px;
+  opacity: 0.75;
+}
+.tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tooltip-row strong {
+  display: inline;
+}
+.tooltip-key {
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
 }
 .columns-x {
   grid-column: 2;
