@@ -92,6 +92,13 @@ Stage 2 like any other pain, and only if Stage 1 finds it.
   is per-person scopes, an agent opening the PR, and review routed to the
   right engineer. If it reaches Stage 3, see the appendix.
 
+- **Review and approval flow** (added 2026-10-19, after round 3, before any
+  coding at scale): AI makes code ship much faster, which strains human
+  review, AI review, consistency, and people understanding code they didn't
+  write. A product that moves reviews and approvals along across roles. This
+  is Nahuel's leaning, written down so the counts can confirm or reject it,
+  not decide it.
+
 ## Appendix: Blast Radius studies (only if it reaches Stage 3)
 
 1. **Wait time:** small text-only PRs (≤20 lines, copy, markup, style or
