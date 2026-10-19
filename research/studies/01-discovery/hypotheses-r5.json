@@ -1,0 +1,15 @@
+{
+  "round": 5,
+  "note": "Study 02 (GitLab work data). Written before pulling.",
+  "hypotheses": [
+    { "id": "G1", "version": 1,
+      "statement": "Waiting for the first review is a large part of how long a change takes, for every role.",
+      "disproved_if": "Median time to first review is under 10% of median time to merge, for merged MRs in the sample, in all three projects." },
+    { "id": "G2", "version": 1,
+      "statement": "Non-engineers' changes wait longer than engineers' changes of a similar size in the same project (the Blast Radius claim, measured).",
+      "disproved_if": "In the handbook and marketing-site projects, the median time to first review for MRs by non-engineers (design, product, marketing, other) is no more than 1.25x that of engineers, comparing MRs that change 3 files or fewer." },
+    { "id": "G3", "version": 1,
+      "statement": "Changes that need reviewers from more than one role take clearly longer than changes reviewed by a single role (approval chains slow work).",
+      "disproved_if": "Median time to merge for merged MRs whose reviewers span two or more roles is no more than 1.25x that of MRs reviewed within one role, in gitlab-org/gitlab." }
+  ]
+}
