@@ -1,0 +1,73 @@
+{
+  "round": 6,
+  "note": "Round 6 adds the voices of product engineers and technical product managers: Hacker News posts where people name the role, either their own (\"as a PM\", \"I'm a product engineer\") or the role as a topic (\"product engineering\", \"technical product manager\"). The terms are about who's speaking, not about any pain, so they don't favour a hypothesis or candidate. Same two-year window as rounds 1 and 2. A relevance pass later removes posts that aren't about work problems.",
+  "window": {
+    "from": "2024-10-19",
+    "to": "2026-10-19"
+  },
+  "sources": [
+    "hn"
+  ],
+  "queries": [
+    {
+      "id": "voice-pe-as",
+      "stage": null,
+      "q": "\"as a product engineer\""
+    },
+    {
+      "id": "voice-pe-im",
+      "stage": null,
+      "q": "\"I'm a product engineer\""
+    },
+    {
+      "id": "voice-pe-plural",
+      "stage": null,
+      "q": "\"product engineers\""
+    },
+    {
+      "id": "voice-pe-eng",
+      "stage": null,
+      "q": "\"product engineering\""
+    },
+    {
+      "id": "voice-pe-design-eng",
+      "stage": null,
+      "q": "\"design engineer\""
+    },
+    {
+      "id": "voice-tpm",
+      "stage": null,
+      "q": "\"technical product manager\""
+    },
+    {
+      "id": "voice-tpm-short",
+      "stage": null,
+      "q": "\"technical PM\""
+    },
+    {
+      "id": "voice-pm-as",
+      "stage": null,
+      "q": "\"as a PM\""
+    },
+    {
+      "id": "voice-pm-im",
+      "stage": null,
+      "q": "\"I'm a PM\""
+    },
+    {
+      "id": "voice-pm-here",
+      "stage": null,
+      "q": "\"PM here\""
+    },
+    {
+      "id": "voice-pm-as-long",
+      "stage": null,
+      "q": "\"as a product manager\""
+    },
+    {
+      "id": "voice-pm-im-long",
+      "stage": null,
+      "q": "\"I'm a product manager\""
+    }
+  ]
+}

@@ -21,6 +21,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 
 from db import ROOT, connect
@@ -152,45 +153,49 @@ def cmd_mrs() -> None:
             return "bot"
         return roles.get(hash_user(username, key), "unknown")
 
-    RAW_DIR.mkdir(parents=True, exist_ok=True)
+    def to_row(short: str, mr: dict) -> tuple:
+        author = mr["author"]["username"]
+        reviewer_roles = sorted({role_of(r["username"]) for r in mr.get("reviewers") or []} - {"bot"})
+        merger = (mr.get("merge_user") or mr.get("merged_by") or {}).get("username")
+        return (
+            f"{short}!{mr['iid']}", short, mr["iid"], mr["title"],
+            hash_user(author, key), role_of(author),
+            ",".join(reviewer_roles), len(mr.get("reviewers") or []),
+            role_of(merger) if merger else None,
+            ",".join(mr.get("labels") or []), mr["state"], int(bool(mr.get("draft"))),
+            mr.get("user_notes_count") or 0,
+            ts(mr["created_at"]), ts(mr.get("merged_at")), ts(mr.get("closed_at")),
+            mr["web_url"], ROUND,
+        )
+
+    def fetch_month(pid: str, lo: str, hi: str) -> list[dict]:
+        items_all, page = [], 1
+        while True:
+            items, headers = get(f"projects/{pid}/merge_requests", {
+                "state": "all", "created_after": lo, "created_before": hi,
+                "per_page": 100, "page": page, "order_by": "created_at", "sort": "asc",
+            })
+            items_all += items
+            if not headers.get("X-Next-Page"):
+                return items_all
+            page += 1
+
+    end_iso = f"{WINDOW[1]}T00:00:00Z"
     for short, path in PROJECTS.items():
         if conn.execute("SELECT 1 FROM queries WHERE id = ? AND round_id = ?", (f"gitlab-{short}", ROUND)).fetchone():
             print(f"{short}: already pulled")
             continue
         pid = urllib.parse.quote(path, safe="")
-        total = 0
-        for lo, hi in months(*WINDOW):
-            if lo >= f"{WINDOW[1]}T00:00:00Z":
-                break
-            page = 1
-            while True:
-                items, headers = get(f"projects/{pid}/merge_requests", {
-                    "state": "all", "created_after": lo, "created_before": min(hi, f"{WINDOW[1]}T00:00:00Z"),
-                    "per_page": 100, "page": page, "order_by": "created_at", "sort": "asc",
-                })
-                rows = []
-                for mr in items:
-                    author = mr["author"]["username"]
-                    reviewer_roles = sorted({role_of(r["username"]) for r in mr.get("reviewers") or []} - {"bot"})
-                    merger = (mr.get("merge_user") or mr.get("merged_by") or {}).get("username")
-                    rows.append((
-                        f"{short}!{mr['iid']}", short, mr["iid"], mr["title"],
-                        hash_user(author, key), role_of(author),
-                        ",".join(reviewer_roles), len(reviewer_roles and mr.get("reviewers") or []),
-                        role_of(merger) if merger else None,
-                        ",".join(mr.get("labels") or []), mr["state"], int(bool(mr.get("draft"))),
-                        mr.get("user_notes_count") or 0,
-                        ts(mr["created_at"]), ts(mr.get("merged_at")), ts(mr.get("closed_at")),
-                        mr["web_url"], ROUND,
-                    ))
+        spans = [(lo, min(hi, end_iso)) for lo, hi in months(*WINDOW) if lo < end_iso]
+        # Four months at a time keeps well under GitLab's ~500 requests a minute.
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            for (lo, _), items in zip(spans, pool.map(lambda span: fetch_month(pid, *span), spans)):
                 conn.executemany(
-                    "INSERT OR REPLACE INTO gl_mrs VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", rows)
+                    "INSERT OR REPLACE INTO gl_mrs VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    [to_row(short, mr) for mr in items])
                 conn.commit()
-                total += len(rows)
-                if not headers.get("X-Next-Page"):
-                    break
-                page += 1
-            print(f"{short:<15} {lo[:7]}  total {total}", flush=True)
+                print(f"{short:<15} {lo[:7]}  {len(items)} MRs", flush=True)
+        total = conn.execute("SELECT COUNT(*) FROM gl_mrs WHERE project = ?", (short,)).fetchone()[0]
         conn.execute(
             """INSERT OR REPLACE INTO queries (id, round_id, source, stage, q, hits_total, hits_pulled)
                VALUES (?, ?, 'gitlab', NULL, ?, ?, ?)""",
