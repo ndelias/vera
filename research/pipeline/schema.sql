@@ -100,3 +100,18 @@ CREATE TABLE IF NOT EXISTS tests (
 
 CREATE INDEX IF NOT EXISTS documents_created ON documents(created_at);
 CREATE INDEX IF NOT EXISTS codings_code ON codings(code_id, code_version);
+
+-- Did the post really contain the search term? Search APIs match typos and
+-- prefixes (an unquoted "Jira" pulled 45k posts, 9% of which say "Jira").
+-- Only posts with at least one exact match go into the corpus.
+CREATE TABLE IF NOT EXISTS match_checks (
+  doc_id   TEXT NOT NULL REFERENCES documents(id),
+  query_id TEXT NOT NULL,
+  round_id INTEGER NOT NULL,
+  exact    INTEGER NOT NULL,      -- 0 | 1
+  PRIMARY KEY (doc_id, query_id, round_id)
+);
+
+CREATE VIEW IF NOT EXISTS corpus AS
+  SELECT d.* FROM documents d
+  WHERE EXISTS (SELECT 1 FROM match_checks m WHERE m.doc_id = d.id AND m.exact = 1);
