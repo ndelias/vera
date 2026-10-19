@@ -28,6 +28,8 @@ def main() -> None:
                 example = sample[code["examples"][0]]["doc_id"]
             elif code.get("r3_examples"):
                 example = samples["open-coding-sample-r3.json"][code["r3_examples"][0]]["doc_id"]
+            elif code.get("r6_examples"):
+                example = samples["open-coding-sample-r6.json"][code["r6_examples"][0]]["doc_id"]
             else:
                 example = None
             conn.execute(

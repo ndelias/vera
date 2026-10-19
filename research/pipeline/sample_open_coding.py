@@ -59,5 +59,25 @@ def main_r3() -> None:
     print(f"{len(sample)} posts → {out.relative_to(ROOT)}")
 
 
+def main_r6() -> None:
+    """Round 6: 40 posts where product engineers speak, 40 where PMs do."""
+    conn = connect()
+    out = ROOT / "studies" / "01-discovery" / "open-coding-sample-r6.json"
+    rng = random.Random(SEED + 6)
+    taken: set[str] = set()
+    sample = []
+    for voice, prefixes in (("product-engineer", ("voice-pe-",)), ("pm", ("voice-tpm", "voice-pm-"))):
+        pool = sorted({
+            r[0] for r in conn.execute(
+                "SELECT doc_id, query_id FROM match_checks WHERE round_id = 6 AND exact = 1")
+            if r[1].startswith(prefixes)
+        } - taken)
+        for d in rng.sample(pool, 40):
+            taken.add(d)
+            sample.append({"doc_id": d, "voice": voice})
+    out.write_text(json.dumps({"seed": SEED + 6, "per_voice": 40, "docs": sample}, indent=1))
+    print(f"{len(sample)} posts → {out.relative_to(ROOT)}")
+
+
 if __name__ == "__main__":
-    main_r3() if sys.argv[1:] == ["r3"] else main()
+    {"r3": main_r3, "r6": main_r6}.get(sys.argv[1] if sys.argv[1:] else "", main)()

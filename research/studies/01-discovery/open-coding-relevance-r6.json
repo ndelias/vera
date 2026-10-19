@@ -1,0 +1,25 @@
+{
+ "sample": "open-coding-sample-r6.json",
+ "coder": "claude-opus-5-5",
+ "note": "Round 6 open coding. Posts not listed are judged not relevant. On HN 'product engineer' / 'design engineer' is mostly a hiring term: 28 of the 40 are job ads or people looking for work.",
+ "relevant": [
+  1,
+  21,
+  32,
+  40,
+  43,
+  46,
+  47,
+  50,
+  53,
+  54,
+  56,
+  64,
+  65,
+  66,
+  67,
+  68,
+  70,
+  77
+ ]
+}

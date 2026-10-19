@@ -1,0 +1,12 @@
+{
+  "round": 6,
+  "note": "From round 6 open coding.",
+  "hypotheses": [
+    {
+      "id": "H7",
+      "version": 1,
+      "statement": "As PMs and designers start shipping changes with AI, reviewing those changes becomes the open problem: posts about non-engineers building mention review, trust or breakage, not access.",
+      "disproved_if": "Fewer than 25% of relevant posts coded non-eng-building are also coded review-overload, ai-output-quality, change-impact or code-comprehension."
+    }
+  ]
+}
