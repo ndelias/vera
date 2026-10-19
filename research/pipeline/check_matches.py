@@ -1,6 +1,7 @@
 """Marks which collected posts really contain the term that found them.
 
-A quoted phrase must appear as written; each unquoted word must appear as a
+A query of "*" means a whole-site pull, where every post matches. A quoted
+phrase must appear as written; each unquoted word must appear as a
 whole word. Case-insensitive, with a space or a hyphen between words and an
 optional plural "s" ("context-switching", "standup" both count). A comment's thread title doesn't count, since
 the comment may not be about it.
@@ -19,6 +20,8 @@ def _loose(term: str) -> str:
 
 
 def matcher(q: str):
+    if q == "*":  # a whole-site pull: every post belongs
+        return lambda text: True
     phrases = re.findall(r'"([^"]+)"', q)
     words = re.sub(r'"[^"]+"', " ", q).split()
     patterns = [re.compile(r"\b" + _loose(t.lower()) + r"\b") for t in phrases + words]

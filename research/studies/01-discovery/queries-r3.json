@@ -1,0 +1,10 @@
+{
+  "round": 3,
+  "note": "Round 3 adds the views of designers and project/product managers, since Hacker News is mostly engineers (codebook v1 found non-engineers depending on engineering once in 300 HN posts, which HN alone can't settle). Sources: UX Stack Exchange and Project Management Stack Exchange. Both sites are small and entirely on topic, so the round takes every question and answer in the window instead of filtering by search terms; the relevance pass sorts them later. The window is five years, not two, because a count-only probe (no content read) found 1,452 UX and 233 PM posts in two years against 8,762 and 1,974 in five. Comparisons over time must account for the different window.",
+  "window": { "from": "2021-10-19", "to": "2026-10-19" },
+  "sources": ["ux-se", "pm-se"],
+  "queries": [
+    { "id": "ux-all", "site": "ux", "stage": null, "q": "*" },
+    { "id": "pm-all", "site": "pm", "stage": null, "q": "*" }
+  ]
+}
