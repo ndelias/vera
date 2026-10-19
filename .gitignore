@@ -1,4 +1,5 @@
-data/raw/
+research/data/raw/
+research/data/*.sqlite
 .env
 node_modules/
 __pycache__/
