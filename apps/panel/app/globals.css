@@ -628,9 +628,15 @@ th.num {
   display: grid;
   gap: 16px;
 }
+/* Grid children default to min-width: auto and would grow to fit wide tables. */
+.list > *,
+.grid-2 > *,
+.card {
+  min-width: 0;
+}
 .kv {
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: fit-content(40%) minmax(0, 1fr);
   gap: 6px 16px;
   font-size: 14px;
 }

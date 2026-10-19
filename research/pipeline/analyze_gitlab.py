@@ -58,19 +58,25 @@ def record(conn, hid: str, method: str, sql: str, result: dict, verdict: str) ->
 def g1(conn) -> None:
     sql = """SELECT m.project, d.first_review_at - m.created_at, m.merged_at - m.created_at
              FROM gl_mrs m JOIN gl_mr_details d ON d.mr_id = m.id
-             WHERE m.state = 'merged' AND m.created_at >= ? AND m.author_role != 'bot'"""
+             WHERE m.state = 'merged' AND m.merged_at IS NOT NULL AND m.created_at >= ? AND m.author_role != 'bot'"""
     rows = conn.execute(sql, (WINDOW_START,)).fetchall()
     result = {}
     for project in sorted({r[0] for r in rows}):
         merge = [r[2] for r in rows if r[0] == project]
-        review = [r[1] for r in rows if r[0] == project and r[1] is not None and r[1] >= 0]
+        approved = [r for r in rows if r[0] == project and r[1] is not None and r[1] >= 0]
+        review = [r[1] for r in approved]
         mr, mm = median(review), median(merge)
+        # Not part of the decision rule: the same comparison on only the MRs that
+        # had an approval, since MRs merged without one are typically faster.
+        mm_same = median([r[2] for r in approved])
         result[project] = {
             "sampled_merged": len(merge),
             "with_an_approval": len(review),
             "median_hours_to_first_approval": round(mr / HOUR, 1) if mr is not None else None,
             "median_hours_to_merge": round(mm / HOUR, 1) if mm is not None else None,
             "share": round(mr / mm, 2) if mr is not None and mm else None,
+            "median_hours_to_merge_approved_only": round(mm_same / HOUR, 1) if mm_same is not None else None,
+            "share_approved_only": round(mr / mm_same, 2) if mr is not None and mm_same else None,
         }
     shares = [v["share"] for v in result.values() if v["share"] is not None]
     verdict = "disproves" if shares and all(s < 0.10 for s in shares) else "supports"
@@ -120,7 +126,7 @@ def g2(conn) -> None:
 
 def g3(conn) -> None:
     sql = """SELECT reviewer_roles, merged_at - created_at FROM gl_mrs
-             WHERE project = 'product' AND state = 'merged' AND created_at >= ?
+             WHERE project = 'product' AND state = 'merged' AND merged_at IS NOT NULL AND created_at >= ?
                AND author_role != 'bot' AND reviewer_roles != ''"""
     rows = conn.execute(sql, (WINDOW_START,)).fetchall()
 
