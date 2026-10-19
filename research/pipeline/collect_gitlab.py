@@ -2,7 +2,7 @@
 
     python3 research/pipeline/collect_gitlab.py roles     # team data → role per hashed username
     python3 research/pipeline/collect_gitlab.py mrs       # every MR in the window, per project
-    python3 research/pipeline/collect_gitlab.py details   # review details for a random sample
+    python3 research/pipeline/collect_gitlab.py details [project]   # review details for a random sample
 
 Public API, no token (GitLab allows about 500 requests a minute). Usernames
 are only ever stored as salted hashes; the salt lives in data/.salt and is
@@ -34,6 +34,7 @@ PROJECTS = {
 }
 WINDOW = ("2024-10-19", "2026-10-19")
 SAMPLE_PER_ROLE = 200
+WINDOW_START = int(datetime.fromisoformat(WINDOW[0] + "T00:00:00+00:00").timestamp())
 SEED = 20261019
 SALT_PATH = ROOT / "data" / ".salt"
 RAW_DIR = ROOT / "data" / "raw" / "gitlab"
@@ -198,18 +199,21 @@ def cmd_mrs() -> None:
         conn.commit()
 
 
-def cmd_details() -> None:
+def cmd_details(only: str | None = None) -> None:
     key = salt()
     conn = connect()
     roles = dict(conn.execute("SELECT user_hash, role FROM gl_people"))
     rng = random.Random(SEED)
     done = {r[0] for r in conn.execute("SELECT mr_id FROM gl_mr_details")}
     for short, path in PROJECTS.items():
+        if only and short != only:
+            continue
         pid = urllib.parse.quote(path, safe="")
         groups = conn.execute(
             """SELECT author_role, group_concat(id) FROM gl_mrs
                WHERE project = ? AND state = 'merged' AND author_role NOT IN ('bot')
-               GROUP BY author_role""", (short,)).fetchall()
+                 AND created_at >= ?
+               GROUP BY author_role ORDER BY author_role""", (short, WINDOW_START)).fetchall()
         for role, ids in groups:
             ids = sorted(ids.split(","))
             pick = rng.sample(ids, min(SAMPLE_PER_ROLE, len(ids)))
@@ -219,17 +223,16 @@ def cmd_details() -> None:
                 iid = int(mr_id.split("!")[1])
                 mr, _ = get(f"projects/{pid}/merge_requests/{iid}")
                 author = mr["author"]["username"]
-                notes, _ = get(f"projects/{pid}/merge_requests/{iid}/notes",
-                               {"sort": "asc", "order_by": "created_at", "per_page": 100})
-                first = next((n for n in notes if not n.get("system")
-                              and n["author"]["username"] != author and not is_bot(n["author"]["username"])), None)
                 approvals, _ = get(f"projects/{pid}/merge_requests/{iid}/approvals")
+                given = [a for a in approvals.get("approved_by") or []
+                         if a["user"]["username"] != author and not is_bot(a["user"]["username"])]
+                first_at = min((a["approved_at"] for a in given if a.get("approved_at")), default=None)
                 approvers = [a["user"]["username"] for a in approvals.get("approved_by") or []]
                 changes = str(mr.get("changes_count") or "")
                 conn.execute("INSERT OR REPLACE INTO gl_mr_details VALUES (?, ?, ?, ?, ?)", (
                     mr_id,
                     int(changes) if changes.isdigit() else None,
-                    ts(first["created_at"]) if first else None,
+                    ts(first_at),
                     len(approvers),
                     ",".join(sorted({("bot" if is_bot(a) else roles.get(hash_user(a, key), "unknown")) for a in approvers})),
                 ))
@@ -238,4 +241,5 @@ def cmd_details() -> None:
 
 
 if __name__ == "__main__":
-    {"roles": cmd_roles, "mrs": cmd_mrs, "details": cmd_details}[sys.argv[1]]()
+    command, *rest = sys.argv[1:]
+    {"roles": cmd_roles, "mrs": cmd_mrs, "details": cmd_details}[command](*rest)

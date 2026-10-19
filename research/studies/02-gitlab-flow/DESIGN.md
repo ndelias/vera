@@ -56,3 +56,11 @@ G1 to G3, each with what would disprove it, fixed before pulling.
   product and design.
 - **Window start.** The collector pulls whole months, so it also fetched
   1–18 Oct 2024. Analysis filters to MRs created on or after 19 Oct 2024.
+- **"First review" means first approval.** GitLab's comments endpoints
+  (notes, discussions) need a login. The approvals endpoint is public and
+  gives each approval's time. So time to first review is measured as time
+  from creation to the first approval by someone other than the author (not
+  a bot). That's the moment the work is cleared to go, arguably the purer
+  measure of waiting. MRs merged with no approval have no value and are left
+  out of G1 and G2. How many that is gets reported. Decided after the
+  401s, before any detail data was analyzed (none had been stored).

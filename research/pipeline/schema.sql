@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS gl_mrs (
 CREATE TABLE IF NOT EXISTS gl_mr_details (
   mr_id            TEXT PRIMARY KEY REFERENCES gl_mrs(id),
   files_changed    INTEGER,          -- NULL when GitLab reports 1000+
-  first_review_at  INTEGER,          -- first comment by someone else, not a bot
+  first_review_at  INTEGER,          -- first approval by someone else, not a bot (comments need a login)
   approvals_n      INTEGER,
   approver_roles   TEXT
 );
