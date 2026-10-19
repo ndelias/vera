@@ -29,7 +29,7 @@ API = "https://gitlab.com/api/v4"
 ROUND = 5
 PROJECTS = {
     "handbook": "gitlab-com/content-sites/handbook",
-    "marketing-site": "gitlab-com/marketing/digital-experience/about-gitlab-com",
+    # "marketing-site": its MRs are members-only (403), see DESIGN.md.
     "product": "gitlab-org/gitlab",
 }
 WINDOW = ("2024-10-19", "2026-10-19")
@@ -153,6 +153,9 @@ def cmd_mrs() -> None:
 
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     for short, path in PROJECTS.items():
+        if conn.execute("SELECT 1 FROM queries WHERE id = ? AND round_id = ?", (f"gitlab-{short}", ROUND)).fetchone():
+            print(f"{short}: already pulled")
+            continue
         pid = urllib.parse.quote(path, safe="")
         total = 0
         for lo, hi in months(*WINDOW):

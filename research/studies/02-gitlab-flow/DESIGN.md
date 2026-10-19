@@ -47,3 +47,12 @@ person.
 ## Hypotheses (see hypotheses-r5.json)
 
 G1 to G3, each with what would disprove it, fixed before pulling.
+
+## Changes from this design
+
+- **Marketing site dropped (pulling day).** The project is public, but its
+  merge requests are members-only (the API returns 403). G2 is tested on
+  the handbook only. The handbook still has hundreds of MRs from marketing,
+  product and design.
+- **Window start.** The collector pulls whole months, so it also fetched
+  1–18 Oct 2024. Analysis filters to MRs created on or after 19 Oct 2024.
