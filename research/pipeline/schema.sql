@@ -115,3 +115,40 @@ CREATE TABLE IF NOT EXISTS match_checks (
 CREATE VIEW IF NOT EXISTS corpus AS
   SELECT d.* FROM documents d
   WHERE EXISTS (SELECT 1 FROM match_checks m WHERE m.doc_id = d.id AND m.exact = 1);
+
+-- Study 02: GitLab work data. People are salted hashes plus a role category.
+CREATE TABLE IF NOT EXISTS gl_people (
+  user_hash TEXT PRIMARY KEY,
+  role      TEXT NOT NULL            -- engineering | design | product | marketing | other
+);
+
+CREATE TABLE IF NOT EXISTS gl_mrs (
+  id              TEXT PRIMARY KEY,  -- "<project>!<iid>"
+  project         TEXT NOT NULL,
+  iid             INTEGER NOT NULL,
+  title           TEXT,
+  author_hash     TEXT NOT NULL,
+  author_role     TEXT NOT NULL,     -- role, or unknown | bot
+  reviewer_roles  TEXT,              -- distinct roles, comma-separated
+  reviewers_n     INTEGER NOT NULL,
+  merger_role     TEXT,
+  labels          TEXT,
+  state           TEXT NOT NULL,
+  draft           INTEGER NOT NULL,
+  notes_n         INTEGER NOT NULL,
+  created_at      INTEGER NOT NULL,
+  merged_at       INTEGER,
+  closed_at       INTEGER,
+  url             TEXT NOT NULL,
+  round_id        INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS gl_mr_details (
+  mr_id            TEXT PRIMARY KEY REFERENCES gl_mrs(id),
+  files_changed    INTEGER,          -- NULL when GitLab reports 1000+
+  first_review_at  INTEGER,          -- first comment by someone else, not a bot
+  approvals_n      INTEGER,
+  approver_roles   TEXT
+);
+
+CREATE INDEX IF NOT EXISTS gl_mrs_project_role ON gl_mrs(project, author_role);
