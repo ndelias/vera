@@ -1,0 +1,1206 @@
+{
+ "seed": 20261019,
+ "per_stage": 30,
+ "docs": [
+  {
+   "doc_id": "hn:47287296",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:45395789",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:48496762",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:43518651",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:44511715",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:46628596",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:47019721",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:45111733",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:44956882",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:48402393",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:42287182",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:45649812",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:43833623",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:41952327",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:48529582",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:47052884",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:45120325",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:46435274",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:47628362",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:44976811",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:47115635",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:45347207",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:42904606",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:42963694",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:45927736",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:44854757",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:44661394",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:46504697",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:42994677",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:44314471",
+   "stage": "build"
+  },
+  {
+   "doc_id": "hn:45963060",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:45202754",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:42086777",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:47273373",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:48153344",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:45161044",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:44647402",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:49793227",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:43968548",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:47363732",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:43003117",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:49244526",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:45516141",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:47820111",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:42321156",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:47421192",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:45805443",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:41888490",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:49225773",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:48600505",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:45398602",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:45094943",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:46781966",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:47399623",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:48438435",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:44617541",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:47220774",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:44854563",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:45072278",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:44453706",
+   "stage": "coordination"
+  },
+  {
+   "doc_id": "hn:47746762",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:43253587",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:47985284",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:48368468",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:43620759",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:46592523",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:46337452",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:42800801",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:44316978",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:48758168",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:44192783",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:45444579",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:42447662",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:49934673",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:45137312",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:44791876",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:47553565",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:44414234",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:42378660",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:47530901",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:48922211",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:48484917",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:50049146",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:44372993",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:45475141",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:49911006",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:48672384",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:48353679",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:44457296",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:43253499",
+   "stage": "design"
+  },
+  {
+   "doc_id": "hn:46339972",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:42285272",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:49200404",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:47301756",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:44444175",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:45711551",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:49121449",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:42870857",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:48776854",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:46161199",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:44722603",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:46632801",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:48547680",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:43509648",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:46407615",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:44400109",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:46187517",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:46526156",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:44781361",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:45615448",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:47011413",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:45531182",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:42601530",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:46422564",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:42517390",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:50092903",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:46390815",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:47846791",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:44219039",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:49158395",
+   "stage": "docs"
+  },
+  {
+   "doc_id": "hn:43604454",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:48587881",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:49859101",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:46852905",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:49126130",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:45446723",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:46348936",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:46112811",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:47422965",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:45544733",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:43195313",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:42340274",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:47444882",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:44558653",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:44115768",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:46411476",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:46889959",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:46155301",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:45646376",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:44600341",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:45503294",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:47287412",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:44982454",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:45134172",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:44833136",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:49232158",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:50086684",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:42208244",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:49503483",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:43763011",
+   "stage": "feedback"
+  },
+  {
+   "doc_id": "hn:47251986",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:48714933",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:43616771",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:47123798",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:47308342",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:45264192",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:44649816",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:48199577",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:42386952",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:42127367",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:45138888",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:42609970",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:47079695",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:43120974",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:42515392",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:49179765",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:49736804",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:47411913",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:42204115",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:43016132",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:45969073",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:46207852",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:47520116",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:47957402",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:48409488",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:49217463",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:47447997",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:43425697",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:42478327",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:46783282",
+   "stage": "plan"
+  },
+  {
+   "doc_id": "hn:46966099",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:47475604",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:46652062",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:47866740",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:49466767",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:46009136",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:47351084",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:47541132",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:46770713",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:45363304",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:44135217",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:46691241",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:44749059",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:46250265",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:44326101",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:46858047",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:44426435",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:46055180",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:47523107",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:48883106",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:47661037",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:46148245",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:47845091",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:48197661",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:43396821",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:43456907",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:42221674",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:47862057",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:45072615",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:44537065",
+   "stage": "qa"
+  },
+  {
+   "doc_id": "hn:46046617",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:45984618",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:45118776",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:43743752",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:44848756",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:48181544",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:45056356",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:49390234",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:49793932",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:42633156",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:46596352",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:47835466",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:48838804",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:43514365",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:49935392",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:49975319",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:42813616",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:45463349",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:42226202",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:42187079",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:43408027",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:47273444",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:48241499",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:44114094",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:47541157",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:45592248",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:46857601",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:47880213",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:42280126",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:45148299",
+   "stage": "release"
+  },
+  {
+   "doc_id": "hn:49580888",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:47435653",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:49103771",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:49884582",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:45166096",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:46522180",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:49278252",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:49922684",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:49071942",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:46399211",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:44720067",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:46139557",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:47052633",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:47957223",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:48269243",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:46490606",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:49127176",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:47038676",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:50077031",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:49544185",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:46513760",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:47817602",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:48891506",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:44584609",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:45062923",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:42718301",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:49779099",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:48742624",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:46609923",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:44755056",
+   "stage": "review"
+  },
+  {
+   "doc_id": "hn:43536061",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:49141417",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:46246309",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:41966025",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:46623845",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:48265243",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:46469715",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:50047810",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:49105071",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:47778624",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:49705809",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:43986959",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:44974275",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:47770117",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:46522174",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:46207825",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:42149674",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:44884931",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:42576998",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:43102982",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:46858523",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:46748316",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:48175316",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:46802184",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:45562061",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:43424654",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:45300047",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:46110650",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:49158939",
+   "stage": "spec"
+  },
+  {
+   "doc_id": "hn:49845072",
+   "stage": "spec"
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+  "round": 2,
+  "note": "First hypotheses, from open coding 300 posts. Each one gets tested on the full coded corpus, not on this sample.",
+  "hypotheses": [
+    { "id": "H1", "version": 1,
+      "statement": "The pains people mention most now come after the code is written (review, QA, CI, the cleanup of AI-written code), not during writing.",
+      "disproved_if": "Codes for the writing stage (unclear-requirements, design-drift, interruptions) together appear in at least as many relevant posts as review-overload + test-ci-friction + qa-capacity + ai-output-quality + bottleneck-shift." },
+    { "id": "H2", "version": 1,
+      "statement": "Complaints about review overload and the bottleneck moving have grown over the window, alongside AI coding.",
+      "disproved_if": "The share of relevant posts coded review-overload or bottleneck-shift is flat or falling across the window's quarters (no upward slope beyond noise)." },
+    { "id": "H3", "version": 1,
+      "statement": "Non-engineers depending on engineering (the Blast Radius candidate) is a minor pain in this data.",
+      "disproved_if": "eng-dependency is among the 8 most common codes. Note: HN mostly reflects engineers' views, so this must be rechecked on PM and design sources before it can rule anything out." },
+    { "id": "H4", "version": 1,
+      "statement": "When people say a small change broke something, it's usually because the change had effects nobody could see (change-impact), not because the edit itself was wrong.",
+      "disproved_if": "Among relevant posts about something breaking, wrong-edit explanations outnumber change-impact ones." },
+    { "id": "H5", "version": 1,
+      "statement": "Of the pains people discuss, the ones agents fit best are review overload, QA capacity and AI missing the team's context. Each is multi-step, uses several tools, and a human can check the result.",
+      "disproved_if": "Scored at Stage 2, none of these three ranks in the top 5 on agent fit." }
+  ]
+}
