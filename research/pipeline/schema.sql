@@ -152,3 +152,12 @@ CREATE TABLE IF NOT EXISTS gl_mr_details (
 );
 
 CREATE INDEX IF NOT EXISTS gl_mrs_project_role ON gl_mrs(project, author_role);
+
+-- Codebook v4+: relevance level and the writer's role, per coder.
+CREATE TABLE IF NOT EXISTS coding_meta (
+  doc_id   TEXT NOT NULL REFERENCES documents(id),
+  coder    TEXT NOT NULL,
+  level    INTEGER NOT NULL,      -- 2 first-hand | 1 discussed | 0 not relevant
+  speaker  TEXT,
+  PRIMARY KEY (doc_id, coder)
+);

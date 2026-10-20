@@ -1,0 +1,80 @@
+{"doc_id": "hn:43620759", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46859912", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44848756", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42280126", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46411476", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48153344", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46390815", "relevant": 1, "codes": [{"code": "tribal-knowledge", "evidence": "tribal knowledge holding it all together"}], "other": null}
+{"doc_id": "hn:47835466", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46339972", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42920565", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43245243", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47235749", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47052884", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45118776", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:141435", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48672384", "relevant": 1, "codes": [{"code": "design-eng-gap", "evidence": "our designers and engineers are currently working in a fragmented way"}], "other": null}
+{"doc_id": "hn:46802184", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44791876", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45927736", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47079695", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46348936", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44833136", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:155635", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46861549", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:50049146", "relevant": 1, "codes": [{"code": "process-skipped", "evidence": "copy is reviewed with marketing go out the window"}, {"code": "role-boundaries", "evidence": "Now everything is shipping in hackathon mode with an eng driving decisions they really should not be."}], "other": null}
+{"doc_id": "hn:49158395", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45076077", "relevant": 1, "codes": [{"code": "unclear-requirements", "evidence": "they wanted me to have a certainty about the correctness of what we were building that I just never had"}], "other": null}
+{"doc_id": "ux-se:143228", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35942", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34499", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42134757", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45347207", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44135217", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47938049", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47273373", "relevant": 1, "codes": [{"code": "tool-friction", "evidence": "you're asking a prime contractor to open VPN tunnels to a supplier's DC instance, which their network team will reject outright."}], "other": null}
+{"doc_id": "hn:47447997", "relevant": 1, "codes": [{"code": "tribal-knowledge", "evidence": "the platform had no documentation, was crumbling under tech debt and failing constantly"}], "other": null}
+{"doc_id": "hn:47013274", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44400109", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48742506", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33864", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43396821", "relevant": 1, "codes": [{"code": "other", "evidence": "I was annoyed to discover the first (internal) customer outage report of the day could have been repaired"}], "other": "outages go unnoticed for hours: no monitoring visibility across the team"}
+{"doc_id": "pm-se:35324", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44372993", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46055180", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43833623", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47746762", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47661037", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49232158", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48765532", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42601530", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44584609", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47444882", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42208244", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42204115", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:153464", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44956882", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:142485", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:155302", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46652062", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46915809", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46155301", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47115635", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45202754", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44444175", "relevant": 1, "codes": [{"code": "code-comprehension", "evidence": "I sometimes accept suggestions without fully understanding them."}, {"code": "ai-output-quality", "evidence": "Junior engineers rely on AI outputs without questioning edge cases, leading to subtle bugs."}], "other": null}
+{"doc_id": "ux-se:152219", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:143684", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44722603", "relevant": 1, "codes": [{"code": "tribal-knowledge", "evidence": "We would sit in post-mortem meetings and expect engineers to remember every single booby trap."}], "other": null}
+{"doc_id": "hn:46469715", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46513760", "relevant": 1, "codes": [{"code": "code-comprehension", "evidence": "the AI generates tons of code but then I'm stuck trying to review and understand it all."}, {"code": "bottleneck-shift", "evidence": "Then I realized the bottleneck isnt code generation anymore, its code comprehension."}, {"code": "ai-missing-context", "evidence": "i still lose context sometimes and have to re-explain things."}], "other": null}
+{"doc_id": "hn:44114094", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49179765", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43518651", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48438435", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34031", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47351084", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48742624", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47615296", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46522174", "relevant": 1, "codes": [{"code": "ai-output-quality", "evidence": "New or changing requirements are almost always implemented a flurry of if/else branches all over the place"}], "other": null}
+{"doc_id": "hn:49924427", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47770117", "relevant": 1, "codes": [{"code": "unclear-requirements", "evidence": "Silos and communication problems and unclear requirements up and down the stack."}], "other": null}

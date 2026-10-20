@@ -1,0 +1,80 @@
+{"doc_id": "hn:45805443", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34893", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45363304", "relevant": 1, "codes": [{"code": "test-ci-friction", "evidence": "can cause a cascade of failures across dozens of test scripts"}, {"code": "qa-capacity", "evidence": "the QA team's bandwidth is consumed by fixing what's broken, not by creating new, valuable tests"}], "other": null}
+{"doc_id": "hn:45398602", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:147106", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35608", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:143981", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45094943", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:142650", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49911006", "relevant": 1, "codes": [{"code": "tribal-knowledge", "evidence": "If our internal design system is barely half as well documented than Bootstrap then teams will still use Bootstrap."}, {"code": "change-impact", "evidence": "Your backwards incompatible updates need to be planned and scheduled and rolled out like a Production update, every time."}], "other": null}
+{"doc_id": "pm-se:34214", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:149219", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45446723", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47475604", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45095426", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48181544", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47846791", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43763011", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47845091", "relevant": 1, "codes": [{"code": "test-ci-friction", "evidence": "might be have flaky tests that uncovers after a few hours"}, {"code": "review-overload", "evidence": "I create a very large number of commits as part of a migration DND I can't get them all reviewed in parallel"}], "other": null}
+{"doc_id": "hn:48776854", "relevant": 1, "codes": [{"code": "tribal-knowledge", "evidence": "Layers of tacit knowledge, like how certain hardware issues were missed, so if you code it the 'correct' way, it breaks."}, {"code": "role-boundaries", "evidence": "But since they were a tier above me, I just went along with it."}], "other": null}
+{"doc_id": "hn:47541132", "relevant": 1, "codes": [{"code": "qa-capacity", "evidence": "I worked with a QA team for the last fifteen years until last year when they laid them all off."}], "other": null}
+{"doc_id": "pm-se:35147", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47301756", "relevant": 1, "codes": [{"code": "tribal-knowledge", "evidence": "Dependencies are often documented in READMEs or tribal knowledge."}, {"code": "tool-friction", "evidence": "services are described in fragments across different tools."}], "other": null}
+{"doc_id": "hn:45969073", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46748316", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49158939", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47011413", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49922684", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33437", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49225773", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47957402", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42930516", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47957223", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:50086684", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48891506", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49975319", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42359862", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47866740", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35213", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45984618", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33443", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46857601", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45444080", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43968548", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:151338", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45516141", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47628362", "relevant": 1, "codes": [{"code": "interruptions", "evidence": "Having to constantly swap app between browser, email, IDE, slack, etc is interruptive."}], "other": null}
+{"doc_id": "ux-se:144163", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43139846", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46770713", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46046617", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47308342", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42491916", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35702", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47638138", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:143870", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45592248", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44781361", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35734", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42576998", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44570584", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:152013", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43536061", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47052633", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48197661", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35286", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46632801", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45264192", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47435653", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42515392", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49126130", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46596352", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34577", "relevant": 1, "codes": [{"code": "tribal-knowledge", "evidence": "how do you do SP Poker when literally only 1 guy understands a whole area?"}, {"code": "other", "evidence": "We currently have 4 separate SCRUM sprints, one for each developer, which looks very stupid to me."}], "other": "methodology doesn't fit a small team of siloed specialists"}
+{"doc_id": "hn:46422564", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47249084", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47287296", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45467518", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46781966", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:41952327", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48496762", "relevant": 0, "codes": [], "other": null}

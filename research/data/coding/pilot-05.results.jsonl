@@ -1,0 +1,80 @@
+{"doc_id": "hn:42086777", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44537065", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49466767", "relevant": 1, "codes": [{"code": "bottleneck-shift", "evidence": "most of that additional output is just increasing pressure on the real bottlenecks such as design, QA, operations, support, etc."}], "other": null}
+{"doc_id": "hn:46504697", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34627", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49215577", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44558653", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42994677", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46208203", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42447662", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35640", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43616771", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48368468", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47880213", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45531182", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44326101", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45646376", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:143520", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44755056", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46940290", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:142575", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47351791", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:144316", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48137350", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48009003", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:142326", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42963694", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:147250", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34541", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34575", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45615448", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:145747", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49934673", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49859101", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46858047", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49244526", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34212", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44661394", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34481", "relevant": 1, "codes": [{"code": "estimation-pressure", "evidence": "The product manager of my development team wants to use this ratio as a KPI"}], "other": null}
+{"doc_id": "pm-se:34200", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45138888", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46528291", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47019721", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45120325", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33360", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33289", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43253587", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44115768", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42368564", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42478327", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44034344", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44749059", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47520116", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49164904", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48713906", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44813832", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47817602", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42935446", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46720991", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45056356", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42609970", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44649816", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47363732", "relevant": 1, "codes": [{"code": "status-overhead", "evidence": "shield me from the “make work” that the PMO organization mandates"}], "other": null}
+{"doc_id": "hn:45649812", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42321156", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43865549", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42904606", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47273444", "relevant": 1, "codes": [{"code": "ai-output-quality", "evidence": "now that it's in the beta stage the amount of issues and bugs is insane"}, {"code": "code-comprehension", "evidence": "my mental model of the codebase has severely degraded"}], "other": null}
+{"doc_id": "pm-se:34546", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:143107", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:155177", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42586607", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47123798", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44742400", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45544733", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35229", "relevant": 1, "codes": [{"code": "other", "evidence": "one of my team failed to share the weekly status reports with a customer during my vacation"}], "other": "missed customer status reports during manager's absence"}
+{"doc_id": "hn:48922211", "relevant": 1, "codes": [{"code": "ai-output-quality", "evidence": "typically have a high ratio of slop and fluff to useful code and documentation"}, {"code": "agent-supervision", "evidence": "Unmanaged by humans, these things go deep, deep into their own pits of internal domain language"}], "other": null}
+{"doc_id": "pm-se:33290", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46966099", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34016", "relevant": 1, "codes": [{"code": "tool-friction", "evidence": "it seems the board view is not offering a way to do this"}], "other": null}

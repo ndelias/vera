@@ -1,0 +1,80 @@
+{"doc_id": "ux-se:143480", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43253499", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46250265", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33498", "relevant": 1, "codes": [{"code": "unclear-requirements", "evidence": "This difference is somewhat confusing to developers who only care about the functional requirements"}], "other": null}
+{"doc_id": "hn:41966025", "relevant": 1, "codes": [{"code": "unclear-requirements", "evidence": "you didn't end up having to join half a dozen to a dozen tables because of ever changing requirements and a very convoluted domain"}, {"code": "other", "evidence": "the client has to wait 2 minutes for this simple Webapp to render"}], "other": "ORM-driven performance problems that teammates ignore"}
+{"doc_id": "pm-se:35231", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:144907", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46399211", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35191", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:148150", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33370", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:153005", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43016132", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43604454", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47422965", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47052411", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44219039", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46161199", "relevant": 1, "codes": [{"code": "change-impact", "evidence": "A single program change often ripples through dozens of Copybooks, which themselves include others."}, {"code": "tribal-knowledge", "evidence": "years of frustration working on massive, undocumented COBOL systems"}, {"code": "code-comprehension", "evidence": "PERFORM blocks and deeply nested IF statements make control flow difficult to trace manually."}], "other": null}
+{"doc_id": "hn:46110650", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46522180", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:41888490", "relevant": 1, "codes": [{"code": "eng-dependency", "evidence": "we found out that designers, project managers, and product managers cannot work with Git"}, {"code": "other", "evidence": "The most common bug was forgetting some key untranslated because developers always kept this as the last part of the feature task."}], "other": "error-prone manual localization workflow"}
+{"doc_id": "pm-se:35602", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48409488", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43102982", "relevant": 1, "codes": [{"code": "unclear-requirements", "evidence": "requirements change constantly because customers often don't know what they want until they see a prototype"}], "other": null}
+{"doc_id": "hn:43424654", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47038676", "relevant": 1, "codes": [{"code": "review-overload", "evidence": "personally seen my team slowed down because code review is clogged"}, {"code": "ai-output-quality", "evidence": "terribly long, often incorrect, PRs that are largely AI generated"}], "other": null}
+{"doc_id": "hn:46592523", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46112811", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44943148", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42633156", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46246309", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46858523", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42610653", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49736804", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45677325", "relevant": 1, "codes": [{"code": "approval-delays", "evidence": "You have to go through a change committee to do basic maintenance."}], "other": null}
+{"doc_id": "hn:42285272", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45562061", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45099367", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47421192", "relevant": 1, "codes": [{"code": "agent-supervision", "evidence": "kept hitting the same problem: there's no governance model for agent-driven delivery"}], "other": null}
+{"doc_id": "hn:46139557", "relevant": 1, "codes": [{"code": "ai-output-quality", "evidence": "I keep catching mistakes in their code that they didn't used to make."}], "other": null}
+{"doc_id": "hn:44884931", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33411", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44868322", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48547680", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33678", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46628596", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:142265", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48838804", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44944461", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49121449", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:142528", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48003623", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46691241", "relevant": 1, "codes": [{"code": "test-ci-friction", "evidence": "Before releases I spent hours, sometimes days, babysitting flaky tests."}], "other": null}
+{"doc_id": "hn:44192783", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42226202", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42718301", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46526156", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42149674", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43509648", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47553565", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:142500", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43003117", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45072278", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33816", "relevant": 1, "codes": [{"code": "unclear-requirements", "evidence": "the design team is designing screens, leading to frequent changes in the Acceptance criteria"}, {"code": "role-boundaries", "evidence": "I have to think like a UX/UI designer, who is hard as I don't have a design background"}], "other": null}
+{"doc_id": "hn:47411913", "relevant": 1, "codes": [{"code": "agent-supervision", "evidence": "I created Fabro to free myself from supervising a fleet of Claude Code tabs"}], "other": null}
+{"doc_id": "hn:43743752", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49503483", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45148299", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42378660", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47820111", "relevant": 1, "codes": [{"code": "bottleneck-shift", "evidence": "product managers across the org are complaining that they can't keep up with the pace at which engineers are shipping their features"}], "other": null}
+{"doc_id": "hn:46623845", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45503294", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:145243", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45711551", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47220774", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42800801", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44854757", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46009136", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44976811", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46148245", "relevant": 0, "codes": [], "other": null}

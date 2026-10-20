@@ -1,0 +1,80 @@
+{"doc_id": "hn:49278252", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47985284", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42221674", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49194021", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45111733", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46023503", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48714933", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46407615", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49525831", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44720067", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43195313", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43244799", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47051566", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:143666", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46774678", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49884582", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46889959", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34727", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49141417", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45161044", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47541157", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33442", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:149956", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42636183", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47287412", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:145241", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:152994", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:50047810", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45062923", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47523107", "relevant": 1, "codes": [{"code": "tech-debt-priority", "evidence": "bugs would sit in queues for years"}, {"code": "feedback-to-product", "evidence": "Another trick was to throw it back to the user, usually after months, ostensibly to request information"}], "other": null}
+{"doc_id": "hn:47530901", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48241499", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49935392", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49200404", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42340274", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33343", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47507443", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48868421", "relevant": 1, "codes": [{"code": "approval-delays", "evidence": "needed approvals from so many cross-functional counterparts that we could barely get anything done"}], "other": null}
+{"doc_id": "hn:42434625", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44854563", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44647402", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45463349", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:146903", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42813616", "relevant": 1, "codes": [{"code": "change-impact", "evidence": "updating one library necessitates updating many other libraries"}, {"code": "tech-debt-priority", "evidence": "we only do the bare minimum of work to update the most critical vulnerabilities"}], "other": null}
+{"doc_id": "ux-se:149611", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46609923", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35275", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:152771", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48587881", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49779099", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:147026", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44982454", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49793227", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42870857", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:141387", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45137312", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46216213", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43408027", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49544185", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45166096", "relevant": 1, "codes": [{"code": "ai-output-quality", "evidence": "The LLM writes comments like someone who can't read code is going to read it."}], "other": null}
+{"doc_id": "hn:44974275", "relevant": 1, "codes": [{"code": "late-alignment", "evidence": "than those where the product requirements are \"handed\" to me and I just have to implement something that satisfies them"}], "other": null}
+{"doc_id": "hn:44453706", "relevant": 1, "codes": [{"code": "status-overhead", "evidence": "Every one else talks in detail for 2-3 minutes. Their updates could have been 20sec."}], "other": null}
+{"doc_id": "hn:44052710", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46310894", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34230", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48600505", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45072615", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34482", "relevant": 1, "codes": [{"code": "unclear-requirements", "evidence": "The rest were insufficient requirements, changing requirements camouflaged as \"bugs\" to shift blame and responsibility"}, {"code": "qa-capacity", "evidence": "insufficient testing despite me asking for more (either more time or more automation)"}, {"code": "process-skipped", "evidence": "arbitrary deadlines pushed through, where \"done with bugs\" is better than \"not done yet\""}], "other": null}
+{"doc_id": "hn:42452333", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:145567", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:145364", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:144358", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33372", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44523088", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48199577", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45801108", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45444579", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47677688", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:149509", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48269243", "relevant": 0, "codes": [], "other": null}

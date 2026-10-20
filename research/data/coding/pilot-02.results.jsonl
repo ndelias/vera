@@ -1,0 +1,80 @@
+{"doc_id": "pm-se:34787", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46435274", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45134172", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49925063", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:144286", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49127176", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42909181", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48758168", "relevant": 1, "codes": [{"code": "design-drift", "evidence": "inability to apply good taste or maintain consistent design languages"}, {"code": "ai-output-quality", "evidence": "having a human doing QA and prodding the model to fix obviously-wrong outputs"}], "other": null}
+{"doc_id": "hn:49845072", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:148662", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46207825", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44414234", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42386952", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47251986", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48529582", "relevant": 1, "codes": [{"code": "interruptions", "evidence": "cognitive overload, and very high context switching costs"}], "other": null}
+{"doc_id": "hn:48353679", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43986959", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46337452", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48265243", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45095937", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45300047", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43456907", "relevant": 1, "codes": [{"code": "qa-capacity", "evidence": "We spend a lot of time resolving discrepancies between implementation, spec and test"}], "other": null}
+{"doc_id": "ux-se:144805", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:45475141", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46783282", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47778624", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35011", "relevant": 1, "codes": [{"code": "tool-friction", "evidence": "Jira sums the story points of the parent story (which would be 10) with the sub-tasks"}, {"code": "unclear-requirements", "evidence": "When creating a user story, we don't always have a full picture of the required sub-tasks."}], "other": null}
+{"doc_id": "hn:45395789", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44511715", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49103771", "relevant": 1, "codes": [{"code": "other", "evidence": "It denies there are bugs that you have personally verified exists"}], "other": "AI code reviewer rejects valid patches"}
+{"doc_id": "hn:43569859", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49071942", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44457296", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49705809", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42127367", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "ux-se:155287", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:34257", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:35606", "relevant": 1, "codes": [{"code": "approval-delays", "evidence": "one of very risky areas where the plan get's delayed and tasks get dragged are design approvals"}], "other": null}
+{"doc_id": "hn:49580888", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47244065", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44617541", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49217463", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33747", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48357754", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43514365", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44600341", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49927194", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44314471", "relevant": 1, "codes": [{"code": "agent-supervision", "evidence": "Using AI for code has reminded me of this sensation, switching in and out of 'driving' feels more exhausting"}], "other": null}
+{"doc_id": "hn:43120974", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48883106", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:43425697", "relevant": 1, "codes": [{"code": "other", "evidence": "having to explain to someone who's been with the company for 2 months that no we probably shouldn't throw out the entire React app"}], "other": "New hires repeatedly push framework rewrites"}
+{"doc_id": "hn:46677919", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47862057", "relevant": 1, "codes": [{"code": "estimation-pressure", "evidence": "If there's an incentive to hit 99% non-cash rates, the app just does nothing when it would normally crash."}, {"code": "tech-debt-priority", "evidence": "Efforts like R&D, clean code, and other optimizations are often punished if they don't affect the bonuses."}], "other": null}
+{"doc_id": "hn:42517390", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48484917", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46207852", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46939807", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44316978", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:50077031", "relevant": 1, "codes": [{"code": "ai-output-quality", "evidence": "their codebases are incredibly sloppy and verbose"}, {"code": "code-comprehension", "evidence": "with little understanding, and these problems compound over time"}], "other": null}
+{"doc_id": "hn:45963060", "relevant": 1, "codes": [{"code": "status-overhead", "evidence": "Ten different ways to track things for different audiences."}], "other": null}
+{"doc_id": "hn:46187517", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42287182", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48402393", "relevant": 1, "codes": [{"code": "other", "evidence": "literally 100% of any non-trivial Claude session/work will now be blocked on these issues, requiring manual intervention"}], "other": "AI service outages and rate limits block work"}
+{"doc_id": "hn:46490606", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48175316", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42299840", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42921663", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49390234", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:47399623", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42187079", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "pm-se:33510", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49105071", "relevant": 1, "codes": [{"code": "unclear-requirements", "evidence": "a political black swan event ended up changing key requirements of our software overnight"}], "other": null}
+{"doc_id": "hn:50092903", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48383266", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:42576614", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:49793932", "relevant": 1, "codes": [{"code": "tech-debt-priority", "evidence": "known tech-debt and \"easy wins\" that no one ever had the bandwidth to approach"}, {"code": "qa-capacity", "evidence": "Our QA, formerly a fairly frequent blocker of all our releases"}], "other": null}
+{"doc_id": "ux-se:152443", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:46852905", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:48416049", "relevant": 0, "codes": [], "other": null}
+{"doc_id": "hn:44426435", "relevant": 0, "codes": [], "other": null}
