@@ -1,0 +1,74 @@
+[
+ {
+  "code": "ai-output-quality",
+  "share_relevant": 0.177,
+  "share_first_hand": 0.238,
+  "frequency_score": 5
+ },
+ {
+  "code": "review-overload",
+  "share_relevant": 0.124,
+  "share_first_hand": 0.132,
+  "frequency_score": 4
+ },
+ {
+  "code": "agent-supervision",
+  "share_relevant": 0.077,
+  "share_first_hand": 0.116,
+  "frequency_score": 3
+ },
+ {
+  "code": "tech-debt-priority",
+  "share_relevant": 0.076,
+  "share_first_hand": 0.049,
+  "frequency_score": 3
+ },
+ {
+  "code": "tribal-knowledge",
+  "share_relevant": 0.064,
+  "share_first_hand": 0.04,
+  "frequency_score": 3
+ },
+ {
+  "code": "interruptions",
+  "share_relevant": 0.063,
+  "share_first_hand": 0.09,
+  "frequency_score": 3
+ },
+ {
+  "code": "tool-friction",
+  "share_relevant": 0.058,
+  "share_first_hand": 0.081,
+  "frequency_score": 2
+ },
+ {
+  "code": "unclear-requirements",
+  "share_relevant": 0.056,
+  "share_first_hand": 0.062,
+  "frequency_score": 2
+ },
+ {
+  "code": "code-comprehension",
+  "share_relevant": 0.044,
+  "share_first_hand": 0.058,
+  "frequency_score": 2
+ },
+ {
+  "code": "ai-missing-context",
+  "share_relevant": 0.04,
+  "share_first_hand": 0.069,
+  "frequency_score": 2
+ },
+ {
+  "code": "approval-delays",
+  "share_relevant": 0.012,
+  "share_first_hand": 0.026,
+  "frequency_score": 1
+ },
+ {
+  "code": "eng-dependency",
+  "share_relevant": 0.007,
+  "share_first_hand": 0.016,
+  "frequency_score": 1
+ }
+]
