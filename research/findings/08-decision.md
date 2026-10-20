@@ -23,8 +23,8 @@ the evidence is thin, it says so.
 ### What the evidence ruled out
 - **Blast Radius as first imagined** (non-engineers waiting on engineering to
   ship small changes). It ranks last of 25 pains (05, H3), and at GitLab
-  non-engineers' changes are approved *faster* (03, G2). The name survives
-  with a new meaning. The idea doesn't.
+  non-engineers' changes are approved *faster* (03, G2). The idea was
+  dropped, and so was the name.
 - **Another review bot.** First-pass review and auto-fix are commoditizing:
   CodeRabbit, Copilot, Greptile, Graphite/Bugbot (06, teardown).
 - **An agent supervision dashboard.** It scored third (06), but that market
@@ -35,7 +35,11 @@ the evidence is thin, it says so.
 
 ## The product
 
-**Blast Radius: know a change's blast radius before you approve it.**
+**Vera: review for the AI era.**
+
+*Named by Nahuel, 2026-10-20. Vera is both the product and the agent you
+talk to ("@vera, who still needs to sign off?"). From "verify", and Latin
+"vera", true. "Blast Radius" was the working name for the original idea.*
 
 An agentic review layer for teams shipping AI-written code. It sits on top
 of the review bots the team already uses (it reads their findings) and
@@ -50,7 +54,7 @@ answers three questions for every change:
 
 ### How it works on one change
 
-1. **Map.** When an MR or PR opens, Blast Radius maps what it touches and
+1. **Map.** When an MR or PR opens, Vera maps what it touches and
    its risk, combining the diff, the codebase, ownership, the team's
    conventions, and any review-bot findings. It notes whether AI wrote it.
 2. **Brief.** Each required reviewer gets a brief written for their role:
@@ -65,14 +69,14 @@ answers three questions for every change:
    can make it a gate.
 4. **Coordinate sign-off.** Team rules decide which roles must sign off. For
    example, UI paths need design, auth paths need security, and behavior
-   changes need product. Blast Radius asks them in parallel, not one after
+   changes need product. Vera asks them in parallel, not one after
    another, gives each what they need, chases in Slack, and keeps one
    approval record across roles. This targets the measured 2.2x wait.
 5. **Record.** Who approved what, with what evidence of understanding.
    Auditable.
 
 ### What it deliberately doesn't do
-- **No style or bug comments.** The review bots do that. Blast Radius uses
+- **No style or bug comments.** The review bots do that. Vera uses
   their findings.
 - **No auto-fixing code.** Already crowded (teardown, gap 4).
 - **Never approves on its own.** Agents propose; people decide.
@@ -93,7 +97,7 @@ answers three questions for every change:
   for quality and delivery.
 - **Who pays:** the head or VP of engineering. The budget line already
   exists: teams pay $20–72 per user per month for review tools (scans A and
-  B). Blast Radius would sit in that line as the layer above the bots.
+  B). Vera would sit in that line as the layer above the bots.
 - **Best first customers:** teams of 10–200 engineers that adopted coding
   agents, have design or security reviewers, and ship UI. Cross-role
   sign-off hurts them most.
@@ -163,5 +167,7 @@ roles):
    Offline evals still run on the historical GitLab data, since the core
    logic doesn't depend on the platform. The pilot runs on GitHub, starting
    with the portfolio repo.
-3. The portfolio tagline changes from "Lets non-engineers ship code
-   safely…" to something about understanding and sign-off. Your words.
+3. ~~The portfolio tagline changes from "Lets non-engineers ship code
+   safely…" to something about understanding and sign-off.~~ **Decided
+   (Nahuel, 2026-10-20): the product is renamed Vera, with the tagline
+   "Review for the AI era."**

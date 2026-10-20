@@ -4,8 +4,8 @@ import { Nav } from "@/components/Nav";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "Discovery panel", template: "%s · Discovery panel" },
-  description: "The research behind Blast Radius: where product teams lose time, measured from public data.",
+  title: { default: "Vera research", template: "%s · Vera research" },
+  description: "The research behind Vera: where product teams lose time, measured from public data.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="shell">
           <header className="top">
             <Link href="/" className="brand">
-              Blast Radius <span>· discovery</span>
+              Vera <span>· research</span>
             </Link>
             <nav aria-label="Panel">
               <Nav />

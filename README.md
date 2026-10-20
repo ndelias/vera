@@ -1,10 +1,10 @@
-# Blast Radius
+# Vera
 
-Working name. An agentic B2B product for product teams. Which problem it
-solves is decided by the research, not chosen in advance.
+Review for the AI era. An agentic B2B product for product teams. The
+research chose the problem, not the other way round. "Blast Radius" was
+the working name for the original idea, which the data ruled out.
 
-Status: research. Nothing gets built until the research
-(`research/PLAN.md`) has chosen the problem.
+Status: research done (`research/findings/08-decision.md`). Building next.
 
 - `research/PLAN.md`: the claims we're testing, the data sources, the methods
 - `research/studies/`: one folder per study (scripts and notes)
