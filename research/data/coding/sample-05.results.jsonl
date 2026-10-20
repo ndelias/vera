@@ -1,0 +1,80 @@
+{"doc_id": "pm-se:33287", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46262539", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "A commercial non-founder CEO pushing for results at the expense of codebase serviceability?"}], "other": null}
+{"doc_id": "hn:49236737", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43451540", "relevance": 1, "speaker": "engineer", "codes": [{"code": "non-eng-building", "evidence": "AI just creates opportunities for people like me, I can mop up the messes until I retire."}], "other": null}
+{"doc_id": "pm-se:33337", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "If you externalize essential resources, you create bottlenecks in your process."}], "other": "dependence on external specialist departments (design, devops) creates bottlenecks"}
+{"doc_id": "hn:42212087", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-missing-context", "evidence": "a lot of the time it's just due to niche platforms and libraries and things that are specific to our shop or the regulatory environment"}], "other": null}
+{"doc_id": "hn:49730159", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46091676", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47347273", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "they can’t effectively identify structural deviations that may accumulate over time and affect the long-term stability of a project"}], "other": "architectural drift accumulates unnoticed by linters and tests"}
+{"doc_id": "pm-se:33381", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48568639", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "People were asking for features, but the foundation needed a ton of work before I could get on to adding new rooms."}], "other": "accumulated tech debt had to be paid off before new features"}
+{"doc_id": "hn:48381335", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "it constantly generated subpar solutions"}], "other": null}
+{"doc_id": "pm-se:35295", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33941", "relevance": 2, "speaker": "other", "codes": [{"code": "interruptions", "evidence": "requires me to be involved in many topics at the same time and switch between them fast"}], "other": null}
+{"doc_id": "hn:42736297", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45524240", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144745", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47372904", "relevance": 2, "speaker": "founder", "codes": [{"code": "ai-output-quality", "evidence": "tech debt gets amplified exponentially by agents. A temporary compromise becomes a \"precedent\" the agent systematically reuses."}, {"code": "agent-supervision", "evidence": "Three parallel agent workstreams was the limit for sound architectural decisions. A fourth noticeably degraded quality."}], "other": null}
+{"doc_id": "pm-se:34645", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47659148", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Every feature spans 3 services at least, with possible incompatibility between some of their versions."}], "other": "microservices make cross-service releases harder"}
+{"doc_id": "pm-se:34275", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49440034", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46332704", "relevance": 2, "speaker": "founder", "codes": [{"code": "feedback-to-product", "evidence": "As a PM, I spent years drowning in raw user feedback."}], "other": null}
+{"doc_id": "hn:46146692", "relevance": 2, "speaker": "other", "codes": [{"code": "other", "evidence": "very often, you forget about a meeting in the calendar, even after a notification"}], "other": "keeping track of many meetings is hard"}
+{"doc_id": "ux-se:142835", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42483920", "relevance": 2, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "you get pulled aside after to help someone wit their changes, then there's a production issue, then your manager needs some data"}], "other": null}
+{"doc_id": "hn:47164944", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152508", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48408037", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49703312", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33578", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43542734", "relevance": 1, "speaker": "engineer", "codes": [{"code": "design-drift", "evidence": "not touching individual components or copying in random cruft with hard coded gaps between elements"}], "other": null}
+{"doc_id": "hn:47260835", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47213985", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "most people using it aren't reviewing what comes out"}, {"code": "code-comprehension", "evidence": "people skip the \"understand what was built\" step entirely"}], "other": null}
+{"doc_id": "hn:47352954", "relevance": 2, "speaker": "engineer", "codes": [{"code": "test-ci-friction", "evidence": "A fairly large category of the flaky CI jobs I see is \"dodgy infrastructure\"."}], "other": null}
+{"doc_id": "pm-se:34553", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49030780", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "How do we measure the quality of what an agent is doing on our codebase rather than simply measuring task accomplishment?"}], "other": null}
+{"doc_id": "hn:50061907", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44704050", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46791131", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "it began to litter with more and more code, until it was ~600 line function responsible for a large chunk of game logic"}, {"code": "ai-missing-context", "evidence": "claude code can't be trusted with anything other than multi-paragraph prompts"}], "other": null}
+{"doc_id": "ux-se:152682", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142395", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50119264", "relevance": 2, "speaker": "engineer", "codes": [{"code": "bottleneck-shift", "evidence": "Code review is my bottleneck"}, {"code": "review-overload", "evidence": "this meatbag here can't keep up with the agents at all"}, {"code": "code-comprehension", "evidence": "I either spend too much time and energy on trying to understand the code"}, {"code": "ai-output-quality", "evidence": "The over-engineering is definitely a concern too."}], "other": null}
+{"doc_id": "hn:46450263", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44280279", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "This is rare to get noticed and fixed due to organisational momentum."}], "other": null}
+{"doc_id": "hn:48921012", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "No mention of it in any PR summary - CTO found it in the migration that would mutate the User record to accept `null` email."}], "other": null}
+{"doc_id": "pm-se:35439", "relevance": 2, "speaker": "pm", "codes": [{"code": "process-skipped", "evidence": "we had to expedite a release to production, which led to the team working outside of our usual process"}, {"code": "qa-capacity", "evidence": "insisting that the issue was purely due to the process and citing a lack of time for testing"}], "other": null}
+{"doc_id": "hn:42137030", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49317877", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42376393", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48041341", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "teams that go \"all in\" on agentic coding are going to inadvertently sabotage their product and their teams in the long run"}], "other": "all-in agentic coding predicted to harm product and team long term"}
+{"doc_id": "hn:42586476", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147699", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35152", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34793", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34271", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "These teams work together somewhat frequently but don't talk to each other as much as we'd like."}], "other": "teams diverge in practices and rarely share them"}
+{"doc_id": "hn:45075251", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153362", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47493899", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "Except to go deeper on questions that came up in standup that cannot be instantly resolved. Otherwise yeah there’s really no point."}], "other": null}
+{"doc_id": "hn:47753534", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46658364", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45035710", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44800916", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46029519", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35746", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47077438", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "we spend more time managing the 'noise' around the work (Slack, Jira, AI-generated emails) than actually writing code that solves problems"}], "other": null}
+{"doc_id": "pm-se:34226", "relevance": 1, "speaker": "pm", "codes": [{"code": "qa-capacity", "evidence": "You've mentioned separate dev and QA teams and handover, that's kind of a red flag."}, {"code": "process-skipped", "evidence": "If people work under pressure, tasks that seem less important tend to be done with less attention or not at all."}], "other": null}
+{"doc_id": "hn:44308659", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33823", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34783", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148115", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35107", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42136954", "relevance": 2, "speaker": "founder", "codes": [{"code": "other", "evidence": "I didn't have time to advance the product because customer support was taking too much time"}], "other": "customer support load crowds out product work"}
+{"doc_id": "hn:49549217", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33728", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34611", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "despite it not being your job, you are still judged by the performance of your team"}], "other": null}
+{"doc_id": "pm-se:33495", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44159563", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46891998", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49563240", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

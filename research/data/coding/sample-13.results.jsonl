@@ -1,0 +1,80 @@
+{"doc_id": "hn:46928974", "relevance": 1, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "you prompt the AI and if it outputs sub-par results you rewrite it yourself"}], "other": null}
+{"doc_id": "hn:49253988", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49112018", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "surfacing/managing session state is only part of the issue"}, {"code": "interruptions", "evidence": "context switching between them is another entirely and feels like the real productivity bottleneck for me"}], "other": null}
+{"doc_id": "hn:46286819", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43315373", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "when you ask it to code, it will dump a react form"}, {"code": "code-comprehension", "evidence": "ability to code review it will deteriorate in just a few years with less seniors and much more barely-coders"}], "other": null}
+{"doc_id": "hn:45772320", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35630", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "The functional analyst tends to micro-manage my bug fixes, insisting on debugging alongside me"}, {"code": "other", "evidence": "Agreed-upon actions are often not carried out, and I have to follow up repeatedly to ensure progress"}], "other": "teammates unresponsive; agreed actions not followed through"}
+{"doc_id": "hn:45201350", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144431", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47300817", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "once a project passes ~8k lines most languages start to show cracks: incorrect imports, wrong framework idioms, subtle API hallucinations"}], "other": null}
+{"doc_id": "hn:45837142", "relevance": 2, "speaker": "pm", "codes": [{"code": "tool-friction", "evidence": "my answer to the poor UX of bloated project management tools that I’ve had the displeasure of using as a PM"}], "other": null}
+{"doc_id": "hn:44656733", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44390674", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "you have a separate board for tech debt, that's your problem right there"}], "other": null}
+{"doc_id": "hn:42383620", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34693", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47600628", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45809919", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:33394", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46639415", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "There are, as the OP pointed out, a lot of reasons why you can't run it with no human at all."}], "other": null}
+{"doc_id": "ux-se:145638", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:48440285", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45180790", "relevance": 1, "speaker": "unknown", "codes": [{"code": "feedback-to-product", "evidence": "thousands of feature requests that have been up on their forums for years, that they haven't given an official response to"}], "other": null}
+{"doc_id": "hn:45716918", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46467170", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46029911", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44542174", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45441693", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35872", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "That avoids the constant syncing problem altogether."}], "other": null}
+{"doc_id": "hn:42582200", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35941", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "The PO should not decide what the eventual solution will be."}], "other": null}
+{"doc_id": "hn:46826277", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47864580", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47007634", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46465107", "relevance": 0, "speaker": "other", "codes": [], "other": null}
+{"doc_id": "hn:44388280", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-missing-context", "evidence": "the code reviews can't be effective because the LLM does not have the tribal knowledge and product context of the change"}], "other": null}
+{"doc_id": "pm-se:33711", "relevance": 2, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "we have a lingering feeling that we've missed something obvious"}], "other": null}
+{"doc_id": "hn:48358657", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "hn:48444200", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42733515", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:41975508", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46204426", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35128", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "developers are daily required to answer questions about the time they need to finish each task"}, {"code": "status-overhead", "evidence": "You do not owe them any status updates unless the team's sprint goal is in jeopardy"}], "other": null}
+{"doc_id": "pm-se:35300", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33639", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34932", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46084052", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "some of the worst tech debt I’ve ever dealt with has been because the initial implementation was an overengineered disaster"}], "other": "tech debt from an overengineered initial implementation"}
+{"doc_id": "hn:46667994", "relevance": 0, "speaker": "other", "codes": [], "other": null}
+{"doc_id": "hn:49172196", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34983", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34324", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144283", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43109599", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46748986", "relevance": 2, "speaker": "engineer", "codes": [{"code": "interruptions", "evidence": "I didn't want to waste time switching to Google or ChatGPT just to find a one-line command."}], "other": null}
+{"doc_id": "pm-se:33316", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46926937", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "I had predicted that this dynamic will play out widely and result in a lot more duplicative code overall"}], "other": null}
+{"doc_id": "pm-se:34939", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "expects to work sequentially and then pass their work downstream to the lone programmer and then the unfortunate single tester"}], "other": "siloed specialists handing work downstream instead of collaborating"}
+{"doc_id": "hn:43842211", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34283", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43095645", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "if a junior dev estimates, yup, I can change the API endpoint in 10 minutes, he'll be wronged by the nuances of several intermediate steps"}], "other": "estimates miss downstream steps (review, QA, deploys)"}
+{"doc_id": "hn:47273856", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148326", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47193322", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "no threading whatsoever, no auth, all queries run in a single thread and on and on"}, {"code": "agent-supervision", "evidence": "you have to provide these \"expert guardrails\" by monitoring every single deliverable"}], "other": null}
+{"doc_id": "hn:42303534", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:49736729", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "already struggling with explosion of artifacts on JIRA, sharepoint, github, etc."}], "other": null}
+{"doc_id": "ux-se:144263", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:49669250", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142915", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148212", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46717233", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42262736", "relevance": 2, "speaker": "engineer", "codes": [{"code": "test-ci-friction", "evidence": "the test suite took so long to run that it would take several days or weeks of real time"}, {"code": "change-impact", "evidence": "dozens of complicated failing tests where it was not obvious which code change was responsible"}], "other": null}
+{"doc_id": "hn:42931780", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Migrating thousands of JIRA tasks (projects, comments, attachments, etc.) was a challenge."}], "other": "project-management tool cost and migration effort"}
+{"doc_id": "hn:48765082", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46770484", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149059", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:41995012", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142637", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35810", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:154100", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45451364", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "it certainly feels backwards to make the AI write the code and relegate the programmer to reviewing it"}], "other": "AI shifts programmers from writing code to reviewing it, which they enjoy less"}
+{"doc_id": "pm-se:35714", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

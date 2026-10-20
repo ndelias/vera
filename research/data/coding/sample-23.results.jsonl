@@ -1,0 +1,80 @@
+{"doc_id": "pm-se:34768", "relevance": 2, "speaker": "engineer", "codes": [{"code": "estimation-pressure", "evidence": "Get pressured to be more accurate and to bring the estimate down Get pressured to work unpaid overtime to meet that estimate"}], "other": null}
+{"doc_id": "ux-se:153188", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42838461", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33990", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49026982", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "There is rarely a complete set of documents that says \"this is how everything works\""}], "other": null}
+{"doc_id": "hn:47431913", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47840235", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47869286", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44515886", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46464709", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44934749", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143628", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45311982", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "review was never going to catch anything anyway"}], "other": null}
+{"doc_id": "pm-se:35179", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35633", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44866824", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "just doing the exact dumb thing the jira ticket asks for"}], "other": null}
+{"doc_id": "hn:42703321", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34161", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46295284", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33878", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46408307", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155464", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46372098", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35886", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42773547", "relevance": 2, "speaker": "other", "codes": [{"code": "other", "evidence": "This takes a lot of my time: opening web developer, finding style classes, viewing the computed style to see what was actually happening"}], "other": "Manually documenting the design styles of reference websites is slow"}
+{"doc_id": "hn:46053390", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49947355", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "yes, I get that code review can't scale"}, {"code": "ai-output-quality", "evidence": "You can make good code with LLMs, you just have to actually engineer it and give up some of the velocity"}], "other": null}
+{"doc_id": "hn:44236008", "relevance": 2, "speaker": "unknown", "codes": [{"code": "design-eng-gap", "evidence": "repeatedly running into the same pain points in image workflows—especially between designers and developers"}], "other": null}
+{"doc_id": "pm-se:33281", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "it doesn't involve day to day meddling in a team"}], "other": null}
+{"doc_id": "ux-se:153674", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46643100", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48623448", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46773051", "relevance": 1, "speaker": "unknown", "codes": [{"code": "design-eng-gap", "evidence": "I really wish it was easier to integrate more interface design expertise into FOSS development. The workflows are just super different."}], "other": null}
+{"doc_id": "hn:49588864", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35644", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46247510", "relevance": 2, "speaker": "engineer", "codes": [{"code": "interruptions", "evidence": "Constant context switching cost."}, {"code": "agent-supervision", "evidence": "Most of the time I feel like I am just staring at the screen waiting for it to finish a thought, then correcting it"}], "other": null}
+{"doc_id": "pm-se:35190", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33378", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49457234", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48772458", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155445", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48124347", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42235240", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44807303", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "if someone paid me 9-figure salary which came with daily standups I would politely decline"}], "other": null}
+{"doc_id": "hn:49760896", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49326135", "relevance": 2, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "asking someone to break down a super large PR into smaller ones and found a defect in PR#2 which wasn't caught"}], "other": null}
+{"doc_id": "hn:47652404", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "I created Fabro to free myself from supervising a fleet of Claude Code tabs running in a REPL"}], "other": null}
+{"doc_id": "hn:49527574", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47574582", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "my workflows still very much require an active, constantly context-switching human-in-the-loop"}], "other": null}
+{"doc_id": "pm-se:35518", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33351", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49967246", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47259392", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149800", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44735056", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48914292", "relevance": 1, "speaker": "unknown", "codes": [{"code": "feedback-to-product", "evidence": "We are, of course, meant to actually listen to customers - and LLMs/agents should be making that easier, not harder."}], "other": null}
+{"doc_id": "hn:48706107", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "it can be ambiguous in ways the model resolves by guessing instead of asking"}], "other": null}
+{"doc_id": "pm-se:35039", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44088248", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44351282", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46773719", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45597323", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35343", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48428521", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143928", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43024593", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147466", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49418856", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43475875", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "you end up with big parts of the codebase that only the lead dev can work in productively"}, {"code": "process-skipped", "evidence": "find a way to push through their changes without review or get them rubber stamped"}], "other": null}
+{"doc_id": "hn:44316902", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49018939", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47409683", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47203294", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33839", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35163", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46103508", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34737", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49394683", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "We recently updated our code review skills to heavily discourage them."}], "other": null}
+{"doc_id": "hn:44060725", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "the daily standup, which often dragged to 45 minutes and sometimes even an entire hour!"}], "other": null}
+{"doc_id": "ux-se:148789", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

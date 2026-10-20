@@ -1,0 +1,80 @@
+{"doc_id": "hn:44257382", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33341", "relevance": 2, "speaker": "engineer", "codes": [{"code": "estimation-pressure", "evidence": "a graph is shown of how many story points each developer has completed over the course of the fortnight"}, {"code": "tech-debt-priority", "evidence": "jobs which do not earn story points like doing code reviews, dealing with technical debt and helping other developers are suffering"}], "other": null}
+{"doc_id": "pm-se:33689", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43210166", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:41894102", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43324333", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46199249", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43754341", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "All three of those things are things that software engineers rather reliably are bad at and cut corners on"}], "other": null}
+{"doc_id": "hn:44166739", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "hn:45789262", "relevance": 1, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "Testing changes (esp. UI changes) is one of the biggest bottlenecks in agentic coding."}], "other": null}
+{"doc_id": "pm-se:35225", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:146964", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46658044", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34464", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35687", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33376", "relevance": 1, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "It becomes difficult to persuade developers do testing."}], "other": null}
+{"doc_id": "hn:41929990", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144915", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49400442", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "I've had to unstick agents or answer questions they were waiting on answers for"}], "other": null}
+{"doc_id": "hn:50107029", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "the goal posts moved constantly while you were on the rewrite team"}], "other": null}
+{"doc_id": "ux-se:151894", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149181", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34233", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42896066", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42199638", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "institutional knowledge will slip through the cracks thanks to sleazy retention policies made to thwart lawsuits"}], "other": null}
+{"doc_id": "hn:43456924", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:34125", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44469322", "relevance": 2, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "product requirement docs, complete with code samples, data type definitions, and diagrams. Everything looks good to the untrained eye, but it's complete and utter bullshit."}], "other": null}
+{"doc_id": "hn:44815764", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42360807", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35794", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47688320", "relevance": 2, "speaker": "unknown", "codes": [{"code": "approval-delays", "evidence": "I have been blocked for 6 months now with Digicert code cert renewal, for my app Payload"}], "other": null}
+{"doc_id": "pm-se:34074", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49398330", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47410161", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "Given that code reviewing is a bottleneck"}, {"code": "interruptions", "evidence": "the tension between devs wanting to focus and devs wanting their peers to put aside their task to review their pull requests"}], "other": null}
+{"doc_id": "ux-se:147215", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49429992", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "creating an architecture erosion and converting your code to big ball of mud"}, {"code": "review-overload", "evidence": "People cannot scale - not in speed and not in code review."}, {"code": "ai-missing-context", "evidence": "All these \"rules\" depend on agent remembering the right thing and following the rule at the right time."}], "other": null}
+{"doc_id": "hn:48383652", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Most engineering teams I've talked to have no idea what their AI spend is per developer"}], "other": "AI tool spend per developer is invisible and unmeasured"}
+{"doc_id": "hn:44757816", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34920", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48074638", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47646523", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "You have to stare at the screen and do nothing, which is a really boring and unproductive way to spend time."}], "other": null}
+{"doc_id": "ux-se:143786", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:47143777", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34969", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33505", "relevance": 1, "speaker": "unknown", "codes": [{"code": "approval-delays", "evidence": "you may find that this extends the approval process significantly"}], "other": null}
+{"doc_id": "ux-se:148171", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148684", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47770970", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42902086", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148758", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45749306", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "the path of least resistance is often to just continue with the cloud solution. At a certain point, there will be so much tech debt"}], "other": "cloud lock-in makes later infrastructure migration too costly"}
+{"doc_id": "ux-se:151294", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46625108", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "They also duplicate code and are super verbose, so they produce a ton tech debt"}, {"code": "review-overload", "evidence": "This makes their mistakes easy to overlook, requiring more careful line-by-line review"}], "other": null}
+{"doc_id": "pm-se:34474", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "such PO will fill in the backlog with stories and expects that the development team picks it up from there"}], "other": null}
+{"doc_id": "hn:42729235", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47668470", "relevance": 1, "speaker": "unknown", "codes": [{"code": "change-impact", "evidence": "if you work on an active codebase where fixing one bug inevitably leads to another"}], "other": null}
+{"doc_id": "hn:49951115", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34606", "relevance": 2, "speaker": "pm", "codes": [{"code": "unclear-requirements", "evidence": "the needed requirements of these technical tasks gets clear in the middle of developments instead of sprint planning and backlog grooming"}], "other": null}
+{"doc_id": "hn:49880045", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "a large number of boring and low-quality PRs flooded the entire repository"}], "other": null}
+{"doc_id": "hn:49490406", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "We also have a strong code review process. But it all crumbles in the face of developers burning out"}, {"code": "ai-output-quality", "evidence": "being overloaded with code that had little thought put into it"}], "other": null}
+{"doc_id": "hn:48347023", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47330676", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "But if it's just one of six asserts in the same massive tests, then people get nervous and start losing time."}], "other": "overloaded tests slow changes when requirements change"}
+{"doc_id": "hn:49900403", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49927385", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:42253999", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45420304", "relevance": 1, "speaker": "engineer", "codes": [{"code": "tech-debt-priority", "evidence": "most \"unexpected bugs\" found day one are probably on some Jira sheet, been there for months, and were triaged as such to \"will fix later\""}, {"code": "role-boundaries", "evidence": "We'll take the blame for a lot of issues leadership actively forced the development to go down."}], "other": null}
+{"doc_id": "hn:46106604", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47603835", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33398", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35790", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45865474", "relevance": 1, "speaker": "unknown", "codes": [{"code": "code-comprehension", "evidence": "By using them, we get the functionality without the learning, leaving us with zero internalized knowledge of the complex machinery we've just adopted."}], "other": null}
+{"doc_id": "pm-se:34868", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42195699", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:35860", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35554", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "the business analyst started to contact stakeholders to define the roadmap of the product"}], "other": null}
+{"doc_id": "hn:42196854", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33872", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49574537", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "The sprawling code comments are becoming the most draining part of code review though"}], "other": null}
+{"doc_id": "pm-se:34703", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "Nothing worse than a directive project manager taking over the development cycle."}, {"code": "tribal-knowledge", "evidence": "Hiring good product owners without domain-knowledge takes them at least a year or two to get on par in my experience."}], "other": null}

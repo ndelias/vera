@@ -1,0 +1,80 @@
+{"doc_id": "hn:49036914", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47614373", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145760", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145070", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47033620", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47106093", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45934791", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44640085", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "Existing tools like Jira, ClickUp, and Trello didn't work for me because they are slow, overbloated"}], "other": null}
+{"doc_id": "ux-se:149493", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34041", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46870172", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "the boilerplate (auth, DB setup, Docker, async, LLM hooks, deploy config) kills momentum when you're trying to ship an MVP fast"}], "other": "project setup boilerplate slows shipping an MVP"}
+{"doc_id": "ux-se:141547", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45561434", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "i know you thought you had 12 months until the 27 cycle, but actually, you have six, we want this in 26"}], "other": "deadline pulled forward, design shipped unfinished"}
+{"doc_id": "hn:46823570", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:43982339", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44010682", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "ux-se:143774", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48353154", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "juniors struggling due to remote work is often more a symptom of the company not really having a good training and coaching process/culture in place"}], "other": null}
+{"doc_id": "hn:49753271", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "we all know Claude will use 1000 words when 10 will do"}], "other": null}
+{"doc_id": "pm-se:35959", "relevance": 2, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "this is painful & laborious & tortuous because of the numerous deployments, and coordination with the QA teams in order to conduct the same tests"}], "other": null}
+{"doc_id": "hn:48436962", "relevance": 1, "speaker": "unknown", "codes": [{"code": "feedback-to-product", "evidence": "If IT develops for them, you’d expect there to be a feedback loop?"}], "other": null}
+{"doc_id": "hn:46084944", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "Ideally by the time your at code review this is not a question. It sucks for everyone for it to come up."}], "other": null}
+{"doc_id": "pm-se:34571", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44799812", "relevance": 1, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "If the coding part is 2-5x more productive for you, but the stuff around the coding doesn't change"}], "other": null}
+{"doc_id": "pm-se:33753", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "Delivering on the goals as specified is extremely challenging: if there is 0 skillset/knowledge overlap"}], "other": null}
+{"doc_id": "hn:49095131", "relevance": 1, "speaker": "unknown", "codes": [{"code": "code-comprehension", "evidence": "it's really hard to keep track of a lot of code changes by AI as a human"}, {"code": "review-overload", "evidence": "that's unsustainable in an organizational setting - you won't be able to ingest N'0,000s of LoC of changes every week"}], "other": null}
+{"doc_id": "ux-se:153721", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35304", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47392529", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "I get bigger and more frequent code review requests from colleagues"}, {"code": "code-comprehension", "evidence": "I do however feel less connected to the code, even when reviewing thoroughly"}, {"code": "tribal-knowledge", "evidence": "the docs are 3 months out of date and don't work"}], "other": null}
+{"doc_id": "hn:46311456", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43968120", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:47572891", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45801077", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48026387", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48751106", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48361768", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47368377", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48254637", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:151044", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35356", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34044", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "the context switch cost perhaps as much as 20% of the capacity for the sprint"}], "other": null}
+{"doc_id": "pm-se:33306", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148148", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:151345", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42648482", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "you have to know the LLM is wrong in order to get the right output"}], "other": null}
+{"doc_id": "hn:45704005", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "if someone imposes his personal preference over that from a colleague this creates tension and a time sink for the team"}], "other": "reviewers block on personal taste"}
+{"doc_id": "ux-se:149029", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44865154", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-missing-context", "evidence": "at roughly 2 million lines of code, and with 10 years of accumulated tribal knowledge, LLMs really seem to struggle with our current codebase"}, {"code": "ai-output-quality", "evidence": "It struggled so badly with that task that I eventually gave up and just did it by hand."}], "other": null}
+{"doc_id": "pm-se:35568", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48263506", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "you need a safety driver behind the wheel to constantly watch what it's doing (the code review)"}], "other": null}
+{"doc_id": "pm-se:34975", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43380242", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48169152", "relevance": 0, "speaker": "other", "codes": [], "other": null}
+{"doc_id": "hn:47978857", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45775826", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "when leadership is split into too many people at the same level who are each in charge of a domain"}, {"code": "tribal-knowledge", "evidence": "information silos are absolutely horrible"}], "other": null}
+{"doc_id": "hn:48304134", "relevance": 2, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "we were definitely being judged by output metrics (both jira tickets completed and github prs merged)"}], "other": null}
+{"doc_id": "hn:43658174", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48555511", "relevance": 2, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "we found ourselves generating tons of code, but spending less time looking at the stuff that's been generated"}, {"code": "code-comprehension", "evidence": "We felt like we were losing a bit of grip/understanding of what we were building."}], "other": null}
+{"doc_id": "hn:43285731", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43244672", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47170814", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42931789", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147916", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33356", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46410722", "relevance": 2, "speaker": "engineer", "codes": [{"code": "bottleneck-shift", "evidence": "It sometimes feels like 10x or more when generating code, however all this code has to be reviewed"}, {"code": "review-overload", "evidence": "which is currently still an 1x task and takes about 90% of the time nowadays"}], "other": null}
+{"doc_id": "pm-se:35890", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45275065", "relevance": 1, "speaker": "unknown", "codes": [{"code": "feedback-to-product", "evidence": "They also ignore reports."}], "other": null}
+{"doc_id": "hn:47056409", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "I figure it takes me a week to turn the output of ai into acceptable code."}], "other": null}
+{"doc_id": "hn:45725584", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145627", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43139386", "relevance": 2, "speaker": "other", "codes": [{"code": "status-overhead", "evidence": "we're now forced to log our hours in Jira"}], "other": null}
+{"doc_id": "hn:49649396", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46839065", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35798", "relevance": 2, "speaker": "founder", "codes": [{"code": "late-alignment", "evidence": "this am, they showed me that they worked on a mobile version"}, {"code": "other", "evidence": "they still charge me 15 hours/week even when nothing is done"}], "other": "outsourced dev vendor slow and billing idle hours"}
+{"doc_id": "pm-se:33782", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "This is the reason you are being forced to do the graphic design work a sprint ahead."}], "other": "design forced to run a sprint ahead of development"}
+{"doc_id": "hn:43424583", "relevance": 1, "speaker": "unknown", "codes": [{"code": "feedback-to-product", "evidence": "There are feature requests on the forum that are being ignored."}], "other": null}
+{"doc_id": "hn:49527646", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "ux-se:151308", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35232", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "It seems they are not very useful"}], "other": null}
+{"doc_id": "hn:44403691", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "the onboarding currently is Google Meet video calls + followups video calls to explain confusing parts. This is clearly not going to scale"}], "other": "manual customer onboarding does not scale"}

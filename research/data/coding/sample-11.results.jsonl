@@ -1,0 +1,80 @@
+{"doc_id": "hn:42164065", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35245", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "I want to minimize context switching beyond what's already happening today"}, {"code": "tribal-knowledge", "evidence": "reduce bus factor"}], "other": null}
+{"doc_id": "hn:48259299", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:42355063", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153675", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44230267", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42485273", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149108", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42375980", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47348818", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:48526057", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49495215", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42918145", "relevance": 1, "speaker": "manager", "codes": [{"code": "review-overload", "evidence": "a buddy willing to rubber stamp PRs"}], "other": null}
+{"doc_id": "hn:42505216", "relevance": 2, "speaker": "engineer", "codes": [{"code": "test-ci-friction", "evidence": "it was a nightmare to make tiny changes, push it, and wait 5-10 minutes to see another error because of a YAML typo"}], "other": null}
+{"doc_id": "hn:47359031", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42323545", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42515806", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "Jira entries get wiped arbitrarily."}], "other": null}
+{"doc_id": "hn:50035374", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33332", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33320", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "What you typically end up with then are management targets, not accurate estimates."}], "other": null}
+{"doc_id": "hn:47048599", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152466", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44157188", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49319200", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34748", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34402", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35378", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144870", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142580", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47219782", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49036299", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "this thing puts out a lot of slop, and then I have to deal with going over the output"}, {"code": "ai-missing-context", "evidence": "a lot of the time directives (even those in a global CLAUDE.md!) are just ignored"}], "other": null}
+{"doc_id": "hn:46717249", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47278677", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153363", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42452677", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47014649", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42134995", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "Context switching"}, {"code": "tribal-knowledge", "evidence": "engineers 1-deep in critical systems"}, {"code": "status-overhead", "evidence": "having to pay attention to everyone else's BS during the many ceremonies"}], "other": null}
+{"doc_id": "ux-se:142599", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42857597", "relevance": 1, "speaker": "engineer", "codes": [{"code": "other", "evidence": "Do you think this is going to be widespread enough that expectations around productivity are going to raise?"}], "other": "AI coding raising productivity expectations on engineers"}
+{"doc_id": "hn:47561573", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46319466", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44807657", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:46858990", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "your human brain can't track what's happening where"}, {"code": "interruptions", "evidence": "end up context-switching to whatever Claude finished first rather than what's highest priority"}], "other": null}
+{"doc_id": "pm-se:34500", "relevance": 2, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "we have a mandate from Leadership to try and make that happen"}], "other": null}
+{"doc_id": "pm-se:35682", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44966778", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "They're actual logic flaws: - Missing auth checks - SQL injections - hardcoded secrets"}], "other": null}
+{"doc_id": "hn:49495324", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48293387", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46707006", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "all the early 2000s style code that solves a 15 LOC problem in 1000 lines"}, {"code": "review-overload", "evidence": "freshman errors sailing through code review because nobody can properly digest these 2,000 line pull requests"}, {"code": "code-comprehension", "evidence": "poorer collective understanding of generated code"}], "other": null}
+{"doc_id": "ux-se:155130", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44899699", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144225", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153517", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43255403", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33920", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45238521", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34566", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46818921", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46935268", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-missing-context", "evidence": "This required human engineer guidance and experience working with expected data. AI was lost."}], "other": null}
+{"doc_id": "pm-se:35548", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42442617", "relevance": 2, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "There is a major bottleneck in my team around getting code reviews done for other team members."}], "other": null}
+{"doc_id": "hn:49836240", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33449", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "If you're prioritising \"pieces of work\" based on each one's skillsets, you might end up with a mini waterfall."}], "other": "Specialist silos turn sprints into mini-waterfall handoffs"}
+{"doc_id": "hn:43926804", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44071167", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35769", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "pm-se:34382", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141474", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45406397", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Copy-pasta or code generation is usually bad in that case. You don't know enough to judge the long-term costs."}], "other": null}
+{"doc_id": "hn:48269864", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "someone has spent 2 months working on something only to find that someone else had 90% of the work done in a private branch"}, {"code": "interruptions", "evidence": "we'd been saved from ultimately unnecessary distractions"}], "other": "Duplicated work from poor communication within the team"}
+{"doc_id": "pm-se:35885", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "A tool supports your workflow, but what you're describing is a dysfunctional workflow."}], "other": null}
+{"doc_id": "hn:46879192", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34832", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44725718", "relevance": 1, "speaker": "engineer", "codes": [{"code": "unclear-requirements", "evidence": "Let them give you vague requirements, and crystallize them yourself."}], "other": null}
+{"doc_id": "hn:47679042", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35098", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147304", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33503", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49118313", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42266913", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

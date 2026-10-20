@@ -1,0 +1,80 @@
+{"doc_id": "ux-se:152279", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44985472", "relevance": 2, "speaker": "engineer", "codes": [{"code": "agent-supervision", "evidence": "Flaky tests or environment-specific steps still need maintainer judgment."}, {"code": "unclear-requirements", "evidence": "If acceptance criteria are fuzzy, the agent optimizes for the wrong target."}], "other": null}
+{"doc_id": "hn:48468442", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46949115", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "code review is orders of magnitude faster than code creation"}], "other": null}
+{"doc_id": "hn:46796245", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "pm-se:34702", "relevance": 0, "speaker": "other", "codes": [], "other": null}
+{"doc_id": "pm-se:34135", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49860300", "relevance": 1, "speaker": "engineer", "codes": [{"code": "interruptions", "evidence": "context switching between 15 different agents per minute"}, {"code": "agent-supervision", "evidence": "context switching between 15 different agents per minute"}], "other": null}
+{"doc_id": "hn:41896438", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "i would never push llm generated code"}], "other": null}
+{"doc_id": "hn:45414439", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "the maintenance and detailed feature requirements change with almost every contract"}], "other": null}
+{"doc_id": "ux-se:146940", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44576291", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48426452", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47871118", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49939602", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42533997", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:48569874", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42023777", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142825", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48005030", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:49465224", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49248821", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34625", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33477", "relevance": 2, "speaker": "pm", "codes": [{"code": "estimation-pressure", "evidence": "when it come the time to submit formal quotations my company is often held against those numbers"}, {"code": "unclear-requirements", "evidence": "Often, the scope of work have grown somewhat."}], "other": null}
+{"doc_id": "hn:43960412", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "With Zed Agent it was more of a constantly monitoring / copy pasting and manually verifying everything."}, {"code": "ai-output-quality", "evidence": "Other models* would usually return a broken code."}], "other": null}
+{"doc_id": "hn:43819107", "relevance": 2, "speaker": "manager", "codes": [{"code": "estimation-pressure", "evidence": "I hated the estimation piece because it felt like it was both keeping me from building"}], "other": null}
+{"doc_id": "hn:47064304", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "more variable at fixing problems it finds, and so I quite often opt for manual fixes"}], "other": null}
+{"doc_id": "hn:49932092", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:42718344", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34723", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143397", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48680707", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47331140", "relevance": 2, "speaker": "unknown", "codes": [{"code": "approval-delays", "evidence": "you need 3 developers to sign off to ship anything"}, {"code": "tech-debt-priority", "evidence": "no one ever pays down tech debt in legacy code until its a high severity ticket count in a KPI dashboard"}, {"code": "other", "evidence": "stack ranking each level of engineers according to number of commits merged & customer facing features shipped"}], "other": "Engineers ranked and cut by commit counts; high team turnover."}
+{"doc_id": "hn:44548192", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47839572", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48111496", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42767598", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45084761", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155323", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49954826", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43708890", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48298209", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "At the PR review time of this lengthy process, I get a bunch of AI slop"}], "other": null}
+{"doc_id": "hn:49263696", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153404", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34986", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49053178", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44227977", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "at the end it had written a lot of that almost works, except a lot of simple things just wouldn't work"}, {"code": "ai-missing-context", "evidence": "just one more reminder for it to actually apply everything in CLAUDE.md each time"}], "other": null}
+{"doc_id": "pm-se:34745", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155406", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34360", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "How can we avoid long waiting times for review?"}], "other": null}
+{"doc_id": "hn:47988978", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144169", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44989779", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34626", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34751", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42921242", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43798342", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42556162", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:47037148", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34355", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42003983", "relevance": 2, "speaker": "other", "codes": [{"code": "non-eng-building", "evidence": "So I pasted the code sample and a screenshot of the HTML output into the JIRA"}], "other": null}
+{"doc_id": "pm-se:35185", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46427038", "relevance": 1, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "As the tok/sec of models keeps going up, all the time is going to get bottlenecked on tool calls (read: type checking and tests)."}], "other": null}
+{"doc_id": "hn:46654223", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "So much tribal knowledge has been lost, NOT because no one documented it but because no one bothered to read it."}], "other": null}
+{"doc_id": "hn:48763224", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:35917", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45249030", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "Onboarding new comer is hard but it pays off."}], "other": null}
+{"doc_id": "hn:43465942", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34071", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33632", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44868513", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "these tools that promise so much productivity today ends up dumping more tech debt into our code"}], "other": null}
+{"doc_id": "hn:43898735", "relevance": 1, "speaker": "founder", "codes": [{"code": "test-ci-friction", "evidence": "Flaky tests kill confidence in automation"}, {"code": "qa-capacity", "evidence": "Test generation is slow and manual"}], "other": null}
+{"doc_id": "hn:48500434", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "the sheer verbosity and the fact it's clearly generated just makes you not want to engage with it"}], "other": "AI-generated ticket descriptions too verbose for people to read."}
+{"doc_id": "pm-se:35089", "relevance": 2, "speaker": "manager", "codes": [{"code": "estimation-pressure", "evidence": "all backlog items given precise times for completion, fixed dates for each item"}, {"code": "unclear-requirements", "evidence": "The backlog tasks are subject to changes in end users expectations, support tickets from previous releases, unexpected opportunities, etc."}, {"code": "interruptions", "evidence": "When one developer has to work on something else, which is frequently, we lose 30 to 50% of our development resources"}], "other": null}
+{"doc_id": "hn:47209307", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46891866", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "ux-se:143420", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45499366", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48142518", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43996219", "relevance": 0, "speaker": "manager", "codes": [], "other": null}

@@ -1,0 +1,80 @@
+{"doc_id": "pm-se:35543", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34601", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35369", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144191", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34288", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42856782", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45672306", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "A lot of time spent dealing with custom systems that should have been replaced with off-the-shelf, open-source alternatives like five or ten years ago."}], "other": null}
+{"doc_id": "pm-se:33645", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "If you do even one such status pull a week, that's 80-100 person hours consumed each calendar month."}], "other": null}
+{"doc_id": "pm-se:34467", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45419489", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:34790", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42030603", "relevance": 2, "speaker": "engineer", "codes": [{"code": "status-overhead", "evidence": "found out no one ever had a clue what I was talking about in standup"}], "other": null}
+{"doc_id": "pm-se:34786", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46677327", "relevance": 2, "speaker": "unknown", "codes": [{"code": "design-drift", "evidence": "only the design system components and primitives. Not only it will ignore those very quickly"}, {"code": "agent-supervision", "evidence": "when it proposes edits and I give feedback the agent ignores them completely and instead it keeps suggesting more edits"}], "other": null}
+{"doc_id": "hn:48170241", "relevance": 2, "speaker": "engineer", "codes": [{"code": "non-eng-building", "evidence": "This one non-technical PM guy at work used Codex to develop a project I was expecting would fall on my plate."}, {"code": "ai-output-quality", "evidence": "What it produced was riddled with SQL injection vulns and the UI was complete garbage."}, {"code": "approval-delays", "evidence": "we have an IT department that blocks production deployment of everything unless you literally get the president of the company to make them do it."}, {"code": "process-skipped", "evidence": "hoping they can get everyone distracted long enough to sneak it out the way it is"}], "other": null}
+{"doc_id": "pm-se:34077", "relevance": 2, "speaker": "pm", "codes": [{"code": "unclear-requirements", "evidence": "there are many uncertainties and also the development approach frequently changes"}], "other": null}
+{"doc_id": "pm-se:35510", "relevance": 2, "speaker": "pm", "codes": [{"code": "role-boundaries", "evidence": "have a feeling that the tech group is trying to expand my responsibilities"}], "other": null}
+{"doc_id": "pm-se:33621", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35372", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46595182", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35856", "relevance": 2, "speaker": "manager", "codes": [{"code": "estimation-pressure", "evidence": "The idea is to evaluate each developer by looking at gaps between estimated vs. actual time on every single story."}], "other": null}
+{"doc_id": "hn:48470615", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45888107", "relevance": 1, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "This QA process is time-consuming and prone to errors for developers, product managers, and data analysts alike."}], "other": null}
+{"doc_id": "hn:44285743", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48420314", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "in a team setting it can really accelerate tech debt"}], "other": null}
+{"doc_id": "pm-se:35562", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34242", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "are insufficiently descriptive to guide technical implementation plans and too vague to be testable during development."}], "other": null}
+{"doc_id": "ux-se:151377", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34631", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155346", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:47047237", "relevance": 1, "speaker": "unknown", "codes": [{"code": "design-drift", "evidence": "keeping three versions of the same button in sync. Tokens drift."}, {"code": "design-eng-gap", "evidence": "the frontend engineering step where intent gets manually translated into implementation"}], "other": null}
+{"doc_id": "hn:45386736", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33685", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42193666", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149346", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "pm-se:34985", "relevance": 0, "speaker": "other", "codes": [], "other": null}
+{"doc_id": "pm-se:33423", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45165045", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44165053", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "It is very happy to generate completely bullshit code that kinda looks like it does what I need but not really."}, {"code": "agent-supervision", "evidence": "the results are very unreliable to meaningfully act with any sort of independence"}], "other": null}
+{"doc_id": "hn:43778972", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42034963", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46331685", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45470081", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:47216716", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:42990459", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43863349", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34251", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46010090", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "Writing this kind of documentation takes forever, diagrams are often missing"}], "other": null}
+{"doc_id": "hn:48463202", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47553902", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33508", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47388229", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "will slip in unmaintainable slop in frontend changes. I catch cases multiple times a day in code review."}], "other": null}
+{"doc_id": "ux-se:149752", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49236488", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48778330", "relevance": 2, "speaker": "engineer", "codes": [{"code": "interruptions", "evidence": "There are tons of hoops to jump through and context switching all day long."}, {"code": "other", "evidence": "I'm burned out and completely checked out for the most part, entirely due to AI."}], "other": "burnout at work attributed to AI"}
+{"doc_id": "hn:47939721", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:151128", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45392391", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42038341", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "If you want to say my work is trivial or \"just\" 0.5 story points, you should be willing to pick up this story."}], "other": "others downplay the size of someone's work"}
+{"doc_id": "hn:45973964", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "fragile spaghetti code that only Jeff knows because he wrote it in a weekend, and now he’s gone"}], "other": null}
+{"doc_id": "hn:44875579", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "I think most devs just don't care. They do what they're told and blame others if it's ass."}], "other": "developers not owning code quality"}
+{"doc_id": "hn:48437179", "relevance": 1, "speaker": "unknown", "codes": [{"code": "non-eng-building", "evidence": "business people don't understand why you can't just put their app in production"}], "other": null}
+{"doc_id": "ux-se:142823", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35567", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "hn:44409849", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:33725", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35216", "relevance": 2, "speaker": "pm", "codes": [{"code": "unclear-requirements", "evidence": "Feature A, which is marked to be implemented without clear specifications on input/output."}, {"code": "late-alignment", "evidence": "existing features will be replaced as per customer inputs during testing."}], "other": null}
+{"doc_id": "pm-se:34777", "relevance": 2, "speaker": "engineer", "codes": [{"code": "estimation-pressure", "evidence": "Such that you then have to try to meet that schedule? I've had that happen to me a couple of times, and it ain't pretty."}], "other": null}
+{"doc_id": "hn:49702746", "relevance": 1, "speaker": "engineer", "codes": [{"code": "code-comprehension", "evidence": "If you don’t review, you don’t own the code, and this eventually can come back and bite you in the rear."}], "other": null}
+{"doc_id": "hn:48324424", "relevance": 1, "speaker": "unknown", "codes": [{"code": "design-drift", "evidence": "Rounded corners still seems to be the unending trend through that anything that wasn't already well defined gets infected with."}], "other": null}
+{"doc_id": "ux-se:153608", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34043", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33929", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34531", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49919369", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46406968", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148695", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49055027", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "And no Claude is not AGI so you need to babysit to get that done."}], "other": null}
+{"doc_id": "pm-se:34307", "relevance": 2, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "After finishing the project an issue is found and the project is restarted from the beginning to improve the output."}], "other": null}
+{"doc_id": "ux-se:151827", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

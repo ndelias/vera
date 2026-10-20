@@ -1,0 +1,80 @@
+{"doc_id": "ux-se:151225", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47202107", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "correcting the complex one-off logic the agents produce"}], "other": null}
+{"doc_id": "hn:44588342", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34808", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44434614", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34724", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "Many times, clients do not know what they want, or they do not know how to explain what they want."}], "other": null}
+{"doc_id": "hn:47147128", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "ambiguous and ever-changing requirements"}], "other": null}
+{"doc_id": "hn:44467976", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46793241", "relevance": 2, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "add two managers from other projects to our daily standup, which became a 45-60 minute daily"}, {"code": "other", "evidence": "our SW project was going to shit due to insufficient resources and mismanagement"}], "other": "understaffed, mismanaged project"}
+{"doc_id": "hn:43984404", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43569330", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144223", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43469664", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "It's not like we're doing very well with maintenance and tech debt in any case."}], "other": null}
+{"doc_id": "pm-se:35866", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "This is essentially backfilling the documentation that you should have been producing from the start"}], "other": null}
+{"doc_id": "pm-se:35939", "relevance": 2, "speaker": "other", "codes": [{"code": "role-boundaries", "evidence": "this behavior appears to blur the boundaries between the Product Owner and the Development Team"}], "other": null}
+{"doc_id": "pm-se:34590", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49484909", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45481479", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47011834", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44694352", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47979142", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "There's a lot of nuance behind decisions that docs simply can't capture."}], "other": null}
+{"doc_id": "ux-se:149215", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46917152", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48748242", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33395", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43082309", "relevance": 2, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "context-switching between task managers, note apps, and calendars was killing our productivity"}, {"code": "tool-friction", "evidence": "context-switching between task managers, note apps, and calendars was killing our productivity"}], "other": null}
+{"doc_id": "ux-se:142466", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34570", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35346", "relevance": 2, "speaker": "pm", "codes": [{"code": "unclear-requirements", "evidence": "It is very common for a stakeholder (read: client) to approach one of my 2 Project Managers with an \"urgent\" request"}, {"code": "interruptions", "evidence": "needing to bounce between products"}, {"code": "role-boundaries", "evidence": "I am forced to capitulate to the pressure coming from both the top and sides"}, {"code": "qa-capacity", "evidence": "The second shift does not have access to the QA engineer, which causes a delay between resolving an item and it being closed or rejected"}], "other": null}
+{"doc_id": "pm-se:33600", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43987377", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33759", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47328249", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "It's like 20k of line changes over 30-40 commits."}], "other": null}
+{"doc_id": "hn:47194046", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "On multi-agent workflows feeling tiring and cluttered, I understand that too."}], "other": null}
+{"doc_id": "hn:47408582", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46034805", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33530", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35032", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33314", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33384", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48416387", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48430937", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42611849", "relevance": 2, "speaker": "manager", "codes": [{"code": "other", "evidence": "I've had to fight many times in my career, even with senior-level product managers, to think about OKRs that way."}], "other": "key results chased as numbers instead of objectives"}
+{"doc_id": "hn:47347163", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "I have gotten into plenty of code review arguments about whether code should be longer"}], "other": "code review disputes over style"}
+{"doc_id": "hn:47765947", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Pointless and nit-picky-annoying code review comments"}], "other": "noisy, nitpicky AI code review comments"}
+{"doc_id": "ux-se:143717", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33805", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45140961", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "In engineering you're always making choices about what problems to deal with today and which to leave for tomorrow."}], "other": null}
+{"doc_id": "ux-se:144552", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49156819", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145036", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35945", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "Measuring developers by number of bugs is not a good idea, especially in the AI era."}], "other": null}
+{"doc_id": "hn:46110303", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "seems to just churn out tech-debt as quickly as it can write it"}, {"code": "ai-missing-context", "evidence": "not getting the agents to listen until the context of the whole world is laid out in these md files"}], "other": null}
+{"doc_id": "ux-se:149172", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45072478", "relevance": 1, "speaker": "unknown", "codes": [{"code": "test-ci-friction", "evidence": "flaky tests/changing business requirements/too many tests confirming the same functionality and taking too long to run"}], "other": null}
+{"doc_id": "hn:44638262", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46879286", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34103", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152782", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48776418", "relevance": 2, "speaker": "engineer", "codes": [{"code": "bottleneck-shift", "evidence": "it’s all the other roles that look increasingly like they’re slowing productivity, rather than increasing it, now"}, {"code": "status-overhead", "evidence": "taking longer to get all the paperwork right for a bug fix or even mid-sized feature than it was to actually write"}], "other": null}
+{"doc_id": "pm-se:34072", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34280", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49659979", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "manual code review for someone's obviously AI-slop PR"}, {"code": "review-overload", "evidence": "don't ask for manual review of something that contains lots of things that your own manual review should have caught first"}], "other": null}
+{"doc_id": "hn:48627961", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45991995", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49697899", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33307", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147889", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34347", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33626", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142113", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43146646", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34842", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49427370", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "an unintelligible 40000 line \"if else\" tree that breaks in a new way every time you open a ticket with your agent"}, {"code": "ai-missing-context", "evidence": "forget to specify 1 out of the hundreds of niche constraints that someone doing the job likely knows from experience"}], "other": null}
+{"doc_id": "hn:47717900", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "seemingly have a high output, but in reality just create a trail of tech-debt and work for the rest of the team"}], "other": "a developer bypasses process and leaves tech debt for the team"}
+{"doc_id": "hn:47527512", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43846569", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49693446", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35184", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35335", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

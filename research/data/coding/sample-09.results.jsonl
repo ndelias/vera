@@ -1,0 +1,80 @@
+{"doc_id": "pm-se:33947", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45153634", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "By design, there is no time budgeted for reading, writing, reflection, or discussion."}], "other": "no time budgeted for reflection or discussion in sprints"}
+{"doc_id": "pm-se:34423", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42681679", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "More iterations often mean higher review fatigue, at some point I don't want to rehash the same code over and over again"}], "other": null}
+{"doc_id": "pm-se:33312", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "My concern here is that those percentage evaluations for project task progress/completion are subjective."}], "other": "subjective percent-complete progress tracking"}
+{"doc_id": "hn:45085674", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45443665", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47360961", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "one AI reviewing code and checking its own work just agrees with itself"}], "other": null}
+{"doc_id": "ux-se:142689", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34335", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43486174", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48264200", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "changing permissions always needs doing in 2+ places and devolves into a \"Can you see this yet?\" round of questions"}], "other": null}
+{"doc_id": "ux-se:153814", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45252540", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35297", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45529018", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "companies don't care as long as it gets the job done without too many long-term problems"}], "other": null}
+{"doc_id": "hn:49377726", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147608", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35844", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47935085", "relevance": 1, "speaker": "manager", "codes": [{"code": "status-overhead", "evidence": "I would never require all of them to attend a single meeting with individual report-outs. What a waste of time for all."}, {"code": "interruptions", "evidence": "they've been taken out of their flow state to attend an hour long meeting"}], "other": null}
+{"doc_id": "hn:46731531", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47091992", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44818634", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42951017", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "the latter are quite difficult for me to work with"}], "other": "teammates who don't care about code maintainability"}
+{"doc_id": "hn:46919522", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "pm-se:33479", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "It is intended to support your decision process, but it's not binding and should not be used in budget or schedule planning."}], "other": null}
+{"doc_id": "hn:48833425", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:43604279", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34171", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "once you start the discovery, you'll quickly find out the real expectations that might not be the ones initially expected."}], "other": null}
+{"doc_id": "ux-se:143526", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46655922", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43577809", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:45079393", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "most people forget that their architecture decisions led to a disaster"}], "other": "slow feedback loop on architecture decisions"}
+{"doc_id": "ux-se:143592", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34895", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43643245", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "it’s much easier to sell it as security issue than tech debt."}], "other": null}
+{"doc_id": "pm-se:34317", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33473", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "perhaps they will agree that an investigation needs to be done first to come up with a more reliable estimate."}], "other": null}
+{"doc_id": "hn:49839904", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42923277", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "hn:43174041", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "If your code has been getting tangled up as your team and codebase grows"}], "other": "tangled codebase dependencies as team grows"}
+{"doc_id": "pm-se:34349", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143941", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46047792", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48762885", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46132781", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46023394", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48314414", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "DIssapointing result for a code review i expected to see after my 30 min walk"}], "other": null}
+{"doc_id": "pm-se:35305", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49114439", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "I was really struggling to get Claude to stop with the long waffly comments that reiterate the next few lines of code"}, {"code": "review-overload", "evidence": "80% of my code review responses these days are just increasingly exasperated"}, {"code": "other", "evidence": "We’re required to use an LLM for every task at work that touches code"}], "other": "AI tool use mandated by employer"}
+{"doc_id": "pm-se:33640", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45732146", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "I don't see how you could think 7 engineers would love the workload of 20 engineers, extra tooling or not."}], "other": "overwork after AI-justified headcount cuts"}
+{"doc_id": "pm-se:35188", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "There is a problem when one role has an \"authoritarian\" position and is the final decision maker."}], "other": null}
+{"doc_id": "pm-se:35083", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33951", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "releases are delayed by the creation of training materials and business documentation"}], "other": "releases blocked by training, documentation and change management"}
+{"doc_id": "hn:46502060", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46487604", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "We never would have actually tasked this out, written a ticket for it, and prioritised it in normal development"}], "other": "small cross-team fixes never get prioritised"}
+{"doc_id": "hn:41989485", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "it suggested implementing a JSON parser from scratch in C to avoid a dependency -- and, unsurprisingly, the code didn’t work."}], "other": null}
+{"doc_id": "pm-se:35622", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147842", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148530", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33743", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33883", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141371", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34653", "relevance": 0, "speaker": "other", "codes": [], "other": null}
+{"doc_id": "hn:47504523", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "\"You're productive because you have lots of PRs\" is a mistake without that context."}], "other": null}
+{"doc_id": "hn:47280696", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33325", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35085", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35851", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44260293", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34677", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48971681", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42644298", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "98% of those tickets you file to fix warts will never be addressed because the business demands"}], "other": null}
+{"doc_id": "hn:41950314", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "I find really hard to answer when there are so many changes bundled together."}], "other": null}
+{"doc_id": "hn:45416455", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44583128", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35262", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "As the Scrum Master you don't have visibility into the content or outcome of the collaboration."}], "other": "no visibility into team collaboration held in private channels"}
+{"doc_id": "hn:42445462", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35084", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "That kind of decoupling ultimately creates friction, stale or ineffective documentation, and various forms of technical debt."}, {"code": "late-alignment", "evidence": "projects that successfully deliver what was asked for without delivering what was actually needed"}], "other": null}

@@ -1,0 +1,80 @@
+{"doc_id": "hn:46541518", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46518664", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:42935193", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149461", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35374", "relevance": 1, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "how many times task moved back from QA -> DEV"}, {"code": "unclear-requirements", "evidence": "Missing requirements? Not enough analysis upfront"}], "other": null}
+{"doc_id": "hn:44047456", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34695", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47308425", "relevance": 2, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "back-to-back meetings and context-switching make it really hard (or impossible) to stay on top of things I need to do"}, {"code": "tool-friction", "evidence": "drowning in meetings and scattered tools"}], "other": null}
+{"doc_id": "ux-se:148244", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34747", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46859392", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33850", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42641411", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48919399", "relevance": 2, "speaker": "manager", "codes": [{"code": "tech-debt-priority", "evidence": "having them struggle for priority with regular work is a problem"}], "other": null}
+{"doc_id": "hn:46775160", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144789", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149257", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152051", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46169084", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46934221", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "many companies haven't actually reached the point where the hidden tech debt of using these things comes full circle"}], "other": null}
+{"doc_id": "ux-se:142723", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47290816", "relevance": 2, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "To build multiple projects in one dashboard without switching apps"}], "other": null}
+{"doc_id": "hn:48254553", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143800", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:154042", "relevance": 2, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "I keep changing this design as I am asked to, as the client is not sure."}], "other": null}
+{"doc_id": "hn:46169872", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33893", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "Ideally, requirements need to be complete, but in most cases they are not."}], "other": null}
+{"doc_id": "hn:48999992", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44654378", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48535063", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "pushes people to wast time on non-business value nit pick"}], "other": "AI code review tools produce noisy nitpicks and drip-feed findings, adding friction"}
+{"doc_id": "hn:45350716", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45789335", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46687414", "relevance": 1, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "As generating code becomes cheaper, I think effort will shift to how we can more cheaply and reliably determine whether"}], "other": null}
+{"doc_id": "hn:44255740", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46322393", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45718142", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34586", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50083565", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "The codebase is definitely more spaghetti than ideal and I really am concerned about maintenance down the road."}], "other": null}
+{"doc_id": "hn:49965146", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35854", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148708", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34623", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33738", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42692550", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Imagine GH being down and you need to deploy a hotfix."}], "other": "Reliance on a single hosted platform for CI/CD and review blocks hotfixes during outages"}
+{"doc_id": "hn:49153410", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49547634", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43343620", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "or does, but at a cost of tech debt - or it takes longer than doing things manually"}], "other": null}
+{"doc_id": "ux-se:143080", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50133715", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "Under low risk, no reviews required"}], "other": null}
+{"doc_id": "pm-se:34857", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "the loss of a valuable team member means that the team has to spend some time on knowledge transfer"}], "other": null}
+{"doc_id": "hn:46724256", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49875099", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34436", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46955242", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "shifting the burden of discovery to code review — where it’s even harder and more expensive to resolve"}, {"code": "bottleneck-shift", "evidence": "Code generation cannibalizes the implementation phase where additional constraints were previously caught"}], "other": null}
+{"doc_id": "hn:42645534", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47375323", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "These companies are accumulating record level tech debt."}], "other": null}
+{"doc_id": "pm-se:34405", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34997", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35670", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48879043", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43062617", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148449", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48809159", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48827474", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42736696", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33980", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45855814", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46350567", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43070321", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44068661", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46314905", "relevance": 2, "speaker": "engineer", "codes": [{"code": "tribal-knowledge", "evidence": "writing a description of the change, explaining the problem the code is solving, testing methodology, etc is harder than actually coding"}], "other": null}
+{"doc_id": "hn:45779207", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49801301", "relevance": 1, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "where are your industrial controls to catch bugs before they are introduced to the product?"}], "other": null}
+{"doc_id": "ux-se:153936", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43858910", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49183992", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44920438", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46818717", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35408", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48058537", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

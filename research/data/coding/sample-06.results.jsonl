@@ -1,0 +1,80 @@
+{"doc_id": "hn:47551028", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44435519", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33280", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "how much they should be involved / interested in what individuals are doing on a daily basis"}], "other": null}
+{"doc_id": "hn:50005517", "relevance": 1, "speaker": "engineer", "codes": [{"code": "bottleneck-shift", "evidence": "you aren't held back by the \"bottlenecks\" (PR review, QA, etc)"}], "other": null}
+{"doc_id": "ux-se:142344", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33784", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "a meeting that could run upwards of 1 hour with 20 people that includes topics not related to your daily work"}, {"code": "interruptions", "evidence": "give the individuals more time for focused work with less interruptions and context switching"}], "other": null}
+{"doc_id": "hn:49714705", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35070", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47421760", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:44304368", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149921", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "ux-se:144093", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34033", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47135683", "relevance": 2, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "every edge case, security flaw, and missing feature we usually forget until Week 8"}, {"code": "late-alignment", "evidence": "suddenly the client asks, \"Where is the admin panel to manage users?\" The dev team assumed it was out of scope"}], "other": null}
+{"doc_id": "pm-se:34707", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141686", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34354", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148296", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:44019262", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "you'll see 80+ (yes, that many) missed deadlines, some that go all the way back to 2019"}], "other": "Lead repeatedly misses public deadlines and spreads the team across too many projects"}
+{"doc_id": "ux-se:151101", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49570204", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43585479", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141661", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34210", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "the Product Owner working in the Scrum team has to be genuinely empowered"}], "other": null}
+{"doc_id": "pm-se:34024", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43202787", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33982", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48757846", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "Someone reviewing the changes in a codebase is never going to spot an architectural or code design issue"}], "other": null}
+{"doc_id": "pm-se:35233", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35224", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "Estimates are not committments."}, {"code": "qa-capacity", "evidence": "Treating QA as a seperate activity from development"}], "other": null}
+{"doc_id": "ux-se:141742", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33616", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47042683", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149894", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:46546827", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33677", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46578589", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "The issue here is more organizational with the engineers not getting the code up to standards before handing off"}], "other": null}
+{"doc_id": "hn:43251941", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48869052", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145002", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34274", "relevance": 2, "speaker": "pm", "codes": [{"code": "tool-friction", "evidence": "I've found Big Picture to be inefficient in comparison to MS project"}], "other": null}
+{"doc_id": "hn:44752951", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Sometimes it goes in entirely wrong directions."}, {"code": "tech-debt-priority", "evidence": "nor do they remove the competitive pressure to move rapidly vs gardening your codebase"}], "other": null}
+{"doc_id": "hn:46256518", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:34449", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153196", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34400", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43182652", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "many of these inconsistency factors come from adopting third party dependencies. In my experience this is the largest chunk of liability or tech debt."}], "other": "Third-party dependencies and inconsistent code accumulate tech debt"}
+{"doc_id": "hn:44883446", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142282", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34757", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Don't let your project get into a stage where it is a death march."}], "other": "Infeasible hard deadlines cause team burnout"}
+{"doc_id": "ux-se:151651", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48201978", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46747137", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45166766", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47350625", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "evaluation still requires logging into a separate platform, learning a new UI, and context-switching"}], "other": null}
+{"doc_id": "hn:41921342", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46824483", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47269545", "relevance": 1, "speaker": "unknown", "codes": [{"code": "feedback-to-product", "evidence": "add new features and BS that no user has ever asked for"}], "other": null}
+{"doc_id": "ux-se:154107", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48112757", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "the problem with engineering initiatives is just how you explain them to the product team"}], "other": null}
+{"doc_id": "hn:42987231", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47170766", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47588014", "relevance": 1, "speaker": "unknown", "codes": [{"code": "feedback-to-product", "evidence": "Product managers do not care about customers."}], "other": null}
+{"doc_id": "hn:46282155", "relevance": 2, "speaker": "engineer", "codes": [{"code": "agent-supervision", "evidence": "I definitely don't think I'd be willing to hand it my day job's codebase and walk away."}], "other": null}
+{"doc_id": "hn:44061741", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42926008", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "pm-se:34312", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34927", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145118", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141409", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155578", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46111069", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34518", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46985408", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "we still often have to fix a couple of things and debug to see where it went wrong"}, {"code": "other", "evidence": "Just keeping up with newest AI changes is hard."}], "other": "Keeping up with fast-changing AI tooling competes with product delivery"}
+{"doc_id": "pm-se:35689", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33454", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "the team should try to avoid having unnecessary hand-overs of documentation between different sub-teams"}], "other": null}
+{"doc_id": "ux-se:144662", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34472", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47347700", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47854838", "relevance": 2, "speaker": "engineer", "codes": [{"code": "approval-delays", "evidence": "It's still open today (with merge conflicts naturally) and there are like five open PRs for the exact same feature."}, {"code": "other", "evidence": "I usually find it easier to take their branch, do all of that work myself"}], "other": "Outside contributors' PRs need the maintainer to redo the work"}

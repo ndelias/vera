@@ -1,0 +1,80 @@
+{"doc_id": "pm-se:34223", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "why are the team focussed on building stuff without understanding what they're building?"}, {"code": "role-boundaries", "evidence": "Often I see Product Owners, Product Managers and Engineering Managers talk more about how things should be done rather than what needs to be done"}], "other": null}
+{"doc_id": "pm-se:33609", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "This knowledge sharing can reduce single-points-of-failure on the team."}], "other": null}
+{"doc_id": "hn:46835807", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34451", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47663253", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35157", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35189", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48370057", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34792", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142221", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153568", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44456409", "relevance": 1, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "instead of feeling like code review should be rushed"}], "other": null}
+{"doc_id": "hn:44873319", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48611056", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34444", "relevance": 1, "speaker": "other", "codes": [{"code": "other", "evidence": "helping the Team see the impact of the PO's behaviour on the schedule"}], "other": "product owner behaviour and unsupportive management hurting the schedule"}
+{"doc_id": "hn:47378108", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152356", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43892640", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42589048", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48556831", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43947394", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48968799", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "customer buy-in and moving targets have always represented the real issues"}], "other": null}
+{"doc_id": "hn:46423705", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35661", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33717", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "the only guarantee you have is that you are missing requirements"}], "other": null}
+{"doc_id": "hn:48905660", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43584429", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42221115", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44472966", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143770", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47411207", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-missing-context", "evidence": "But the most important context was always missing — the actual conversations where decisions happen."}, {"code": "tool-friction", "evidence": "And those are scattered across 5+ apps."}], "other": null}
+{"doc_id": "pm-se:34776", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "if you can't be held accountable for your estimates, then there is also no business"}], "other": null}
+{"doc_id": "hn:45780829", "relevance": 2, "speaker": "founder", "codes": [{"code": "tool-friction", "evidence": "juggling 10+ dashboards just to trace one issue"}, {"code": "interruptions", "evidence": "endless context switching"}], "other": null}
+{"doc_id": "hn:47024241", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "I'm not convinced I'm doing a good review of the test code do to mental fatigue"}, {"code": "ai-output-quality", "evidence": "Then I have to look at the 400 lines of generated test code."}], "other": null}
+{"doc_id": "ux-se:142869", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34229", "relevance": 1, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "they can build the work and then throw it over the wall to someone else while moving on to the next thing"}], "other": null}
+{"doc_id": "ux-se:143853", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47961343", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43371834", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48505349", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45185092", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45003570", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35795", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46596793", "relevance": 2, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "the constant context-switching kills productivity"}, {"code": "tool-friction", "evidence": "Scattered tasks across tools"}], "other": null}
+{"doc_id": "hn:47392499", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34688", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45436213", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35669", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48618262", "relevance": 1, "speaker": "unknown", "codes": [{"code": "code-comprehension", "evidence": "no idea what I’m looking at, LGTM” misses the point of code review"}], "other": null}
+{"doc_id": "pm-se:33998", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "each with their own project management tools (e.g. Jira, Asana, Trello, email, Google Sheets, etc.)"}], "other": null}
+{"doc_id": "hn:49337316", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Instruct the LLM to print less comments (this one is genuinely hard though)."}, {"code": "review-overload", "evidence": "you don't have a strong enough review process"}], "other": null}
+{"doc_id": "ux-se:149438", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33809", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43206872", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45407570", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "because everyone assumes (contra to agile) that the designers \"got it right the first time\", this kind of improvement can't happen."}], "other": null}
+{"doc_id": "hn:48766015", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "if a \"standard\" code review goes back and forth more than once, it's almost always better to just hash it out in person"}], "other": null}
+{"doc_id": "hn:42233158", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47142920", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46491758", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "1) move fast, ship bugs, slow down feature development due to bad code"}, {"code": "review-overload", "evidence": "2) manually review all code and move super slow"}], "other": null}
+{"doc_id": "hn:44161225", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44918588", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43448925", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "Most existing solutions felt too complex or bloated for straightforward feedback collection"}], "other": null}
+{"doc_id": "hn:47344942", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44484932", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48374344", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144865", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46764272", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33471", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "changes that aren't fully specified will result in a plan that has a wider range of estimates"}], "other": null}
+{"doc_id": "ux-se:153387", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33776", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142586", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153062", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152685", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33500", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46025819", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33333", "relevance": 1, "speaker": "engineer", "codes": [{"code": "estimation-pressure", "evidence": "50% chance to undershoot thus be done late and get yelled at by the manager"}], "other": null}
+{"doc_id": "hn:49924485", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43511314", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "The software has so much dark matter due to tech debt, partially due to age, partially due to vintage."}], "other": "legacy system tech debt makes rewrites risky"}
+{"doc_id": "ux-se:147017", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45633683", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

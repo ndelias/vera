@@ -1,0 +1,80 @@
+{"doc_id": "hn:50000223", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35988", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50061035", "relevance": 1, "speaker": "engineer", "codes": [{"code": "late-alignment", "evidence": "More than that (so a big diff) it should have been discussed upfront, and the design agreed."}], "other": null}
+{"doc_id": "pm-se:33723", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Our product backlog contains 1000s of feature requests. Some of these are 5 or more years old and have not had any updates"}], "other": "backlog cluttered with thousands of stale feature requests"}
+{"doc_id": "ux-se:152349", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43276390", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35511", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "The development team isn't sufficiently empowered, communicative or accountable for delivery."}, {"code": "unclear-requirements", "evidence": "Incomplete analysis or design. The developer has been left to figure it out and doesn't know how to go about analysis and design."}], "other": null}
+{"doc_id": "hn:45896223", "relevance": 2, "speaker": "pm", "codes": [{"code": "role-boundaries", "evidence": "I'll add one more to this - not knowing how set in stone any decision is."}, {"code": "unclear-requirements", "evidence": "the team moves heaven and earth to achieve x, only to find out later it was just a drive by comment from said person"}], "other": null}
+{"doc_id": "hn:43075537", "relevance": 2, "speaker": "manager", "codes": [{"code": "eng-dependency", "evidence": "I'm seeing fewer pixel moving requests going to senior engineers"}, {"code": "non-eng-building", "evidence": "I'm seeing more and more designers and product managers contributing, at a frequency which was much harder pre-GPT"}], "other": null}
+{"doc_id": "hn:46906967", "relevance": 1, "speaker": "other", "codes": [{"code": "other", "evidence": "manual sorting through thousands is likely a nightmare"}], "other": "manual triage of incoming tickets"}
+{"doc_id": "hn:42024793", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43931292", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:46599825", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:35101", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35271", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "You as the Scrum Master should not be making a priori assumptions about the root cause"}, {"code": "estimation-pressure", "evidence": "the schedule isn't a realistic estimate based on the team's skills, knowledge, or available resources"}], "other": null}
+{"doc_id": "ux-se:152389", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33902", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "the PO role should never be influencing the Developers' estimation process in the way you're describing."}], "other": null}
+{"doc_id": "hn:43425596", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47442213", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:42707639", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45465118", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34554", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "You have a client that can't or won't expend the time, effort, or cost needed to define the work, but wants a fixed price."}, {"code": "estimation-pressure", "evidence": "you would be hard-pressed to estimate this fundamentally new work on anything other than a time-and-materials basis"}, {"code": "tribal-knowledge", "evidence": "No one has a full set of specifications, understands the whole system, or is able to maintain it."}], "other": null}
+{"doc_id": "pm-se:33770", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45077591", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "if they demand speed over quality that’s on them"}], "other": null}
+{"doc_id": "hn:41990206", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33641", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33625", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "Listening to X developers answering those three questions, one developer after another is the most boring status update I know."}], "other": null}
+{"doc_id": "hn:47305055", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47393964", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42379183", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:44411745", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143696", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47393366", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49826677", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35647", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48025046", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "Claude absolutely improves code review quality, but it still misses a lot."}], "other": null}
+{"doc_id": "hn:49995539", "relevance": 1, "speaker": "founder", "codes": [{"code": "feedback-to-product", "evidence": "the feedback loop just doesn’t exist between agents and software vendors"}], "other": null}
+{"doc_id": "hn:45411511", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47735245", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48501642", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "Your manager will look at your token usage and the number of Jira tickets you closed"}], "other": null}
+{"doc_id": "hn:44615828", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44588533", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46259553", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147230", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35538", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45172743", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48934785", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "They directly ship AI-generated code to production"}, {"code": "review-overload", "evidence": "they do code review much less carefully"}], "other": null}
+{"doc_id": "hn:46031147", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46100491", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34133", "relevance": 2, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "The problem we identify in many projects is that they miss key answers that the product owner usually answers"}, {"code": "role-boundaries", "evidence": "a lot of times those people are not dedicated to that role, thus they do only part of that job"}], "other": null}
+{"doc_id": "hn:48276897", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "Its an utter fallacy to state that you have to stop doing quality processes if you want to deliver software, rapidly."}], "other": null}
+{"doc_id": "ux-se:143071", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46578477", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43286487", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47267803", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44083387", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42071796", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "When the code review is a PR attached to a Jira with the end of a sprint looming, the communication is terse, one-sided"}], "other": null}
+{"doc_id": "hn:46099119", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46114009", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44169155", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "The main thing that pisses off devs is changing requirements."}], "other": null}
+{"doc_id": "pm-se:34111", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46219170", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45358697", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149644", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33898", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50145986", "relevance": 2, "speaker": "pm", "codes": [{"code": "other", "evidence": "I'm STRUGGLING to create a harness for product work, the llms models just can't model a user's mindset very well"}], "other": "AI tools can't model users' mindset for product work"}
+{"doc_id": "hn:44095018", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44169348", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47868949", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42143091", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Coding with AI could easily be a new form of early software/developer tech debt."}], "other": null}
+{"doc_id": "hn:44499834", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47330266", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "code review is too late to give some of that feedback"}, {"code": "review-overload", "evidence": "Noisy reviews are also a problem causer."}], "other": null}
+{"doc_id": "hn:42817360", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45726754", "relevance": 2, "speaker": "engineer", "codes": [{"code": "tool-friction", "evidence": "No, instead we spent a month of engineering time to strap all this together and we probably spend 4x as much on compute"}], "other": null}
+{"doc_id": "hn:47695730", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "You're expected to deliver that customer support agent that's going to allow them to cut 500 people from payroll."}], "other": "leadership expects AI agents to deliver beyond what they can"}
+{"doc_id": "ux-se:147055", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44139904", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43745358", "relevance": 2, "speaker": "founder", "codes": [{"code": "interruptions", "evidence": "the existing engineers (who were kneecapped by the terrible distracting existing standard of meetings, constant slack interruptions, etc)"}], "other": null}
+{"doc_id": "hn:45034110", "relevance": 2, "speaker": "engineer", "codes": [{"code": "agent-supervision", "evidence": "do I then need to download the PR to my machine, install dependencies, etc. to test it? Major flow blocker for me"}], "other": null}
+{"doc_id": "hn:46410042", "relevance": 2, "speaker": "engineer", "codes": [{"code": "tribal-knowledge", "evidence": "the last employee to work on feature X left 6 years ago, can you figure out what's going on and fix it"}, {"code": "change-impact", "evidence": "we want to change Y functionality, what's the level of risk and effort"}, {"code": "ai-output-quality", "evidence": "Fixing those bugs I try every so often but it still seems to be a net negative even for Opus 4.5"}], "other": null}

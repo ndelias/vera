@@ -1,0 +1,80 @@
+{"doc_id": "pm-se:34771", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "asking you to estimate tasks in a way that leads to inaccurate estimates and blame when deadlines are missed"}, {"code": "unclear-requirements", "evidence": "There needs to be more clarity about specifications, deliverables, time frames, and scope."}], "other": null}
+{"doc_id": "hn:48765910", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:41919898", "relevance": 2, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "the tickets lacked utility"}], "other": null}
+{"doc_id": "hn:49580113", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49551960", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44206137", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46044561", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43499363", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48793276", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "ux-se:152187", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46669330", "relevance": 2, "speaker": "unknown", "codes": [{"code": "design-eng-gap", "evidence": "exporting from Figma and assembling a design system into components — right now there’s just too much manual work involved"}], "other": null}
+{"doc_id": "hn:45976309", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44073258", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34718", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34478", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "focus on the risks for the roles in place now that are underperforming"}], "other": "underperforming people in key roles (e.g. Product Owners) due to poor selection"}
+{"doc_id": "ux-se:153398", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144904", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "pm-se:35339", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "if you are regularly planning work that is highly interdependent and lacks sufficient slack to be completed reliably then you have a process problem"}], "other": "work blocked by sequential dependencies between developers mid-sprint"}
+{"doc_id": "hn:47959304", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "But the companies that own them cannot hire the people who know how to do it."}], "other": "shortage of specialist ML talent to improve production systems"}
+{"doc_id": "pm-se:34816", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43145724", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44102370", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "Code reviews then break any goodwill between team members."}], "other": "gatekeeping, adversarial code review culture erodes team trust"}
+{"doc_id": "pm-se:33633", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "by the PO taking the time to babble on and on about whatever they need right now"}], "other": null}
+{"doc_id": "pm-se:34795", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42151868", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46753635", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34620", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44980839", "relevance": 2, "speaker": "engineer", "codes": [{"code": "code-comprehension", "evidence": "I cannot have a productive code review with someone that does not even understand what their code is actually doing"}, {"code": "ai-output-quality", "evidence": "I've seen enough slop to think that more people are throwing around code that they barely understand"}], "other": null}
+{"doc_id": "pm-se:34018", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43958834", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49363289", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148730", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143338", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34490", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43159426", "relevance": 2, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "clients often have a hard time articulating their requirements for new projects"}], "other": null}
+{"doc_id": "pm-se:34846", "relevance": 1, "speaker": "unknown", "codes": [{"code": "change-impact", "evidence": "What are first seem like subtle or minor changes proposed to an existing design, can sometimes entail widespread changes as a consequence"}, {"code": "estimation-pressure", "evidence": "they require a variable and unpredictable amount of work to solve"}], "other": null}
+{"doc_id": "hn:44841780", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "pm-se:33873", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45748471", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:151406", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34348", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34746", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142286", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "ux-se:145680", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141347", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45473800", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141933", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46438742", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48864871", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45150428", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46723478", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "The goal is to make big reviews feel like a plan you can actually follow, not an endless scroll."}], "other": null}
+{"doc_id": "hn:47172149", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45307594", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35382", "relevance": 2, "speaker": "engineer", "codes": [{"code": "feedback-to-product", "evidence": "we are a little far away from the problem domain and we would like to gather feedback from real companies who are our potential clients"}], "other": null}
+{"doc_id": "hn:42499748", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Web and data science are the areas with the worst shelf life, and require the most effort to simply stand still."}], "other": "dependency and ecosystem churn forces constant maintenance work"}
+{"doc_id": "hn:48095942", "relevance": 2, "speaker": "engineer", "codes": [{"code": "unclear-requirements", "evidence": "As soon as requirements change the abstractions fall apart and everything gets shoehorned."}, {"code": "other", "evidence": "Never worked anywhere where the code wasn't an entangled disarray."}], "other": "hand-written codebases full of shortcuts and entangled code"}
+{"doc_id": "hn:47434590", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34660", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46703755", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34376", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "if injection of new work based on new requirements by Product Owners in devleopment project in happening frequently in between the sprint"}], "other": null}
+{"doc_id": "hn:47251892", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141746", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46131440", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:48447959", "relevance": 2, "speaker": "engineer", "codes": [{"code": "test-ci-friction", "evidence": "each needs to be fixed to have no flaky tests"}], "other": null}
+{"doc_id": "pm-se:35671", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47224764", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "This took a lot of senior engineering time to review."}, {"code": "ai-missing-context", "evidence": "Many things that are good are non-intuitive and commercial code review tools don't get 100% coverage of the rules."}], "other": null}
+{"doc_id": "hn:42236869", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49822192", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43937547", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "ux-se:147388", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35099", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42717958", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "Github's code review tool is uniquely bad. Notably it presents every comment as blocking and requiring sign off"}], "other": null}
+{"doc_id": "pm-se:34563", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34549", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "ensuring that people who are new to the code are confident enough to make changes"}], "other": null}
+{"doc_id": "hn:50061964", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48167663", "relevance": 2, "speaker": "founder", "codes": [{"code": "other", "evidence": "The security gets invloved, they will ask you way alot of questions and drain your time and energy."}], "other": "enterprise customers' security reviews drain time when closing paid deals"}
+{"doc_id": "hn:42450272", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43579073", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-missing-context", "evidence": "All that tribal knowledge is kept under lock and key at studios, so good luck scraping the net"}], "other": null}
+{"doc_id": "hn:44139887", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "Actual code review is very slow. More often than not, you just looking for glaring mistakes"}], "other": null}
+{"doc_id": "hn:46867412", "relevance": 0, "speaker": "other", "codes": [], "other": null}

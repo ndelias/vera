@@ -1,0 +1,80 @@
+{"doc_id": "ux-se:147398", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42786954", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152156", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33462", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141667", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33393", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44525704", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43402812", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45811074", "relevance": 1, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "code review is the bottleneck, and that speeding up code generation actually lowers system throughput"}, {"code": "review-overload", "evidence": "code review is the bottleneck"}], "other": null}
+{"doc_id": "hn:42761902", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47177459", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "features that should take a week takes six months and turn out to need another year of fixing"}], "other": "tech debt slows delivery badly and drives skilled people away"}
+{"doc_id": "hn:47076143", "relevance": 2, "speaker": "founder", "codes": [{"code": "agent-supervision", "evidence": "every day with Claude feels like dropping into a design meeting on a team with 100 engineers"}], "other": null}
+{"doc_id": "pm-se:34099", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49563149", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35119", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45660148", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48789711", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48359956", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34342", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45120806", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44454041", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43770574", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48081255", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45316925", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:151435", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46060243", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149794", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45858731", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46391585", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48109388", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46010674", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142077", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44746587", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "to be allowed to focus on the important things and not be pulled in 100 directions"}, {"code": "status-overhead", "evidence": "too much 'digital paperwork' (did you fill out all 15 fields of the Jira ticket? etc)"}], "other": null}
+{"doc_id": "pm-se:35421", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:151490", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48778292", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "our team uses Jira, but Jira is not great at.. capturing efforts that are umm.. less code oriented."}], "other": null}
+{"doc_id": "ux-se:143258", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48106513", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Lack of strictly enforced static typing make agents fail much sooner with Python."}], "other": null}
+{"doc_id": "hn:48036254", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48594637", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43403459", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "I get this review BEFORE another human looks at the code, so their feedback is not drowned by the AI noise"}], "other": "AI review comments drown out human reviewers' feedback"}
+{"doc_id": "hn:42026456", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44251183", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43767271", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144149", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33455", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144052", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42671876", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46575984", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35778", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33591", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:151309", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45624454", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34845", "relevance": 2, "speaker": "pm", "codes": [{"code": "estimation-pressure", "evidence": "a client comes to us with a pure idea for a software product and expects us to provide an exact price and deadline for delivery"}, {"code": "other", "evidence": "The budget was being burnt accordingly, but when the deadline is about to come, we are not finished."}], "other": "design progress can't be tracked, so slips surface only at the deadline"}
+{"doc_id": "pm-se:33433", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43369250", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49925282", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43599846", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44391079", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35432", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45460113", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44263203", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "And just like that, people centuries of remediation/refactoring consulting work was created."}], "other": null}
+{"doc_id": "hn:47018425", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "context switching is a plague (meetings, colleagues) which predates ai agents"}], "other": null}
+{"doc_id": "ux-se:145709", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145451", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:154049", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48560566", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44967150", "relevance": 2, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "its horrible because everyone does all the agile meetings and \"planning\" but its just used as progress reporting to the product managers"}], "other": null}
+{"doc_id": "ux-se:151642", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47677321", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49827510", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34138", "relevance": 2, "speaker": "other", "codes": [{"code": "interruptions", "evidence": "They have raised an impediment of having too many synchronisation meetings with individuals from other teams and the project manager for our department."}], "other": null}
+{"doc_id": "ux-se:148834", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33382", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42088995", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47221585", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "requirements drift, edge cases disappear"}, {"code": "late-alignment", "evidence": "\"that's not what I meant\" becomes the most expensive sentence every sprint"}], "other": null}
+{"doc_id": "ux-se:145691", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46772762", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47865431", "relevance": 2, "speaker": "founder", "codes": [{"code": "agent-supervision", "evidence": "It’s still rough and not reliable enough to trust on its own."}, {"code": "change-impact", "evidence": "they still have no way to verify if they break the UI"}], "other": null}
+{"doc_id": "hn:45084515", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

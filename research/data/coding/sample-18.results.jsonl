@@ -1,0 +1,80 @@
+{"doc_id": "ux-se:151222", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "pm-se:34585", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35173", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "If you do not have the respect or the authority to make the final decisions in times of conflict"}], "other": null}
+{"doc_id": "ux-se:144470", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44687467", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35281", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143898", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "pm-se:34740", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "why the Senior Developer is holding back information"}], "other": null}
+{"doc_id": "hn:49430025", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45138638", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "giving users a 30 tools swiss army knife"}], "other": null}
+{"doc_id": "ux-se:143050", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153579", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149973", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43344594", "relevance": 1, "speaker": "engineer", "codes": [{"code": "status-overhead", "evidence": "It was only after a decade of experience I stopped getting triggered by those inefficiencies"}], "other": null}
+{"doc_id": "hn:47451188", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144962", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44101346", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42402651", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47621528", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42229053", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45102347", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "pm-se:35865", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "when a team is about to leave they should have left additional documentation"}], "other": null}
+{"doc_id": "hn:47285201", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42236890", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48134397", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35323", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46771275", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "it is also decent if you watch it like a hawk"}, {"code": "review-overload", "evidence": "you need to spend more time in code review and testing to make sure all edge cases are covered"}, {"code": "ai-output-quality", "evidence": "the complexity is still not handled super well"}], "other": null}
+{"doc_id": "hn:46079997", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34082", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46950497", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43350279", "relevance": 1, "speaker": "unknown", "codes": [{"code": "design-eng-gap", "evidence": "a wide gap in understanding between design and implementation"}], "other": null}
+{"doc_id": "pm-se:35828", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48764583", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141761", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35279", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "they are being judged on when they finish working on something rather than the quality of the work they put forward"}, {"code": "process-skipped", "evidence": "This is going to lead to developers cutting corners when anything threatens their deadline"}], "other": null}
+{"doc_id": "pm-se:35301", "relevance": 2, "speaker": "manager", "codes": [{"code": "other", "evidence": "in a remote setting, I noticed a lot of unnecessary overhead and delays creeping in"}], "other": "Process-framework overhead and delays in remote/hybrid teams"}
+{"doc_id": "ux-se:144318", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49758485", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43217788", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "And it will sail straight through review."}], "other": null}
+{"doc_id": "hn:49708683", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35833", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "too much bias goes into manual estimation"}], "other": "Manual estimates are biased and unreliable"}
+{"doc_id": "pm-se:34739", "relevance": 2, "speaker": "pm", "codes": [{"code": "tribal-knowledge", "evidence": "he has all the tech knowledge"}, {"code": "role-boundaries", "evidence": "reassigns priorities himself without sharing this information and going through a change process"}], "other": null}
+{"doc_id": "hn:43280277", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44023624", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42614097", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43409509", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45875109", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143971", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49543579", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34326", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "your team is being asked to do both development and support"}], "other": "Unplanned support work injected into sprints consumes capacity"}
+{"doc_id": "hn:48340612", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45936617", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:48620619", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "You're taking a team of people with no practice in doing code review and making that their entire job"}], "other": null}
+{"doc_id": "hn:47882021", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "The amount of slop I need to code review has only increased"}, {"code": "ai-output-quality", "evidence": "the quality of the models doesn’t seem to be helping"}], "other": null}
+{"doc_id": "ux-se:152964", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35620", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "the retrospective itself is working, but subsequently the results are forgotten"}], "other": "Retrospective outcomes are not followed through"}
+{"doc_id": "ux-se:151134", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:47356129", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "near-misses keep you iterating longer than planned"}], "other": "Compulsive iteration loop with AI coding tools eats time"}
+{"doc_id": "hn:45576550", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144018", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43244373", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34375", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45765313", "relevance": 1, "speaker": "engineer", "codes": [{"code": "tech-debt-priority", "evidence": "I've seen this response given to bugs that may take only a few hours to fix or even have a PR already set up!"}], "other": null}
+{"doc_id": "hn:48564380", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "It's quite impressive how proudly people defend their dumpsters and actively criticize anyone who wants to clean it up."}], "other": null}
+{"doc_id": "hn:43874281", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48606870", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "If your backlog is full of feature requests you will add features."}], "other": null}
+{"doc_id": "hn:48962767", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "actively pushed teams to incur mountains to tech debt"}, {"code": "ai-output-quality", "evidence": "rising tide of unplanned work for bugs, performance problems, and security snafus introduced during an aggressive push into GenAI"}], "other": null}
+{"doc_id": "hn:42371134", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "In a world of scarcity, just keep communicating the tech debt."}], "other": null}
+{"doc_id": "ux-se:148426", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45530765", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42699837", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47304835", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35907", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33284", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34871", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "But if it's constantly happening and you either need to re-plan your sprints or cancel them"}], "other": null}
+{"doc_id": "pm-se:34091", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35254", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45645685", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "ux-se:143491", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49329112", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

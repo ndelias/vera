@@ -1,0 +1,80 @@
+{"doc_id": "hn:47168260", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46975384", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49666642", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46716534", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "this doesn't scale -- or I'll spend all my time code-reviewing"}, {"code": "bottleneck-shift", "evidence": "developers are much more productive and I still code-review at the same speed"}, {"code": "ai-output-quality", "evidence": "I can't trust the AI generated code"}, {"code": "ai-missing-context", "evidence": "tend not to adhere to the project's conventions, but rather use what it is trained on"}], "other": null}
+{"doc_id": "ux-se:142216", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142542", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:34827", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45252266", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44449120", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42479128", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46633372", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45451786", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48491868", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "the feeling of being shoulder surfed killed my ability to play around with the freedom that I do when I'm alone"}], "other": "pair programming stifles individual exploration"}
+{"doc_id": "hn:48323380", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35867", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44452587", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48344508", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33788", "relevance": 1, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "you are introducing a waterfall and at least one hand-off, which adds to waste in the process"}], "other": null}
+{"doc_id": "pm-se:35139", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "this only works if the team appreciates documentation, and if nobody is trying to hold you hostage"}], "other": null}
+{"doc_id": "ux-se:152321", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42484608", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50114595", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43388522", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45848730", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34250", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "is fine but not helpful when it comes to actually doing the work"}], "other": null}
+{"doc_id": "pm-se:35199", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47699094", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "vibe coded to hell caused a lot of damage in terms of tech debt"}], "other": null}
+{"doc_id": "hn:42003055", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "Burned managers therefore cope by undervaluing any such proposals"}], "other": null}
+{"doc_id": "ux-se:141641", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46529334", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45776621", "relevance": 1, "speaker": "engineer", "codes": [{"code": "tribal-knowledge", "evidence": "why do we scatter those definitions across code, diagrams, wikis, Slack threads, and tribal knowledge?"}], "other": null}
+{"doc_id": "hn:41937177", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "If a sprint is a month and standups are minimized, then it could take a month before you course correct"}], "other": null}
+{"doc_id": "hn:47995092", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "The ticketing system you have (jira? Bugzilla) is not designed for discussion of the acceptance criteria."}], "other": null}
+{"doc_id": "hn:46316550", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50085507", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48037827", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "introduces tech debt or dubious architectural decisions"}, {"code": "review-overload", "evidence": "that's harder to spot but doesn't reduce the review burden whatsoever"}], "other": null}
+{"doc_id": "hn:47254005", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44403366", "relevance": 2, "speaker": "unknown", "codes": [{"code": "code-comprehension", "evidence": "If I don't write the code myself I only develop a very shallow mental model of what's doing."}], "other": null}
+{"doc_id": "hn:44481669", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48649523", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46026802", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "It is hard enough to get engineers to write and maintain small amounts of correct comments"}], "other": null}
+{"doc_id": "hn:47543464", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "management don't want to \"waste time re-writing working code\""}], "other": null}
+{"doc_id": "hn:44263092", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "conspicuously lacking code review, QA, manual approval"}], "other": null}
+{"doc_id": "pm-se:35226", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48744775", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142593", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "ux-se:151477", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49541367", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43383270", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148713", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34844", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35359", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34980", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143763", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42511286", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "We do need better code review tools though."}], "other": null}
+{"doc_id": "pm-se:35745", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44182691", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46258057", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33311", "relevance": 2, "speaker": "pm", "codes": [{"code": "other", "evidence": "So it feels I need to build 3 Gantt Charts (one per Engineering focus area)"}], "other": "planning is hard when engineers are specialised, not fungible"}
+{"doc_id": "ux-se:143642", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42398192", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "As a sole ML developer in a small company, I can't reach out to someone who can guide me specific to my problem."}], "other": "solo developer lacks access to expert guidance"}
+{"doc_id": "hn:48862185", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35788", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35444", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46364104", "relevance": 2, "speaker": "manager", "codes": [{"code": "other", "evidence": "I remembered some highlights and issues from the past year, but a lot of context was missing"}], "other": "context for performance reviews gets lost over the year"}
+{"doc_id": "hn:42174352", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142132", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49466994", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144313", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42614575", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "On a scale of 1-5, I was ranked a 3 (meeting expectations), barely any bonus, barely any salary increase."}], "other": "performance ratings ignore effort, leading to disengagement"}
+{"doc_id": "hn:48711485", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49284133", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47529692", "relevance": 1, "speaker": "unknown", "codes": [{"code": "feedback-to-product", "evidence": "in 3 years you can't dedicate 3 months to the feature request with the highest number of votes by far"}], "other": null}
+{"doc_id": "ux-se:149455", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46357692", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49923756", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44597996", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "Having to go to jira to manage something, confluence for something else, git for source code and bug tracking, it's all a mess"}], "other": null}
+{"doc_id": "ux-se:144877", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45788985", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "I had tons of examples where the agent gaslighted me only to turn around at the last stage"}, {"code": "ai-output-quality", "evidence": "the code output was to result focused and didn’t think about the broader general usage"}, {"code": "code-comprehension", "evidence": "no one human can understand all the stuff that was written"}], "other": null}
+{"doc_id": "hn:48162681", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

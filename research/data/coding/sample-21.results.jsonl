@@ -1,0 +1,80 @@
+{"doc_id": "hn:48178288", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34976", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35478", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "schedules become irrelevant once feature priority of part of schedule changes, then this process needs to be repeated all over again"}, {"code": "other", "evidence": "Extremely long planning meetings"}], "other": "long, bureaucratic planning meetings"}
+{"doc_id": "hn:46615500", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "add immediate geometrically-increasing tech debt to be paid almost immediately by others"}], "other": "leads create tech debt that others must pay"}
+{"doc_id": "hn:46234048", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43063930", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45166900", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35376", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35340", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:146943", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142138", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149761", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47570026", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153920", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49109667", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "new feature requests and KPIs are more important than actual usability of their pages"}, {"code": "process-skipped", "evidence": "few people even properly test on multiple browsers, let alone screen readers"}], "other": null}
+{"doc_id": "hn:43292534", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34217", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148240", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49672934", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49070769", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43298596", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33362", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47865165", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48267908", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "You have cross-functional teams interfacing via a tool. It would be reasonable to co-design this interface, so that all user goals are taken into account."}], "other": null}
+{"doc_id": "ux-se:144908", "relevance": 2, "speaker": "designer", "codes": [{"code": "other", "evidence": "My main complication here is finding the people to conduct interviews and usability test for the SaaS design."}], "other": "hard to recruit B2B users for research and usability tests"}
+{"doc_id": "ux-se:151168", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45256007", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35802", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35631", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33763", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42704086", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44171218", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46370111", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48994763", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48128158", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147847", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44925867", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48467966", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35150", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44503041", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Managing support operations in JIRA often means chasing tickets and reacting to SLA breaches too late."}], "other": "support tickets and SLA breaches caught too late"}
+{"doc_id": "hn:46790928", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42936571", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34618", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45431766", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46252251", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44166680", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:44800925", "relevance": 2, "speaker": "unknown", "codes": [{"code": "approval-delays", "evidence": "the road blocks are still real, especially when working with other teams"}, {"code": "bottleneck-shift", "evidence": "the LLM might speed run you to a solution but you better be ready with the next thing and the next thing while you're waiting"}], "other": null}
+{"doc_id": "hn:48412167", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143897", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43233131", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33387", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35905", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "If we split into two Scrum teams, each team would lack sufficient backend/API capacity to work independently."}], "other": "team too large to split; scarce backend capacity"}
+{"doc_id": "hn:47752927", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47839412", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "Jira is at the heart of all of their workflows and they cannot and will not move to cloud."}], "other": null}
+{"doc_id": "pm-se:33509", "relevance": 2, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "It sometimes becomes very detailed and messy."}], "other": null}
+{"doc_id": "hn:44178542", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45892214", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "Everything broke, or you ended up fighting someone else’s design system."}], "other": null}
+{"doc_id": "hn:45575299", "relevance": 2, "speaker": "founder", "codes": [{"code": "process-skipped", "evidence": "the pressure to skip understanding and just ship"}, {"code": "ai-output-quality", "evidence": "the \"slop\" that is flowing downstream to QA teams and customers"}, {"code": "tech-debt-priority", "evidence": "TDD is time consuming in a way that I have found difficult to justify at the beginning of projects."}], "other": null}
+{"doc_id": "ux-se:153638", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42489386", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "It was tough to thoughtfully review large branches"}, {"code": "code-comprehension", "evidence": "especially for parts of the codebase that I wasn’t familiar with"}], "other": null}
+{"doc_id": "hn:46341946", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44697554", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35095", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155161", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155155", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35482", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34216", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143733", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45366982", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48099300", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48142574", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42026166", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:35756", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "However, the problem is that this is based on estimates and sometimes the team will get an estimate wrong."}], "other": null}
+{"doc_id": "ux-se:155131", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34143", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "Getting everyone together earlier can reduce steps in deciding if the issue found is a bug or a misunderstanding of expected behavior"}, {"code": "unclear-requirements", "evidence": "If the developer finds the \"bug\" to be expected behavior but the Product Manager wants different behavior"}], "other": null}
+{"doc_id": "ux-se:143375", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:43456165", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "Tim should be fired as should the whole team just because... Your Jira metrics are off?"}], "other": null}
+{"doc_id": "pm-se:33748", "relevance": 1, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "what would developer do when they finished all the coding for the Sprint whereas the testers are still doing their testing?"}], "other": null}
+{"doc_id": "ux-se:145150", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47217890", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "AI coding agents ship code quickly. But in real-world projects, some basic questions remain"}, {"code": "late-alignment", "evidence": "Was the intent reviewed before execution?"}], "other": null}

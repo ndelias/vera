@@ -1,0 +1,80 @@
+{"doc_id": "hn:42785089", "relevance": 1, "speaker": "unknown", "codes": [{"code": "test-ci-friction", "evidence": "I've rarely seen a feedback loop with containers that's not longer than 10s only due to containerization itself"}], "other": null}
+{"doc_id": "hn:48851029", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:146893", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33892", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148113", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33485", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "We do not expect the requirements to change during the project (feature creep can become very expensive)"}], "other": null}
+{"doc_id": "pm-se:35135", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "pm-se:33933", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46326129", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Used carelessly, it absolutely accelerates tech debt and produces bloated code."}], "other": null}
+{"doc_id": "hn:50068928", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152370", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34992", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33478", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34450", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42102240", "relevance": 1, "speaker": "manager", "codes": [{"code": "estimation-pressure", "evidence": "Now estimate again, and this time don't make me angry"}, {"code": "process-skipped", "evidence": "Gun to the head solutions: no tests, no quality, no future planning, hacks on top of hacks, tech debt."}], "other": null}
+{"doc_id": "pm-se:33741", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44318553", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "context switching is very expensive for the receiver"}], "other": null}
+{"doc_id": "hn:43485970", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "they seem to fuck up royally in a little complex project if you do not isolate your request"}], "other": null}
+{"doc_id": "hn:48098649", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Their work has tripled and now the only help they get from management?"}], "other": "workload tripled after layoffs; management says use AI instead of hiring"}
+{"doc_id": "hn:46823692", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34596", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44382507", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "pretty obvious when it produces garbage"}], "other": null}
+{"doc_id": "hn:46505196", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "reduce the mental demands of running agents"}], "other": null}
+{"doc_id": "ux-se:144241", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33719", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47258715", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45867279", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46513867", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44247911", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33959", "relevance": 1, "speaker": "unknown", "codes": [{"code": "approval-delays", "evidence": "people responsible for change control and explain the agile approach to them - suggest they look at ways to speed up the process"}], "other": null}
+{"doc_id": "hn:47347499", "relevance": 0, "speaker": "other", "codes": [], "other": null}
+{"doc_id": "hn:47302181", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46502750", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43750524", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42020199", "relevance": 1, "speaker": "engineer", "codes": [{"code": "bottleneck-shift", "evidence": "Let's create more code to maintain, more code to debug, let's make big fonctions, long pull requests"}], "other": null}
+{"doc_id": "ux-se:149173", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49879066", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "Friends approve their friends PRs."}], "other": null}
+{"doc_id": "ux-se:147381", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33541", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42119002", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "your time becomes filled with meetings and things to do"}], "other": "meeting and administrative load on senior roles causes fatigue"}
+{"doc_id": "hn:49196183", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44969406", "relevance": 2, "speaker": "engineer", "codes": [{"code": "late-alignment", "evidence": "It always seems as if the code review is the only time when all stakeholders really gets involved and starts thinking about a change."}], "other": null}
+{"doc_id": "pm-se:34340", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35842", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "In general, individuals should not be on the hook for the team's commitments."}], "other": null}
+{"doc_id": "hn:47390805", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155404", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149897", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42848556", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45607272", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34725", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "Detailed requirements can rarely be determined in advance with any sufficient level of confidence to enter a legal contract."}], "other": null}
+{"doc_id": "hn:46166215", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45782740", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "even if you ask them to, they'll make a new \"solution\" with the same flaw"}], "other": null}
+{"doc_id": "hn:47454633", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Terrible at figuring out what to build next."}], "other": "deciding what to build next"}
+{"doc_id": "hn:47728487", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46861232", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "pm-se:33919", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43504504", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48030196", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46965726", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46339292", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49289692", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "pm-se:34903", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49407271", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42443745", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47667871", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34363", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142570", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147873", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148723", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144374", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42045177", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47344919", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34642", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35811", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47344349", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "I understand that some coporate managers like the rigidity, but in practice, it's just very hard to know the scope of a story early on"}], "other": null}
+{"doc_id": "hn:42570833", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "put on the back burner every time until it becomes a visible problem that management will appreciate you take care of. E.g tech debt"}], "other": null}
+{"doc_id": "pm-se:33402", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143736", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50004409", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34069", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

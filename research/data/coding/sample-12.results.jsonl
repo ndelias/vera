@@ -1,0 +1,80 @@
+{"doc_id": "ux-se:145192", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46164410", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33399", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33752", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "Story points was never meant to measure individual productivity / experience."}], "other": null}
+{"doc_id": "hn:45544145", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:151262", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43371547", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47994875", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "in my experience it eventually became a mess on any larger project that didn't have explicit and maintained writen requirements"}], "other": null}
+{"doc_id": "hn:44436467", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42330339", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35249", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43759081", "relevance": 1, "speaker": "engineer", "codes": [{"code": "bottleneck-shift", "evidence": "What happens is that the bottleneck becomes UX decision-fatigue."}, {"code": "unclear-requirements", "evidence": "As requirements change, you may have to pull out some bricks, sometimes redo entire floors."}], "other": null}
+{"doc_id": "hn:49407358", "relevance": 2, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "Problem - It’s just too much of a context switching."}], "other": null}
+{"doc_id": "hn:44319089", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "following product specifications by \"product managers\" that barely seem to understand the product they're \"managing\""}], "other": null}
+{"doc_id": "ux-se:145778", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35166", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "Even if you lack technical and business knowledge in the area of this particular project, your boss still wants you to drive this."}, {"code": "late-alignment", "evidence": "How will you make sure they build what you need and not what they assume you need?"}], "other": null}
+{"doc_id": "pm-se:33525", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148437", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47091246", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144541", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44509055", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "ux-se:143261", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47798626", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "The danger is Capitalism incentivizing not doing the proper reviews"}], "other": null}
+{"doc_id": "ux-se:152641", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46920750", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Engineers instead of saying this requirement is infeasible and a bad approach will jack up the story points hoping the requirement goes away."}], "other": "engineers inflate estimates instead of pushing back on infeasible requirements"}
+{"doc_id": "hn:45609389", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43172136", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34956", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49274129", "relevance": 2, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "these tickets are the technical equivalent of Finnegans Wake"}, {"code": "review-overload", "evidence": "Which is then peer-reviewed by somebody using Claude."}], "other": null}
+{"doc_id": "hn:44746492", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48847553", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47911807", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "fed up with general slowness and jank of Jira"}], "other": null}
+{"doc_id": "hn:48585896", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46630810", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "AI coding tools generate code without the safeguards we require from human developers."}], "other": null}
+{"doc_id": "hn:47937163", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "Most of them are just running YOLO without any security or safeguards while knowing that it’s dangerous."}], "other": null}
+{"doc_id": "hn:46198271", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142127", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44505508", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "ux-se:145339", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46041884", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46823809", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "tech debt, R&D and other issues that were put in the backlog because historically there were no resources for this"}], "other": null}
+{"doc_id": "hn:44796296", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47033517", "relevance": 2, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "developers were kept as far as possible from the actual domain (and decision making) and driven with endless sterile spec documents"}], "other": null}
+{"doc_id": "pm-se:34119", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47015240", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "ux-se:149316", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43046085", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48085807", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152344", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44568816", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-missing-context", "evidence": "If they keep making the same mistakes that were picked out in their first code review, as LLMs do, eventually we fire them."}], "other": null}
+{"doc_id": "hn:43226161", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47243863", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Now it works 95% of the time, but perhaps it is not optimal."}], "other": null}
+{"doc_id": "pm-se:33481", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "your \"rough draft\" becomes a working document"}], "other": null}
+{"doc_id": "ux-se:142401", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33620", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148452", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34410", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "What you're describing is like an outgrowth of both per-person performance tracking, as well as an expression of the 100% utilization fallacy."}], "other": null}
+{"doc_id": "ux-se:147702", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33793", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "spending time on all those great ideas brought up in Sprint Retrospectives but that no one has time for when Sprints lack sufficient slack"}], "other": null}
+{"doc_id": "hn:47421127", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33986", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48461099", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43963430", "relevance": 1, "speaker": "founder", "codes": [{"code": "interruptions", "evidence": "how much time teams waste switching tabs"}, {"code": "status-overhead", "evidence": "chasing dashboards, and waiting on reports"}], "other": null}
+{"doc_id": "ux-se:141408", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35812", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153894", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33853", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "you and your team seem to be unable to predict the problems you are facing and are constantly being surprised"}], "other": "constant unforeseen problems from missing risk management"}
+{"doc_id": "hn:46657945", "relevance": 1, "speaker": "unknown", "codes": [{"code": "design-eng-gap", "evidence": "There's a WORLD of difference between the user experience that is mocked in a tool like figma or written down in a system like jira"}], "other": null}
+{"doc_id": "pm-se:34749", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49093813", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "it constantly finds even pretty big bugs or just not robust enough solutions"}], "other": null}
+{"doc_id": "ux-se:149782", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48778308", "relevance": 2, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "telling the engineers or designers that they don't understand business"}], "other": null}
+{"doc_id": "pm-se:33981", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42973187", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "pm-se:33565", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152692", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33785", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "If your description is accurate you guys are wasting 10-20 working hours a day."}], "other": null}
+{"doc_id": "hn:46437114", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43652618", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42400761", "relevance": 0, "speaker": "manager", "codes": [], "other": null}

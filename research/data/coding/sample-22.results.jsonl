@@ -1,0 +1,80 @@
+{"doc_id": "hn:46363480", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43079597", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "New people were no longer meeting as many people in their first week and cohesion suffered."}], "other": "team culture and cohesion lost after a leadership change"}
+{"doc_id": "pm-se:34117", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33958", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42592304", "relevance": 2, "speaker": "unknown", "codes": [{"code": "code-comprehension", "evidence": "demands for modifications of the program cannot be intelligently answered"}], "other": null}
+{"doc_id": "ux-se:149879", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33707", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47263383", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45991191", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47833689", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46130896", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43083612", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43642741", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45547764", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "this would have meant massive breakages and regressions, which would require the designer and developer time to fix"}], "other": "platform vendor UI changes force rework and re-certification"}
+{"doc_id": "hn:49806976", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35542", "relevance": 1, "speaker": "unknown", "codes": [{"code": "eng-dependency", "evidence": "given they do not have the skills to access the primary source of truth"}], "other": null}
+{"doc_id": "hn:49678527", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46038042", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "I hate this kind of management culture that misuses story points."}], "other": null}
+{"doc_id": "pm-se:33297", "relevance": 2, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "He can't concentrate well enough during pair programming"}], "other": null}
+{"doc_id": "hn:49491816", "relevance": 2, "speaker": "pm", "codes": [{"code": "other", "evidence": "I work as a PM and have a lot of calls and action items that tend to slip through"}], "other": "action items from calls slip through"}
+{"doc_id": "hn:43343402", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46504547", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43821492", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147670", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42528393", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48007834", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35558", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "Then developers just do what their Manager bloody tells them to do."}], "other": null}
+{"doc_id": "ux-se:141850", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48441626", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45453971", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49530040", "relevance": 1, "speaker": "unknown", "codes": [{"code": "code-comprehension", "evidence": "code review is not a substitute for intentionality and understanding when writing the code"}], "other": null}
+{"doc_id": "hn:49041498", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "as are your own, perfectly custom security vulnerabilities and their successful exploitations"}], "other": null}
+{"doc_id": "ux-se:146879", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35577", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46309129", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46679861", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35170", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42040498", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48615423", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50093523", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44984738", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "ridiculous requests like cutting deadlines last minute or feature requests that didn't make sense"}], "other": "executives impose last-minute deadline cuts and nonsensical feature requests"}
+{"doc_id": "pm-se:33686", "relevance": 2, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "Our company has recently demanded that all employees track their time spent working daily"}], "other": null}
+{"doc_id": "ux-se:148390", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42314234", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "are we slaves to the ticketing system in service of itself"}], "other": null}
+{"doc_id": "hn:45597376", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-missing-context", "evidence": "a lack of sufficient context often meant we spent more time debugging than we actually saved"}, {"code": "eng-dependency", "evidence": "haunted by the ad-hoc requests from executives that ate up all of our time"}], "other": null}
+{"doc_id": "ux-se:149605", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145719", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33767", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46010303", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44761818", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34996", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "It is not a performance target. It is not a management metric."}], "other": null}
+{"doc_id": "hn:49282763", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "now that LLMs generate them I don't review my code thoroughly either, and some issues have fallen through"}], "other": null}
+{"doc_id": "hn:47242248", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49523703", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49205210", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "later costs the company thousands of engineering hours to rewrite once it becomes completely unreliable, slow and impossible to modify"}, {"code": "tech-debt-priority", "evidence": "have been fighting with sales teams and product managers and lazy teammates before LLMs"}], "other": null}
+{"doc_id": "hn:44251635", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43264148", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "picture a diary where you have 5 to 10 meetings a day with 30min free slots in between"}], "other": null}
+{"doc_id": "ux-se:144264", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34730", "relevance": 2, "speaker": "pm", "codes": [{"code": "other", "evidence": "it was later revealed (mid-Sprint) that there was a piece of the work that would take the Art department an unknown amount of time"}], "other": "work of unknown duration in one department disrupts a shared sprint plan"}
+{"doc_id": "hn:48364957", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46741384", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143902", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33489", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49759640", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49426802", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145488", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34512", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46115832", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "add in the cost of context switching"}, {"code": "other", "evidence": "But most meetings aren't solving any problems."}], "other": "meetings without a clear purpose waste time"}
+{"doc_id": "hn:49429526", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "What I dispute is that this increased output amounts to actual value."}], "other": "more AI output without measurable product value"}
+{"doc_id": "hn:47198271", "relevance": 1, "speaker": "unknown", "codes": [{"code": "code-comprehension", "evidence": "walk you through a code review, or understand code"}], "other": null}
+{"doc_id": "hn:46466103", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147053", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34073", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34232", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42386949", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35289", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145069", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44215628", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Claude is surprisingly bad with UI."}], "other": null}
+{"doc_id": "hn:50060768", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "you have to be reasonably sure that it's right anyway, or you risk shipping a piece of crap to production"}], "other": null}
+{"doc_id": "hn:43598795", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
