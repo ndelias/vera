@@ -11,7 +11,8 @@ Status: research done (`research/findings/08-decision.md`). Building next.
 - `research/data/`: processed datasets (raw downloads in `data/raw/` are gitignored)
 - `research/findings/`: write-ups and charts, one per study
 - `research/pipeline/`: collection, cleaning and coding scripts (Python, standard library only)
-- `apps/panel/`: the discovery panel, a Next.js app that reads the research database
+- `apps/panel/`: the research panel, a Next.js app that reads the research database
+- `packages/core/`: Vera's core. So far: the trace format, cost per call, redaction, secrets
 
 ## Running it
 
@@ -20,7 +21,14 @@ python3 research/pipeline/collect_hn.py research/studies/01-discovery/queries-r1
 python3 research/pipeline/collect_hn.py research/studies/01-discovery/queries-r2.json
 python3 research/pipeline/check_matches.py
 python3 research/pipeline/load_study.py
-npm --prefix apps/panel install && npm --prefix apps/panel run dev   # http://localhost:3100
+npm install                 # whole workspace (apps/* and packages/*)
+npm run dev -w panel        # research panel, http://localhost:3100
+npm run ci                  # typecheck + tests (what CI runs)
 ```
+
+Secrets (an Anthropic API key, later) go in `.env` at the repo root, which
+is gitignored. Code reads them through `secret()` in `@vera/core`, which
+never prints a value. Anything that looks like a credential is redacted
+before it reaches a trace.
 
 The database (`research/data/research.sqlite`) is rebuilt by the scripts and isn't committed.

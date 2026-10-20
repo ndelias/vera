@@ -50,7 +50,7 @@ export default function Overview() {
         <div className="tile">
           <span className="tile-label">Read by hand</span>
           <span className="tile-value">{num(o.judged)}</span>
-          <span className="tile-note">random sample, 30 per stage</span>
+          <span className="tile-note">random samples from each round</span>
         </div>
         <div className="tile">
           <span className="tile-label">About a real pain</span>

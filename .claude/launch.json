@@ -4,7 +4,14 @@
     {
       "name": "panel",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "apps/panel", "run", "dev"],
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/ndelias/Desktop/blast-radius",
+        "run",
+        "dev",
+        "-w",
+        "panel"
+      ],
       "port": 3100
     }
   ]

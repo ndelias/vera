@@ -1,5 +1,9 @@
 import { all, one } from "./db";
 
+// "Read by hand" = the open-coding judgments. Agent codings live in the same
+// table under other coder names and are shown on post pages, not counted here.
+const READ = "(SELECT * FROM relevance WHERE coder = 'claude-opus-5-5')";
+
 // Stage of a post = the stages of the search terms that really matched it.
 const STAGES_OF = `
   SELECT m.doc_id, q.stage FROM match_checks m
@@ -43,8 +47,8 @@ export function overview(): Overview {
     SELECT
       (SELECT COUNT(*) FROM documents) AS pulled,
       (SELECT COUNT(*) FROM corpus) AS corpus,
-      (SELECT COUNT(DISTINCT doc_id) FROM relevance) AS judged,
-      (SELECT COUNT(DISTINCT doc_id) FROM relevance WHERE relevant = 1) AS relevant,
+      (SELECT COUNT(DISTINCT doc_id) FROM ${READ}) AS judged,
+      (SELECT COUNT(DISTINCT doc_id) FROM ${READ} WHERE relevant = 1) AS relevant,
       (SELECT COUNT(DISTINCT doc_id) FROM codings) AS coded,
       (SELECT MIN(created_at) FROM corpus) AS first,
       (SELECT MAX(created_at) FROM corpus) AS last`)!;
@@ -59,7 +63,7 @@ export function stageCounts(): StageCount[] {
       COUNT(DISTINCT s.doc_id) AS posts,
       COUNT(DISTINCT r.doc_id) AS judged,
       COUNT(DISTINCT CASE WHEN r.relevant = 1 THEN r.doc_id END) AS relevant
-    FROM s LEFT JOIN relevance r ON r.doc_id = s.doc_id
+    FROM s LEFT JOIN ${READ} r ON r.doc_id = s.doc_id
     GROUP BY s.stage`);
   return rows.sort((a, b) => b.posts - a.posts);
 }
@@ -98,7 +102,7 @@ export function sourceCounts(): SourceCount[] {
       COALESCE(SUM(r.relevant), 0) AS relevant,
       MIN(d.created_at) AS first,
       MAX(d.created_at) AS last
-    FROM documents d LEFT JOIN relevance r ON r.doc_id = d.id
+    FROM documents d LEFT JOIN ${READ} r ON r.doc_id = d.id
     GROUP BY d.source ORDER BY corpus DESC`);
 }
 
@@ -174,9 +178,9 @@ export function posts(f: PostFilters): { rows: PostRow[]; total: number } {
     where.push(`d.id IN (SELECT doc_id FROM match_checks WHERE query_id = ? AND exact = 1)`);
     params.push(f.query);
   }
-  if (f.judged === "relevant") where.push(`d.id IN (SELECT doc_id FROM relevance WHERE relevant = 1)`);
-  if (f.judged === "not-relevant") where.push(`d.id IN (SELECT doc_id FROM relevance WHERE relevant = 0)`);
-  if (f.judged === "unjudged") where.push(`d.id NOT IN (SELECT doc_id FROM relevance)`);
+  if (f.judged === "relevant") where.push(`d.id IN (SELECT doc_id FROM ${READ} WHERE relevant = 1)`);
+  if (f.judged === "not-relevant") where.push(`d.id IN (SELECT doc_id FROM ${READ} WHERE relevant = 0)`);
+  if (f.judged === "unjudged") where.push(`d.id NOT IN (SELECT doc_id FROM ${READ})`);
   if (f.q) {
     where.push(`(d.text LIKE ? OR d.title LIKE ?)`);
     params.push(`%${f.q}%`, `%${f.q}%`);
@@ -187,7 +191,7 @@ export function posts(f: PostFilters): { rows: PostRow[]; total: number } {
     `SELECT d.id, d.source, d.created_at, d.kind, d.title, substr(d.text, 1, 320) AS excerpt, d.words, length(d.text) > 320 AS truncated,
        d.points, d.url,
        (SELECT group_concat(DISTINCT stage) FROM (${STAGES_OF}) s WHERE s.doc_id = d.id) AS stages,
-       (SELECT relevant FROM relevance r WHERE r.doc_id = d.id LIMIT 1) AS relevant
+       (SELECT relevant FROM ${READ} r WHERE r.doc_id = d.id LIMIT 1) AS relevant
      FROM corpus d ${clause}
      ORDER BY d.created_at DESC
      LIMIT ? OFFSET ?`,
