@@ -161,3 +161,12 @@ CREATE TABLE IF NOT EXISTS coding_meta (
   speaker  TEXT,
   PRIMARY KEY (doc_id, coder)
 );
+
+-- Stage 3 sample: AI-disclosure marker per MR (the text itself isn't stored).
+CREATE TABLE IF NOT EXISTS s3_mrs (
+  mr_id         TEXT PRIMARY KEY REFERENCES gl_mrs(id),
+  files_changed INTEGER,
+  commits_n     INTEGER,
+  ai_marker     TEXT,              -- NULL, or the kind of marker found
+  marker_where  TEXT               -- description | commit
+);
