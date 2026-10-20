@@ -2,179 +2,349 @@ import Link from "next/link";
 import { Arrow } from "@/components/Arrow";
 import { BarChart } from "@/components/BarChart";
 import { ColumnChart } from "@/components/ColumnChart";
-import { FAMILIES, SOURCES, familyOf, overview, postsByMonth, rounds, sourceCounts, stageCounts } from "@/lib/data";
-import { day, month, monthShort, num, pct } from "@/lib/format";
+import {
+  COMPETITORS,
+  DIFFERENTIATORS,
+  FIRST_CUSTOMERS,
+  GAPS,
+  KILL_CRITERIA,
+  PAINS,
+  PERSONAS,
+  RULED_OUT,
+  TRADEOFFS,
+  VERA,
+  type Cell,
+  type Competitor,
+} from "@/lib/case-content";
+import { aiAdoption, headline, method, ranking, voices, volumeVsSpeed } from "@/lib/case";
+import { sourceLabel } from "@/lib/data";
+import { day, monthShort, month, num } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
-export default function Overview() {
-  const o = overview();
-  const stages = stageCounts();
-  const monthRows = postsByMonth();
-  const allRounds = rounds();
-  const sources = sourceCounts();
-  // Months stack by source family, so the chart stays at three series.
-  const series = FAMILIES.filter((f) => sources.some((c) => familyOf(c.source) === f.key));
-  const months = [...new Set(monthRows.map((m) => m.month))].map((m) => {
-    const values: Record<string, number> = {};
-    for (const r of monthRows.filter((r) => r.month === m)) {
-      const fam = familyOf(r.source);
-      values[fam] = (values[fam] ?? 0) + r.posts;
-    }
-    return { month: m, values };
-  });
-  const rate = o.judged ? o.relevant / o.judged : 0;
-  const estimate = Math.round(o.corpus * rate);
-  const lastMonth = months[months.length - 1]?.month;
+const pct = (x: number) => `${Math.round(x * 100)}%`;
+
+function GapCell({ value }: { value: Cell }) {
+  return <span className={`cell is-${value}`}>{value}</span>;
+}
+
+function Row({ c, vera = false }: { c: Competitor; vera?: boolean }) {
+  return (
+    <tr className={vera ? "is-vera" : undefined}>
+      <th scope="row">
+        {c.name}
+        <span className="muted cell-what">{c.what}</span>
+      </th>
+      {GAPS.map((g) => (
+        <td key={g.key}>
+          <GapCell value={c[g.key]} />
+        </td>
+      ))}
+      <td className="muted" style={{ whiteSpace: "nowrap" }}>{c.price}</td>
+    </tr>
+  );
+}
+
+export default function Case() {
+  const h = headline();
+  const ai = aiAdoption();
+  const vs = volumeVsSpeed();
+  const ranked = ranking();
+  const quotes = voices(PAINS.map((p) => p.code), 2);
+  const m = method();
 
   return (
     <>
       <div className="page-head">
-        <p className="eyebrow">Stage 1 · Discovery</p>
-        <h1>Where do product teams lose time?</h1>
+        <p className="eyebrow">Vera · review for the AI era</p>
+        <h1>As AI writes more of the code, reviewers approve changes they no longer fully understand.</h1>
         <p className="lede">
-          Before choosing what to build, we measure it. Public posts from people who build software are
-          collected, cleaned, read and coded by pain. Every finding here links back to the posts behind it.
+          Before building anything, I set out to find where product teams actually lose time, how big the problem is, and
+          whether someone has already solved it. This page makes the case for what I chose to build. Every number links to
+          the evidence behind it.
         </p>
       </div>
 
-      <section className="hero" aria-label="Corpus size">
-        <span className="hero-value">{num(o.corpus)}</span>
-        <p className="muted">
-          posts in the corpus, from {num(o.pulled)} pulled across {allRounds.length} rounds and{" "}
-          {sources.length} sources · {day(o.first)} – {day(o.last)}
-        </p>
-      </section>
-
-      <div className="tiles">
-        <div className="tile">
-          <span className="tile-label">Read by hand</span>
-          <span className="tile-value">{num(o.judged)}</span>
-          <span className="tile-note">random samples from each round</span>
+      <section aria-label="The problem in numbers" className="stats">
+        <div className="stat">
+          <span className="stat-value">2×</span>
+          <span className="stat-label">code per change</span>
+          <span className="stat-note">
+            Median lines per merge request went from {h.linesFirst} to {h.linesLast} in two years. Time to merge stayed flat (
+            {Math.round(h.mergeHoursFirst)} h to {Math.round(h.mergeHoursLast)} h).
+          </span>
         </div>
-        <div className="tile">
-          <span className="tile-label">About a real pain</span>
-          <span className="tile-value">{pct(o.relevant, o.judged)}</span>
-          <span className="tile-note">{num(o.relevant)} of {num(o.judged)} read</span>
+        <div className="stat">
+          <span className="stat-value">–{pct(h.attentionDrop)}</span>
+          <span className="stat-label">review attention per line</span>
+          <span className="stat-note">Review comments per line of code, same period. Exploratory.</span>
         </div>
-        <div className="tile">
-          <span className="tile-label">Coded by pain</span>
-          <span className="tile-value">{num(o.coded)}</span>
-          <span className="tile-note">{o.coded === 0 ? "next: model coding with codebook v1" : "posts with at least one code"}</span>
+        <div className="stat">
+          <span className="stat-value">
+            {pct(h.aiShareFirst)}
+            <span style={{ display: "inline-block", fontSize: "0.6em", margin: "0 0.2em", verticalAlign: "0.15em" }}>
+              <Arrow />
+            </span>
+            {pct(h.aiShareLast)}
+          </span>
+          <span className="stat-label">changes written with AI</span>
+          <span className="stat-note">Merge requests that disclose AI help, in one year. Disclosure undercounts use.</span>
         </div>
-      </div>
-
-      <section className="section">
-        <div className="section-head">
-          <h2>From pulled to coded</h2>
-          <p>Each step removes posts that can&apos;t tell us about a pain. The striped bar is an estimate from the sample.</p>
-        </div>
-        <div className="card">
-          <BarChart
-            caption="Posts at each step of the pipeline"
-            bars={[
-              { label: "Pulled", value: o.pulled, detail: "Everything the search API returned", href: "/rounds" },
-              { label: "Contain the term", value: o.corpus, detail: `${pct(o.corpus, o.pulled)} of pulled · typo matches removed`, href: "/posts" },
-              {
-                label: "About a pain",
-                value: estimate,
-                display: `~${num(estimate)}`,
-                detail: `${pct(o.relevant, o.judged)} of ${num(o.judged)} read, applied to the corpus`,
-                variant: "estimate",
-                href: "/posts?judged=relevant",
-              },
-              { label: "Coded", value: o.coded, display: o.coded ? num(o.coded) : "not started", detail: "Posts with at least one pain code" },
-            ]}
-          />
+        <div className="stat">
+          <span className="stat-value">{h.crossRoleRatio}×</span>
+          <span className="stat-label">wait when several roles sign off</span>
+          <span className="stat-note">
+            Small changes reviewed by people from 2+ roles
+            {h.crossRoleCi ? ` (95% interval ${h.crossRoleCi[0]}–${h.crossRoleCi[1]}×)` : ""}.
+          </span>
         </div>
       </section>
+      <p className="chart-note">
+        Measured on GitLab&apos;s product repo, which is developed in public: 105,397 merge requests, roles from its public
+        team page. <Link href="/work">See the work data<Arrow /></Link>
+      </p>
 
-      <section className="section">
+      <section className="section" id="why-now">
         <div className="section-head">
-          <h2>Where the posts come from</h2>
+          <h2>Why now</h2>
           <p>
-            Hacker News is mostly engineers. Stack Exchange adds designers and project and product managers. Hover for how many were read and found to be about a pain.
+            AI-assisted changes went from rare to routine within a year. The amount of code arriving for review doubled, and
+            the time teams spend on it didn&apos;t move. Something had to give, and it was attention.
           </p>
         </div>
         <div className="card">
-          <BarChart
-            caption="Corpus posts per source"
-            bars={sources.map((c) => ({
-              label: SOURCES.find((src) => src.key === c.source)?.label ?? c.source,
-              value: c.corpus,
-              detail: c.judged
-                ? `${c.relevant} of ${c.judged} read were about a pain · since ${day(c.first)}`
-                : `none read yet · since ${day(c.first)}`,
-              href: `/posts?source=${c.source}`,
-            }))}
-          />
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="section-head">
-          <h2>Posts per month</h2>
-          <p>
-            Corpus posts by the month they were written. Hacker News starts in October 2024; the
-            Stack Exchange sites go back five years because they&apos;re small. The last month is partial.
-          </p>
-        </div>
-        <div className="card">
+          <h3 style={{ marginBottom: 12 }}>Merge requests that disclose AI help, by month</h3>
           <ColumnChart
-            caption="Corpus posts per month, by source"
-            series={series.map((f) => ({ key: f.key, label: f.label }))}
-            everyNth={6}
-            columns={months.map((m) => ({
-              key: m.month,
-              label: month(m.month),
-              tick: monthShort(m.month),
-              values: m.values,
-              partial: m.month === lastMonth,
+            caption="Share of sampled GitLab merge requests disclosing AI help, by month"
+            series={[{ key: "share", label: "AI-disclosed" }]}
+            unit="%"
+            everyNth={3}
+            columns={ai.map((a) => ({
+              key: a.month,
+              label: month(a.month),
+              tick: monthShort(a.month),
+              values: { share: Math.round(a.share * 1000) / 10 },
             }))}
           />
         </div>
+        <div className="grid-2" style={{ marginTop: 16 }}>
+          <div className="card">
+            <h3 style={{ marginBottom: 12 }}>Lines changed per merge request</h3>
+            <ColumnChart
+              caption="Median lines changed per merge request, by quarter"
+              series={[{ key: "lines", label: "Median lines" }]}
+              unit=" lines"
+              everyNth={2}
+              columns={vs.map((v) => ({ key: v.quarter, label: v.quarter, values: { lines: v.lines } }))}
+            />
+          </div>
+          <div className="card">
+            <h3 style={{ marginBottom: 12 }}>Time to merge</h3>
+            <ColumnChart
+              caption="Median hours from opening to merge, by quarter"
+              series={[{ key: "hours", label: "Median hours" }]}
+              unit=" h"
+              everyNth={2}
+              columns={vs.map((v) => ({ key: v.quarter, label: v.quarter, values: { hours: Math.round(v.hours) } }))}
+            />
+          </div>
+        </div>
       </section>
 
-      <section className="section">
+      <section className="section" id="voices">
         <div className="section-head">
-          <h2>By stage of the work</h2>
+          <h2>In their words</h2>
           <p>
-            Posts by the part of a product team&apos;s work their search terms covered. A post can count in
-            more than one stage. Stack Exchange posts have no stage: they came in as whole sites, not through
-            a term.
+            Of all the pains people described, the ones around AI-made changes are by far the biggest group:{" "}
+            {pct(h.clusterShare)} of relevant posts, and {pct(h.clusterShareFirstHand)} of first-hand accounts. These are
+            first-hand, from the coded sample, picked by a fixed rule (known role first, then the longest passage) rather
+            than by me.
+          </p>
+        </div>
+        <div className="quotes">
+          {PAINS.map((p) => {
+            const qs = quotes.filter((q) => q.code === p.code);
+            if (qs.length === 0) return null;
+            return (
+              <div key={p.code} className="quote-group">
+                <h3>{p.label}</h3>
+                {qs.map((q) => (
+                  <figure key={q.docId} className="quote">
+                    <blockquote>&ldquo;{q.evidence}&rdquo;</blockquote>
+                    <figcaption className="muted">
+                      {q.speaker && q.speaker !== "unknown" ? `${q.speaker} · ` : ""}
+                      {sourceLabel(q.source)} · {day(q.createdAt)} ·{" "}
+                      <Link href={`/posts/${encodeURIComponent(q.docId)}`}>in context</Link>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="section" id="size">
+        <div className="section-head">
+          <h2>How big each pain is</h2>
+          <p>
+            Twelve pains scored on how common they are, what they cost, whether someone has a budget for them, how well
+            they&apos;re already solved, and whether agents suit them. The weights were fixed before scoring. The top two
+            stay on top in 98% of runs when every judged score is nudged up or down by one.
           </p>
         </div>
         <div className="card">
           <BarChart
-            caption="Corpus posts per stage"
-            bars={stages.map((s) => ({
-              label: s.stage,
-              value: s.posts,
-              detail: s.judged ? `${s.relevant} of ${s.judged} read were about a pain` : "none read yet",
-              href: `/posts?stage=${s.stage}`,
+            caption="Stage 2 score out of 60"
+            bars={ranked.map((r) => ({
+              label: r.label,
+              value: r.score,
+              display: `${r.score}`,
+              detail: `${pct(r.share)} of relevant posts · top 3 in ${pct(r.top3_under_nudging)} of nudged runs`,
+              ...(r.code === "eng-dependency" ? { variant: "muted" as const } : {}),
             }))}
           />
         </div>
       </section>
 
-      <section className="section">
+      <section className="section" id="who">
         <div className="section-head">
-          <h2>Rounds</h2>
-          <Link href="/rounds">Every search term<Arrow /></Link>
+          <h2>Who it&apos;s for</h2>
+          <p>{FIRST_CUSTOMERS}</p>
         </div>
-        <div className="grid-2">
-          {allRounds.map((r) => (
-            <article key={r.id} className="card list" style={{ gap: 10 }}>
-              <p className="eyebrow">Round {r.id} · {day(r.started_at)}</p>
-              <p>{r.note}</p>
+        <div className="personas">
+          {PERSONAS.map((p) => (
+            <article key={p.who} className="card persona">
+              <span className="eyebrow">{p.role}</span>
+              <h3>{p.who}</h3>
+              <p className="muted">{p.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section" id="market">
+        <div className="section-head">
+          <h2>The market, and where Vera fits</h2>
+          <p>
+            The products closest to this problem, against the four things still unsolved: how much human reviewers can
+            get through, proof they understood the change, sign-off across roles, and doing the rework. AI review bots are
+            close to a commodity and auto-fix is crowded. Nothing checks understanding, and cross-role sign-off is partial
+            at best.
+          </p>
+        </div>
+        <div className="table-wrap card" style={{ padding: 0 }}>
+          <table className="matrix">
+            <thead>
+              <tr>
+                <th>Product</th>
+                {GAPS.map((g) => (
+                  <th key={g.key}>{g.label}</th>
+                ))}
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <Row c={VERA} vera />
+              {COMPETITORS.map((c) => (
+                <Row key={c.name} c={c} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="chart-note">
+          From a teardown of public docs, pricing pages and reviews, October 2026. Vera doesn&apos;t do rework by design: it
+          uses the bots&apos; findings and fixes instead of competing with them.
+        </p>
+        <div className="grid-3" style={{ marginTop: 24 }}>
+          {DIFFERENTIATORS.map((d) => (
+            <article key={d.title} className="card" style={{ display: "grid", gap: 8, alignContent: "start" }}>
+              <h3>{d.title}</h3>
+              <p className="muted">{d.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section" id="tradeoffs">
+        <div className="section-head">
+          <h2>Trade-offs</h2>
+          <p>Each decision, what I chose it over, and why.</p>
+        </div>
+        <div className="list">
+          {TRADEOFFS.map((t) => (
+            <article key={t.chose} className="card tradeoff">
+              <h3>{t.chose}</h3>
               <dl className="kv">
-                <dt>Search terms</dt><dd>{r.queries}</dd>
-                <dt>Posts pulled</dt><dd>{num(r.pulled)}</dd>
-                <dt>Contain the term</dt><dd>{num(r.exact)} ({pct(r.exact, r.pulled)})</dd>
+                <dt>Over</dt>
+                <dd>{t.over}</dd>
+                <dt>Why</dt>
+                <dd>{t.why}</dd>
               </dl>
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="section" id="ruled-out">
+        <div className="section-head">
+          <h2>What the data ruled out</h2>
+          <p>Including my own first idea. Each was written down with what would disprove it, before the data came in.</p>
+        </div>
+        <div className="list">
+          {RULED_OUT.map((r) => (
+            <article key={r.idea} className="card" style={{ display: "grid", gap: 6 }}>
+              <h3 className="struck">{r.idea}</h3>
+              <p className="muted">{r.evidence}</p>
+            </article>
+          ))}
+        </div>
+        <div className="card" style={{ marginTop: 16 }}>
+          <h3 style={{ marginBottom: 8 }}>What would make me stop</h3>
+          <ul className="plain-list">
+            {KILL_CRITERIA.map((k) => (
+              <li key={k}>{k}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="section" id="method">
+        <div className="section-head">
+          <h2>How the evidence was gathered</h2>
+          <p>
+            Every round&apos;s plan, search terms and scoring rules were committed before the data they apply to. Two
+            independent coding passes agreed on 96.5% of posts (Cohen&apos;s kappa 0.93).
+          </p>
+        </div>
+        <div className="stats is-small">
+          <div className="stat">
+            <span className="stat-value">{num(m.corpus)}</span>
+            <span className="stat-label">posts in the corpus</span>
+            <span className="stat-note">from {num(m.pulled)} pulled, Hacker News and Stack Exchange</span>
+          </div>
+          <div className="stat">
+            <span className="stat-value">{num(m.coded)}</span>
+            <span className="stat-label">coded at random</span>
+            <span className="stat-note">plus {num(m.readByHand)} read by hand</span>
+          </div>
+          <div className="stat">
+            <span className="stat-value">{num(m.mrs)}</span>
+            <span className="stat-label">merge requests measured</span>
+            <span className="stat-note">GitLab, by the role of who opened and reviewed them</span>
+          </div>
+          <div className="stat">
+            <span className="stat-value">
+              {m.hypotheses.supported} / {m.hypotheses.disproved}
+            </span>
+            <span className="stat-label">hypotheses supported / disproved</span>
+            <span className="stat-note">{m.hypotheses.open} still open or untestable</span>
+          </div>
+        </div>
+        <p className="chart-note">
+          <Link href="/evidence">The data<Arrow /></Link> · <Link href="/hypotheses">Every hypothesis<Arrow /></Link> ·{" "}
+          <Link href="/work">Work data<Arrow /></Link> · <Link href="/codebook">The codebook<Arrow /></Link>
+        </p>
       </section>
     </>
   );

@@ -18,7 +18,7 @@ const niceMax = (n: number) => {
 };
 
 const compact = (n: number) => (n >= 1000 ? `${n / 1000}K` : String(n));
-const fmt = (n: number) => n.toLocaleString("en-US");
+const fmt = (n: number) => n.toLocaleString("en-US", { maximumFractionDigits: 1 });
 
 /**
  * Columns over time, stacked by series in a fixed order (slot 1 at the
@@ -30,11 +30,14 @@ export function ColumnChart({
   series,
   caption,
   everyNth = 3,
+  unit = "",
 }: {
   columns: Column[];
   series: Series[];
   caption: string;
   everyNth?: number;
+  /** Appended to values in the tooltip and table, e.g. "%" or " h". */
+  unit?: string;
 }) {
   const [active, setActive] = useState<number | null>(null);
   const totals = columns.map((c) => series.reduce((n, s) => n + (c.values[s.key] ?? 0), 0));
@@ -71,7 +74,7 @@ export function ColumnChart({
                 className="column"
                 role="listitem"
                 tabIndex={0}
-                aria-label={`${c.label}: ${series.map((s) => `${s.label} ${fmt(c.values[s.key] ?? 0)}`).join(", ")}${c.partial ? " (partial month)" : ""}`}
+                aria-label={`${c.label}: ${series.map((s) => `${s.label} ${fmt(c.values[s.key] ?? 0)}${unit}`).join(", ")}${c.partial ? " (partial month)" : ""}`}
                 onPointerEnter={() => setActive(i)}
                 onPointerLeave={() => setActive(null)}
                 onFocus={() => setActive(i)}
@@ -107,7 +110,7 @@ export function ColumnChart({
               {series.map((s, si) => (
                 <span key={s.key} className="tooltip-row">
                   {stacked ? <span className="tooltip-key" style={{ background: `var(--s${si + 1})` }} /> : null}
-                  <strong>{fmt(columns[active].values[s.key] ?? 0)}</strong>
+                  <strong>{fmt(columns[active].values[s.key] ?? 0)}{unit}</strong>
                   {stacked ? <span>{s.label}</span> : null}
                 </span>
               ))}
@@ -144,7 +147,7 @@ export function ColumnChart({
               {columns.map((c, i) => (
                 <tr key={c.key}>
                   <td>{c.label}{c.partial ? " (partial)" : ""}</td>
-                  {series.map((s) => <td key={s.key} className="num">{fmt(c.values[s.key] ?? 0)}</td>)}
+                  {series.map((s) => <td key={s.key} className="num">{fmt(c.values[s.key] ?? 0)}{unit}</td>)}
                   {stacked ? <td className="num">{fmt(totals[i])}</td> : null}
                 </tr>
               ))}
