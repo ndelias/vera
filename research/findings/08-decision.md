@@ -158,7 +158,10 @@ roles):
 1. ~~Is "record by default, gate if the team wants" the right stance on
    understanding checks?~~ **Decided (Nahuel, 2026-10-20): yes.** Record by
    default, gate optional.
-2. Pilot surfaces: GitHub first (portfolio repo) or GitLab (where the
-   evidence came from)?
+2. ~~Pilot surfaces: GitHub first (portfolio repo) or GitLab (where the
+   evidence came from)?~~ **Decided (Nahuel, 2026-10-20): GitHub first.**
+   Offline evals still run on the historical GitLab data, since the core
+   logic doesn't depend on the platform. The pilot runs on GitHub, starting
+   with the portfolio repo.
 3. The portfolio tagline changes from "Lets non-engineers ship code
    safely…" to something about understanding and sign-off. Your words.
