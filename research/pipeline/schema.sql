@@ -170,3 +170,14 @@ CREATE TABLE IF NOT EXISTS s3_mrs (
   ai_marker     TEXT,              -- NULL, or the kind of marker found
   marker_where  TEXT               -- description | commit
 );
+
+-- R6: size of each sampled MR's diff (generated files excluded).
+CREATE TABLE IF NOT EXISTS r6_size (
+  mr_id           TEXT PRIMARY KEY REFERENCES gl_mrs(id),
+  quarter         INTEGER NOT NULL,
+  lines_added     INTEGER NOT NULL,
+  lines_deleted   INTEGER NOT NULL,
+  files           INTEGER NOT NULL,
+  generated_files INTEGER NOT NULL,
+  too_large_files INTEGER NOT NULL
+);
