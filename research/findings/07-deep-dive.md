@@ -26,11 +26,12 @@ Design committed before the data was pulled (`studies/04-deep-dive/DESIGN.md`).
 - **AI help is spreading fast.** The share of MRs disclosing AI help rose from
   ~3% (Oct 2025–Feb 2026) to **22% (Oct 2026)**. Disclosure undercounts use,
   so the real share is higher.
-- **GitLab absorbed the volume without thinning review.** Median comments
-  per MR rose from 11 to 14, and MRs merged with no human reviewer fell
-  from 15% to 2%. Volume is up 55% and each MR gets more comments, so the
-  review conversation roughly **doubled** in two years while time to merge
-  stayed flat. The extra load landed on reviewers rather than on wait time.
+- **Review held up per MR, not per line.** Median comments per MR rose from
+  11 to 14, and MRs merged with no human reviewer fell from 15% to 2%.
+  Volume is up 55% and each MR gets more comments, so the review
+  conversation roughly **doubled** while time to merge stayed flat. But the
+  code doubled too (R6), so attention per line still fell. The extra load
+  landed on reviewers, not on wait time.
   (Comment counts include bot comments, which can't be separated without a
   login.)
 
