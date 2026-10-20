@@ -2,15 +2,41 @@
   "round": 7,
   "note": "Stage 3 deep dive (studies/04-deep-dive/DESIGN.md). Written before the Stage 3 data was pulled.",
   "hypotheses": [
-    {"id": "R1", "version": 1, "statement": "Review is getting slower: median time to merge in GitLab's product repo rose over the last two years.",
-     "disproved_if": "The 95% bootstrap interval of the slope of quarterly median time to merge (Q4 2024 to Q3 2026) includes 0 or is below it."},
-    {"id": "R2", "version": 1, "statement": "MRs that disclose AI help take longer to merge than those that don't, at the same size.",
-     "disproved_if": "Median time to merge, AI-disclosed ÷ not, is ≤ 1.0 in at least two of the three size buckets (1–3, 4–10, 11+ files). Inconclusive under 200 AI-disclosed MRs."},
-    {"id": "R3", "version": 1, "statement": "MRs that disclose AI help need more review back-and-forth.",
-     "disproved_if": "Median review comments, AI-disclosed ÷ not, is ≤ 1.0 in at least two of the three size buckets."},
-    {"id": "R4", "version": 1, "statement": "MRs that disclose AI help get reverted more often.",
-     "disproved_if": "The AI-disclosed revert rate is ≤ the rest. Inconclusive under 10 reverts in the AI-disclosed group."},
-    {"id": "R5", "version": 1, "statement": "Small changes reviewed by people from several roles wait much longer to merge.",
-     "disproved_if": "For MRs with 1–3 files, median time to merge with reviewers from 2+ roles ÷ 1 role is < 1.25 (supported at ≥ 1.5, inconclusive in between)."}
+    {
+      "id": "R1",
+      "version": 1,
+      "statement": "Review is getting slower: median time to merge in GitLab's product repo rose over the last two years.",
+      "disproved_if": "The 95% bootstrap interval of the slope of quarterly median time to merge (Q4 2024 to Q3 2026) includes 0 or is below it."
+    },
+    {
+      "id": "R2",
+      "version": 1,
+      "statement": "MRs that disclose AI help take longer to merge than those that don't, at the same size.",
+      "disproved_if": "Median time to merge, AI-disclosed ÷ not, is ≤ 1.0 in at least two of the three size buckets (1–3, 4–10, 11+ files). Inconclusive under 200 AI-disclosed MRs."
+    },
+    {
+      "id": "R3",
+      "version": 1,
+      "statement": "MRs that disclose AI help need more review back-and-forth.",
+      "disproved_if": "Median review comments, AI-disclosed ÷ not, is ≤ 1.0 in at least two of the three size buckets."
+    },
+    {
+      "id": "R4",
+      "version": 1,
+      "statement": "MRs that disclose AI help get reverted more often.",
+      "disproved_if": "The AI-disclosed revert rate is ≤ the rest. Inconclusive under 10 reverts in the AI-disclosed group."
+    },
+    {
+      "id": "R5",
+      "version": 1,
+      "statement": "Small changes reviewed by people from several roles wait much longer to merge.",
+      "disproved_if": "For MRs with 1–3 files, median time to merge with reviewers from 2+ roles ÷ 1 role is < 1.25 (supported at ≥ 1.5, inconclusive in between)."
+    },
+    {
+      "id": "R6",
+      "version": 1,
+      "statement": "The amount of code each MR asks reviewers to read has grown over the last two years (proposed by Nahuel after R1).",
+      "disproved_if": "The 95% bootstrap interval of the slope of quarterly median lines changed per MR (Q4 2024 to Q3 2026, generated files excluded) includes 0 or is below it."
+    }
   ]
 }

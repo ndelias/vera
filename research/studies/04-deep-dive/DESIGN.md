@@ -56,3 +56,22 @@ files: median time to merge, reviewers from 2+ roles ÷ 1 role. Supported if
 ≥ 1.5; disproved if < 1.25; in between it's inconclusive.
 
 All ratios come with 95% bootstrap intervals (2,000 resamples, fixed seed).
+
+## Added after the first results: R6, how much code there is to review
+
+Proposed by Nahuel after R1 (time to merge flat, MR count +55%). Committed
+before any code-size data was pulled.
+
+**Data:** 250 random merged, non-bot product MRs per quarter, Q4 2024 to Q3
+2026 (2,000 total, fixed seed). For each MR, lines added plus deleted across
+its diff (public diffs API). Files GitLab marks as generated are left out.
+Files too large to show are counted but have no line count.
+
+**R6. The amount of code each MR asks reviewers to read has grown.**
+Quarterly median lines changed per MR, Q4 2024 to Q3 2026. Supported if the
+95% bootstrap interval of the least-squares slope is above 0. Disproved
+otherwise.
+
+Reported alongside it (descriptive, no verdict): estimated total lines
+changed per quarter (MR count × mean lines per MR), and its change from the
+first to the last quarter.
