@@ -1,0 +1,80 @@
+{"doc_id": "hn:45805443", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34893", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45363304", "relevance": 2, "speaker": "founder", "codes": [{"code": "test-ci-friction", "evidence": "minor front-end changes, such as renaming a button ID or adjusting a CSS selector, can cause a cascade of failures"}, {"code": "qa-capacity", "evidence": "Test coverage stagnates because the QA team's bandwidth is consumed by fixing what's broken, not by creating new, valuable tests"}], "other": null}
+{"doc_id": "hn:45398602", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147106", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35608", "relevance": 1, "speaker": "unknown", "codes": [{"code": "approval-delays", "evidence": "as soon as you introduce multi-party reviews or changes, which generally have knock-on effects, rigid plans generally fail"}], "other": null}
+{"doc_id": "ux-se:143981", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45094943", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "ux-se:142650", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49911006", "relevance": 2, "speaker": "engineer", "codes": [{"code": "tribal-knowledge", "evidence": "If our internal design system is barely half as well documented than Bootstrap then teams will still use Bootstrap."}, {"code": "change-impact", "evidence": "Your backwards incompatible updates need to be planned and scheduled and rolled out like a Production update, every time."}], "other": null}
+{"doc_id": "pm-se:34214", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149219", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45446723", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:47475604", "relevance": 1, "speaker": "unknown", "codes": [{"code": "test-ci-friction", "evidence": "no shared state, no flaky tests from leftover S3 objects"}], "other": null}
+{"doc_id": "hn:45095426", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48181544", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47846791", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43763011", "relevance": 1, "speaker": "founder", "codes": [{"code": "agent-supervision", "evidence": "Getting an agent to do the correct thing 99% is not trivial."}], "other": null}
+{"doc_id": "hn:47845091", "relevance": 2, "speaker": "engineer", "codes": [{"code": "review-overload", "evidence": "Sometimes I create a very large number of commits as part of a migration DND I can't get them all reviewed in parallel."}, {"code": "test-ci-friction", "evidence": "some changes may need multiple rounds of review or might be have flaky tests that uncovers after a few hours"}], "other": null}
+{"doc_id": "hn:48776854", "relevance": 2, "speaker": "engineer", "codes": [{"code": "tribal-knowledge", "evidence": "The code I'm brought in to maintain is exactly like this. Layers of tacit knowledge"}, {"code": "role-boundaries", "evidence": "But since they were a tier above me, I just went along with it."}], "other": null}
+{"doc_id": "hn:47541132", "relevance": 2, "speaker": "engineer", "codes": [{"code": "qa-capacity", "evidence": "I worked with a QA team for the last fifteen years until last year when they laid them all off."}], "other": null}
+{"doc_id": "pm-se:35147", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47301756", "relevance": 2, "speaker": "engineer", "codes": [{"code": "tool-friction", "evidence": "services are described in fragments across different tools"}, {"code": "tribal-knowledge", "evidence": "Dependencies are often documented in READMEs or tribal knowledge."}], "other": null}
+{"doc_id": "hn:45969073", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46748316", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "negative consequence (“penalties”) for inaccurate estimate"}, {"code": "unclear-requirements", "evidence": "unclear requirements/expectations/system under change - changing requirements"}], "other": null}
+{"doc_id": "hn:49158939", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47011413", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "tribal knowledge will not be a moat once execs realize that all they need to do is prioritize documentation instead of \"code velocity\""}, {"code": "agent-supervision", "evidence": "They'll spend 20 minutes trying to fix build issues going down a rabbit hole without stepping back to think."}], "other": null}
+{"doc_id": "hn:49922684", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:33437", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "boss A suddenly want this thing done tomorrow and doesn't care about your garsh darn scrum methodology"}], "other": null}
+{"doc_id": "hn:49225773", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Good coders are still in demand - because, someone has to fix the vibe coded mess."}], "other": null}
+{"doc_id": "hn:47957402", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-missing-context", "evidence": "Without this every session starts from zero, repeating mistakes I've already corrected."}], "other": null}
+{"doc_id": "hn:42930516", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:47957223", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50086684", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48891506", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49975319", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:42359862", "relevance": 0, "speaker": "other", "codes": [], "other": null}
+{"doc_id": "hn:47866740", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35213", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45984618", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33443", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:46857601", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "stop giving out bonuses based on new features in windows"}], "other": null}
+{"doc_id": "hn:45444080", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43968548", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "They were overloaded with features I didn’t need"}], "other": null}
+{"doc_id": "ux-se:151338", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45516141", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47628362", "relevance": 2, "speaker": "engineer", "codes": [{"code": "interruptions", "evidence": "Having to constantly swap app between browser, email, IDE, slack, etc is interruptive."}], "other": null}
+{"doc_id": "ux-se:144163", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43139846", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46770713", "relevance": 2, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "my main bottleneck now is CI"}, {"code": "ai-missing-context", "evidence": "it took several sessions of this to refine the workflow docs to something claude + subagents would stick to regarding branching strategy"}, {"code": "qa-capacity", "evidence": "it's about all the spare time I have for manual QA anyway"}], "other": null}
+{"doc_id": "hn:46046617", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47308342", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:42491916", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "pm-se:35702", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47638138", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "ux-se:143870", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45592248", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44781361", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "Focus on eliminating tribal knowledge, implementing a learning culture."}], "other": null}
+{"doc_id": "pm-se:35734", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "This carries overhead because it creates an ongoing system of routine interruptions"}, {"code": "tool-friction", "evidence": "they've adopted a tool-driven workflow such as Jira that's inherently non-agile"}], "other": null}
+{"doc_id": "hn:42576998", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44570584", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "ux-se:152013", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43536061", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47052633", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48197661", "relevance": 2, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "writing tickets was the bottleneck for me, not writing code"}], "other": null}
+{"doc_id": "pm-se:35286", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46632801", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "The coding assistant hallucinated away the nested loop and just described the outer loop as going through a test suite and running each test."}, {"code": "tribal-knowledge", "evidence": "they are unlikely to update the generated \"documentation\""}], "other": null}
+{"doc_id": "hn:45264192", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47435653", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42515392", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49126130", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46596352", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34577", "relevance": 2, "speaker": "manager", "codes": [{"code": "tribal-knowledge", "evidence": "how do you do SP Poker when literally only 1 guy understands a whole area?"}], "other": null}
+{"doc_id": "hn:46422564", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47249084", "relevance": 2, "speaker": "pm", "codes": [{"code": "change-impact", "evidence": "13 commits to my core vault module dropped LOCOMO from 84.5% to 62%."}], "other": null}
+{"doc_id": "hn:47287296", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45467518", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:46781966", "relevance": 1, "speaker": "founder", "codes": [{"code": "tool-friction", "evidence": "managing client projects through a mix of email threads, shared drive links, and instant messages"}], "other": null}
+{"doc_id": "hn:41952327", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48496762", "relevance": 1, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "This might result in opening up more PRs faster but in the end it's not more productive."}, {"code": "interruptions", "evidence": "Context switching takes time, it divides your attention so your work is more sloppy and less thought through"}], "other": null}

@@ -1,0 +1,80 @@
+{"doc_id": "pm-se:34787", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "Imagine a world in which literally nobody is held to the estimates"}], "other": null}
+{"doc_id": "hn:46435274", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45134172", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49925063", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144286", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49127176", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "doesn't get drive by, low effort code review requests"}], "other": null}
+{"doc_id": "hn:42909181", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:48758168", "relevance": 2, "speaker": "unknown", "codes": [{"code": "design-drift", "evidence": "I got very frustrated with LLMs and their inability to apply good taste or maintain consistent design languages"}, {"code": "ai-output-quality", "evidence": "having a human doing QA and prodding the model to fix obviously-wrong outputs"}], "other": null}
+{"doc_id": "hn:49845072", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148662", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46207825", "relevance": 1, "speaker": "engineer", "codes": [{"code": "unclear-requirements", "evidence": "vague requirements, shifting budgets and priorities"}], "other": null}
+{"doc_id": "hn:44414234", "relevance": 1, "speaker": "unknown", "codes": [{"code": "design-drift", "evidence": "They probably wouldn’t implement the design system right without billing extra for attention to detail"}], "other": null}
+{"doc_id": "hn:42386952", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:47251986", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48529582", "relevance": 2, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "very high context switching costs"}, {"code": "tool-friction", "evidence": "multiple projects spread across term tabs, IDEs and Claude remote on phone"}], "other": null}
+{"doc_id": "hn:48353679", "relevance": 1, "speaker": "unknown", "codes": [{"code": "design-drift", "evidence": "getting them to follow a coherent design system is still unreliable"}], "other": null}
+{"doc_id": "hn:43986959", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "The thing with vague requirements is that the real problem is that making decisions is hard."}], "other": null}
+{"doc_id": "hn:46337452", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48265243", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45095937", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45300047", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "a perennial problem in software development - requirements change regularly, even deep into project development"}], "other": null}
+{"doc_id": "hn:43456907", "relevance": 2, "speaker": "engineer", "codes": [{"code": "qa-capacity", "evidence": "We spend a lot of time resolving discrepancies between implementation, spec and test"}], "other": null}
+{"doc_id": "ux-se:144805", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45475141", "relevance": 1, "speaker": "unknown", "codes": [{"code": "design-drift", "evidence": "if your designers don’t “design system”, it finds its way into the codebase"}], "other": null}
+{"doc_id": "hn:46783282", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "at the cost of long term tech debt because of lack of cross disciplinary knowledge"}], "other": null}
+{"doc_id": "hn:47778624", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "You should also turn down demands for a fixed price on novel solutions you can't have experience on"}], "other": null}
+{"doc_id": "pm-se:35011", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45395789", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44511715", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49103771", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "It denies there are bugs that you have personally verified exists"}], "other": "AI code review gives wrong, demanding feedback to contributors"}
+{"doc_id": "hn:43569859", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49071942", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "The agents code so defensively and add a lot of unnecessary code"}, {"code": "process-skipped", "evidence": "108 PRs in a week, no mandatory code review or CI."}], "other": null}
+{"doc_id": "hn:44457296", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:49705809", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "the security, performance and architecture aspect gets diluted and take a back seat when products are built incrementally"}], "other": null}
+{"doc_id": "hn:42127367", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155287", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "pm-se:34257", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35606", "relevance": 2, "speaker": "pm", "codes": [{"code": "approval-delays", "evidence": "one of very risky areas where the plan get's delayed and tasks get dragged are design approvals"}], "other": null}
+{"doc_id": "hn:49580888", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47244065", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44617541", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49217463", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "AI writes faster, so the rate it incurs tech debt is proportionally higher."}], "other": null}
+{"doc_id": "pm-se:33747", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:48357754", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43514365", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "relentless focus on big flashy features for the next yearly release cycle"}], "other": null}
+{"doc_id": "hn:44600341", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Its not hard to imagine a feedback loop of bad code generating worse code"}], "other": null}
+{"doc_id": "hn:49927194", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:44314471", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "switching in and out of 'driving' feels more exhausting than being 100% one or the other"}, {"code": "interruptions", "evidence": "Is AI 'context switching' exhausting?"}], "other": null}
+{"doc_id": "hn:43120974", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48883106", "relevance": 1, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "a new tool that makes everyone more productive has a lot of potential to exacerbate the existing imbalance"}, {"code": "test-ci-friction", "evidence": "someone might introduce eight flaky tests while you fixed two, so you're falling behind twice as fast"}], "other": null}
+{"doc_id": "hn:43425697", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "having to explain to someone who's been with the company for 2 months that no we probably shouldn't throw out the entire React app"}], "other": "New hires push costly framework rewrites, derailing the team"}
+{"doc_id": "hn:46677919", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:47862057", "relevance": 2, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "A manager decided not to release a refactor that would fix a bug because it would have jeapordize the crash rate right near bonuses"}, {"code": "tech-debt-priority", "evidence": "Efforts like R&D, clean code, and other optimizations are often punished if they don't affect the bonuses"}], "other": null}
+{"doc_id": "hn:42517390", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "then you have tribal knowledge that is encroaching on the problem at hand"}, {"code": "code-comprehension", "evidence": "juggling more concepts than comfortably fit in short term memory - cognitive overload"}], "other": null}
+{"doc_id": "hn:48484917", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46207852", "relevance": 1, "speaker": "founder", "codes": [{"code": "ai-output-quality", "evidence": "codebases with a lot of debt, so we had personal grudges about the problem, and AI seemed to be making it a lot worse"}, {"code": "bottleneck-shift", "evidence": "the limiting reagent in building software is human attention"}], "other": null}
+{"doc_id": "hn:46939807", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:44316978", "relevance": 1, "speaker": "engineer", "codes": [{"code": "eng-dependency", "evidence": "The classic \"engineering as the bottleneck\" problem is something every product engineer feels"}, {"code": "non-eng-building", "evidence": "Do you have a formal process for refactoring or \"graduating\" a successful duct-tape solution into a core, robust, engineer-built API?"}, {"code": "design-drift", "evidence": "I imagine maintaining a consistent design system and user journey could be a challenge."}], "other": null}
+{"doc_id": "hn:50077031", "relevance": 2, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "their codebases are incredibly sloppy and verbose"}, {"code": "code-comprehension", "evidence": "verbose with little understanding, and these problems compound over time"}], "other": null}
+{"doc_id": "hn:45963060", "relevance": 2, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "You get asked the same pish everyday and nobody listens to what you say. Ten different ways to track things for different audiences"}], "other": null}
+{"doc_id": "hn:46187517", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:42287182", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48402393", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "literally 100% of any non-trivial Claude session/work will now be blocked on these issues, requiring manual intervention"}], "other": "AI tool outages and rate limits block long-running work"}
+{"doc_id": "hn:46490606", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "the code is getting near the limit of the context window for Claude, so I'm not able to add several of the feature suggestions"}], "other": "AI context window too small for the codebase"}
+{"doc_id": "hn:48175316", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "customers don't understand what they really want, and BAs translate their vague requirements for SWEs to work"}], "other": null}
+{"doc_id": "hn:42299840", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42921663", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:49390234", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47399623", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42187079", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "If you have a really long deployment process where devs can get distracted then they will lose context switching between tasks"}], "other": null}
+{"doc_id": "pm-se:33510", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "Reducing the number of meetings like this will reduce context switches in the day and give the team a little more focus time"}], "other": null}
+{"doc_id": "hn:49105071", "relevance": 2, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "a political black swan event ended up changing key requirements of our software overnight"}], "other": null}
+{"doc_id": "hn:50092903", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48383266", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42576614", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49793932", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "burning down our known tech-debt and \"easy wins\" that no one ever had the bandwidth to approach"}, {"code": "qa-capacity", "evidence": "Our QA, formerly a fairly frequent blocker of all our releases"}], "other": null}
+{"doc_id": "ux-se:152443", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46852905", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48416049", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:44426435", "relevance": 2, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "reduce the back-and-forth between QA and Dev"}], "other": null}

@@ -1,0 +1,80 @@
+{"doc_id": "hn:42086777", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "Basically nobody wants to lay it on the line and say to the CTO"}], "other": "process used so nobody takes responsibility for outcomes"}
+{"doc_id": "hn:44537065", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49466767", "relevance": 2, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "The application was changing so rapidly that it was overwhelming both our ability to uphold quality standards"}], "other": null}
+{"doc_id": "hn:46504697", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "I quickly get overwhelmed by the volume of context switching"}], "other": null}
+{"doc_id": "pm-se:34627", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49215577", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:44558653", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42994677", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46208203", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42447662", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35640", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43616771", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48368468", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47880213", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45531182", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44326101", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45646376", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143520", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44755056", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-missing-context", "evidence": "when writing Go it has a habit of doing a lot of stuff inline instead of looking at the utils package I have"}, {"code": "ai-output-quality", "evidence": "Sometimes a particular model does keep messing up"}], "other": null}
+{"doc_id": "hn:46940290", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "ux-se:142575", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47351791", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144316", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48137350", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:48009003", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "ux-se:142326", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42963694", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "we consistently underestimate the disruptive nature of interruptions"}], "other": null}
+{"doc_id": "ux-se:147250", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34541", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34575", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45615448", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145747", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49934673", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:49859101", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46858047", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49244526", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34212", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "while the PO is responsible for the backlog, they are not the only person who has an input to it"}], "other": null}
+{"doc_id": "hn:44661394", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34481", "relevance": 2, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "The product manager of my development team wants to use this ratio as a KPI"}], "other": null}
+{"doc_id": "pm-se:34200", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "In most organizations there is one or two of these present but rarely all three together."}], "other": "Scrum adoption lacks experienced Scrum Master, mature team or management support"}
+{"doc_id": "hn:45138888", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46528291", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47019721", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45120325", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33360", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "pm-se:33289", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "If you are delivering for a role without being assigned \"official\" authority and designation, this is going to be an issue"}], "other": null}
+{"doc_id": "hn:43253587", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:44115768", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42368564", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42478327", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44034344", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44749059", "relevance": 1, "speaker": "founder", "codes": [{"code": "test-ci-friction", "evidence": "chronic flake pain"}], "other": null}
+{"doc_id": "hn:47520116", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "the managers that ignored all of the warning of \"tech debt\""}], "other": null}
+{"doc_id": "hn:49164904", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:48713906", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44813832", "relevance": 2, "speaker": "pm", "codes": [{"code": "other", "evidence": "I can't get claude sonnet 4/opus 4 to write with any taste."}], "other": "AI writing quality too poor for PM writing work"}
+{"doc_id": "hn:47817602", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42935446", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:46720991", "relevance": 1, "speaker": "pm", "codes": [{"code": "other", "evidence": "Internally, we're looking at options for admins to disable PRs on repos, or limit PRs to collaborators only"}], "other": "low-quality PRs and issues flooding open-source maintainers"}
+{"doc_id": "hn:45056356", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42609970", "relevance": 0, "speaker": "other", "codes": [], "other": null}
+{"doc_id": "hn:44649816", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47363732", "relevance": 2, "speaker": "engineer", "codes": [{"code": "status-overhead", "evidence": "They take the transcripts of the sprint review sessions I lead, have AI summarize it and put that in their status updates."}, {"code": "role-boundaries", "evidence": "I do all of the discovery because I’m the person with the technical background to do it."}], "other": null}
+{"doc_id": "hn:45649812", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42321156", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43865549", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42904606", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47273444", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "now that it's in the beta stage the amount of issues and bugs is insane"}, {"code": "code-comprehension", "evidence": "my mental model of the codebase has severely degraded"}], "other": null}
+{"doc_id": "pm-se:34546", "relevance": 1, "speaker": "pm", "codes": [{"code": "other", "evidence": "There seemed to be a running pattern of external dev teams making it as difficult as possible for them to go elsewhere."}], "other": "lock-in to an external dev team"}
+{"doc_id": "ux-se:143107", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155177", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42586607", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:47123798", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44742400", "relevance": 2, "speaker": "pm", "codes": [{"code": "non-eng-building", "evidence": "the Senior Engineer I work with has been reviewing my PRs before they get merged"}], "other": null}
+{"doc_id": "hn:45544733", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35229", "relevance": 2, "speaker": "pm", "codes": [{"code": "other", "evidence": "one of my team failed to share the weekly status reports with a customer during my vacation"}], "other": "required customer status reports missed during absence"}
+{"doc_id": "hn:48922211", "relevance": 2, "speaker": "unknown", "codes": [{"code": "agent-supervision", "evidence": "Unmanaged by humans, these things go deep, deep into their own pits of internal domain language, depth-first development, and tail-chasing."}, {"code": "ai-output-quality", "evidence": "typically have a high ratio of slop and fluff to useful code and documentation"}], "other": null}
+{"doc_id": "pm-se:33290", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46966099", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "pm-se:34016", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "However, it seems the board view is not offering a way to do this."}], "other": null}

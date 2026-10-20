@@ -1,0 +1,80 @@
+{"doc_id": "ux-se:143480", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43253499", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:46250265", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33498", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:41966025", "relevance": 2, "speaker": "engineer", "codes": [{"code": "unclear-requirements", "evidence": "ever changing requirements and a very convoluted domain"}, {"code": "other", "evidence": "the client has to wait 2 minutes for this simple Webapp to render"}], "other": "ORM-driven performance problems that colleagues ignore"}
+{"doc_id": "pm-se:35231", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144907", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46399211", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35191", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:148150", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33370", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153005", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43016132", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43604454", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47422965", "relevance": 1, "speaker": "unknown", "codes": [{"code": "test-ci-friction", "evidence": "end-to-end tests have always been fragile and slow"}], "other": null}
+{"doc_id": "hn:47052411", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44219039", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46161199", "relevance": 2, "speaker": "engineer", "codes": [{"code": "change-impact", "evidence": "A single program change often ripples through dozens of Copybooks, which themselves include others."}, {"code": "code-comprehension", "evidence": "PERFORM blocks and deeply nested IF statements make control flow difficult to trace manually."}, {"code": "tribal-knowledge", "evidence": "massive, undocumented COBOL systems"}], "other": null}
+{"doc_id": "hn:46110650", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46522180", "relevance": 1, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "humans and Opus 4.5 cannot maintain this"}], "other": null}
+{"doc_id": "hn:41888490", "relevance": 2, "speaker": "founder", "codes": [{"code": "eng-dependency", "evidence": "designers, project managers, and product managers cannot work with Git"}, {"code": "other", "evidence": "The most common bug was forgetting some key untranslated because developers always kept this as the last part of the feature task."}], "other": "manual, error-prone localization workflow"}
+{"doc_id": "pm-se:35602", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48409488", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "bragging about creating 8x more bugs and tech-debt"}], "other": null}
+{"doc_id": "hn:43102982", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "the requirements change constantly because customers often don't know what they want until they see a prototype"}], "other": null}
+{"doc_id": "hn:43424654", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:47038676", "relevance": 2, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "code review is clogged with terribly long, often incorrect, PRs that are largely AI generated"}, {"code": "ai-output-quality", "evidence": "often incorrect, PRs that are largely AI generated"}], "other": null}
+{"doc_id": "hn:46592523", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46112811", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44943148", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "Everyone is rushing to roll the AI features out, as they fear missing out"}], "other": null}
+{"doc_id": "hn:42633156", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46246309", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46858523", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42610653", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:49736804", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "The real issue is one of timing and tech debt - higher quality software is cheaper and better, but... that's only over time."}], "other": null}
+{"doc_id": "hn:45677325", "relevance": 1, "speaker": "pm", "codes": [{"code": "approval-delays", "evidence": "You have to go through a change committee to do basic maintenance."}, {"code": "tech-debt-priority", "evidence": "Lower levels are blamed when projects faceplant because of decades of technical debt."}], "other": null}
+{"doc_id": "hn:42285272", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "Hard to avoid some tribal knowledge."}], "other": null}
+{"doc_id": "hn:45562061", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "the requirements change every day"}, {"code": "process-skipped", "evidence": "They have 3-6 months, and they need to ship."}], "other": null}
+{"doc_id": "hn:45099367", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47421192", "relevance": 2, "speaker": "engineer", "codes": [{"code": "agent-supervision", "evidence": "kept hitting the same problem: there's no governance model for agent-driven delivery"}], "other": null}
+{"doc_id": "hn:46139557", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "I keep catching mistakes in their code that they didn't used to make."}], "other": null}
+{"doc_id": "hn:44884931", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33411", "relevance": 2, "speaker": "unknown", "codes": [{"code": "other", "evidence": "If I build all these features it will take me 6 months for the first release where the feedback loop is huge"}], "other": "MVP scope too large, long wait for first customer feedback"}
+{"doc_id": "hn:44868322", "relevance": 1, "speaker": "pm", "codes": [{"code": "tech-debt-priority", "evidence": "allow for the time to get the right solutions in place"}, {"code": "other", "evidence": "Once that hook is live, marketing can add all kinds of crap to the site."}], "other": "marketing scripts degrade site performance"}
+{"doc_id": "hn:48547680", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33678", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46628596", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142265", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48838804", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44944461", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "pretending there is no issue because of your mountain of other problems is the worst possible scenario"}], "other": null}
+{"doc_id": "hn:49121449", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "Given lacking, outdated documentation somewhere on sharepoint"}, {"code": "tech-debt-priority", "evidence": "underprioritizing refactoring"}, {"code": "ai-missing-context", "evidence": "AIs either execute extremely poorly or don't work at all without these."}], "other": null}
+{"doc_id": "ux-se:142528", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48003623", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:46691241", "relevance": 2, "speaker": "engineer", "codes": [{"code": "test-ci-friction", "evidence": "Before releases I spent hours, sometimes days, babysitting flaky tests."}], "other": null}
+{"doc_id": "hn:44192783", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42226202", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42718301", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "how engineers abuse code reviews"}], "other": "reviewers abusing code review"}
+{"doc_id": "hn:46526156", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42149674", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "hn:43509648", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47553565", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142500", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43003117", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:45072278", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33816", "relevance": 2, "speaker": "pm", "codes": [{"code": "unclear-requirements", "evidence": "leading to frequent changes in the Acceptance criteria"}, {"code": "role-boundaries", "evidence": "I have to think like a UX/UI designer, who is hard as I don't have a design background"}], "other": null}
+{"doc_id": "hn:47411913", "relevance": 2, "speaker": "engineer", "codes": [{"code": "agent-supervision", "evidence": "to free myself from supervising a fleet of Claude Code tabs"}], "other": null}
+{"doc_id": "hn:43743752", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49503483", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45148299", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42378660", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47820111", "relevance": 2, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "those same product managers across the org are complaining that they can't keep up with the pace at which engineers are shipping their features"}], "other": null}
+{"doc_id": "hn:46623845", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45503294", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145243", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45711551", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47220774", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42800801", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44854757", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46009136", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44976811", "relevance": 1, "speaker": "unknown", "codes": [{"code": "interruptions", "evidence": "opportunity cost of context switching and taking them away from tasks"}], "other": null}
+{"doc_id": "hn:46148245", "relevance": 1, "speaker": "founder", "codes": [{"code": "test-ci-friction", "evidence": "Most pipelines fail for unclear reasons; huge logs, flaky tests, regressions and subtle changes that aren't obvious."}], "other": null}

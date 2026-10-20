@@ -1,0 +1,80 @@
+{"doc_id": "hn:49278252", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47985284", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42221674", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "But first you have to convince your employer to let you spend 6 months backfilling missing tests."}, {"code": "change-impact", "evidence": "But, despite all your efforts you overlooked something. There's a bug in production"}], "other": null}
+{"doc_id": "hn:49194021", "relevance": 0, "speaker": "manager", "codes": [], "other": null}
+{"doc_id": "hn:45111733", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46023503", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:48714933", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "building piles of tech debt that will fall over before long"}], "other": null}
+{"doc_id": "hn:46407615", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49525831", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44720067", "relevance": 1, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "They might happen at code review time, handling more bugs and incident, harder maintainance"}], "other": null}
+{"doc_id": "hn:43195313", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43244799", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47051566", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143666", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46774678", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:49884582", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "+441% : the rise in code-review time while generation got faster"}, {"code": "bottleneck-shift", "evidence": "+441% : the rise in code-review time while generation got faster"}, {"code": "ai-output-quality", "evidence": "91% : share of deployed vibe-coded apps containing at least one vulnerability"}], "other": null}
+{"doc_id": "hn:46889959", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:34727", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49141417", "relevance": 1, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "modifying existing services to adapt to changing requirements that more often than not are grossly unspecified"}, {"code": "ai-output-quality", "evidence": "explicitly marketed as solutions to problems introduced by vibe-coding"}], "other": null}
+{"doc_id": "hn:45161044", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47541157", "relevance": 1, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "If your product is used by humans, then it needs to be tested by humans - this cannot be automated."}], "other": null}
+{"doc_id": "pm-se:33442", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149956", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42636183", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47287412", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145241", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:152994", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:50047810", "relevance": 1, "speaker": "engineer", "codes": [{"code": "agent-supervision", "evidence": "There's still fatigue though, it's just a different kind of fatigue."}, {"code": "review-overload", "evidence": "You'll still need to manually review the code to keep it in check"}], "other": null}
+{"doc_id": "hn:45062923", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "The code review becomes more important than the code itself and appearances start mattering more than results."}], "other": null}
+{"doc_id": "hn:47523107", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tech-debt-priority", "evidence": "Why? because bugs would sit in queues for years."}, {"code": "feedback-to-product", "evidence": "Another trick was to throw it back to the user, usually after months, ostensibly to request information"}], "other": null}
+{"doc_id": "hn:47530901", "relevance": 2, "speaker": "unknown", "codes": [{"code": "design-eng-gap", "evidence": "We are trying to get the design into Figma, since we are ending up doing a lot of iterations here"}], "other": null}
+{"doc_id": "hn:48241499", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "there are three left in the queue to assess and new reports keep arriving at a pace of more than one/day"}], "other": "vulnerability report volume outpaces maintainers' capacity to assess"}
+{"doc_id": "hn:49935392", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49200404", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42340274", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33343", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "If your organization does individual-based performance reviews, this kind of data may be useful to managers as part of that process."}], "other": null}
+{"doc_id": "hn:47507443", "relevance": 1, "speaker": "unknown", "codes": [{"code": "other", "evidence": "The ability to get some other idea going quickly with AI actually works against the habits needed to tough through the valley(s)."}], "other": "fast AI prototyping undermines persistence after launch"}
+{"doc_id": "hn:48868421", "relevance": 2, "speaker": "pm", "codes": [{"code": "approval-delays", "evidence": "needed approvals from so many cross-functional counterparts that we could barely get anything done"}], "other": null}
+{"doc_id": "hn:42434625", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:44854563", "relevance": 1, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "have it degrade to a pointless \"yesterday I did x, today I will do y\" where there's very little substance being communicated"}], "other": null}
+{"doc_id": "hn:44647402", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45463349", "relevance": 1, "speaker": "unknown", "codes": [{"code": "approval-delays", "evidence": "there’s a gap of around 4 days between what you consider as a release and what can be on prod."}], "other": null}
+{"doc_id": "ux-se:146903", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42813616", "relevance": 2, "speaker": "engineer", "codes": [{"code": "tech-debt-priority", "evidence": "we only do the bare minimum of work to update the most critical vulnerabilities. There's no real plan to update everything"}, {"code": "change-impact", "evidence": "updating one library necessitates updating many other libraries, and oh my goodness, the transitive dependencies"}], "other": null}
+{"doc_id": "ux-se:149611", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:46609923", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "normalizing slop in code review"}, {"code": "agent-supervision", "evidence": "YOLO mode, these things would have been unconscionable 2 years ago"}], "other": null}
+{"doc_id": "pm-se:35275", "relevance": 1, "speaker": "manager", "codes": [{"code": "tribal-knowledge", "evidence": "The bus-factor represents a business risk, when it comes to absences/resignations"}, {"code": "other", "evidence": "they want to create a deliberate work-in-progress problem"}], "other": "management splits team, creating work-in-progress overload"}
+{"doc_id": "ux-se:152771", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48587881", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49779099", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:147026", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44982454", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49793227", "relevance": 1, "speaker": "unknown", "codes": [{"code": "bottleneck-shift", "evidence": "it feels like it is losing the carefully considered product design because now code is cheap to generate"}], "other": null}
+{"doc_id": "hn:42870857", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141387", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45137312", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:46216213", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43408027", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49544185", "relevance": 1, "speaker": "unknown", "codes": [{"code": "late-alignment", "evidence": "design and high level implementation shouldnt be happening in code review. that's way to late in the process."}], "other": null}
+{"doc_id": "hn:45166096", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "The LLM writes comments like someone who can't read code is going to read it."}], "other": null}
+{"doc_id": "hn:44974275", "relevance": 2, "speaker": "engineer", "codes": [{"code": "late-alignment", "evidence": "than those where the product requirements are \"handed\" to me and I just have to implement something that satisfies them."}], "other": null}
+{"doc_id": "hn:44453706", "relevance": 2, "speaker": "unknown", "codes": [{"code": "status-overhead", "evidence": "Every one else talks in detail for 2-3 minutes. Their updates could have been 20sec."}], "other": null}
+{"doc_id": "hn:44052710", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:46310894", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "pm-se:34230", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48600505", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45072615", "relevance": 1, "speaker": "unknown", "codes": [{"code": "test-ci-friction", "evidence": "If your tests are flakey in a 100% controlled environment, probably your real system is unreliable too."}], "other": null}
+{"doc_id": "pm-se:34482", "relevance": 2, "speaker": "engineer", "codes": [{"code": "unclear-requirements", "evidence": "The rest were insufficient requirements, changing requirements camouflaged as \"bugs\" to shift blame and responsibility"}, {"code": "qa-capacity", "evidence": "insufficient testing despite me asking for more (either more time or more automation)"}, {"code": "process-skipped", "evidence": "arbitrary deadlines pushed through, where \"done with bugs\" is better than \"not done yet\""}, {"code": "estimation-pressure", "evidence": "As a KPI for software developers is completely pointless, because it's not in their sole domain to change this."}], "other": null}
+{"doc_id": "hn:42452333", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "ux-se:145567", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:145364", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:144358", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:33372", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44523088", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48199577", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45801108", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:45444579", "relevance": 0, "speaker": "other", "codes": [], "other": null}
+{"doc_id": "hn:47677688", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:149509", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48269243", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}

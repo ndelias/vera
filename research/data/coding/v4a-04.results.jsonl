@@ -1,0 +1,80 @@
+{"doc_id": "hn:43620759", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46859912", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44848756", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42280126", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46411476", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48153344", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46390815", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "tribal knowledge holding it all together"}], "other": null}
+{"doc_id": "hn:47835466", "relevance": 1, "speaker": "unknown", "codes": [{"code": "test-ci-friction", "evidence": "It will just make things flaky and gum up your PR/release process."}], "other": null}
+{"doc_id": "hn:46339972", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42920565", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43245243", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47235749", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:47052884", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45118776", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:141435", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48672384", "relevance": 2, "speaker": "unknown", "codes": [{"code": "design-eng-gap", "evidence": "our designers and engineers are currently working in a fragmented way"}], "other": null}
+{"doc_id": "hn:46802184", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44791876", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45927736", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47079695", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "It gets a lot of well-deserved blame for generating way too much code that's a lot more complicated than it needs to be"}], "other": null}
+{"doc_id": "hn:46348936", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44833136", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155635", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46861549", "relevance": 0, "speaker": "designer", "codes": [], "other": null}
+{"doc_id": "hn:50049146", "relevance": 1, "speaker": "unknown", "codes": [{"code": "process-skipped", "evidence": "making sure you are aligned with the brand, copy is reviewed with marketing go out the window"}, {"code": "design-drift", "evidence": "adhering to existing design system"}, {"code": "role-boundaries", "evidence": "Now everything is shipping in hackathon mode with an eng driving decisions they really should not be."}], "other": null}
+{"doc_id": "hn:49158395", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45076077", "relevance": 2, "speaker": "pm", "codes": [{"code": "unclear-requirements", "evidence": "they wanted me to have a certainty about the correctness of what we were building that I just never had"}], "other": null}
+{"doc_id": "ux-se:143228", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "pm-se:35942", "relevance": 1, "speaker": "unknown", "codes": [{"code": "role-boundaries", "evidence": "Should a Scrum Master prevent a Product Owner from directing technical implementation during a sprint?"}], "other": null}
+{"doc_id": "pm-se:34499", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42134757", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45347207", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44135217", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47938049", "relevance": 0, "speaker": "pm", "codes": [], "other": null}
+{"doc_id": "hn:47273373", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "you end up with manually provisioned guest accounts that nobody deactivates when the contractor rolls off"}], "other": null}
+{"doc_id": "hn:47447997", "relevance": 2, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "the platform had no documentation"}], "other": null}
+{"doc_id": "hn:47013274", "relevance": 2, "speaker": "pm", "codes": [{"code": "other", "evidence": "When using AI agents for complex tasks, the context window gets cluttered quickly, causing the model to hallucinate or get confused."}], "other": "AI agent context window pollution on complex tasks"}
+{"doc_id": "hn:44400109", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48742506", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tribal-knowledge", "evidence": "there is no repeatable way to onboard team members"}], "other": null}
+{"doc_id": "pm-se:33864", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43396821", "relevance": 2, "speaker": "engineer", "codes": [{"code": "other", "evidence": "they were unaware anything was wrong"}, {"code": "estimation-pressure", "evidence": "the incentives are to commit to reporting as few of them as possible"}], "other": "production failures not visible to the team (missing monitoring)"}
+{"doc_id": "pm-se:35324", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44372993", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46055180", "relevance": 1, "speaker": "unknown", "codes": [{"code": "ai-output-quality", "evidence": "Anything beyond trivial and boilerplate code is either riddled with errors or copied almost verbatim."}, {"code": "qa-capacity", "evidence": "an already worrying crisis of QA and security in software development"}], "other": null}
+{"doc_id": "hn:43833623", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "Code reviews kill velocity"}, {"code": "interruptions", "evidence": "introduce context switching"}], "other": null}
+{"doc_id": "hn:47746762", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47661037", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49232158", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48765532", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42601530", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44584609", "relevance": 1, "speaker": "unknown", "codes": [{"code": "review-overload", "evidence": "a change like this to slip by - especially if a bunch of the diff is autogenerated"}], "other": null}
+{"doc_id": "hn:47444882", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42208244", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:42204115", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:153464", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44956882", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:142485", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:155302", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46652062", "relevance": 1, "speaker": "unknown", "codes": [{"code": "qa-capacity", "evidence": "A tremendous value of a QA team is that they interpret the requirements independently"}], "other": null}
+{"doc_id": "hn:46915809", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46155301", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:47115635", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:45202754", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44444175", "relevance": 2, "speaker": "engineer", "codes": [{"code": "code-comprehension", "evidence": "I sometimes accept suggestions without fully understanding them."}, {"code": "ai-output-quality", "evidence": "Junior engineers rely on AI outputs without questioning edge cases, leading to subtle bugs."}], "other": null}
+{"doc_id": "ux-se:152219", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "ux-se:143684", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:44722603", "relevance": 2, "speaker": "founder", "codes": [{"code": "tribal-knowledge", "evidence": "We would sit in post-mortem meetings and expect engineers to remember every single booby trap."}], "other": null}
+{"doc_id": "hn:46469715", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46513760", "relevance": 2, "speaker": "unknown", "codes": [{"code": "code-comprehension", "evidence": "the AI generates tons of code but then I'm stuck trying to review and understand it all"}, {"code": "bottleneck-shift", "evidence": "Then I realized the bottleneck isnt code generation anymore, its code comprehension."}, {"code": "ai-missing-context", "evidence": "sometimes i still have to remind claude to follow TDD"}, {"code": "agent-supervision", "evidence": "claude will randomly dump files wherever if you dont watch it"}], "other": null}
+{"doc_id": "hn:44114094", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:49179765", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:43518651", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:48438435", "relevance": 1, "speaker": "unknown", "codes": [{"code": "tool-friction", "evidence": "it just doesn't support the flow complexity needed by different business units"}], "other": null}
+{"doc_id": "pm-se:34031", "relevance": 1, "speaker": "unknown", "codes": [{"code": "estimation-pressure", "evidence": "Their reaction to your estimates is no different than when anyone one of us is challenged on our biased beliefs no matter the topic."}], "other": null}
+{"doc_id": "hn:47351084", "relevance": 1, "speaker": "unknown", "codes": [{"code": "test-ci-friction", "evidence": "whilst flaky tests are the most problematic for a CI system"}], "other": null}
+{"doc_id": "hn:48742624", "relevance": 0, "speaker": "founder", "codes": [], "other": null}
+{"doc_id": "hn:47615296", "relevance": 0, "speaker": "unknown", "codes": [], "other": null}
+{"doc_id": "hn:46522174", "relevance": 2, "speaker": "engineer", "codes": [{"code": "ai-output-quality", "evidence": "New or changing requirements are almost always implemented a flurry of if/else branches all over the place"}], "other": null}
+{"doc_id": "hn:49924427", "relevance": 0, "speaker": "engineer", "codes": [], "other": null}
+{"doc_id": "hn:47770117", "relevance": 2, "speaker": "unknown", "codes": [{"code": "unclear-requirements", "evidence": "Silos and communication problems and unclear requirements up and down the stack."}, {"code": "other", "evidence": "C-suite moving at speed 100, devs moving at a perceived speed of 50."}], "other": "business pace expectations outrun development speed"}
