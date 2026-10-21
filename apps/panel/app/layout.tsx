@@ -13,7 +13,7 @@ const doto = Doto({ subsets: ["latin"], weight: ["700", "900"], variable: "--fon
 
 const SITE = "https://vera-agent.vercel.app";
 const DESCRIPTION =
-  "Vera maps what a pull request touches, checks the reviewer understood it, and gets every role's sign-off in parallel. Built from public data on where product teams lose time.";
+  "AI doubled the code in every change, and review didn't get faster. Vera speeds it up: what to look at first, a brief for each role, everyone signing off at once, and proof someone understood it.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),

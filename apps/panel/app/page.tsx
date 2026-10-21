@@ -28,8 +28,9 @@ export default function Product() {
           <span>Shipped.</span>
         </h1>
         <p className="lede hero-lede">
-          Vera is an agent that sits above your review bots. On each pull request it maps what the change touches, checks
-          that the reviewer actually understood it, and gets everyone who has to sign off to do it at the same time.
+          AI doubled the code in every change, and review didn&apos;t get any faster. Vera speeds it up to match: it shows
+          reviewers what to look at first, briefs each role, and gets everyone to sign off at once, with proof someone
+          understood the change.
         </p>
         <div className="hero-actions">
           <Link href="/demo" className="pill">Try the demo<Arrow /></Link>

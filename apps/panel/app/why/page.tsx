@@ -79,9 +79,9 @@ export default function Case() {
           <span>picked it.</span>
         </h1>
         <p className="lede hero-lede">
-          As AI writes more of the code, reviewers approve changes they no longer fully understand. Before building
-          anything, I set out to find where product teams actually lose time, how big the problem is, and whether someone
-          has already solved it. This page is the case for what I chose to build.
+          AI doubled the code in every change, and review didn&apos;t speed up to match, so reviewers started reading
+          less. Before building anything, I set out to find where product teams actually lose time, how big the problem
+          is, and whether someone has already solved it. This page is the case for what I chose to build.
         </p>
         <div className="hero-actions">
           <Link href="#market" className="pill">Where Vera fits</Link>

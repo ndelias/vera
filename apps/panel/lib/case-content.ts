@@ -86,6 +86,10 @@ export const VERA: Competitor = {
 
 export const DIFFERENTIATORS: { title: string; body: string }[] = [
   {
+    title: "It makes each review faster, without skipping the reading",
+    body: "Reviewers see what to look at first, each role gets a brief instead of the whole diff, and Vera answers questions from the code. Sign-off goes to everyone at once. Success is fewer reviewer minutes per 100 lines and less waiting for sign-off, measured from the traces.",
+  },
+  {
     title: "It proves someone understood the change",
     body: "On risky changes, reviewers answer a couple of questions about it, or explain it in their own words. The answer is graded and recorded on the approval. Nothing on the market does this.",
   },
