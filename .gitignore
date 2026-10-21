@@ -7,3 +7,4 @@ __pycache__/
 research/data/.salt
 apps/panel/data/site.sqlite
 .vercel
+captures/

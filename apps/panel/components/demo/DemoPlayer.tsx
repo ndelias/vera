@@ -255,7 +255,9 @@ export function DemoPlayer() {
                 <Mark size={18} />
               </span>
               <strong>vera</strong>
-              <span className="muted">{events.length ? "is reviewing this pull request" : "will comment here"}</span>
+              <span className="muted">
+                {passed ? "reviewed this pull request" : events.length ? "is reviewing this pull request" : "will comment here"}
+              </span>
             </div>
             <div className="demo-comment-body">
               {map ? (
