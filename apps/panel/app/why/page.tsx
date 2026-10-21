@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Arrow } from "@/components/Arrow";
+import { DotNumber } from "@/components/DotNumber";
+import { HalftoneMark } from "@/components/HalftoneMark";
 import { BarChart } from "@/components/BarChart";
 import { ColumnChart } from "@/components/ColumnChart";
 import { DotField } from "@/components/DotField";
@@ -70,6 +72,7 @@ export default function Case() {
   return (
     <>
       <section className="hero reveal" aria-labelledby="hero-title">
+        <HalftoneMark />
         <p className="eyebrow">Why Vera</p>
         <h1 className="hero-title" id="hero-title">
           <span>The data</span>
@@ -88,7 +91,7 @@ export default function Case() {
 
       <section aria-label="The problem in numbers" className="stats">
         <div className="stat">
-          <span className="stat-value">2×</span>
+          <span className="stat-value"><DotNumber value={`2×`} /></span>
           <span className="stat-label">code per change</span>
           <span className="stat-note">
             Median lines per merge request went from {h.linesFirst} to {h.linesLast} in two years. Time to merge stayed flat (
@@ -96,19 +99,19 @@ export default function Case() {
           </span>
         </div>
         <div className="stat">
-          <span className="stat-value">-{pct(h.attentionDrop)}</span>
+          <span className="stat-value"><DotNumber value={`-${pct(h.attentionDrop)}`} /></span>
           <span className="stat-label">review attention per line</span>
           <span className="stat-note">Review comments per line of code, same period. Exploratory.</span>
         </div>
         <div className="stat is-lime">
-          <span className="stat-value">{pct(h.aiShareLast)}</span>
+          <span className="stat-value"><DotNumber value={`${pct(h.aiShareLast)}`} /></span>
           <span className="stat-label">of changes written with AI</span>
           <span className="stat-note">
             Up from {pct(h.aiShareFirst)} a year earlier: merge requests that disclose AI help. Disclosure undercounts use.
           </span>
         </div>
         <div className="stat">
-          <span className="stat-value">{h.crossRoleRatio}×</span>
+          <span className="stat-value"><DotNumber value={`${h.crossRoleRatio}×`} /></span>
           <span className="stat-label">wait when several roles sign off</span>
           <span className="stat-note">
             Small changes reviewed by people from 2+ roles
@@ -340,19 +343,19 @@ export default function Case() {
         </div>
         <div className="stats is-small">
           <div className="stat">
-            <span className="stat-value">{num(m.mrs)}</span>
+            <span className="stat-value"><DotNumber value={`${num(m.mrs)}`} /></span>
             <span className="stat-label">merge requests, measured in full</span>
             <span className="stat-note">Every GitLab MR over two years: review time, size, and who opened and reviewed it</span>
           </div>
           <div className="stat">
-            <span className="stat-value">{num(m.corpus)}</span>
+            <span className="stat-value"><DotNumber value={`${num(m.corpus)}`} /></span>
             <span className="stat-label">posts searched and cleaned</span>
             <span className="stat-note">
               From {num(m.pulled)} pulled. Posts that matched a search term only by typo were removed
             </span>
           </div>
           <div className="stat">
-            <span className="stat-value">{num(m.coded)}</span>
+            <span className="stat-value"><DotNumber value={`${num(m.coded)}`} /></span>
             <span className="stat-label">read and coded, at random</span>
             <span className="stat-note">
               A random sample is enough to rank pains: every share carries a 95% interval, 2–4 points either way. Two independent

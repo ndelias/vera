@@ -1,4 +1,4 @@
-import { Mark } from "./Mark";
+import { DitherMark } from "./DitherMark";
 
 // What goes into Vera for one change, and who it asks. Lime pulses travel
 // along the lines (CSS only); with reduced motion the lines are still.
@@ -23,9 +23,9 @@ export function NodeFlow() {
           </div>
         ))}
       </div>
-      <div className="flow-core" aria-hidden="true">
+      <div className="flow-core">
         <div className="flow-core-inner">
-          <Mark size={60} />
+          <DitherMark label="Vera's mark in 3D, turning" />
         </div>
       </div>
       <div className="flow-side">

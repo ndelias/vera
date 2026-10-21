@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { AgentsShowcase } from "@/components/AgentsShowcase";
 import { Arrow } from "@/components/Arrow";
+import { DotNumber } from "@/components/DotNumber";
 import { Mark } from "@/components/Mark";
 import { NodeFlow } from "@/components/NodeFlow";
 import { AGENTS, MILESTONES, SURFACES, type Status } from "@/lib/product-content";
@@ -46,16 +48,7 @@ export default function Product() {
             A coordinator hands each pull request to four agents. They read; they never run the code or push to it.
           </p>
         </div>
-        <ol className="agents">
-          {AGENTS.map((a, i) => (
-            <li key={a.name} className="card agent">
-              <span className="agent-index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-              <h3>{a.name}</h3>
-              <p className="agent-job">{a.job}</p>
-              <p className="muted">{a.body}</p>
-            </li>
-          ))}
-        </ol>
+        <AgentsShowcase agents={AGENTS} />
       </section>
 
       <section className="section" id="preview">
@@ -153,22 +146,22 @@ understanding:
         </div>
         <div className="stats">
           <div className="stat">
-            <span className="stat-value">2×</span>
+            <span className="stat-value"><DotNumber value={`2×`} /></span>
             <span className="stat-label">code per change</span>
             <span className="stat-note">Median lines per merge request, {h.linesFirst} to {h.linesLast} in two years.</span>
           </div>
           <div className="stat">
-            <span className="stat-value">-{pct(h.attentionDrop)}</span>
+            <span className="stat-value"><DotNumber value={`-${pct(h.attentionDrop)}`} /></span>
             <span className="stat-label">review attention per line</span>
             <span className="stat-note">Review comments per line of code, same period.</span>
           </div>
           <div className="stat is-lime">
-            <span className="stat-value">{pct(h.aiShareLast)}</span>
+            <span className="stat-value"><DotNumber value={`${pct(h.aiShareLast)}`} /></span>
             <span className="stat-label">of changes written with AI</span>
             <span className="stat-note">Up from {pct(h.aiShareFirst)} a year earlier, counting only those that say so.</span>
           </div>
           <div className="stat">
-            <span className="stat-value">{h.crossRoleRatio}×</span>
+            <span className="stat-value"><DotNumber value={`${h.crossRoleRatio}×`} /></span>
             <span className="stat-label">wait when several roles sign off</span>
             <span className="stat-note">Small changes reviewed by people from two or more roles.</span>
           </div>

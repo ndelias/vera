@@ -3,24 +3,28 @@
 
 export type Status = "done" | "next" | "planned";
 
-export const AGENTS: { name: string; job: string; body: string }[] = [
+export const AGENTS: { name: string; job: string; body: string; icon: string }[] = [
   {
     name: "Mapper",
+    icon: "map",
     job: "What it touches, and how risky it is",
     body: "Reads the diff, the files around it, code owners and what the review bots already found, and groups the change into areas.",
   },
   {
     name: "Briefer",
+    icon: "brief",
     job: "One brief per role",
     body: "Design gets the preview and the screens that changed. Security gets the data flow. Each person sees what they need to judge, not the whole diff.",
   },
   {
     name: "Examiner",
+    icon: "examine",
     job: "Did the reviewer understand it?",
     body: "On risky changes, asks the reviewer one to three questions about the change and grades the answer. The result goes on the approval.",
   },
   {
     name: "Sign-off",
+    icon: "signoff",
     job: "Everyone at once",
     body: "Asks every role the rules name in parallel, chases the ones still waiting, and keeps one record of who approved what.",
   },
