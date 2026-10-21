@@ -2,13 +2,12 @@
 // and, rendered in headless Chromium with the site's own fonts, PNG lockups,
 // avatars, app icons, favicon.ico and the social preview image.
 //
-//   npm run build -w panel   (the social image needs Doto from the build)
 //   PLAYWRIGHT_CORE=/path/to/node_modules/playwright-core node apps/panel/scripts/render-brand.mjs
 //
 // playwright-core isn't a dependency of this repo; point PLAYWRIGHT_CORE at
 // any install that has its Chromium downloaded.
 
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -34,14 +33,7 @@ const SVGS = {
 };
 
 async function dotoFile() {
-  const chunks = join(APP, "out/_next/static/chunks");
-  for (const f of await readdir(chunks)) {
-    if (!f.endsWith(".css")) continue;
-    const css = await readFile(join(chunks, f), "utf8");
-    const m = css.match(/font-family:Doto;[^}]*?src:url\(\.\.\/media\/([^)]+)\)[^}]*unicode-range:U\+\?\?/);
-    if (m) return join(APP, "out/_next/static/media", m[1]);
-  }
-  throw new Error("Doto not found in the build; run `npm run build -w panel` first.");
+  return join(APP, "app/fonts/doto-latin.woff2");
 }
 
 // Fonts go in as data URLs: a page set from a string can't load file:// URLs.

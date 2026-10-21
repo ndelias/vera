@@ -73,7 +73,7 @@ muted #5C5C57 · ink #0B0B0B · lime #C9F23C · on-lime #2E3A05
 - Lime marks the one thing to look at, always as a fill behind ink, never
   as text.
 - Fonts: Instrument Sans 400/500 and Fragment Mono 400, self-hosted; Doto
-  700/900 (next/font) for big numbers and short display lines only. Mono
+  700/900 (app/fonts/, via next/font/local, so builds never fetch fonts) for big numbers and short display lines only. Mono
   small caps for labels, eyebrows and nav. (DM Mono was dropped as too
   common on AI sites; Fragment Mono chosen 2026-10-21.)
 - Glyphs the subset fonts lack (arrows, minus, ±) are drawn as inline SVG
