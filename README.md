@@ -1,7 +1,8 @@
 # Vera
 
-Review for the AI era. An agentic B2B product for product teams. The
-research chose the problem, not the other way round. "Blast Radius" was
+An agent that speeds up code review for teams shipping AI-written code.
+Live at https://vera-agent.vercel.app. The research chose the problem,
+not the other way round. "Blast Radius" was
 the working name for the original idea, which the data ruled out.
 
 Status: research done (`research/findings/08-decision.md`). Building next.
