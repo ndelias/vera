@@ -123,6 +123,11 @@ export const TRADEOFFS: Tradeoff[] = [
     why: "First-pass AI review is close to commoditized. The unsolved part is underneath: understanding and sign-off.",
   },
   {
+    chose: "Likely AI-written changes raise the stakes: the code owner, a second reviewer and the understanding check",
+    over: "A slop score for every change",
+    why: "AI-written code needing cleanup tied for the biggest pain, but rating code is what the review bots already do, and a score per author would be surveillance. Vera makes sure the right person looks, and says why.",
+  },
+  {
     chose: "GitHub first",
     over: "GitLab first, where the evidence came from",
     why: "Most teams and review bots live on GitHub. The core doesn't depend on the platform, and the evals still run on GitLab's history.",

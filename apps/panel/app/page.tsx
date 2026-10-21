@@ -73,6 +73,11 @@ export default function Product() {
                 <li><span className="risk is-mid" />Order summary UI <span className="muted">· 2 components, preview linked</span></li>
                 <li><span className="risk" />Tests <span className="muted">· 4 files, written with AI</span></li>
               </ul>
+              <p className="pr-mock-flag">
+                <span className="pr-mock-flag-label">Likely AI-written</span>
+                AI help disclosed, 412 lines, no tests for the new rounding, 2 bot findings still open. Added the
+                checkout owner as a second reviewer.
+              </p>
             </div>
             <div>
               <h3 className="pr-mock-label">Before you approve</h3>
@@ -85,6 +90,7 @@ export default function Product() {
               <h3 className="pr-mock-label">Sign-off</h3>
               <ul className="pr-mock-list">
                 <li><span className="signoff is-done" />Engineering <span className="muted">· approved, answers recorded</span></li>
+                <li><span className="signoff" />Checkout owner <span className="muted">· asked because it&apos;s likely AI-written</span></li>
                 <li><span className="signoff is-done" />Design <span className="muted">· approved the preview</span></li>
                 <li><span className="signoff" />Product <span className="muted">· asked in Slack, 2 h ago</span></li>
               </ul>
@@ -101,8 +107,9 @@ export default function Product() {
           <div className="section-head" style={{ marginBottom: 0 }}>
             <h2>Agents propose, code decides</h2>
             <p>
-              Who has to sign off comes from rules in the repo, not from a model. The gate is a check run and the record
-              only grows. An agent can suggest who should look; it can&apos;t talk its way past the rules.
+              Who has to sign off comes from rules in the repo, not from a model, including what happens when a change looks
+              AI-written. The gate is a check run and the record only grows. An agent can suggest who should look; it
+              can&apos;t talk its way past the rules.
             </p>
           </div>
           <pre className="code-card" aria-label="Example .vera.yml">
@@ -114,6 +121,10 @@ signoff:
     roles: [security]
   - when: { label: "behaviour-change" }
     roles: [product]
+ai_changes:          # likely AI-written
+  add: [code_owner]
+  second_reviewer_over: 200   # lines
+  understanding: required
 understanding:
   record: true
   gate: false   # teams can turn it on`}

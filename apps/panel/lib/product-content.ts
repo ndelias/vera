@@ -8,7 +8,7 @@ export const AGENTS: { name: string; job: string; body: string; icon: string }[]
     name: "Mapper",
     icon: "map",
     job: "What it touches, and how risky it is",
-    body: "Reads the diff, the files around it, code owners and what the review bots already found, and groups the change into areas.",
+    body: "Reads the diff, the files around it, code owners and what the review bots already found, and groups the change into areas. It also spots likely AI-written code nobody has checked: new logic with no tests, duplicated blocks, bot findings still open.",
   },
   {
     name: "Briefer",
@@ -26,7 +26,7 @@ export const AGENTS: { name: string; job: string; body: string; icon: string }[]
     name: "Sign-off",
     icon: "signoff",
     job: "Everyone at once",
-    body: "Asks every role the rules name in parallel, chases the ones still waiting, and keeps one record of who approved what.",
+    body: "Asks every role the rules name in parallel, chases the ones still waiting, and keeps one record of who approved what. Likely AI-written changes also go to the owner of the code they touch, and to a second reviewer when the rules say so, with the reason attached.",
   },
 ];
 
@@ -76,7 +76,7 @@ export const MILESTONES: { id: string; title: string; status: Status; body: stri
     id: "M2",
     title: "The agents, from the CLI",
     status: "planned",
-    body: "The coordinator and the four agents on any public pull request, scored against the evals.",
+    body: "The coordinator and the four agents on any public pull request, scored against the evals, including whether the likely-AI signals predict fix-ups better than size alone.",
   },
   {
     id: "M3",

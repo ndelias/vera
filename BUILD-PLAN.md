@@ -47,6 +47,23 @@ debugging. It's the centrepiece of the portfolio piece.
 read the diff, files, code search, CODEOWNERS, review-bot comments, CI
 status and preview links.
 
+**Likely-AI changes raise the stakes; they don't get a score.**
+*(Decided 2026-10-21.)* "AI-written code needs cleaning up" tied for first
+of the twelve pains, but rating code is what the review bots already do,
+and a slop score per person would be surveillance (a kill criterion). So:
+- The Mapper reads signals, it doesn't write review comments: AI help
+  disclosed (label, description, co-author trailer), diff size, new
+  branches with no new tests, duplicated blocks, a jump in comment-to-code
+  ratio, and review-bot findings still open.
+- Signals raise the change's risk, which changes who looks and how. Rules
+  in `.vera.yml` (`ai_changes`) decide: the owner of the code it touches
+  (CODEOWNERS), a second reviewer above a size, and the understanding check
+  even on small changes. No model picks who gets pinged.
+- Every alert says why ("AI help disclosed, 400 lines, no tests for the new
+  rounding, 2 bot findings open"), so people don't learn to ignore it.
+- Numbers stay at team level: e.g. likely-AI changes merged without a
+  recorded check this month. Never per author.
+
 ## Repo layout
 
 ```
@@ -75,15 +92,20 @@ format. *Done when:* CI is green on the skeleton.
 **M1: Evals first. Free, no model.** Datasets from the 105k historical
 GitLab MRs: changed paths + labels → reviewer roles (routing) and → area
 labels (mapping). Needs file paths for ~3,000 sampled MRs (public diffs
-API). A rules-only baseline sets the number the agents must beat. *Done
-when:* baseline scores are on the panel's Evals page.
+API). A rules-only baseline sets the number the agents must beat. Also a
+fix-up label: whether a merged MR was followed within 7 days by another MR
+that touched the same files to fix or revert it. If that can't be labelled
+reliably from public history, say so and use review comments per line
+instead. *Done when:* baseline scores are on the panel's Evals page.
 
 **M2: The agents, from the CLI.** `vera review <PR URL>` runs the coordinator
 and the four agents on any public GitHub PR and writes a trace. Evals: the
 Mapper recalls ≥ 80% of areas and beats the baseline; routing suggestions
 reach ≥ 80% precision and recall; on 50 changes, the Examiner's questions
 are rated by a person and its grading agrees with a person ≥ 80% of the
-time. Cost and time per PR come from the traces. *Needs:* Nahuel's personal
+time. The likely-AI signals must predict fix-ups better than diff size
+alone; if they don't, they stay out of routing and that result goes on
+the Evals page. Cost and time per PR come from the traces. *Needs:* Nahuel's personal
 Anthropic API account. *Done when:* the CLI works on any public PR and the
 eval scores and cost are on the Evals page.
 
@@ -96,7 +118,9 @@ a link and watch a full run, with no API calls.
 user's CI. It posts the map and briefs, creates the "Vera: sign-off" check
 from `.vera.yml`, and records approvals. On risky changes it asks the
 reviewer 1–3 questions in a PR comment, grades the answer, and shows it on
-the approval. Teams can opt into a gate. *Done when:* it runs on Nahuel's
+the approval. Likely-AI changes follow the `ai_changes` rules: the code
+owner and, above the size limit, a second reviewer are requested, with the
+reason in the comment. Teams can opt into a gate. *Done when:* it runs on Nahuel's
 portfolio repo, end to end.
 
 **M5: Demo company + case study.** A demo repo with seeded roles (engineer,
