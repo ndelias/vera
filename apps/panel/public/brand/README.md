@@ -12,6 +12,7 @@ to run it). Edit the script, not these files.
 | vera-avatar-light-*.png, vera-avatar-dark-*.png | Profile pictures (400 and 1024 px) |
 | icon-192.png, icon-512.png | App icons |
 | og.png | Link preview, 1200 x 630 |
+| vera-card-dark.png, vera-card-light.png | Project cards, 16:10 at 2880 x 1800 (the portfolio uses the dark one) |
 
 The tab icon (app/icon.svg, app/favicon.ico) and the home-screen icon
 (app/apple-icon.png) live in app/, where Next serves them.

@@ -62,6 +62,13 @@ const lockup = (h, text, square) => `
   <span style="font:500 ${h * 1.02}px/1 'Instrument Sans';letter-spacing:-0.035em;color:${text};transform:translateY(-${h * 0.04}px)">vera</span>
 </div>`;
 
+// A 16:10 card with the lockup centred, for project cards (the portfolio's
+// homepage poster and index cover sit beside vers1ons' wordmark on black).
+const card = (bg, text) => `
+<div id="shot" style="width:1440px;height:900px;background:${bg};display:grid;place-items:center">
+  ${lockup(120, text, LIME).replace('id="shot"', "")}
+</div>`;
+
 // A square tile with the mark centred, for avatars and app icons.
 const tile = (size, bg, stroke, radius = 0) => `
 <div id="shot" style="width:${size}px;height:${size}px;background:${bg};border-radius:${radius}px;display:grid;place-items:center">
@@ -132,7 +139,7 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ deviceScaleFactor: 1 });
 
 async function shoot(html, transparent = false, scale = 1) {
-  await page.setViewportSize({ width: 1400, height: 900 });
+  await page.setViewportSize({ width: 1600, height: 1000 });
   const p = scale === 1 ? page : await browser.newPage({ deviceScaleFactor: scale });
   await p.setContent(`<!doctype html><style>${faces}</style>${html}`, { waitUntil: "load" });
   // Make sure every face is in before the shot; a fallback would slip through silently.
@@ -158,6 +165,8 @@ const files = {
   "icon-192.png": await shoot(tile(192, WHITE, INK)),
   "icon-512.png": await shoot(tile(512, WHITE, INK)),
   "og.png": await shoot(og()),
+  "vera-card-dark.png": await shoot(card(INK, WHITE), false, 2),
+  "vera-card-light.png": await shoot(card(WHITE, INK), false, 2),
 };
 for (const [name, buf] of Object.entries(files)) await writeFile(join(OUT, name), buf);
 
