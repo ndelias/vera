@@ -14,7 +14,7 @@ const doto = localFont({ src: "./fonts/doto-latin.woff2", weight: "700 900", var
 
 const SITE = "https://vera-agent.vercel.app";
 const DESCRIPTION =
-  "AI doubled the code in every change, and review didn't get faster. Vera speeds it up: what to look at first, a brief for each role, everyone signing off at once, and proof someone understood it.";
+  "An agent that speeds up code review for teams shipping AI-written code: what to look at first, a brief for each role, everyone signing off at once, and proof someone understood the change.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
