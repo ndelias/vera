@@ -1422,9 +1422,9 @@ th.num {
   }
 }
 
-/* The background diff (components/DiffField.tsx) and the footer */
+/* The background in characters (components/CodeField.tsx) and the footer */
 
-.diff-field {
+.code-field {
   position: fixed;
   inset: 0;
   z-index: -1;
