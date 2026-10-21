@@ -2,7 +2,8 @@ import Link from "next/link";
 import { Arrow } from "@/components/Arrow";
 import { BarChart } from "@/components/BarChart";
 import { ColumnChart } from "@/components/ColumnChart";
-import { FAMILIES, SOURCES, familyOf, overview, postsByMonth, rounds, sourceCounts, stageCounts } from "@/lib/data";
+import { FAMILIES, SOURCES, codebook, familyOf, hypotheses, overview, postsByMonth, rounds, sourceCounts, stageCounts } from "@/lib/data";
+import { studyTotals } from "@/lib/gitlab";
 import { day, month, monthShort, num, pct } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -10,6 +11,11 @@ export const metadata = { title: "Evidence" };
 
 export default function Evidence() {
   const o = overview();
+  const hyps = hypotheses();
+  const supported = hyps.filter((h) => h.hypothesis.status === "supported").length;
+  const disproved = hyps.filter((h) => h.hypothesis.status === "disproved").length;
+  const work = studyTotals();
+  const codes = codebook().length;
   const stages = stageCounts();
   const monthRows = postsByMonth();
   const allRounds = rounds();
@@ -31,12 +37,40 @@ export default function Evidence() {
   return (
     <>
       <div className="page-head">
-        <p className="eyebrow">Evidence · the data</p>
-        <h1>Where do product teams lose time?</h1>
+        <p className="eyebrow">Evidence</p>
+        <h1>Everything behind the case</h1>
         <p className="lede">
-          Before choosing what to build, we measure it. Public posts from people who build software are
-          collected, cleaned, read and coded by pain. Every finding here links back to the posts behind it.
+          The data, tests and decisions behind every claim on the case page. Each plan and scoring rule was committed
+          before the data it applies to, so nothing here was tuned to fit an answer.
         </p>
+      </div>
+
+      <nav className="hub" aria-label="Evidence pages">
+        <Link href="/hypotheses" className="card hub-card">
+          <h3>Hypotheses <span className="muted mono">{supported} / {disproved}</span></h3>
+          <p className="muted">Every claim tested, with what would have disproved it. {supported} supported, {disproved} disproved.</p>
+        </Link>
+        <Link href="/work" className="card hub-card">
+          <h3>Work data <span className="muted mono">{num(work.mrs)}</span></h3>
+          <p className="muted">GitLab merge requests by role: how long changes wait, and for whom.</p>
+        </Link>
+        <Link href="/posts" className="card hub-card">
+          <h3>Posts <span className="muted mono">{num(o.corpus)}</span></h3>
+          <p className="muted">Every post in the corpus, with how it was found and judged. Filter and read in context.</p>
+        </Link>
+        <Link href="/codebook" className="card hub-card">
+          <h3>Codebook <span className="muted mono">{codes}</span></h3>
+          <p className="muted">The pain categories posts were coded with, defined so a person or a model applies them the same way.</p>
+        </Link>
+        <Link href="/rounds" className="card hub-card">
+          <h3>Rounds <span className="muted mono">{allRounds.length}</span></h3>
+          <p className="muted">Each round of data collection: the search terms, what they brought in, and what was dropped.</p>
+        </Link>
+      </nav>
+
+      <div className="section-head" style={{ marginTop: 56 }}>
+        <h2>The forum data</h2>
+        <p>Public posts from people who build software, collected, cleaned, read and coded by pain.</p>
       </div>
 
       <section className="hero" aria-label="Corpus size">
