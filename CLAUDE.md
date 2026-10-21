@@ -22,7 +22,12 @@ a portfolio app, not a business.
   data/site.sqlite.gz, a publishable snapshot written by
   research/pipeline/export_site.py and unpacked before dev and build.
 - packages/core/: Vera's core (trace format, cost per call, redaction,
-  secrets). More packages come one milestone at a time.
+  secrets). More packages come one milestone at a time. The site imports
+  only `@vera/core/trace` and `@vera/core/pricing` (the root entry pulls in
+  Node-only code).
+- /demo: the run viewer (components/demo/DemoPlayer.tsx) replaying a
+  scripted trace (lib/demo/run.ts, tested by lib/demo/run.test.ts). Keep it
+  labelled as scripted, with a fictional company, until real traces replace it.
 
 ## Commands
 - `npm run dev -w panel` (http://localhost:3100)

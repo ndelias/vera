@@ -14,7 +14,7 @@ export const AGENTS: { name: string; job: string; body: string; icon: string }[]
     name: "Briefer",
     icon: "brief",
     job: "One brief per role",
-    body: "Design gets the preview and the screens that changed. Security gets the data flow. Each person sees what they need to judge, not the whole diff.",
+    body: "Design gets the preview and the screens that changed. Security gets the data flow. Each person sees what they need to judge, not the whole diff. Then it answers their questions in Slack or on the PR, from the code, with the lines it used.",
   },
   {
     name: "Examiner",

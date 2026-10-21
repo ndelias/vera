@@ -32,8 +32,8 @@ export default function Product() {
           that the reviewer actually understood it, and gets everyone who has to sign off to do it at the same time.
         </p>
         <div className="hero-actions">
-          <Link href="/why" className="pill">Why I&apos;m building it</Link>
-          <Link href="#status" className="pill is-quiet">Where it&apos;s at</Link>
+          <Link href="/demo" className="pill">Try the demo<Arrow /></Link>
+          <Link href="/why" className="pill is-quiet">Why I&apos;m building it</Link>
         </div>
       </section>
 

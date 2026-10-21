@@ -11,7 +11,7 @@
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit && npm run typecheck -w panel",
-    "test": "node --test --disable-warning=ExperimentalWarning \"packages/*/test/**/*.test.ts\"",
+    "test": "node --test --disable-warning=ExperimentalWarning \"packages/*/test/**/*.test.ts\" \"apps/panel/lib/**/*.test.ts\"",
     "ci": "npm run typecheck && npm test"
   },
   "devDependencies": {

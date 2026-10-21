@@ -47,6 +47,18 @@ debugging. It's the centrepiece of the portfolio piece.
 read the diff, files, code search, CODEOWNERS, review-bot comments, CI
 status and preview links.
 
+**Vera explains the change to whoever has to approve it.** *(Decided
+2026-10-21.)* Reviewers ask `@vera` in Slack or on the PR ("which orders
+change, and by how much?") and the Briefer answers from the code:
+- It reads; it never runs or changes the code. Every answer cites the files
+  and lines it rests on, and a concrete example where one helps.
+- If the answer isn't in the code or the PR, it says so instead of guessing.
+- It won't give away the answers to an open understanding check; it points
+  to where to look, and explains fully once the reviewer has answered.
+- Eval (M2): on 50 questions about real GitLab MRs, answers are checked
+  against the diff by a person; ≥ 90% correct and every one cited.
+- Where: PR comments in M4 (the Action answers `@vera` mentions), Slack in M6.
+
 **Likely-AI changes raise the stakes; they don't get a score.**
 *(Decided 2026-10-21.)* "AI-written code needs cleaning up" tied for first
 of the twelve pains, but rating code is what the review bots already do,
@@ -108,6 +120,13 @@ alone; if they don't, they stay out of routing and that result goes on
 the Evals page. Cost and time per PR come from the traces. *Needs:* Nahuel's personal
 Anthropic API account. *Done when:* the CLI works on any public PR and the
 eval scores and cost are on the Evals page.
+
+**Before M3: the demo (2026-10-21).** /demo is the run viewer playing a
+scripted trace (apps/panel/lib/demo/run.ts) for a fictional shop's pull
+request: the agents work, the visitor answers the understanding check and
+approves, and every role signs off. The trace uses @vera/core's real
+format and price table, and a test keeps it valid. M3 swaps in recorded
+traces from real runs.
 
 **M3: Run viewer.** Vera run on a curated set of real public PRs (including
 AI-written ones and small cross-role ones), with the traces recorded. The

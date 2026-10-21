@@ -4,6 +4,8 @@ import type { NextConfig } from "next";
 // snapshot (data/site.sqlite), so nothing runs on a server.
 const config: NextConfig = {
   output: "export",
+  // @vera/core ships TypeScript source (the demo replays its trace format).
+  transpilePackages: ["@vera/core"],
   poweredByHeader: false,
 };
 
