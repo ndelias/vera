@@ -313,36 +313,41 @@ export default function Case() {
         <div className="section-head">
           <h2>How the evidence was gathered</h2>
           <p>
-            Every round&apos;s plan, search terms and scoring rules were committed before the data they apply to. Two
-            independent coding passes agreed on 96.5% of posts (Cohen&apos;s kappa 0.93).
+            Measured in full where the data allowed it, sampled at random where reading every post wasn&apos;t
+            needed. Every plan, search term and scoring rule was committed before the data it applies to.
           </p>
         </div>
         <div className="stats is-small">
           <div className="stat">
+            <span className="stat-value">{num(m.mrs)}</span>
+            <span className="stat-label">merge requests, measured in full</span>
+            <span className="stat-note">Every GitLab MR over two years: review time, size, and who opened and reviewed it</span>
+          </div>
+          <div className="stat">
             <span className="stat-value">{num(m.corpus)}</span>
-            <span className="stat-label">posts in the corpus</span>
-            <span className="stat-note">from {num(m.pulled)} pulled, Hacker News and Stack Exchange</span>
+            <span className="stat-label">posts searched and cleaned</span>
+            <span className="stat-note">
+              From {num(m.pulled)} pulled. Posts that matched a search term only by typo were removed
+            </span>
           </div>
           <div className="stat">
             <span className="stat-value">{num(m.coded)}</span>
-            <span className="stat-label">coded at random</span>
-            <span className="stat-note">plus {num(m.readByHand)} read by hand</span>
-          </div>
-          <div className="stat">
-            <span className="stat-value">{num(m.mrs)}</span>
-            <span className="stat-label">merge requests measured</span>
-            <span className="stat-note">GitLab, by the role of who opened and reviewed them</span>
+            <span className="stat-label">read and coded, at random</span>
+            <span className="stat-note">
+              A random sample is enough to rank pains: every share carries a 95% interval, 2–4 points either way. Two independent
+              passes agreed on 96.5% of posts
+            </span>
           </div>
           <div className="stat">
             <span className="stat-value">
               {m.hypotheses.supported} / {m.hypotheses.disproved}
             </span>
             <span className="stat-label">hypotheses supported / disproved</span>
-            <span className="stat-note">{m.hypotheses.open} still open or untestable</span>
+            <span className="stat-note">Each written with what would disprove it first. {m.hypotheses.open} open or untestable</span>
           </div>
         </div>
         <p className="chart-note">
-          <Link href="/evidence">The data<Arrow /></Link> · <Link href="/hypotheses">Every hypothesis<Arrow /></Link> ·{" "}
+          <Link href="/evidence">All the evidence<Arrow /></Link> · <Link href="/hypotheses">Every hypothesis<Arrow /></Link> ·{" "}
           <Link href="/work">Work data<Arrow /></Link> · <Link href="/codebook">The codebook<Arrow /></Link>
         </p>
       </section>
