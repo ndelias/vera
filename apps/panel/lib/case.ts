@@ -106,34 +106,22 @@ export type Voice = {
   speaker: string | null;
 };
 
-/**
- * First-hand accounts for a pain, picked by a fixed rule so none are
- * hand-chosen: posts where the writer's role is known come first, then the
- * longest evidence span, then the post id.
- */
-export function voices(codes: string[], perCode = 2): Voice[] {
-  const rows = all<Voice>(
-    `SELECT c.code_id AS code, c.evidence, d.id AS docId, d.source, d.url, d.created_at AS createdAt, m.speaker
-     FROM codings c
-     JOIN coding_meta m ON m.doc_id = c.doc_id AND m.coder = c.coder
-     JOIN documents d ON d.id = c.doc_id
-     WHERE c.coder = ? AND m.level = 2 AND c.code_id IN (${codes.map(() => "?").join(",")})
-       AND c.evidence IS NOT NULL
-     ORDER BY c.code_id, (m.speaker IS NULL OR m.speaker = 'unknown'), LENGTH(c.evidence) DESC, d.id`,
-    SAMPLE_CODER,
-    ...codes,
-  );
-  const seen = new Set<string>();
-  const out: Voice[] = [];
-  for (const code of codes) {
-    for (const r of rows.filter((r) => r.code === code)) {
-      if (out.filter((v) => v.code === code).length >= perCode) break;
-      if (seen.has(r.docId)) continue;
-      seen.add(r.docId);
-      out.push(r);
-    }
-  }
-  return out;
+/** The passages the sample coder marked, for the hand-picked posts, in order. */
+export function quotes(picks: { docId: string; code: string }[]): Voice[] {
+  return picks.map(({ docId, code }) => {
+    const v = one<Voice>(
+      `SELECT c.code_id AS code, c.evidence, d.id AS docId, d.source, d.url, d.created_at AS createdAt, m.speaker
+       FROM codings c
+       JOIN coding_meta m ON m.doc_id = c.doc_id AND m.coder = c.coder
+       JOIN documents d ON d.id = c.doc_id
+       WHERE c.coder = ? AND m.level = 2 AND c.doc_id = ? AND c.code_id = ? AND c.evidence IS NOT NULL`,
+      SAMPLE_CODER,
+      docId,
+      code,
+    );
+    if (!v) throw new Error(`No first-hand ${code} passage for ${docId}`);
+    return v;
+  });
 }
 
 export type Ranked = {

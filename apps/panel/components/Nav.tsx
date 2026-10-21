@@ -18,35 +18,41 @@ export function Nav() {
   const path = usePathname();
   const inEvidence = isEvidence(path);
   return (
-    <>
-      <ul className="nav">
-        <li>
-          <Link href="/" aria-current={path === "/" ? "page" : undefined}>
-            Product
-          </Link>
-        </li>
-        <li>
-          <Link href="/why" aria-current={path === "/why" ? "page" : undefined}>
-            Why Vera
-          </Link>
-        </li>
-        <li>
-          <Link href="/evidence" aria-current={inEvidence ? "page" : undefined}>
-            Evidence
-          </Link>
-        </li>
+    <ul className="nav">
+      <li>
+        <Link href="/" aria-current={path === "/" ? "page" : undefined}>
+          Product
+        </Link>
+      </li>
+      <li>
+        <Link href="/why" aria-current={path === "/why" ? "page" : undefined}>
+          Why Vera
+        </Link>
+      </li>
+      <li>
+        <Link href="/evidence" aria-current={inEvidence ? "page" : undefined}>
+          Evidence
+        </Link>
+      </li>
+    </ul>
+  );
+}
+
+/** The evidence pages' own tabs, under the header. */
+export function SubNav() {
+  const path = usePathname();
+  if (!isEvidence(path)) return null;
+  return (
+    <nav aria-label="Evidence">
+      <ul className="nav subnav">
+        {EVIDENCE.map(({ href, label }) => (
+          <li key={href}>
+            <Link href={href} aria-current={path === href || path.startsWith(`${href}/`) ? "page" : undefined}>
+              {label}
+            </Link>
+          </li>
+        ))}
       </ul>
-      {inEvidence ? (
-        <ul className="nav subnav" aria-label="Evidence">
-          {EVIDENCE.map(({ href, label }) => (
-            <li key={href}>
-              <Link href={href} aria-current={path === href || path.startsWith(`${href}/`) ? "page" : undefined}>
-                {label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </>
+    </nav>
   );
 }

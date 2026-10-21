@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Doto } from "next/font/google";
 import Link from "next/link";
+import { DiffField, MotionToggle } from "@/components/DiffField";
 import { Mark } from "@/components/Mark";
-import { Nav } from "@/components/Nav";
+import { Nav, SubNav } from "@/components/Nav";
 import "./globals.css";
 
 // Dot-matrix display face for big numbers and short headlines only.
@@ -24,18 +25,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preload" href="/fonts/instrument-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
       </head>
       <body>
+        <DiffField />
+        <header className="top">
+          <Link href="/" className="brand">
+            <Mark size={22} />
+            vera
+          </Link>
+          <nav aria-label="Site">
+            <Nav />
+          </nav>
+        </header>
         <div className="shell">
-          <header className="top">
-            <Link href="/" className="brand">
-              <Mark size={22} />
-              vera
-            </Link>
-            <nav aria-label="Site">
-              <Nav />
-            </nav>
-          </header>
+          <SubNav />
           <main>{children}</main>
         </div>
+        <footer className="foot">
+          <span>
+            Vera, by Nahuel Delias. <a href="https://github.com/ndelias/vera">The code</a>
+          </span>
+          <MotionToggle />
+        </footer>
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import { Arrow } from "@/components/Arrow";
 import { BarChart } from "@/components/BarChart";
 import { ColumnChart } from "@/components/ColumnChart";
 import { DotField } from "@/components/DotField";
+import { QuoteRotator, type RotatorQuote } from "@/components/QuoteRotator";
 import {
   COMPETITORS,
   DIFFERENTIATORS,
@@ -11,6 +12,7 @@ import {
   GAPS,
   KILL_CRITERIA,
   PAINS,
+  QUOTES,
   PERSONAS,
   RULED_OUT,
   TRADEOFFS,
@@ -18,10 +20,12 @@ import {
   type Cell,
   type Competitor,
 } from "@/lib/case-content";
-import { aiAdoption, headline, method, ranking, sampleCounts, voices, volumeVsSpeed } from "@/lib/case";
+import { aiAdoption, headline, method, quotes as readQuotes, ranking, sampleCounts, volumeVsSpeed } from "@/lib/case";
 import { sourceLabel } from "@/lib/data";
 import { day, monthShort, month, num, postHref } from "@/lib/format";
 
+
+const SPEAKER: Record<string, string> = { engineer: "An engineer", founder: "A founder", manager: "A manager" };
 
 const pct = (x: number) => `${Math.round(x * 100)}%`;
 
@@ -53,7 +57,13 @@ export default function Case() {
   const ai = aiAdoption();
   const vs = volumeVsSpeed();
   const ranked = ranking();
-  const quotes = voices(PAINS.map((p) => p.code), 2);
+  const quotes: RotatorQuote[] = readQuotes(QUOTES).map((q) => ({
+    id: q.docId,
+    text: /^[a-z]/.test(q.evidence) ? `\u2026${q.evidence}` : q.evidence,
+    pain: PAINS.find((p) => p.code === q.code)?.label ?? q.code,
+    who: `${SPEAKER[q.speaker ?? ""] ?? "Someone"} on ${sourceLabel(q.source)}, ${day(q.createdAt)}`,
+    href: postHref(q.docId),
+  }));
   const m = method();
   const counts = sampleCounts();
 
@@ -177,33 +187,9 @@ export default function Case() {
               <li><span className="key is-ink" />{num(counts.discussed)} discuss one</li>
               <li><span className="key is-dot" />{num(counts.other)} aren&apos;t about a pain</li>
             </ul>
-            <p className="muted" style={{ fontSize: 13 }}>
-              The quotes below are first-hand, picked by a fixed rule (known role first, then the longest passage), not by
-              me.
-            </p>
           </div>
         </div>
-        <div className="quotes">
-          {PAINS.map((p) => {
-            const qs = quotes.filter((q) => q.code === p.code);
-            if (qs.length === 0) return null;
-            return (
-              <div key={p.code} className="quote-group">
-                <h3>{p.label}</h3>
-                {qs.map((q) => (
-                  <figure key={q.docId} className="quote">
-                    <blockquote>&ldquo;{q.evidence}&rdquo;</blockquote>
-                    <figcaption className="muted">
-                      {q.speaker && q.speaker !== "unknown" ? `${q.speaker} · ` : ""}
-                      {sourceLabel(q.source)} · {day(q.createdAt)} ·{" "}
-                      <Link href={postHref(q.docId)}>in context</Link>
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            );
-          })}
-        </div>
+        <QuoteRotator quotes={quotes} />
       </section>
 
       <section className="section" id="size">

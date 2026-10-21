@@ -9,6 +9,22 @@ export const PAINS: { code: string; label: string }[] = [
   { code: "approval-delays", label: "Approvals stall work" },
 ];
 
+// The quotes on /why, picked by hand from the first-hand accounts in the
+// coded sample. The text is the passage the coder marked, verbatim, read
+// from the database; only the choice of post is mine.
+export const QUOTES: { docId: string; code: string }[] = [
+  { docId: "hn:44980839", code: "code-comprehension" },
+  { docId: "hn:47882021", code: "review-overload" },
+  { docId: "hn:47606071", code: "code-comprehension" },
+  { docId: "hn:44746573", code: "ai-output-quality" },
+  { docId: "hn:50119264", code: "review-overload" },
+  { docId: "hn:49490406", code: "review-overload" },
+  { docId: "hn:47392529", code: "code-comprehension" },
+  { docId: "hn:47388229", code: "ai-output-quality" },
+  { docId: "hn:47224764", code: "review-overload" },
+  { docId: "hn:47854838", code: "approval-delays" },
+];
+
 export type Persona = { role: string; who: string; body: string };
 
 export const PERSONAS: Persona[] = [

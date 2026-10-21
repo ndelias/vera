@@ -199,17 +199,6 @@ understanding:
           ))}
         </ol>
       </section>
-
-      <section className="section closing" aria-label="The research">
-        <div>
-          <h2 className="display" style={{ fontSize: "clamp(32px, 5vw, 56px)", margin: 0 }}>I didn&apos;t start with Vera.</h2>
-          <p className="muted" style={{ marginTop: 12, maxWidth: 520 }}>
-            I started with a different idea, measured where product teams actually lose time, and the data ruled my idea
-            out. Vera is where it pointed instead.
-          </p>
-        </div>
-        <Link href="/why" className="pill is-lime">Read the case<Arrow /></Link>
-      </section>
     </>
   );
 }

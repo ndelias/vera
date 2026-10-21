@@ -167,14 +167,20 @@ code {
   }
 }
 
+/* Full-width header: logo left, tabs right, both on the logo's centre line. */
 .top {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 24px;
-  padding: 20px 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
   border-bottom: 1px solid var(--line);
   margin-bottom: 40px;
+}
+@media (min-width: 768px) {
+  .top {
+    padding: 18px 32px;
+  }
 }
 .brand {
   font-weight: 500;
@@ -187,10 +193,16 @@ code {
 .nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 18px;
+  align-items: center;
+  gap: 4px 24px;
   margin: 0;
   padding: 0;
   list-style: none;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 .nav a {
   color: var(--muted);
@@ -850,17 +862,10 @@ th.num {
   white-space: nowrap;
 }
 
-.top nav {
-  display: flex;
-  flex: 1;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 24px;
-}
 .subnav {
-  flex-basis: 100%;
-  gap: 4px 16px;
-  font-size: 13px;
+  gap: 8px 20px;
+  font-size: 11px;
+  margin: -16px 0 40px;
 }
 
 .hub {
@@ -1415,4 +1420,137 @@ th.num {
     grid-column: 2;
     justify-self: start;
   }
+}
+
+/* The background diff (components/DiffField.tsx) and the footer */
+
+.diff-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px 24px;
+  padding: 20px 16px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.foot .text-button {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+@media (min-width: 768px) {
+  .foot {
+    padding: 20px 32px;
+  }
+}
+
+/* Quotes, one at a time (components/QuoteRotator.tsx) */
+
+.rotator {
+  display: grid;
+  gap: 24px;
+  margin-top: 56px;
+}
+.rotator-stage {
+  position: relative;
+  display: grid;
+}
+.rotator-quote {
+  grid-area: 1 / 1;
+  margin: 0;
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  visibility: hidden;
+}
+.rotator-quote[data-active] {
+  visibility: visible;
+}
+.rotator-pain {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.rotator-pain::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--lime);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+.rotator-quote blockquote {
+  margin: 0;
+  max-width: 22em;
+  font-size: clamp(26px, 3.6vw, 44px);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.rotator-quote figcaption {
+  color: var(--muted);
+  font-size: 14px;
+}
+.rotator-cells {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.rotator-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.rotator-button {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  color: var(--ink);
+  cursor: pointer;
+}
+.rotator-button svg {
+  margin: 0 !important;
+}
+.rotator-dots {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rotator-dots button {
+  display: block;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: var(--dot);
+  cursor: pointer;
+}
+.rotator-dots button[aria-current] {
+  background: var(--lime);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
 }
