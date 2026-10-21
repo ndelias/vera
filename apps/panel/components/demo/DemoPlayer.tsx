@@ -3,12 +3,16 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createTrace, record, totals, type AgentName, type TraceEvent } from "@vera/core/trace";
 import { Arrow } from "../Arrow";
+import { DotNumber } from "../DotNumber";
 import { Mark } from "../Mark";
 import {
+  ASK,
+  ASK_CHANNEL,
   BEFORE_REVIEW,
   CHANGE,
   QUESTIONS,
   afterReview,
+  askEvents,
   type BrieferOutput,
   type ExaminerOutput,
   type MapperOutput,
@@ -34,6 +38,7 @@ const RISK_LABEL: Record<Risk, string> = { high: "high risk", mid: "medium risk"
 
 const k = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(n >= 10_000 ? 0 : 1)}k` : String(n));
 const usd = (n: number) => `$${n.toFixed(n < 0.1 ? 3 : 2)}`;
+type Chat = Extract<TraceEvent, { type: "chat" }>;
 const secs = (ms: number) => `${(ms / 1000).toFixed(1)} s`;
 const clock = (ms: number) => {
   const m = Math.round(ms / 60_000);
@@ -54,6 +59,7 @@ export function DemoPlayer() {
   const [speed, setSpeed] = useState<1 | 2>(1);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [reviewStart, setReviewStart] = useState(0);
+  const [asked, setAsked] = useState<string[]>([]);
   const logRef = useRef<HTMLOListElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
 
@@ -105,10 +111,17 @@ export function DemoPlayer() {
   for (const e of events) if (e.type === "signoff") signoffs.set(e.role, e);
   const last = events.at(-1);
   const elapsed = last ? last.at : 0;
-  const thinking = (agent: AgentName) =>
-    events.some((e) => e.type === "agent.start" && e.agent === agent) && !events.some((e) => e.type === "agent.end" && e.agent === agent);
-  const status = (agent: AgentName) =>
-    events.some((e) => e.type === "agent.end" && e.agent === agent) ? "done" : thinking(agent) ? "running" : "waiting";
+  // An agent can run more than once (the Briefer answers questions), so its
+  // state follows its latest start and end.
+  const status = (agent: AgentName) => {
+    const started = events.findLastIndex((e) => e.type === "agent.start" && e.agent === agent);
+    const ended = events.findLastIndex((e) => e.type === "agent.end" && e.agent === agent);
+    return started < 0 ? "waiting" : started > ended ? "running" : "done";
+  };
+  const chats = events.filter((e): e is Chat => e.type === "chat");
+  const mine = chats.filter((c) => c.channel === ASK_CHANNEL);
+  const threads = new Map<string, Chat[]>();
+  for (const c of chats) if (c.channel !== ASK_CHANNEL) threads.set(c.channel, [...(threads.get(c.channel) ?? []), c]);
   const current = AGENTS.find((a) => status(a.id) === "running");
 
   const start = () => {
@@ -120,6 +133,7 @@ export function DemoPlayer() {
     setQueue(BEFORE_REVIEW);
     setCursor(0);
     setAnswers({});
+    setAsked([]);
     setReviewStart(0);
     setPhase("watch");
     setPlaying(true);
@@ -127,12 +141,33 @@ export function DemoPlayer() {
   const approve = () => {
     const at = (events.at(-1)?.at ?? 0) + 2_000;
     setReviewStart(at);
-    setQueue(afterReview(at, answers));
+    // If Vera held back an answer because the check was open, it keeps its
+    // word once you've answered.
+    const held = ASK.filter((a) => a.check && asked.includes(a.id)).map(
+      (a): TraceEvent => ({
+        type: "chat",
+        at: at + 1_750,
+        via: "github",
+        channel: ASK_CHANNEL,
+        who: "@vera",
+        text: `Now that you've answered: ${a.answer}`,
+        refs: a.refs,
+      }),
+    );
+    setQueue([...afterReview(at, answers), ...held].sort((x, y) => x.at - y.at));
     setCursor(0);
     setPhase("signoff");
     setPlaying(true);
   };
   const answeredAll = QUESTIONS.questions.every((q) => answers[q.id]);
+  const askVera = (id: string) => {
+    const ask = ASK.find((a) => a.id === id);
+    if (!ask || playing) return;
+    const at = (events.at(-1)?.at ?? 0) + 300;
+    setAsked((a) => [...a, id]);
+    setQueue((q) => [...q, ...askEvents(at, ask, true)]);
+    setPlaying(true);
+  };
 
   return (
     <div className="demo" data-phase={phase}>
@@ -288,6 +323,30 @@ export function DemoPlayer() {
 
               {questions ? (
                 <div className="demo-block demo-review" ref={reviewRef}>
+                  <div className="demo-ask">
+                    <h3 className="pr-mock-label">Ask Vera about the change</h3>
+                    {mine.length ? (
+                      <ol className="demo-chat">
+                        {mine.map((c, i) => (
+                          <ChatLine key={i} chat={c} />
+                        ))}
+                      </ol>
+                    ) : (
+                      <p className="muted">
+                        Vera reads the code and answers with the lines it used. It won&apos;t give away the answers to your check
+                        while it&apos;s open.
+                      </p>
+                    )}
+                    {phase === "review" ? (
+                      <div className="demo-chips" role="group" aria-label="Questions you can ask">
+                        {ASK.filter((a) => !asked.includes(a.id)).map((a) => (
+                          <button key={a.id} type="button" className="demo-chip" onClick={() => askVera(a.id)} disabled={playing}>
+                            {a.question}
+                          </button>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
                   <h3 className="pr-mock-label">Before you approve</h3>
                   {questions.questions.map((q, i) => {
                     const chosen = answers[q.id];
@@ -331,7 +390,7 @@ export function DemoPlayer() {
                     );
                   })}
                   {phase === "review" ? (
-                    <button type="button" className="pill" disabled={!answeredAll} onClick={approve}>
+                    <button type="button" className="pill" disabled={!answeredAll || playing} onClick={approve}>
                       Approve with these answers
                     </button>
                   ) : null}
@@ -369,6 +428,27 @@ export function DemoPlayer() {
               ) : null}
             </div>
           </div>
+
+          {threads.size ? (
+            <div className="demo-threads">
+              <div className="pr-mock-head">
+                <strong>Conversations</strong>
+                <span className="muted">Vera answering reviewers in Slack and on the PR</span>
+              </div>
+              {[...threads.entries()].map(([channel, msgs]) => (
+                <div key={channel} className="demo-thread">
+                  <p className="demo-thread-head mono">
+                    {channel} · {msgs[0]!.via === "slack" ? "Slack" : "GitHub"}
+                  </p>
+                  <ol className="demo-chat">
+                    {msgs.map((c, i) => (
+                      <ChatLine key={i} chat={c} />
+                    ))}
+                  </ol>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </section>
 
         <aside className="demo-run" aria-label="The run">
@@ -427,6 +507,16 @@ export function DemoPlayer() {
                     </span>
                   </li>
                 );
+              if (e.type === "chat")
+                return (
+                  <li key={i}>
+                    <span className="mono">{e.via}</span>
+                    <span className="muted">
+                      {" "}
+                      {e.who === "@vera" ? `@vera answered in ${e.channel}` : `${e.who} asked in ${e.channel}`}
+                    </span>
+                  </li>
+                );
               if (e.type === "signoff" && e.status !== "asked")
                 return (
                   <li key={i}>
@@ -443,19 +533,27 @@ export function DemoPlayer() {
           <dl className="demo-totals">
             <div>
               <dt>Tool calls</dt>
-              <dd>{sums.toolCalls}</dd>
+              <dd>
+                <DotNumber value={String(sums.toolCalls)} />
+              </dd>
             </div>
             <div>
               <dt>Model calls</dt>
-              <dd>{sums.modelCalls}</dd>
+              <dd>
+                <DotNumber value={String(sums.modelCalls)} />
+              </dd>
             </div>
             <div>
               <dt>Tokens</dt>
-              <dd>{k(sums.inputTokens + sums.outputTokens)}</dd>
+              <dd>
+                <DotNumber value={String(k(sums.inputTokens + sums.outputTokens))} />
+              </dd>
             </div>
             <div>
               <dt>Cost</dt>
-              <dd>{usd(sums.costUsd)}</dd>
+              <dd>
+                <DotNumber value={String(usd(sums.costUsd))} />
+              </dd>
             </div>
           </dl>
         </aside>
@@ -473,5 +571,29 @@ export function DemoPlayer() {
         </div>
       ) : null}
     </div>
+  );
+}
+
+function ChatLine({ chat }: { chat: Chat }) {
+  const vera = chat.who === "@vera";
+  return (
+    <li className={`demo-msg${vera ? " is-vera" : ""}`}>
+      <span className="demo-msg-avatar" aria-hidden="true">
+        {vera ? <Mark size={14} /> : chat.who.slice(1, 2).toUpperCase()}
+      </span>
+      <div>
+        <p className="demo-msg-who">{chat.who === "@you" ? "You" : chat.who}</p>
+        <p>{chat.text}</p>
+        {chat.refs?.length ? (
+          <p className="demo-refs">
+            {chat.refs.map((r) => (
+              <span key={r} className="mono">
+                {r}
+              </span>
+            ))}
+          </p>
+        ) : null}
+      </div>
+    </li>
   );
 }

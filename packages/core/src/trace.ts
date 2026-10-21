@@ -47,6 +47,10 @@ export type TraceEvent =
   | (At & { type: "agent.output"; agent: AgentName; output: unknown })
   | (At & { type: "agent.end"; agent: AgentName; latencyMs: number })
   | (At & { type: "rule.eval"; rule: string; matched: boolean; detail: string })
+  // A message in a conversation about the change (a Slack thread, a PR
+  // comment), from a person or from Vera. refs name the code an answer
+  // rests on, e.g. "src/checkout/rounding.ts:12-18".
+  | (At & { type: "chat"; via: "github" | "slack"; channel: string; who: string; text: string; refs?: string[] })
   // A person's side of sign-off, as it reaches Vera (a review on GitHub, a
   // reply in Slack): asked, reminded, approved, or changes requested.
   | (At & {

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { costUsd, createTrace, fromJsonl, record, toJsonl, totals } from "@vera/core";
-import { BEFORE_REVIEW, MODEL, QUESTIONS, afterReview } from "./run.ts";
+import { ASK, BEFORE_REVIEW, MODEL, QUESTIONS, afterReview, askEvents } from "./run.ts";
 
 const all = (answers: Record<string, string>) => [...BEFORE_REVIEW, ...afterReview(30_000, answers)];
 const right = Object.fromEntries(QUESTIONS.questions.map((q) => [q.id, q.answer]));
@@ -46,4 +46,19 @@ test("a wrong answer is recorded, and sign-off still completes", () => {
   const grade = events.find((e) => e.type === "agent.output" && e.agent === "examiner");
   assert.deepEqual(grade && grade.type === "agent.output" ? grade.output : null, { right: 1, of: 2, recorded: true });
   assert.ok(events.some((e) => e.type === "run.end" && e.status === "ok"));
+});
+
+test("Vera holds back an open check's answer, and answers fully once it's closed", () => {
+  const down = ASK.find((a) => a.check)!;
+  const reply = (open: boolean) => askEvents(0, down, open).find((e) => e.type === "chat" && e.who === "@vera");
+  const held = reply(true);
+  const full = reply(false);
+  assert.ok(held && held.type === "chat" && held.text === down.check!.hint);
+  assert.ok(full && full.type === "chat" && full.text === down.answer);
+});
+
+test("every answer from Vera cites the code it rests on", () => {
+  for (const e of [...all(right), ...ASK.flatMap((a) => askEvents(0, a, false))]) {
+    if (e.type === "chat" && e.who === "@vera") assert.ok(e.refs && e.refs.length > 0, e.text);
+  }
 });

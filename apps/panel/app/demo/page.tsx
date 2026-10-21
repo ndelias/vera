@@ -17,7 +17,8 @@ export default function Demo() {
         <h1>Watch Vera review a pull request, then review it yourself</h1>
         <p className="lede">
           A scripted run on a made-up shop&apos;s pull request. Vera maps the change, applies the team&apos;s rules,
-          briefs each role, and checks that you understood it before you approve. Then everyone signs off at once.
+          briefs each role, and checks that you understood it before you approve. You can ask it about the code on
+          your turn. Then everyone signs off at once, asking Vera in Slack whatever they need to know first.
         </p>
       </div>
 

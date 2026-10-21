@@ -63,3 +63,14 @@ test("sign-off events round-trip and don't count as calls", () => {
   assert.equal(sums.modelCalls, 1);
   assert.equal(sums.toolCalls, 1);
 });
+
+test("chat messages keep their code references through a round trip", () => {
+  const t = sampleTrace();
+  record(t, {
+    type: "chat", at: 1800, via: "slack", channel: "#product", who: "@vera",
+    text: "Only percentage codes on orders with 2+ items.", refs: ["src/checkout/rounding.ts:12-18"],
+  });
+  const back = fromJsonl(toJsonl(t));
+  assert.deepEqual(back.events.at(-1), t.events.at(-1));
+  assert.equal(totals(back).toolCalls, 1);
+});

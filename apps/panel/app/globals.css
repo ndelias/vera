@@ -2331,3 +2331,132 @@ th.num {
     letter-spacing: 0.05em;
   }
 }
+
+/* The demo's conversations: Ask Vera and the Slack / PR threads */
+.demo-ask {
+  display: grid;
+  gap: var(--space-3);
+  padding-bottom: var(--space-5);
+  margin-bottom: var(--space-2);
+  border-bottom: 1px solid var(--line);
+}
+.demo-ask > p {
+  margin: 0;
+  font-size: 14px;
+}
+.demo-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.demo-chip {
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13.5px;
+  text-align: left;
+  cursor: pointer;
+}
+.demo-chip:hover {
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+.demo-chip:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+.demo-chat {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+}
+.demo-msg {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: var(--space-3);
+  font-size: 14px;
+  animation: fade-up 400ms var(--ease) both;
+}
+.demo-msg p {
+  margin: 0;
+}
+.demo-msg-avatar {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--line);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.demo-msg.is-vera .demo-msg-avatar {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+.demo-msg-who {
+  font-weight: 500;
+  margin-bottom: 2px !important;
+}
+.demo-refs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2) !important;
+}
+.demo-refs .mono {
+  font-size: 11.5px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--line);
+  overflow-wrap: anywhere;
+}
+.demo-threads {
+  border-top: 1px solid var(--line);
+}
+.demo-threads .pr-mock-head {
+  border-bottom: 1px solid var(--line);
+}
+.demo-thread {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--card-pad);
+  border-bottom: 1px solid var(--line);
+  animation: fade-up 500ms var(--ease) both;
+}
+.demo-thread:last-child {
+  border-bottom: 0;
+}
+.demo-thread-head {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* Totals: small labels on one line, values in the dot font */
+.demo-totals dt {
+  font-size: 9.5px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.demo-totals dd {
+  margin-top: var(--space-2);
+  font: inherit;
+  line-height: 0;
+}
+.demo-totals .dot-number svg {
+  height: 22px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-msg,
+  .demo-thread {
+    animation: none;
+  }
+}

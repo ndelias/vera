@@ -145,6 +145,105 @@ export const QUESTIONS: ExaminerOutput = {
   ],
 };
 
+/** Questions the reviewer can ask Vera on their turn. */
+export type Ask = {
+  id: string;
+  question: string;
+  tool: { name: string; summary: string };
+  answer: string;
+  refs: string[];
+  /** Set when the question gives away an open check question: Vera points to the code instead. */
+  check?: { question: string; hint: string };
+};
+
+export const ASK: Ask[] = [
+  {
+    id: "plain",
+    question: "What did the coding agent change in totals.ts, in plain words?",
+    tool: { name: "code.read", summary: "checkout/totals.ts, pricing/client.ts" },
+    answer:
+      "Before, totals.ts worked out prices itself. Now it asks the pricing service for a quote and keeps the old calculation as a fallback (legacyTotals). Rounding moved into its own file, rounding.ts. Nothing else in checkout calls the service directly.",
+    refs: ["src/checkout/totals.ts:20-58", "src/pricing/client.ts:9-17"],
+  },
+  {
+    id: "callers",
+    question: "Who calls applyDiscount, and could any of them break?",
+    tool: { name: "code.search", summary: "applyDiscount( → 14 callers in 6 files" },
+    answer:
+      "14 callers in 6 files. 12 pass whole orders and get the new per-item rounding. The 2 in admin refunds pass a single line, so nothing changes for them. None of them read the order-level total that was removed.",
+    refs: ["src/checkout/totals.ts:44", "src/admin/refunds.ts:88"],
+  },
+  {
+    id: "down",
+    question: "What happens if the pricing service is down?",
+    tool: { name: "code.read", summary: "pricing/client.ts, quote()" },
+    answer:
+      "Checkout gets the in-house totals, as before: quote() gives up after 800 ms and falls back to legacyTotals(). The customer sees no error and no 'Prices updated' line.",
+    refs: ["src/pricing/client.ts:12-16"],
+    check: {
+      question: "timeout",
+      hint: "That's one of your check questions, so I'll hold my answer until you've answered it. Look at quote() in src/pricing/client.ts, lines 12-16, and follow what happens when the call doesn't come back.",
+    },
+  },
+  {
+    id: "tests",
+    question: "Why are there no tests for the new rounding?",
+    tool: { name: "bots.read_findings", summary: "review bot: rounding.ts branches untested" },
+    answer:
+      "The tests the agent wrote cover the service call and the fallback, not the two new branches in rounding.ts (per-item lines, and lines with zero quantity). The review bot flagged the same gap. Worth asking @mira to add them before this merges.",
+    refs: ["tests/checkout/totals.test.ts", "src/checkout/rounding.ts:12-24"],
+  },
+];
+
+/** The reviewer's private thread with Vera on the PR. */
+export const ASK_CHANNEL = "your review";
+
+/** Vera answering one of the reviewer's questions, from `start`. */
+export function askEvents(start: number, ask: Ask, checkOpen: boolean): TraceEvent[] {
+  const held = Boolean(ask.check && checkOpen);
+  return [
+    { type: "chat", at: start, via: "github", channel: ASK_CHANNEL, who: "@you", text: ask.question },
+    { type: "agent.start", at: start + 200, agent: "briefer", task: "Answer @you on the pull request" },
+    tool("briefer", start + 500, ask.tool.name, ask.tool.summary, 280),
+    call("briefer", start + 900, 3_600, 8_000, held ? 90 : 170, 1_500),
+    {
+      type: "chat",
+      at: start + 2_500,
+      via: "github",
+      channel: ASK_CHANNEL,
+      who: "@vera",
+      text: held ? ask.check!.hint : ask.answer,
+      refs: ask.refs,
+    },
+    { type: "agent.end", at: start + 2_600, agent: "briefer", latencyMs: 2_400 },
+  ];
+}
+
+/** A reviewer asks Vera in Slack or on the PR; Vera reads the code and answers. */
+function thread(
+  at: number,
+  via: "github" | "slack",
+  channel: string,
+  who: string,
+  question: string,
+  tools: [string, string][],
+  answer: string,
+  refs: string[],
+): TraceEvent[] {
+  const events: TraceEvent[] = [
+    { type: "chat", at, via, channel, who, text: question },
+    { type: "agent.start", at: at + 1_000, agent: "briefer", task: `Answer ${who} in ${channel}` },
+  ];
+  tools.forEach(([name, summary], i) => events.push(tool("briefer", at + 1_400 + i * 600, name, summary, 300)));
+  const t = at + 1_400 + tools.length * 600;
+  events.push(
+    call("briefer", t, 4_200, 8_000, 190, 1_800),
+    { type: "chat", at: t + 1_900, via, channel, who: "@vera", text: answer, refs },
+    { type: "agent.end", at: t + 2_000, agent: "briefer", latencyMs: t + 2_000 - at - 1_000 },
+  );
+  return events;
+}
+
 const call = (agent: "mapper" | "briefer" | "examiner" | "signoff", at: number, input: number, cacheRead: number, output: number, latencyMs: number): TraceEvent => ({
   type: "model.call",
   at,
@@ -224,10 +323,44 @@ export function afterReview(start: number, answers: Record<string, string>): Tra
     { type: "signoff", at: start + 6_400, role: "Design", who: "@ines", via: "slack", status: "asked" },
     { type: "signoff", at: start + 6_400, role: "Security", who: "@sam", via: "github", status: "asked" },
     { type: "signoff", at: start + 6_400, role: "Product", who: "@priya", via: "slack", status: "asked" },
-    { type: "signoff", at: start + 42 * min, role: "Design", who: "@ines", via: "slack", status: "approved", note: "Preview looks right; the new line is fine." },
+    ...thread(
+      start + 38 * min,
+      "slack",
+      "#design",
+      "@ines",
+      "@vera does the 'Prices updated' line show when nothing changed?",
+      [["code.read", "ui/OrderSummary.tsx, the new line"]],
+      "No. It only shows when the service's total differs from the in-house total for that cart. On a timeout it never shows, because the in-house total is used.",
+      ["src/ui/OrderSummary.tsx:41"],
+    ),
+    { type: "signoff", at: start + 42 * min, role: "Design", who: "@ines", via: "slack", status: "approved", note: "Clear now. Preview looks right." },
+    ...thread(
+      start + 66 * min,
+      "github",
+      "PR #482",
+      "@sam",
+      "@vera is the customer tier ever logged?",
+      [["code.search", "log( in the changed files → pricing/client.ts:31"]],
+      "No. pricing/client.ts logs the cart ID and how long the call took, nothing else (line 31). The tier is only in the request body, and this change doesn't write it anywhere.",
+      ["src/pricing/client.ts:31"],
+    ),
     { type: "signoff", at: start + 70 * min, role: "Security", who: "@sam", via: "github", status: "approved", note: "Tier only, no customer ID. OK." },
     tool("signoff", start + 90 * min, "slack.post", "reminder to @priya, still waiting after 90 min", 220),
     { type: "signoff", at: start + 90 * min + 300, role: "Product", who: "@priya", via: "slack", status: "reminded" },
+    ...thread(
+      start + 118 * min,
+      "slack",
+      "#product",
+      "@priya",
+      "@vera which orders actually change, and by how much?",
+      [
+        ["code.read", "checkout/rounding.ts, lines 12-18"],
+        ["code.search", "SPRING15|WELCOME10|VIP20 → config/discounts.ts"],
+      ],
+      "Only orders with a percentage code and two or more items. Each item now rounds on its own, so a total can move by a cent per item, usually up. With SPRING15, an $8.49 item and a $6.75 item came to $12.95; now they come to $12.96. Fixed-amount codes don't go through this code.",
+      ["src/checkout/rounding.ts:12-18", "config/discounts.ts"],
+    ),
+    { type: "chat", at: start + 121 * min, via: "slack", channel: "#product", who: "@priya", text: "Up by a cent is fine. Approving." },
     { type: "signoff", at: start + 125 * min, role: "Product", who: "@priya", via: "slack", status: "approved", note: "Per-item rounding is what we want." },
     { type: "signoff", at: start + 140 * min, role: "Code owner", who: "@theo", via: "github", status: "approved", note: "Fallback and rounding read fine." },
     { type: "rule.eval", at: start + 140 * min + 200, rule: "Vera: sign-off", matched: true, detail: "5 of 5 approved, understanding recorded" },

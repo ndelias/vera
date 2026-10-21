@@ -47,6 +47,18 @@ debugging. It's the centrepiece of the portfolio piece.
 read the diff, files, code search, CODEOWNERS, review-bot comments, CI
 status and preview links.
 
+**Vera explains the change to whoever has to approve it.** *(Decided
+2026-10-21.)* Reviewers ask `@vera` in Slack or on the PR ("which orders
+change, and by how much?") and the Briefer answers from the code:
+- It reads; it never runs or changes the code. Every answer cites the files
+  and lines it rests on, and a concrete example where one helps.
+- If the answer isn't in the code or the PR, it says so instead of guessing.
+- It won't give away the answers to an open understanding check; it points
+  to where to look, and explains fully once the reviewer has answered.
+- Eval (M2): on 50 questions about real GitLab MRs, answers are checked
+  against the diff by a person; ≥ 90% correct and every one cited.
+- Where: PR comments in M4 (the Action answers `@vera` mentions), Slack in M6.
+
 **Likely-AI changes raise the stakes; they don't get a score.**
 *(Decided 2026-10-21.)* "AI-written code needs cleaning up" tied for first
 of the twelve pains, but rating code is what the review bots already do,
