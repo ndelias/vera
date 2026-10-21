@@ -42,6 +42,18 @@
   --good: #5f8700;
   --critical: #d03b3b;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* Spacing: one scale for the whole site. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --section-gap: clamp(88px, 10vw, 128px);
+  --grid-gap: 24px;
+  --card-pad: clamp(24px, 3vw, 32px);
   --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "Fragment Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --display: var(--font-doto), "Fragment Mono", ui-monospace, monospace;
@@ -100,7 +112,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font: 400 15px/1.55 var(--sans);
+  font: 400 15px/1.6 var(--sans);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -175,7 +187,7 @@ code {
   gap: 16px;
   padding: 16px;
   border-bottom: 1px solid var(--line);
-  margin-bottom: 40px;
+  margin-bottom: var(--space-7);
 }
 @media (min-width: 768px) {
   .top {
@@ -213,9 +225,9 @@ code {
 
 .page-head {
   display: grid;
-  gap: 12px;
+  gap: var(--space-4);
   max-width: 720px;
-  margin-bottom: 40px;
+  margin-bottom: var(--space-8);
 }
 .eyebrow {
   font-family: var(--mono);
@@ -230,15 +242,15 @@ code {
 }
 
 .section {
-  margin-top: 56px;
+  margin-top: var(--section-gap);
 }
 .section-head {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 8px 16px;
-  margin-bottom: 16px;
+  gap: var(--space-3) var(--space-6);
+  margin-bottom: var(--space-6);
 }
 .section-head p {
   color: var(--muted);
@@ -249,12 +261,12 @@ code {
   background: var(--surface);
   border-radius: 20px;
   box-shadow: inset 0 0 0 1px var(--line);
-  padding: 24px;
+  padding: var(--card-pad);
 }
 
 .grid-2 {
   display: grid;
-  gap: 16px;
+  gap: var(--grid-gap);
 }
 @media (min-width: 900px) {
   .grid-2 {
@@ -508,7 +520,7 @@ code {
 }
 
 .chart-note {
-  margin-top: 12px;
+  margin-top: var(--space-4);
   font-size: 13px;
   color: var(--muted);
 }
@@ -657,7 +669,7 @@ th.num {
 
 .list {
   display: grid;
-  gap: 16px;
+  gap: var(--grid-gap);
 }
 /* Grid children default to min-width: auto and would grow to fit wide tables. */
 .list > *,
@@ -704,7 +716,7 @@ th.num {
 .stats {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: var(--grid-gap);
 }
 @media (min-width: 560px) {
   .stats {
@@ -718,9 +730,9 @@ th.num {
 }
 .stat {
   display: grid;
-  gap: 6px;
+  gap: var(--space-3);
   align-content: start;
-  padding: 20px;
+  padding: var(--card-pad);
   background: var(--surface);
   border-radius: 8px;
 }
@@ -743,7 +755,7 @@ th.num {
 
 .grid-3 {
   display: grid;
-  gap: 16px;
+  gap: var(--grid-gap);
 }
 @media (min-width: 900px) {
   .grid-3 {
@@ -865,18 +877,18 @@ th.num {
 .subnav {
   gap: 8px 20px;
   font-size: 11px;
-  margin: -16px 0 40px;
+  margin: calc(-1 * var(--space-5)) 0 var(--space-7);
 }
 
 .hub {
   display: grid;
-  gap: 16px;
+  gap: var(--grid-gap);
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   margin-bottom: 8px;
 }
 .hub-card {
   display: grid;
-  gap: 6px;
+  gap: var(--space-2);
   align-content: start;
   color: inherit;
   text-decoration: none;
@@ -915,7 +927,7 @@ th.num {
 }
 
 .stat {
-  padding: 24px;
+  padding: var(--card-pad);
   border-radius: 20px;
   box-shadow: inset 0 0 0 1px var(--line);
 }
@@ -1037,7 +1049,7 @@ th.num {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: var(--space-5);
 }
 .flow-side {
   display: flex;
@@ -1175,8 +1187,8 @@ th.num {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 24px;
-  padding: 32px 0 8px;
+  gap: var(--space-6);
+  padding: var(--space-8) 0 var(--space-5);
 }
 .hero-lede {
   max-width: 680px;
@@ -1185,14 +1197,15 @@ th.num {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
 }
 .voices-head {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px;
+  gap: var(--space-8);
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: var(--space-8);
 }
 .voices-head > .dotfield {
   flex: 999 1 480px;
@@ -1241,13 +1254,13 @@ th.num {
 
 .agents-showcase {
   display: grid;
-  gap: 24px;
+  gap: var(--space-6);
   align-items: start;
 }
 @media (min-width: 900px) {
   .agents-showcase {
     grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: 40px;
+    gap: var(--space-8);
   }
 }
 .agents-stage {
@@ -1284,9 +1297,9 @@ th.num {
 .agent-row {
   display: grid;
   grid-template-columns: 48px 1fr;
-  gap: 12px;
+  gap: var(--space-4);
   width: 100%;
-  padding: 18px 0;
+  padding: var(--space-5) 0;
   border: 0;
   border-top: 1px solid var(--line);
   background: none;
@@ -1351,7 +1364,7 @@ th.num {
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  padding: 12px 20px;
+  padding: var(--space-4) var(--card-pad);
   border-bottom: 1px solid var(--line);
   font-size: 14px;
 }
@@ -1366,8 +1379,8 @@ th.num {
 }
 .pr-mock-body {
   display: grid;
-  gap: 20px;
-  padding: 20px;
+  gap: var(--space-6);
+  padding: var(--card-pad);
 }
 .pr-mock-label {
   font-family: var(--mono);
@@ -1396,7 +1409,7 @@ th.num {
   padding-left: 20px;
 }
 .pr-mock figcaption {
-  padding: 12px 20px;
+  padding: var(--space-4) var(--card-pad);
   border-top: 1px solid var(--line);
   font-size: 13px;
 }
@@ -1462,9 +1475,9 @@ th.num {
 .roadmap-step {
   display: grid;
   grid-template-columns: 56px 1fr auto;
-  gap: 16px;
+  gap: var(--space-5);
   align-items: start;
-  padding: 18px 0;
+  padding: var(--space-5) 0;
   border-top: 1px solid var(--line);
 }
 .roadmap-step:last-child {
@@ -1529,8 +1542,8 @@ th.num {
 
 .rotator {
   display: grid;
-  gap: 24px;
-  margin-top: 56px;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
 }
 .rotator-stage {
   position: relative;
@@ -1541,7 +1554,7 @@ th.num {
   margin: 0;
   display: grid;
   align-content: start;
-  gap: 20px;
+  gap: var(--space-5);
   visibility: hidden;
 }
 .rotator-quote[data-active] {
