@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useEntrance } from "@/lib/motion";
 
 export type Bar = {
   label: string;
@@ -14,13 +15,15 @@ export type Bar = {
 };
 
 /** Horizontal bars, one series. Each row is its own hover/focus target. */
-export function BarChart({ bars, caption }: { bars: Bar[]; caption: string }) {
+export function BarChart({ bars, caption, highlight = 0 }: { bars: Bar[]; caption: string; highlight?: number }) {
   const [active, setActive] = useState<number | null>(null);
+  const root = useRef<HTMLDivElement>(null);
+  const entrance = useEntrance(root);
   const max = Math.max(1, ...bars.map((b) => b.value));
 
   return (
     <figure style={{ margin: 0 }}>
-      <div className="bars" role="list" aria-label={caption}>
+      <div className="bars" role="list" aria-label={caption} ref={root} data-entrance={entrance}>
         {bars.map((b, i) => {
           const width = `${(b.value / max) * 100}%`;
           const row = (
@@ -28,8 +31,8 @@ export function BarChart({ bars, caption }: { bars: Bar[]; caption: string }) {
               <span className="bar-label">{b.label}</span>
               <span className="bar-track">
                 <span
-                  className={`bar-fill${b.variant ? ` is-${b.variant}` : ""}`}
-                  style={b.value === 0 ? { width: 0, minWidth: 0 } : { width }}
+                  className={`bar-fill${b.variant ? ` is-${b.variant}` : ""}${i < highlight ? " is-highlight" : ""}`}
+                  style={{ ...(b.value === 0 ? { width: 0, minWidth: 0 } : { width }), ["--i" as string]: i }}
                 />
                 <span className="bar-value">{b.display ?? b.value.toLocaleString("en-US")}</span>
               </span>

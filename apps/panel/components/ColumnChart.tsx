@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useEntrance } from "@/lib/motion";
 
 export type Series = { key: string; label: string };
 export type Column = {
@@ -31,6 +32,7 @@ export function ColumnChart({
   caption,
   everyNth = 3,
   unit = "",
+  highlight,
 }: {
   columns: Column[];
   series: Series[];
@@ -38,8 +40,14 @@ export function ColumnChart({
   everyNth?: number;
   /** Appended to values in the tooltip and table, e.g. "%" or " h". */
   unit?: string;
+  /** One column to draw in ink, with its value written above it. */
+  highlight?: { index: number; label: string };
 }) {
   const [active, setActive] = useState<number | null>(null);
+  const root = useRef<HTMLDivElement>(null);
+  const entrance = useEntrance(root);
+  // Columns are whole cells wide: fewer, wider columns get more cells.
+  const cells = columns.length > 30 ? 1 : columns.length > 10 ? 3 : 5;
   const totals = columns.map((c) => series.reduce((n, s) => n + (c.values[s.key] ?? 0), 0));
   const max = niceMax(Math.max(1, ...totals));
   const ticks = [0, max / 2, max];
@@ -57,7 +65,7 @@ export function ColumnChart({
           ))}
         </ul>
       ) : null}
-      <div className="columns">
+      <div className="columns" ref={root} data-entrance={entrance}>
         <div className="columns-axis" aria-hidden="true">
           {ticks.map((t) => (
             <span key={t} style={{ bottom: `${(t / max) * 100}%` }}>{compact(t)}</span>
@@ -80,7 +88,15 @@ export function ColumnChart({
                 onFocus={() => setActive(i)}
                 onBlur={() => setActive(null)}
               >
-                <div className={`column-stack${c.partial ? " is-partial" : ""}`} style={{ height: `${(totals[i] / max) * 100}%` }}>
+                {highlight?.index === i ? (
+                  <span className="column-callout" style={{ bottom: `${(totals[i] / max) * 100}%` }}>
+                    {highlight.label}
+                  </span>
+                ) : null}
+                <div
+                  className={`column-stack${c.partial ? " is-partial" : ""}${highlight?.index === i ? " is-highlight" : ""}`}
+                  style={{ height: `${(totals[i] / max) * 100}%`, ["--cells" as string]: cells, ["--i" as string]: i }}
+                >
                   {series.map((s, si) =>
                     c.values[s.key] ? (
                       <div

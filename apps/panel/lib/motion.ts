@@ -43,3 +43,22 @@ export function useOnScreen(ref: React.RefObject<Element | null>) {
   }, [ref]);
   return on;
 }
+
+/**
+ * An entrance that plays once, the first time something scrolls into view.
+ * "idle": leave it as rendered (no JS yet, motion off, or already on screen
+ * at load). "waiting": hidden, below the fold. "in": play the entrance.
+ */
+export function useEntrance(ref: React.RefObject<Element | null>) {
+  const motion = useMotion();
+  const onScreen = useOnScreen(ref);
+  const [phase, setPhase] = useState<"idle" | "waiting" | "in">("idle");
+  useEffect(() => {
+    if (phase === "idle" && motion && onScreen === false) setPhase("waiting");
+    if (phase === "waiting" && (onScreen || !motion)) {
+      const id = requestAnimationFrame(() => setPhase("in"));
+      return () => cancelAnimationFrame(id);
+    }
+  }, [motion, onScreen, phase]);
+  return phase;
+}

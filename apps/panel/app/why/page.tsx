@@ -139,6 +139,7 @@ export default function Case() {
             series={[{ key: "share", label: "AI-disclosed" }]}
             unit="%"
             everyNth={3}
+            highlight={{ index: ai.length - 1, label: `${Math.round(ai[ai.length - 1]!.share * 100)}%` }}
             columns={ai.map((a) => ({
               key: a.month,
               label: month(a.month),
@@ -155,6 +156,7 @@ export default function Case() {
               series={[{ key: "lines", label: "Median lines" }]}
               unit=" lines"
               everyNth={2}
+              highlight={{ index: vs.length - 1, label: `${vs[vs.length - 1]!.lines}` }}
               columns={vs.map((v) => ({ key: v.quarter, label: v.quarter, values: { lines: v.lines } }))}
             />
           </div>
@@ -165,6 +167,7 @@ export default function Case() {
               series={[{ key: "hours", label: "Median hours" }]}
               unit=" h"
               everyNth={2}
+              highlight={{ index: vs.length - 1, label: `${Math.round(vs[vs.length - 1]!.hours)} h` }}
               columns={vs.map((v) => ({ key: v.quarter, label: v.quarter, values: { hours: Math.round(v.hours) } }))}
             />
           </div>
@@ -207,6 +210,7 @@ export default function Case() {
         <div className="card">
           <BarChart
             caption="Stage 2 score out of 60"
+            highlight={2}
             bars={ranked.map((r) => ({
               label: r.label,
               value: r.score,

@@ -1683,3 +1683,128 @@ th.num {
 :root[data-motion="off"] .flow-pulse {
   display: none;
 }
+
+/* Charts in cells. Marks are cut into square cells by a mask, so a value
+   keeps its exact height (the top cell may be partial) and the chart reads
+   in the same dot matrix as the type. Entrances reveal a row of cells at a
+   time, once, when a chart first scrolls into view (lib/motion.ts). */
+
+.columns,
+.bars {
+  --pitch: 8px; /* cell plus gap */
+}
+@media (max-width: 560px) {
+  .columns,
+  .bars {
+    --pitch: 5px;
+  }
+}
+.column-stack,
+.bar-fill {
+  -webkit-mask-image:
+    linear-gradient(to right, #000 calc(var(--pitch) - 2px), transparent 0),
+    linear-gradient(to top, #000 calc(var(--pitch) - 2px), transparent 0);
+  mask-image:
+    linear-gradient(to right, #000 calc(var(--pitch) - 2px), transparent 0),
+    linear-gradient(to top, #000 calc(var(--pitch) - 2px), transparent 0);
+  -webkit-mask-size: var(--pitch) var(--pitch);
+  mask-size: var(--pitch) var(--pitch);
+  -webkit-mask-position: left bottom;
+  mask-position: left bottom;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  border-radius: 0;
+}
+
+.columns-plot {
+  height: 240px;
+  border-bottom: 0;
+  background-image: radial-gradient(circle, var(--line-strong) 1px, transparent 1.5px);
+  background-size: calc(var(--pitch) * 3) calc(var(--pitch) * 3);
+  background-position: left bottom;
+}
+.columns-grid {
+  border-top: 1px dashed var(--line-strong);
+  opacity: 1;
+}
+.columns-axis,
+.columns-x {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.column {
+  position: relative;
+}
+.column-stack {
+  width: min(calc(var(--cells) * var(--pitch) - 2px), 100%);
+  max-width: none;
+  flex: none;
+  gap: 0;
+}
+.column-stack .column-seg {
+  margin-top: 0;
+}
+.column-stack.is-highlight .column-seg {
+  background: var(--ink) !important;
+}
+.column-callout {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -10px);
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--lime);
+  color: #0b0b0b;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.bars {
+  gap: 6px;
+}
+.bar-fill {
+  height: calc(var(--pitch) * 2 - 2px);
+}
+.bar-fill.is-highlight {
+  background: var(--ink);
+}
+.bar-fill.is-muted {
+  background: var(--line-strong);
+}
+.bar-value {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 18px;
+}
+
+/* The entrance: hidden below the fold, then revealed a row of cells at a time. */
+.columns[data-entrance="waiting"] .column-stack,
+.columns[data-entrance="waiting"] .column-callout {
+  clip-path: inset(100% 0 0 0);
+}
+.columns[data-entrance="in"] .column-stack {
+  transition: clip-path 800ms steps(12, end) calc(var(--i) * 60ms);
+}
+.columns[data-entrance="in"] .column-callout {
+  transition: clip-path 300ms steps(4, end) calc(var(--i) * 60ms + 800ms);
+}
+.bars[data-entrance="waiting"] .bar-fill,
+.bars[data-entrance="waiting"] .bar-value {
+  clip-path: inset(0 100% 0 0);
+}
+.bars[data-entrance="in"] .bar-fill {
+  transition: clip-path 900ms steps(18, end) calc(var(--i) * 70ms);
+}
+.bars[data-entrance="in"] .bar-value {
+  transition: clip-path 200ms steps(3, end) calc(var(--i) * 70ms + 900ms);
+}
+/* Room above the plot for a callout on a column that reaches the top. */
+.columns {
+  margin-top: 32px;
+}
