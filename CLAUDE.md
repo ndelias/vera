@@ -45,8 +45,10 @@ a portfolio app, not a business.
   merge request titles or URLs. Anything that widens that goes through
   export_site.py and gets Nahuel's OK.
 - Ask before adding any dependency: say what it's for and its size.
-- Pushing to main deploys the site. Run `npm run ci` and the site build
-  first; commit with a clear message.
+- Every change goes through a pull request: work on a branch, run
+  `npm run ci` and the site build, push the branch and open a PR. Vercel
+  builds a preview for it; Nahuel reviews and merges, and merging to main
+  deploys the site. Never push to main directly.
 - The site is fully static. No server routes, no runtime database.
 
 ## Research
@@ -65,9 +67,10 @@ bg #FFFFFF · surface #FFFFFF · line #E2E2DC · line-strong #D3D3CC ·
 muted #5C5C57 · ink #0B0B0B · lime #C9F23C · on-lime #2E3A05
 - Lime marks the one thing to look at, always as a fill behind ink, never
   as text.
-- Fonts: Instrument Sans 400/500 and DM Mono 400, self-hosted; Doto
+- Fonts: Instrument Sans 400/500 and Fragment Mono 400, self-hosted; Doto
   700/900 (next/font) for big numbers and short display lines only. Mono
-  small caps for labels, eyebrows and nav.
+  small caps for labels, eyebrows and nav. (DM Mono was dropped as too
+  common on AI sites; Fragment Mono chosen 2026-10-21.)
 - Glyphs the subset fonts lack (arrows, minus, ±) are drawn as inline SVG
   (components/Arrow.tsx) or avoided in copy.
 - The mark: two strokes that don't quite meet and the lime square where

@@ -49,7 +49,7 @@ const dataUrl = async (file) => `data:font/woff2;base64,${(await readFile(file))
 const fontFaces = async (doto) => `
 @font-face { font-family: "Instrument Sans"; src: url(${await dataUrl(join(APP, "public/fonts/instrument-sans-latin-500-normal.woff2"))}); font-weight: 500; }
 @font-face { font-family: "Instrument Sans"; src: url(${await dataUrl(join(APP, "public/fonts/instrument-sans-latin-400-normal.woff2"))}); font-weight: 400; }
-@font-face { font-family: "DM Mono"; src: url(${await dataUrl(join(APP, "public/fonts/dm-mono-latin-400-normal.woff2"))}); }
+@font-face { font-family: "Fragment Mono"; src: url(${await dataUrl(join(APP, "public/fonts/fragment-mono-latin-400-normal.woff2"))}); }
 @font-face { font-family: "Doto"; src: url(${await dataUrl(doto)}); font-weight: 100 900; }
 * { margin: 0; box-sizing: border-box; }
 body { background: transparent; }
@@ -73,7 +73,7 @@ const og = () => `
 <div id="shot" style="width:1200px;height:630px;background:${WHITE};position:relative;overflow:hidden;font-family:'Instrument Sans'">
   <div style="position:absolute;left:72px;top:64px">${lockup(44, INK, LIME).replace('id="shot"', "").replace(/padding:[^;"]+/, "padding:0")}</div>
   <div style="position:absolute;left:72px;top:186px;font:900 74px/0.98 'Doto';letter-spacing:0.01em;color:${INK}">Understood.<br>Signed off.<br>Shipped.</div>
-  <div style="position:absolute;left:72px;bottom:64px;font:400 18px/1 'DM Mono';letter-spacing:0.08em;text-transform:uppercase;color:#5c5c57">Review for the AI era</div>
+  <div style="position:absolute;left:72px;bottom:64px;font:400 18px/1 'Fragment Mono';letter-spacing:0.08em;text-transform:uppercase;color:#5c5c57">Review for the AI era</div>
   <canvas id="cells" width="360" height="360" style="position:absolute;right:72px;top:135px;width:360px;height:360px"></canvas>
 </div>
 <script>
@@ -137,7 +137,7 @@ async function shoot(html, transparent = false, scale = 1) {
   await p.setContent(`<!doctype html><style>${faces}</style>${html}`, { waitUntil: "load" });
   // Make sure every face is in before the shot; a fallback would slip through silently.
   const missing = await p.evaluate(async () => {
-    const want = ["500 20px 'Instrument Sans'", "20px 'DM Mono'", "900 20px Doto"];
+    const want = ["500 20px 'Instrument Sans'", "20px 'Fragment Mono'", "900 20px Doto"];
     await Promise.all(want.map((f) => document.fonts.load(f)));
     await document.fonts.ready;
     return want.filter((f) => !document.fonts.check(f));

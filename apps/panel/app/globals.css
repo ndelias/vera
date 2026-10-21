@@ -11,8 +11,8 @@
   font-display: swap;
 }
 @font-face {
-  font-family: "DM Mono";
-  src: url("/fonts/dm-mono-latin-400-normal.woff2") format("woff2");
+  font-family: "Fragment Mono";
+  src: url("/fonts/fragment-mono-latin-400-normal.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
@@ -43,8 +43,8 @@
   --critical: #d03b3b;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --display: var(--font-doto), "DM Mono", ui-monospace, monospace;
+  --mono: "Fragment Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --display: var(--font-doto), "Fragment Mono", ui-monospace, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
