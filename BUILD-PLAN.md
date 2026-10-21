@@ -47,6 +47,17 @@ debugging. It's the centrepiece of the portfolio piece.
 read the diff, files, code search, CODEOWNERS, review-bot comments, CI
 status and preview links.
 
+**What Vera is for: review that keeps up.** *(Decided 2026-10-21.)* Review
+isn't slow; it just hasn't got any faster, while the code in each change
+doubled. Reviewers kept pace by reading less (comments per line −38%).
+Vera speeds review up to match the cadence of code, without approvals of
+code nobody read: triage (what to look at first), routing, a brief per
+role, answers from the code, sign-off in parallel, and the understanding
+check that keeps the speed honest. The two numbers that prove it, from
+the traces and the M5 demo company: reviewer minutes per 100 lines, and
+time to full sign-off. Merge time alone isn't the measure (it was already
+flat).
+
 **Vera explains the change to whoever has to approve it.** *(Decided
 2026-10-21.)* Reviewers ask `@vera` in Slack or on the PR ("which orders
 change, and by how much?") and the Briefer answers from the code:

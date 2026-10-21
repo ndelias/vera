@@ -11,7 +11,7 @@ a portfolio app, not a business.
   picked Vera), shown on the site at /why and /evidence.
 - How it gets built: BUILD-PLAN.md (path C: run viewer, CLI and GitHub
   Action first; then a thin hosted layer and Slack on a demo workspace).
-- Live site: https://vera-zeta-pink.vercel.app (Vercel project "vera" in
+- Live site: https://vera-agent.vercel.app (Vercel project "vera" in
   Nahuel's personal scope). Repo: github.com/ndelias/vera (public).
 
 ## Layout
