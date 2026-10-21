@@ -6,3 +6,4 @@ __pycache__/
 .venv/
 research/data/.salt
 apps/panel/data/site.sqlite
+.vercel
