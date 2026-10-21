@@ -53,3 +53,13 @@ test("secrets never reach the trace", () => {
   assert.match(json, /\[redacted:anthropic-key\]/);
   assert.match(json, /\[redacted:github-token\]/);
 });
+
+test("sign-off events round-trip and don't count as calls", () => {
+  const t = sampleTrace();
+  record(t, { type: "signoff", at: 1700, role: "design", who: "@ines", via: "slack", status: "approved", note: "looks right" });
+  const back = fromJsonl(toJsonl(t));
+  assert.deepEqual(back.events.at(-1), t.events.at(-1));
+  const sums = totals(back);
+  assert.equal(sums.modelCalls, 1);
+  assert.equal(sums.toolCalls, 1);
+});

@@ -25,6 +25,11 @@ export function Nav() {
         </Link>
       </li>
       <li>
+        <Link href="/demo" aria-current={path === "/demo" ? "page" : undefined}>
+          Demo
+        </Link>
+      </li>
+      <li>
         <Link href="/why" aria-current={path === "/why" ? "page" : undefined}>
           Why Vera
         </Link>

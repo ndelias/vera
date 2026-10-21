@@ -109,6 +109,13 @@ the Evals page. Cost and time per PR come from the traces. *Needs:* Nahuel's per
 Anthropic API account. *Done when:* the CLI works on any public PR and the
 eval scores and cost are on the Evals page.
 
+**Before M3: the demo (2026-10-21).** /demo is the run viewer playing a
+scripted trace (apps/panel/lib/demo/run.ts) for a fictional shop's pull
+request: the agents work, the visitor answers the understanding check and
+approves, and every role signs off. The trace uses @vera/core's real
+format and price table, and a test keeps it valid. M3 swaps in recorded
+traces from real runs.
+
 **M3: Run viewer.** Vera run on a curated set of real public PRs (including
 AI-written ones and small cross-role ones), with the traces recorded. The
 panel's Runs page replays them step by step. *Done when:* a visitor can open

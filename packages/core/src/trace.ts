@@ -47,6 +47,16 @@ export type TraceEvent =
   | (At & { type: "agent.output"; agent: AgentName; output: unknown })
   | (At & { type: "agent.end"; agent: AgentName; latencyMs: number })
   | (At & { type: "rule.eval"; rule: string; matched: boolean; detail: string })
+  // A person's side of sign-off, as it reaches Vera (a review on GitHub, a
+  // reply in Slack): asked, reminded, approved, or changes requested.
+  | (At & {
+      type: "signoff";
+      role: string;
+      who: string;
+      via: "github" | "slack";
+      status: "asked" | "reminded" | "approved" | "changes";
+      note?: string;
+    })
   | (At & { type: "run.end"; status: "ok" | "error"; error?: string });
 
 export type Trace = { version: typeof TRACE_VERSION; events: TraceEvent[] };
