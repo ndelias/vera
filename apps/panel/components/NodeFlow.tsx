@@ -1,19 +1,21 @@
 import { DitherMark } from "./DitherMark";
 
-// What goes into Vera for one change, and who it asks. Lime pulses travel
-// along the lines (CSS only); with reduced motion the lines are still.
+// What Vera reads for one change (left) and who it asks, with what each
+// gets (right), matching the demo's pull request. Lime pulses travel along
+// the lines (CSS only); with reduced motion the lines are still.
 
-const INPUTS = ["diff · 14 files", "review bots", ".vera.yml rules"];
+const INPUTS = ["the diff · 8 files", "review bots · 2 findings", ".vera.yml · 5 rules"];
 const OUTPUTS = [
-  { label: "design · preview", lime: true },
-  { label: "security · data flow", lime: false },
-  { label: "engineering · 3 questions", lime: false },
+  { label: "design · the preview", lime: true },
+  { label: "security · the data flow", lime: false },
+  { label: "engineering · 2 questions", lime: false },
 ];
 
 export function NodeFlow() {
   return (
     <figure className="flow" aria-label="Vera takes the diff, the review bots' findings and the team's rules, and asks design, security and engineering to sign off, each with what they need.">
       <div className="flow-side">
+        <p className="flow-heading">Reads</p>
         {INPUTS.map((label, i) => (
           <div key={label} className="flow-row">
             <span className="flow-pill">{label}</span>
@@ -29,6 +31,7 @@ export function NodeFlow() {
         </div>
       </div>
       <div className="flow-side">
+        <p className="flow-heading is-right">Asks</p>
         {OUTPUTS.map((o, i) => (
           <div key={o.label} className="flow-row">
             <span className="flow-line" aria-hidden="true">

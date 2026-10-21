@@ -2491,3 +2491,16 @@ th.num {
     animation: none;
   }
 }
+
+/* The hero diagram's two column labels */
+.flow-heading {
+  margin: 0 0 2px;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.flow-heading.is-right {
+  text-align: right;
+}
