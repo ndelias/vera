@@ -17,7 +17,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={doto.variable}>
+    // Light only, whatever the visitor's system setting. The dark tokens stay
+    // in globals.css under [data-theme="dark"] for a toggle later.
+    <html lang="en" className={doto.variable} data-theme="light">
       <head>
         <link rel="preload" href="/fonts/instrument-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
       </head>
