@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Doto } from "next/font/google";
 import Link from "next/link";
-import { CodeField, MotionToggle } from "@/components/CodeField";
+import { CellField } from "@/components/CellField";
+import { MotionToggle } from "@/components/MotionToggle";
 import { Mark } from "@/components/Mark";
 import { Nav, SubNav } from "@/components/Nav";
 import "./globals.css";
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preload" href="/fonts/instrument-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
       </head>
       <body>
-        <CodeField />
+        <CellField />
         <header className="top">
           <Link href="/" className="brand">
             <Mark size={22} />

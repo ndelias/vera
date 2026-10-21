@@ -23,7 +23,7 @@
    categorical order (dataviz validator, both modes). */
 :root {
   color-scheme: light;
-  --bg: #f4f4f1;
+  --bg: #ffffff;
   --surface: #ffffff;
   --line: #e2e2dc;
   --line-strong: #d3d3cc;
@@ -1492,9 +1492,9 @@ th.num {
   }
 }
 
-/* The background in characters (components/CodeField.tsx) and the footer */
+/* The background's cells (components/CellField.tsx) and the footer */
 
-.code-field {
+.cell-field {
   position: fixed;
   inset: 0;
   z-index: -1;
