@@ -22,7 +22,12 @@ export function Nav() {
       <ul className="nav">
         <li>
           <Link href="/" aria-current={path === "/" ? "page" : undefined}>
-            The case
+            Product
+          </Link>
+        </li>
+        <li>
+          <Link href="/why" aria-current={path === "/why" ? "page" : undefined}>
+            Why Vera
           </Link>
         </li>
         <li>

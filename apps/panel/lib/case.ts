@@ -8,7 +8,6 @@ import { all, one } from "./db";
 // the AI-change cluster. The copy and competitor summaries are in
 // case-content.ts and cite their sources.
 
-const RESEARCH = path.resolve(process.cwd(), "../../research");
 const SAMPLE_CODER = "cc-agents/claude-opus-5-5/v4-sample";
 
 type TestRow = { hypothesis_id: string; result_json: string; verdict: string };
@@ -153,7 +152,7 @@ export type Ranked = {
 };
 
 export function ranking(): Ranked[] {
-  const file = path.join(RESEARCH, "studies/03-scoring/ranking.json");
+  const file = path.resolve(process.cwd(), "data/ranking.json");
   return (JSON.parse(readFileSync(file, "utf8")) as { ranking: Ranked[] }).ranking;
 }
 

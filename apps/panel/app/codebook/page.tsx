@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { codebook } from "@/lib/data";
-import { num } from "@/lib/format";
+import { num, postHref } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Codebook" };
-export const dynamic = "force-dynamic";
 
 export default function Codebook() {
   const codes = codebook();
@@ -39,7 +38,7 @@ export default function Codebook() {
             {c.example ? (
               <p className="muted" style={{ fontSize: 13 }}>
                 Example:{" "}
-                <Link href={`/posts/${encodeURIComponent(c.example)}`}>
+                <Link href={postHref(c.example)}>
                   &ldquo;{c.example_excerpt?.slice(0, 160).trim()}…&rdquo;
                 </Link>
               </p>

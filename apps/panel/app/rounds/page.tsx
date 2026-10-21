@@ -4,7 +4,6 @@ import { queryRows, rounds } from "@/lib/data";
 import { day, num, pct } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Rounds" };
-export const dynamic = "force-dynamic";
 
 export default function Rounds() {
   const all = rounds();

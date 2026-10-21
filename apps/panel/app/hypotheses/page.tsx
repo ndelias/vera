@@ -4,7 +4,6 @@ import { hypotheses } from "@/lib/data";
 import { day } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Hypotheses" };
-export const dynamic = "force-dynamic";
 
 export default function Hypotheses() {
   const items = hypotheses();

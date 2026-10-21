@@ -132,72 +132,39 @@ export function queryRows(): QueryRow[] {
     FROM queries q ORDER BY q.round_id, q.stage, q.id`);
 }
 
-export type PostFilters = {
-  source?: string;
-  stage?: string;
-  round?: number;
-  query?: string;
-  judged?: "relevant" | "not-relevant" | "unjudged";
-  q?: string;
-  page: number;
-};
-
-export type PostRow = {
+/** One published post, as the Posts page filters it in the browser. */
+export type PostItem = {
   id: string;
   source: string;
-  created_at: number;
+  created: number;
   kind: string;
   title: string | null;
   excerpt: string;
   words: number;
-  truncated: number;
-  points: number | null;
-  url: string;
-  stages: string;
-  relevant: number | null;
+  stages: string[];
+  relevant: 0 | 1 | null;
+  queries: string[];
+  rounds: number[];
 };
 
-export const PAGE_SIZE = 50;
-
-export function posts(f: PostFilters): { rows: PostRow[]; total: number } {
-  const where: string[] = [];
-  const params: (string | number)[] = [];
-  if (f.source) {
-    where.push(`d.source = ?`);
-    params.push(f.source);
-  }
-  if (f.stage) {
-    where.push(`d.id IN (SELECT doc_id FROM (${STAGES_OF}) WHERE stage = ?)`);
-    params.push(f.stage);
-  }
-  if (f.round) {
-    where.push(`d.id IN (SELECT doc_id FROM match_checks WHERE round_id = ? AND exact = 1)`);
-    params.push(f.round);
-  }
-  if (f.query) {
-    where.push(`d.id IN (SELECT doc_id FROM match_checks WHERE query_id = ? AND exact = 1)`);
-    params.push(f.query);
-  }
-  if (f.judged === "relevant") where.push(`d.id IN (SELECT doc_id FROM ${READ} WHERE relevant = 1)`);
-  if (f.judged === "not-relevant") where.push(`d.id IN (SELECT doc_id FROM ${READ} WHERE relevant = 0)`);
-  if (f.judged === "unjudged") where.push(`d.id NOT IN (SELECT doc_id FROM ${READ})`);
-  if (f.q) {
-    where.push(`(d.text LIKE ? OR d.title LIKE ?)`);
-    params.push(`%${f.q}%`, `%${f.q}%`);
-  }
-  const clause = where.length ? `WHERE ${where.join(" AND ")}` : "";
-  const total = one<{ n: number }>(`SELECT COUNT(*) AS n FROM corpus d ${clause}`, ...params)!.n;
-  const rows = all<PostRow>(
-    `SELECT d.id, d.source, d.created_at, d.kind, d.title, substr(d.text, 1, 320) AS excerpt, d.words, length(d.text) > 320 AS truncated,
-       d.points, d.url,
-       (SELECT group_concat(DISTINCT stage) FROM (${STAGES_OF}) s WHERE s.doc_id = d.id) AS stages,
-       (SELECT relevant FROM ${READ} r WHERE r.doc_id = d.id LIMIT 1) AS relevant
-     FROM corpus d ${clause}
-     ORDER BY d.created_at DESC
-     LIMIT ? OFFSET ?`,
-    ...params, PAGE_SIZE, (f.page - 1) * PAGE_SIZE,
-  );
-  return { rows, total };
+// Only posts that were read or coded carry text in the published snapshot.
+export function publishedPosts(): PostItem[] {
+  type Raw = Omit<PostItem, "stages" | "queries" | "rounds"> & { stages: string | null; queries: string | null; rounds: string | null };
+  return all<Raw>(`
+    SELECT d.id, d.source, d.created_at AS created, d.kind, d.title,
+      CASE WHEN length(d.text) > 280 THEN substr(d.text, 1, 280) || ' …' ELSE d.text END AS excerpt,
+      d.words,
+      (SELECT group_concat(DISTINCT stage) FROM (${STAGES_OF}) s WHERE s.doc_id = d.id) AS stages,
+      (SELECT relevant FROM ${READ} r WHERE r.doc_id = d.id LIMIT 1) AS relevant,
+      (SELECT group_concat(DISTINCT query_id) FROM match_checks m WHERE m.doc_id = d.id AND m.exact = 1) AS queries,
+      (SELECT group_concat(DISTINCT round_id) FROM match_checks m WHERE m.doc_id = d.id AND m.exact = 1) AS rounds
+    FROM documents d WHERE d.text <> ''
+    ORDER BY d.created_at DESC`).map((r) => ({
+    ...r,
+    stages: r.stages ? r.stages.split(",") : [],
+    queries: r.queries ? r.queries.split(",") : [],
+    rounds: r.rounds ? r.rounds.split(",").map(Number) : [],
+  }));
 }
 
 export type Post = {
@@ -217,7 +184,7 @@ export type PostJudgment = { coder: string; relevant: number; reason: string | n
 export type PostCoding = { code_id: string; code_version: number; label: string; coder: string; evidence: string | null };
 
 export function post(id: string) {
-  const doc = one<Post>(`SELECT * FROM documents WHERE id = ?`, id);
+  const doc = one<Post>(`SELECT * FROM documents WHERE id = ? AND text <> ''`, id);
   if (!doc) return null;
   return {
     doc,

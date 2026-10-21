@@ -1,9 +1,10 @@
 import { DatabaseSync } from "node:sqlite";
 import path from "node:path";
 
-// The research pipeline (research/pipeline/) writes this file; the panel only reads it.
-const DB_PATH =
-  process.env.RESEARCH_DB ?? path.resolve(process.cwd(), "../../research/data/research.sqlite");
+// The site reads the publishable snapshot (research/pipeline/export_site.py),
+// unpacked from data/site.sqlite.gz before dev and build. Set RESEARCH_DB to
+// point at the full local research database instead.
+const DB_PATH = process.env.RESEARCH_DB ?? path.resolve(process.cwd(), "data/site.sqlite");
 
 let db: DatabaseSync | null = null;
 

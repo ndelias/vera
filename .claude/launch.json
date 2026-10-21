@@ -13,6 +13,19 @@
         "panel"
       ],
       "port": 3100
+    },
+    {
+      "name": "site",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/ndelias/Desktop/blast-radius",
+        "run",
+        "preview",
+        "-w",
+        "panel"
+      ],
+      "port": 3200
     }
   ]
 }

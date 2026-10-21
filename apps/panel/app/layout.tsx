@@ -10,8 +10,9 @@ import "./globals.css";
 const doto = Doto({ subsets: ["latin"], weight: ["700", "900"], variable: "--font-doto", display: "swap" });
 
 export const metadata: Metadata = {
-  title: { default: "Vera research", template: "%s · Vera research" },
-  description: "The research behind Vera: where product teams lose time, measured from public data.",
+  title: { default: "Vera · Review for the AI era", template: "%s · Vera" },
+  description:
+    "Vera maps what a pull request touches, checks the reviewer understood it, and gets every role's sign-off in parallel. Built from public data on where product teams lose time.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -25,9 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <header className="top">
             <Link href="/" className="brand">
               <Mark size={22} />
-              vera <span className="muted">· research</span>
+              vera
             </Link>
-            <nav aria-label="Panel">
+            <nav aria-label="Site">
               <Nav />
             </nav>
           </header>

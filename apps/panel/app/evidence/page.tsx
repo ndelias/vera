@@ -6,7 +6,6 @@ import { FAMILIES, SOURCES, codebook, familyOf, hypotheses, overview, postsByMon
 import { studyTotals } from "@/lib/gitlab";
 import { day, month, monthShort, num, pct } from "@/lib/format";
 
-export const dynamic = "force-dynamic";
 export const metadata = { title: "Evidence" };
 
 export default function Evidence() {
@@ -109,7 +108,7 @@ export default function Evidence() {
             caption="Posts at each step of the pipeline"
             bars={[
               { label: "Pulled", value: o.pulled, detail: "Everything the search API returned", href: "/rounds" },
-              { label: "Contain the term", value: o.corpus, detail: `${pct(o.corpus, o.pulled)} of pulled · typo matches removed`, href: "/posts" },
+              { label: "Contain the term", value: o.corpus, detail: `${pct(o.corpus, o.pulled)} of pulled · typo matches removed`, href: "/rounds" },
               {
                 label: "About a pain",
                 value: estimate,

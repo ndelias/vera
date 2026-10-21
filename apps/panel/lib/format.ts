@@ -28,3 +28,9 @@ export const monthShort = (ym: string) => {
   const name = new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString("en-GB", { month: "short", timeZone: "UTC" });
   return `${name} \u2019${String(y).slice(2)}`;
 };
+
+// URL-safe post ids: "hn:4188" -> "hn-4188", "ux-se:141" -> "ux-se-141".
+export const postSlug = (id: string) => id.replace(":", "-");
+export const postIdFromSlug = (slug: string) => slug.replace(/-(?=[^-]*$)/, ":");
+/** One page shows every post, loading /posts/data/<slug>.json. */
+export const postHref = (id: string) => `/posts/view?id=${postSlug(id)}`;

@@ -5,7 +5,6 @@ import { PROJECT_LABEL, approvalWaits, projectRoles, studyTests, studyTotals } f
 import { day, num } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Work data" };
-export const dynamic = "force-dynamic";
 
 const dur = (h: number | null) =>
   h === null ? "–" : h < 48 ? `${h < 10 ? h.toFixed(1) : Math.round(h)} h` : `${(h / 24).toFixed(1)} days`;
