@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Arrow } from "./Arrow";
+import { useMotion } from "@/lib/motion";
 
 // One quote at a time. Between quotes the text breaks into pixel cells that
 // cover it, the quote changes underneath, and the cells clear in a new
@@ -31,6 +32,7 @@ export function QuoteRotator({ quotes }: { quotes: RotatorQuote[] }) {
   const box = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const busy = useRef(false);
+  const motion = useMotion();
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -112,10 +114,10 @@ export function QuoteRotator({ quotes }: { quotes: RotatorQuote[] }) {
   );
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || !motion) return;
     const id = window.setTimeout(() => go(index + 1), HOLD_MS);
     return () => window.clearTimeout(id);
-  }, [go, index, paused]);
+  }, [go, index, motion, paused]);
 
   return (
     <section className="rotator" aria-roledescription="carousel" aria-label="What people said">

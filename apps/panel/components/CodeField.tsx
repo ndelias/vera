@@ -262,7 +262,7 @@ export function MotionToggle() {
 
   return (
     <button type="button" className="text-button" aria-pressed={off} onClick={toggle}>
-      {off ? "Play background" : "Pause background"}
+      {off ? "Play motion" : "Pause motion"}
     </button>
   );
 }

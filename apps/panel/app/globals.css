@@ -1678,3 +1678,8 @@ th.num {
   width: 160px;
   height: 160px;
 }
+
+/* The footer's Pause stops the CSS motion too. */
+:root[data-motion="off"] .flow-pulse {
+  display: none;
+}
