@@ -184,3 +184,13 @@ export function method(): Method {
     hypotheses: { supported: get("supported"), disproved: get("disproved"), open: get("open") },
   };
 }
+
+/** The coded sample, by relevance level (codebook v4). */
+export function sampleCounts(): { firstHand: number; discussed: number; other: number } {
+  const rows = all<{ level: number; n: number }>(
+    `SELECT level, COUNT(*) AS n FROM coding_meta WHERE coder = ? GROUP BY level`,
+    SAMPLE_CODER,
+  );
+  const get = (l: number) => rows.find((r) => r.level === l)?.n ?? 0;
+  return { firstHand: get(2), discussed: get(1), other: get(0) };
+}

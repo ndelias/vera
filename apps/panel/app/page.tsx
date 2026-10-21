@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Arrow } from "@/components/Arrow";
 import { BarChart } from "@/components/BarChart";
 import { ColumnChart } from "@/components/ColumnChart";
+import { DotField } from "@/components/DotField";
+import { NodeFlow } from "@/components/NodeFlow";
 import {
   COMPETITORS,
   DIFFERENTIATORS,
@@ -16,7 +18,7 @@ import {
   type Cell,
   type Competitor,
 } from "@/lib/case-content";
-import { aiAdoption, headline, method, ranking, voices, volumeVsSpeed } from "@/lib/case";
+import { aiAdoption, headline, method, ranking, sampleCounts, voices, volumeVsSpeed } from "@/lib/case";
 import { sourceLabel } from "@/lib/data";
 import { day, monthShort, month, num } from "@/lib/format";
 
@@ -52,18 +54,31 @@ export default function Case() {
   const ranked = ranking();
   const quotes = voices(PAINS.map((p) => p.code), 2);
   const m = method();
+  const counts = sampleCounts();
 
   return (
     <>
-      <div className="page-head">
+      <section className="hero reveal" aria-labelledby="hero-title">
         <p className="eyebrow">Vera · review for the AI era</p>
-        <h1>As AI writes more of the code, reviewers approve changes they no longer fully understand.</h1>
-        <p className="lede">
-          Before building anything, I set out to find where product teams actually lose time, how big the problem is, and
-          whether someone has already solved it. This page makes the case for what I chose to build. Every number links to
-          the evidence behind it.
+        <h1 className="hero-title" id="hero-title">
+          <span>Understood.</span>
+          <span>Signed off.</span>
+          <span>Shipped.</span>
+        </h1>
+        <p className="lede hero-lede">
+          As AI writes more of the code, reviewers approve changes they no longer fully understand. Before building
+          anything, I set out to find where product teams actually lose time, how big the problem is, and whether someone
+          has already solved it. This page is the case for what I chose to build.
         </p>
-      </div>
+        <div className="hero-actions">
+          <Link href="#market" className="pill">Where Vera fits</Link>
+          <Link href="/evidence" className="pill is-quiet">See the evidence</Link>
+        </div>
+      </section>
+
+      <section className="section" aria-label="How Vera works on one change">
+        <NodeFlow />
+      </section>
 
       <section aria-label="The problem in numbers" className="stats">
         <div className="stat">
@@ -75,20 +90,16 @@ export default function Case() {
           </span>
         </div>
         <div className="stat">
-          <span className="stat-value">–{pct(h.attentionDrop)}</span>
+          <span className="stat-value">-{pct(h.attentionDrop)}</span>
           <span className="stat-label">review attention per line</span>
           <span className="stat-note">Review comments per line of code, same period. Exploratory.</span>
         </div>
-        <div className="stat">
-          <span className="stat-value">
-            {pct(h.aiShareFirst)}
-            <span style={{ display: "inline-block", fontSize: "0.6em", margin: "0 0.2em", verticalAlign: "0.15em" }}>
-              <Arrow />
-            </span>
-            {pct(h.aiShareLast)}
+        <div className="stat is-lime">
+          <span className="stat-value">{pct(h.aiShareLast)}</span>
+          <span className="stat-label">of changes written with AI</span>
+          <span className="stat-note">
+            Up from {pct(h.aiShareFirst)} a year earlier: merge requests that disclose AI help. Disclosure undercounts use.
           </span>
-          <span className="stat-label">changes written with AI</span>
-          <span className="stat-note">Merge requests that disclose AI help, in one year. Disclosure undercounts use.</span>
         </div>
         <div className="stat">
           <span className="stat-value">{h.crossRoleRatio}×</span>
@@ -152,14 +163,29 @@ export default function Case() {
       </section>
 
       <section className="section" id="voices">
-        <div className="section-head">
-          <h2>In their words</h2>
-          <p>
-            Of all the pains people described, the ones around AI-made changes are by far the biggest group:{" "}
-            {pct(h.clusterShare)} of relevant posts, and {pct(h.clusterShareFirstHand)} of first-hand accounts. These are
-            first-hand, from the coded sample, picked by a fixed rule (known role first, then the longest passage) rather
-            than by me.
-          </p>
+        <div className="voices-head">
+          <DotField
+            counts={counts}
+            label={`${num(counts.firstHand + counts.discussed + counts.other)} dots, one per coded post: ${num(counts.firstHand)} first-hand accounts of a pain, ${num(counts.discussed)} discussions of one, ${num(counts.other)} not about a pain.`}
+          />
+          <div className="voices-copy">
+            <p className="eyebrow">In their words</p>
+            <h2>{num(counts.firstHand + counts.discussed + counts.other)} posts, read and coded at random.</h2>
+            <p className="muted">
+              Each dot is one of them. Of all the pains people described, the ones around AI-made changes are by far the
+              biggest group: {pct(h.clusterShare)} of relevant posts, and {pct(h.clusterShareFirstHand)} of first-hand
+              accounts.
+            </p>
+            <ul className="legend-list">
+              <li><span className="key is-lime" />{num(counts.firstHand)} describe a pain first-hand</li>
+              <li><span className="key is-ink" />{num(counts.discussed)} discuss one</li>
+              <li><span className="key is-dot" />{num(counts.other)} aren&apos;t about a pain</li>
+            </ul>
+            <p className="muted" style={{ fontSize: 13 }}>
+              The quotes below are first-hand, picked by a fixed rule (known role first, then the longest passage), not by
+              me.
+            </p>
+          </div>
         </div>
         <div className="quotes">
           {PAINS.map((p) => {
@@ -307,6 +333,19 @@ export default function Case() {
             ))}
           </ul>
         </div>
+      </section>
+
+      <section className="section closing" aria-label="Hypotheses">
+        <div style={{ display: "grid", gap: 12, maxWidth: 640 }}>
+          <span className="display" style={{ fontSize: "clamp(36px, 5vw, 60px)" }}>
+            {m.hypotheses.supported} / {m.hypotheses.disproved}
+          </span>
+          <p className="muted" style={{ fontSize: 18 }}>
+            Hypotheses supported and disproved, each written down with what would disprove it before the data came in.
+            Including my own first idea.
+          </p>
+        </div>
+        <Link href="/hypotheses" className="pill is-lime">Every hypothesis</Link>
       </section>
 
       <section className="section" id="method">
