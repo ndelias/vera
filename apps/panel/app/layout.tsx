@@ -11,7 +11,7 @@ import "./globals.css";
 // next/font downloads it at build time and serves it from this app.
 const doto = Doto({ subsets: ["latin"], weight: ["700", "900"], variable: "--font-doto", display: "swap" });
 
-const SITE = "https://vera-zeta-pink.vercel.app";
+const SITE = "https://vera-agent.vercel.app";
 const DESCRIPTION =
   "Vera maps what a pull request touches, checks the reviewer understood it, and gets every role's sign-off in parallel. Built from public data on where product teams lose time.";
 
