@@ -30,9 +30,6 @@ export function AgentsShowcase({ agents }: { agents: Agent[] }) {
     <div ref={root} className="agents-showcase">
       <div className="agents-stage">
         <CrossMorph icon={agent.icon} still={!motion} label={`${agent.name}: ${agent.job}`} />
-        <span className="agents-stage-label">
-          {String(active + 1).padStart(2, "0")} / {String(agents.length).padStart(2, "0")} · {agent.name}
-        </span>
       </div>
       <ol className="agents-list">
         {agents.map((a, i) => (

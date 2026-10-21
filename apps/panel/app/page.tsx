@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AgentsShowcase } from "@/components/AgentsShowcase";
 import { Arrow } from "@/components/Arrow";
 import { DotNumber } from "@/components/DotNumber";
+import { HeroTitle } from "@/components/HeroTitle";
 import { Mark } from "@/components/Mark";
 import { NodeFlow } from "@/components/NodeFlow";
 import { AGENTS, MILESTONES, SURFACES, type Status } from "@/lib/product-content";
@@ -22,11 +23,7 @@ export default function Product() {
     <>
       <section className="hero reveal" aria-labelledby="hero-title">
         <p className="eyebrow">Vera · review for the AI era</p>
-        <h1 className="hero-title" id="hero-title">
-          <span>Understood.</span>
-          <span>Signed off.</span>
-          <span>Shipped.</span>
-        </h1>
+        <HeroTitle />
         <p className="lede hero-lede">
           AI doubled the code in every change, and review didn&apos;t get any faster. Vera speeds it up to match: it shows
           reviewers what to look at first, briefs each role, and gets everyone to sign off at once, with proof someone

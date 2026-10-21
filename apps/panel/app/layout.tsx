@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Doto } from "next/font/google";
+import localFont from "next/font/local";
 import Link from "next/link";
 import { CellField } from "@/components/CellField";
 import { MotionToggle } from "@/components/MotionToggle";
@@ -7,9 +7,10 @@ import { Mark } from "@/components/Mark";
 import { Nav, SubNav } from "@/components/Nav";
 import "./globals.css";
 
-// Dot-matrix display face for big numbers and short headlines only.
-// next/font downloads it at build time and serves it from this app.
-const doto = Doto({ subsets: ["latin"], weight: ["700", "900"], variable: "--font-doto", display: "swap" });
+// Dot-matrix display face for big numbers and short display lines only.
+// Doto (OFL), Latin, shipped with the site (app/fonts/) so the build never
+// depends on reaching Google Fonts. One variable file covers 700 and 900.
+const doto = localFont({ src: "./fonts/doto-latin.woff2", weight: "700 900", variable: "--font-doto", display: "swap" });
 
 const SITE = "https://vera-agent.vercel.app";
 const DESCRIPTION =

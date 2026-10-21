@@ -2460,3 +2460,47 @@ th.num {
     animation: none;
   }
 }
+
+/* The home headline's lime block (components/HeroTitle.tsx): a fill behind
+   ink, never the letters themselves. */
+.hero-title span {
+  position: relative;
+  isolation: isolate;
+  width: fit-content;
+  margin-inline: auto;
+}
+.hero-title span::before {
+  content: "";
+  position: absolute;
+  inset: 0.06em -0.14em -0.02em;
+  z-index: -1;
+  background: var(--lime);
+  opacity: 0;
+  transition: opacity 400ms var(--ease);
+}
+.hero-title span.is-lit::before {
+  opacity: 1;
+  animation: lime-wipe 700ms steps(10, end) both;
+}
+@keyframes lime-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-title span.is-lit::before {
+    animation: none;
+  }
+}
+
+/* The hero diagram's two column labels */
+.flow-heading {
+  margin: 0 0 2px;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.flow-heading.is-right {
+  text-align: right;
+}

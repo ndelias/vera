@@ -68,7 +68,7 @@ export const MAP: MapperOutput = {
     { name: "Tests", risk: "low", files: ["tests/checkout/totals.test.ts", "tests/pricing/client.test.ts"], why: "Written with AI; the new rounding branches aren't covered" },
   ],
   likelyAi: {
-    reasons: ["AI help disclosed (co-author trailer)", "412 lines added", "No tests for 2 new branches in rounding.ts", "2 review-bot findings still open"],
+    reasons: ["AI help disclosed (co-author trailer)", "412 lines added", "no tests for 2 new branches in rounding.ts", "2 review-bot findings still open"],
   },
 };
 
