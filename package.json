@@ -1,6 +1,7 @@
 {
   "name": "vera",
   "private": true,
+  "license": "Apache-2.0",
   "description": "Vera: review for the AI era.",
   "workspaces": [
     "apps/*",

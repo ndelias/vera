@@ -10,6 +10,16 @@ hosted layer and Slack on a demo workspace to show cross-role sign-off live.
 TypeScript throughout. Agents on Anthropic's TypeScript SDK with our own
 read-only tools.
 
+**Decided (Nahuel, 2026-10-22): free and open source.** Vera is a tool
+people download and run themselves, under the Apache 2.0 license, and it's
+never charged for. Each team brings its own Anthropic API key, so a run
+costs them about $0.35 and costs Nahuel nothing. That makes the CLI and the
+GitHub Action the product, not demo pieces, and rules out anything that
+only works on Nahuel's servers: the Slack layer (M6) is something a team
+hosts itself. Being installable adds its own work: versioned releases, the
+Action on the GitHub Marketplace, setup and `.vera.yml` docs, and a guide
+for contributors.
+
 ## Who it's for, and how they get in
 
 | Who | Does | Sees |
@@ -17,7 +27,7 @@ read-only tools.
 | Someone browsing the portfolio | Opens a link | The **run viewer**: Vera's real runs on real public PRs, replayed. Map, briefs, questions, plus each agent's steps, tool calls, time and cost. No install, no API cost per visitor |
 | An engineer who wants proof | `npx vera review <public GitHub PR URL>` with their own API key | Vera's output on a PR they picked |
 | A team (and Nahuel's own repo) | Adds the **GitHub Action** and an API key secret | A comment on each PR plus the sign-off check, inside their own CI. No server |
-| Phase 2: someone watching the demo | Joins the demo Slack workspace (or watches the recording) | `@vera` asking design, security and product in parallel, chasing, summarizing |
+| Phase 2: a team on Slack | Runs Vera's Slack app on its own infrastructure (or watches the demo recording) | `@vera` asking design, security and product in parallel, chasing, summarizing |
 
 ## The shape
 
@@ -32,7 +42,7 @@ read-only tools.
                    └──────┬───────────────┬─────────────┘
                           │ trace (every step, tool call, cost)
         CLI ◀─────────────┤               ├────▶ GitHub Action (comment + check)
-        run viewer ◀──────┘               └────▶ phase 2: hosted webhooks + Slack
+        run viewer ◀──────┘               └────▶ phase 2: self-hosted Slack app 
 ```
 
 **Agents propose, code decides.** Which roles must sign off comes from
@@ -151,7 +161,8 @@ reviewer 1–3 questions in a PR comment, grades the answer, and shows it on
 the approval. Likely-AI changes follow the `ai_changes` rules: the code
 owner and, above the size limit, a second reviewer are requested, with the
 reason in the comment. Teams can opt into a gate. *Done when:* it runs on Nahuel's
-portfolio repo, end to end.
+portfolio repo, end to end, and another team could install it from a
+tagged release by following the setup docs.
 
 **M5: Demo company + case study.** A demo repo with seeded roles (engineer,
 designer, security, PM) and realistic AI-written changes. Measured against
@@ -160,9 +171,9 @@ per 100 lines, share of approvals showing understanding, fix-ups within 7
 days. *Done when:* the numbers are on the panel and the case study is
 drafted for the portfolio.
 
-**Phase 2, M6: Hosted + Slack (demo workspace).** A thin hosted layer
-(webhooks, a small database) on the same core, plus a Slack app on a demo
-workspace. `@vera` answers questions about a change. Sign-off requests go
+**Phase 2, M6: Self-hosted Slack.** A small server a team runs itself
+(webhooks, a small database) on the same core, plus a Slack app, shown on a
+demo workspace. `@vera` answers questions about a change. Sign-off requests go
 to each role in parallel, each with its own brief. Vera chases and
 summarizes. No real customers: a demo repo and workspace you control.
 *Done when:* a cross-role change collects design, security and engineering
@@ -177,4 +188,4 @@ a few dollars. Visitors cost nothing.
 ## Still to decide (one at a time, when they come up)
 - **Before M2:** a personal Anthropic API account (M0 and M1 need none).
 - **Before M4:** the GitHub account the Action and demo repos live under.
-- **Before M6:** hosting and database for the thin hosted layer.
+- **Before M6:** how a team runs the Slack layer itself (one container, which database).

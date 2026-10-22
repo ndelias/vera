@@ -55,6 +55,9 @@ a portfolio app, not a business.
   builds a preview for it; Nahuel reviews and merges, and merging to main
   deploys the site. Never push to main directly.
 - The site is fully static. No server routes, no runtime database.
+- Vera is free and open source (Apache 2.0, LICENSE). Everything a user
+  runs works with their own API key and their own infrastructure: nothing
+  depends on Nahuel's key, servers or accounts, and nothing is paid.
 
 ## Research
 - Pre-registration: plans, search terms, scoring rules and hypotheses are

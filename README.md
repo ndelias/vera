@@ -46,3 +46,15 @@ is committed and unpacked before each dev run and build.
 
 The site is fully static, so any static host works. On Vercel: import the
 repo, set the root directory to `apps/panel`, keep the Next.js preset.
+
+## License
+
+Vera's code is free and open source under the [Apache License 2.0](LICENSE):
+use it, change it and share it, at work too. When the agents ship, they run
+on your own Anthropic API key: you pay Anthropic for the model calls and
+nothing to anyone else.
+
+The research data isn't part of that license. The published snapshot
+(`apps/panel/data/site.sqlite.gz`) holds counts and short, linked excerpts
+from public posts, which stay under their sources' terms (Stack Exchange
+content is CC BY-SA 4.0).
