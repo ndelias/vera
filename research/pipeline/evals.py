@@ -340,6 +340,84 @@ def cmd_ownership(name: str) -> None:
     print(f"ownership evidence for {len(ids)} changes in {name}")
 
 
+def kinds(paths: list[tuple[str, int, int]]) -> set[str]:
+    """Which roles' kind of change this is, by its files (the hand rules, B2)."""
+    out = set()
+    for path, _, new in paths:
+        if path.endswith((".vue", ".scss", ".haml")) or path.startswith(("app/assets/", "app/views/", "app/components/")):
+            out.add("design")
+        if (new and path.startswith(("config/feature_flags/", "ee/config/feature_flags/"))) or path.startswith("config/metrics/"):
+            out.add("product")
+        if path.startswith("doc/") and not path.startswith("doc/api/graphql/reference/"):
+            out.add("docs")
+    return out
+
+
+def cmd_route(mapper: str, name: str, system: str = "router-v1") -> None:
+    """Routing v1, code only (study 06 DESIGN.md): the Mapper's first team and
+    confidence, the directory's roles, and the change's kinds give ping, ask
+    the lead, or stay quiet per role, within the lead budget."""
+    import glob
+    conn = connect()
+    files = mr_files(conn)
+    directory = {}
+    for path in glob.glob(str(ROOT / "data" / "directory" / "*.json")):
+        teams = json.load(open(path))["teams"]
+        directory[path[-12:-5]] = {norm(k): set(t["roles"]) for t in teams for k in (t["name"], t["key"])}
+    batch = ROOT / "data" / "batches" / mapper
+    plans = {}
+    for mr_id, created in conn.execute("SELECT s.mr_id, m.created_at FROM ev_samples s JOIN gl_mrs m ON m.id = s.mr_id WHERE s.name = ? ORDER BY s.mr_id", (name,)):
+        out = json.loads((batch / f"{mr_id.replace('!', '-')}.json").read_text()) or {"teams": []}
+        first = (out["teams"] or [{"team": "", "confidence": "low"}])[0]
+        roles = directory[datetime.fromtimestamp(created, timezone.utc).strftime("%Y-%m")].get(norm(first["team"]))
+        route, ask = [], []
+        for r in sorted(kinds(files[mr_id])):
+            if first["confidence"] == "high" and roles is not None:
+                if r in roles:
+                    route.append(r)
+            else:
+                ask.append(r)
+        plans[mr_id] = (route, ask, first["confidence"])
+    # The lead budget: drop asks on low-confidence changes first, then medium (in a fixed order).
+    limit = int(len(plans) * LEAD_BUDGET)
+    order = [m for c in ("low", "medium", "high") for m in sorted(plans) if plans[m][2] == c and plans[m][1]]
+    asking = [m for m in plans if plans[m][1]]
+    for m in order:
+        if len(asking) <= limit:
+            break
+        plans[m] = (plans[m][0], [], plans[m][2])
+        asking.remove(m)
+    conn.execute("DELETE FROM ev_predictions WHERE system = ? AND task = 'routing'", (system,))
+    conn.executemany("INSERT INTO ev_predictions VALUES (?, 'routing', ?, ?)",
+                     [(system, m, json.dumps({"route": r, "ask": a})) for m, (r, a, _) in plans.items()])
+    conn.commit()
+    print(f"{system}: {len(plans)} changes, {len(asking)} ask the lead ({len(asking) / len(plans):.0%}, budget {limit})")
+
+
+def cmd_routing(name: str) -> None:
+    """Routing on a sample, for every system with routing predictions on it."""
+    conn = connect()
+    gold = {r[0]: r[1:] for r in conn.execute(
+        "SELECT s.mr_id, e.design, e.product, e.docs FROM ev_samples s JOIN ev_mrs e ON e.mr_id = s.mr_id WHERE s.name = ?", (name,))}
+    print(f"{name}: {len(gold)} changes; reviewed by design {sum(g[0] for g in gold.values())}, product {sum(g[1] for g in gold.values())}, docs {sum(g[2] for g in gold.values())}")
+    systems = [r[0] for r in conn.execute("SELECT DISTINCT system FROM ev_predictions WHERE task = 'routing'")]
+    for system in sorted(systems):
+        preds = {m: json.loads(p) for m, p in conn.execute("SELECT mr_id, prediction FROM ev_predictions WHERE system = ? AND task = 'routing'", (system,)) if m in gold}
+        if len(preds) < len(gold):
+            continue
+        route = {m: set(p["route"] if isinstance(p, dict) else p) for m, p in preds.items()}
+        ask = {m: set(p["ask"]) if isinstance(p, dict) else set() for m, p in preds.items()}
+        cells = []
+        for i, r in enumerate(ROLES):
+            pos = [m for m in gold if gold[m][i]]
+            caught = sum(1 for m in pos if r in route[m] or r in ask[m])
+            pinged = [m for m in gold if r in route[m]]
+            needed = sum(1 for m in pinged if gold[m][i])
+            cells.append(f"{r} {caught}/{len(pos)} caught, {needed}/{len(pinged)} pings needed")
+        asks = sum(1 for m in gold if ask[m])
+        print(f"{system:<12} asks {asks / len(gold):.0%} | " + " | ".join(cells))
+
+
 def cmd_sample(name: str, split: str, n: str, seed: str) -> None:
     """A fixed random sample of MRs with a team label, for the agents (study 06)."""
     conn = connect()
@@ -476,4 +554,4 @@ def cmd_score() -> None:
 
 
 if __name__ == "__main__":
-    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample, "pilot": cmd_pilot, "ownership": cmd_ownership}[sys.argv[1]](*sys.argv[2:])
+    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample, "pilot": cmd_pilot, "ownership": cmd_ownership, "route": cmd_route, "routing": cmd_routing}[sys.argv[1]](*sys.argv[2:])

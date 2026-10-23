@@ -19,6 +19,8 @@ from db import ROOT
 PROJECT = urllib.parse.quote("gitlab-com/www-gitlab-com", safe="")
 FILE = "data/stages.yml"
 OUT = ROOT / "data" / "directory"
+# Fields naming who fills a review role; each may be one value or a list.
+ROLE_OF = {"pm": "product", "tech_writer": "docs", "ux": "design", "pdm": "design"}
 
 
 def parse(text: str) -> list[dict]:
@@ -49,14 +51,14 @@ def parse(text: str) -> list[dict]:
                 group["name"] = value
             elif key == "focus":
                 group["focus"] = value
-            elif key in ("pm", "tech_writer") and value and value.upper() != "TBD":
-                group["roles"].append({"pm": "product", "tech_writer": "docs"}[key])
+            elif key in ROLE_OF and value and value.upper() != "TBD":
+                group["roles"].append(ROLE_OF[key])
         elif group and indent == 10 and body.startswith("- ") and field:
             item = body[2:].strip().strip('"')
             if field == "categories":
                 group["categories"].append(item)
-            elif field in ("ux", "pdm") and item.upper() != "TBD" and "design" not in group["roles"]:
-                group["roles"].append("design")
+            elif field in ROLE_OF and item and item.upper() != "TBD":
+                group["roles"].append(ROLE_OF[field])
     for t in teams:
         t["roles"] = sorted(set(t["roles"]))
     return teams

@@ -98,3 +98,47 @@ when "high" is earned. v1's instructions are kept unchanged beside it.
 On the 50 pilot changes: top 3 68% (v1 66%), first guess 58% (56%), and
 a "high" first guess right 25 of 33 times (v1 21 of 31). Scored once on
 the same 500 test changes.
+
+## Routing v1: code only (written before it's scored)
+
+No model call. For each role (design, docs, product) and each change:
+1. **Is it that role's kind of change?** The same file rules as the hand
+   rules (B2): UI files for design, `doc/` for docs, a new feature flag or
+   a metrics definition for product. If not: stay quiet.
+2. **If it is,** look at the Mapper's first team. If the Mapper rated it
+   high and that team has the role in the directory: **ping** the role.
+   If it rated it high and the team has no one in that role: stay quiet.
+   Otherwise (medium, low, or a team not in the directory): **ask the
+   lead.**
+3. **Lead budget:** if more than 1 change in 6 would ask the lead, the
+   changes whose first team was rated low are kept quiet first, then
+   medium, until the budget holds.
+
+Scored on the same 500 test changes, against the hand rules and the path
+lookup with asking, on the same changes: caught (asks count as caught),
+needed (of direct pings), and the share of changes that ask the lead.
+
+## Routing v1, first look (23 Oct 2026), and a new target for design
+
+On the 500 test changes, routing v1 (after fixing the directory parser,
+which had missed writers and PMs written as lists; Mapper v1 and v2 saw
+those incomplete role lists) caught 11 of 13 design reviews with 13% of
+its design pings needed (hand rules: 13 of 13, 8%), and 76% of docs
+reviews with 53% needed (hand rules: 87%, 46%). Product had 3 reviews.
+
+**Decided (Nahuel): design is scored against his judgment, not against
+who reviewed.** "Who reviewed" is GitLab's habit: designers see few UI
+changes, so a ping to a designer who should have seen a change counts as
+unneeded. Vera's question is who *should* see it. Docs keeps "who
+reviewed" (GitLab requires a writer on docs changes).
+
+- **Sample (seed 20261024), from the same 500:** all 13 changes a designer
+  reviewed, 67 other changes with UI files, and 20 changes without, at
+  random. Scores are weighted back to the 500 (each stratum by its share).
+- **The question:** "Should a product designer see this before it
+  ships?" Yes, no or unsure. Nahuel sees the title, the changed files and
+  a link; not who reviewed it, its labels, or any system's answer. Unsure
+  is left out and counted.
+- **Cross-check, free:** how often GitLab's `UX` label agrees with him.
+- **Scored:** caught and needed for design, for the hand rules, the path
+  lookup with asking, and routing v1.
