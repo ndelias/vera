@@ -1,7 +1,7 @@
 research/data/raw/
 research/data/*.sqlite
 research/data/*.sqlite-journal
-research/data/fixup-check.json
+research/data/fixup-check*.json
 .env
 node_modules/
 __pycache__/
