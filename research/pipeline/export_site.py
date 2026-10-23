@@ -23,6 +23,7 @@ EXCERPT_CHARS = 600
 KEEP_WHOLE = [
     "rounds", "queries", "match_checks", "document_queries", "relevance", "codes", "codings",
     "coding_meta", "hypotheses", "tests", "gl_mr_details", "r6_size", "s3_mrs",
+    "ev_scores",
 ]
 
 

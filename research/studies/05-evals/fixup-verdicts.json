@@ -1,0 +1,315 @@
+{
+ "judged": "2026-10-22",
+ "by": "Claude, from titles and shared paths; for Nahuel to spot-check",
+ "rule": "real = the later MR fixes or reverts something the first MR introduced",
+ "positives": [
+  {
+   "mr_id": "product!256103",
+   "fix_mr_id": "product!255649",
+   "real": false,
+   "note": "generated GraphQL docs"
+  },
+  {
+   "mr_id": "product!235296",
+   "fix_mr_id": "product!243777",
+   "real": false,
+   "note": "generated OpenAPI docs"
+  },
+  {
+   "mr_id": "product!249672",
+   "fix_mr_id": "product!250403",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!230141",
+   "fix_mr_id": "product!230167",
+   "real": false,
+   "note": "generated GraphQL docs"
+  },
+  {
+   "mr_id": "product!223185",
+   "fix_mr_id": "product!224233",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!213247",
+   "fix_mr_id": "product!214115",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!227421",
+   "fix_mr_id": "product!228967",
+   "real": true,
+   "note": "related fix"
+  },
+  {
+   "mr_id": "product!226801",
+   "fix_mr_id": "product!227282",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!226957",
+   "fix_mr_id": "product!227954",
+   "real": false,
+   "note": "lint to-do list"
+  },
+  {
+   "mr_id": "product!209746",
+   "fix_mr_id": "product!210394",
+   "real": false,
+   "note": "Gemfile checksums"
+  },
+  {
+   "mr_id": "product!257984",
+   "fix_mr_id": "product!259573",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!247953",
+   "fix_mr_id": "product!248121",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!219703",
+   "fix_mr_id": "product!221502",
+   "real": false,
+   "note": "generated OpenAPI docs"
+  },
+  {
+   "mr_id": "product!214026",
+   "fix_mr_id": "product!215878",
+   "real": true,
+   "note": "related fix"
+  },
+  {
+   "mr_id": "product!225078",
+   "fix_mr_id": "product!224604",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!224780",
+   "fix_mr_id": "product!226808",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!231975",
+   "fix_mr_id": "product!232944",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!253332",
+   "fix_mr_id": "product!253734",
+   "real": false,
+   "note": "generated GraphQL docs"
+  },
+  {
+   "mr_id": "product!257237",
+   "fix_mr_id": "product!257111",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!254601",
+   "fix_mr_id": "product!254921",
+   "real": true,
+   "note": "related fix"
+  },
+  {
+   "mr_id": "product!252033",
+   "fix_mr_id": "product!252716",
+   "real": true,
+   "note": "related fix"
+  },
+  {
+   "mr_id": "product!217852",
+   "fix_mr_id": "product!219691",
+   "real": true,
+   "note": "related fix"
+  },
+  {
+   "mr_id": "product!259396",
+   "fix_mr_id": "product!259544",
+   "real": false,
+   "note": "generated GraphQL docs"
+  },
+  {
+   "mr_id": "product!260699",
+   "fix_mr_id": "product!260263",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!220949",
+   "fix_mr_id": "product!221267",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!245405",
+   "fix_mr_id": "product!245406",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!218601",
+   "fix_mr_id": "product!218204",
+   "real": false,
+   "note": "generated GraphQL docs"
+  },
+  {
+   "mr_id": "product!226259",
+   "fix_mr_id": "product!224957",
+   "real": false,
+   "note": "generated GraphQL docs"
+  },
+  {
+   "mr_id": "product!250232",
+   "fix_mr_id": "product!248806",
+   "real": false,
+   "note": "lint to-do list"
+  },
+  {
+   "mr_id": "product!241526",
+   "fix_mr_id": "product!241070",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!209955",
+   "fix_mr_id": "product!210819",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!250212",
+   "fix_mr_id": "product!250314",
+   "real": true,
+   "note": "related fix"
+  },
+  {
+   "mr_id": "product!218570",
+   "fix_mr_id": "product!218749",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!236022",
+   "fix_mr_id": "product!236846",
+   "real": true,
+   "note": "related fix"
+  },
+  {
+   "mr_id": "product!220100",
+   "fix_mr_id": "product!220069",
+   "real": false,
+   "note": "lint to-do list"
+  },
+  {
+   "mr_id": "product!249957",
+   "fix_mr_id": "product!250501",
+   "real": false,
+   "note": "generated GraphQL docs"
+  },
+  {
+   "mr_id": "product!235016",
+   "fix_mr_id": "product!234568",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!243201",
+   "fix_mr_id": "product!245344",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!213904",
+   "fix_mr_id": "product!221316",
+   "real": false,
+   "note": "generated OpenAPI docs"
+  },
+  {
+   "mr_id": "product!214305",
+   "fix_mr_id": "product!215568",
+   "real": false,
+   "note": "generated OpenAPI docs"
+  },
+  {
+   "mr_id": "product!220816",
+   "fix_mr_id": "product!220949",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!220606",
+   "fix_mr_id": "product!219926",
+   "real": false,
+   "note": "lint to-do list"
+  },
+  {
+   "mr_id": "product!242202",
+   "fix_mr_id": "product!239576",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!214493",
+   "fix_mr_id": "product!215403",
+   "real": true,
+   "note": "related fix"
+  },
+  {
+   "mr_id": "product!218033",
+   "fix_mr_id": "product!222276",
+   "real": false,
+   "note": "shared config list"
+  },
+  {
+   "mr_id": "product!248890",
+   "fix_mr_id": "product!245583",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!226532",
+   "fix_mr_id": "product!229751",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!245757",
+   "fix_mr_id": "product!251769",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!245779",
+   "fix_mr_id": "product!245047",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  },
+  {
+   "mr_id": "product!233963",
+   "fix_mr_id": "product!233964",
+   "real": false,
+   "note": "unrelated change to a shared file"
+  }
+ ],
+ "summary": {
+  "positives_judged": 50,
+  "real": 8,
+  "share_real": 0.16,
+  "bar": 0.8,
+  "passes": false,
+  "negatives": "not judged: the label already fails on positives"
+ }
+}

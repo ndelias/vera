@@ -111,3 +111,64 @@ signals must beat diff size, or they stay out of routing.
 - `research/findings/09-evals.md`: the scores, the label check, and what
   the agents have to beat.
 - The site gets an Evals page with the scores, built from the snapshot.
+
+## Changes after the plan was committed
+
+**22 Oct 2026, before any fix-up result: how fix-ups are found.** The plan
+queried each file's history on GitLab for the week after each merge. Those
+queries are slow on GitLab's side (some time out after a minute), so 6,000
+MRs would take days. The same label comes from the other direction: every
+merged product MR in the window that looks like a fix (title or
+`type::bug`, 9,611 of them) has its changed paths pulled, and they're
+matched against the sampled MRs locally. The rule is unchanged. The
+difference: a fix pushed straight to the default branch without an MR is
+missed (rare at GitLab, where changes go through MRs). Also made explicit:
+an MR counts only if the data has a full week after its merge, so a fix
+made after the last pulled MR can't be missed silently. The file-history
+query is kept for the label check's 50 negatives, where it can be slow.
+
+**22 Oct 2026, after the first routing scores: "marketing" is mostly
+technical writers.** Study 02's role classifier puts GitLab's technical
+writers under marketing (their division), and on product MRs they are most
+of the "marketing" reviewers: the docs path rule finds 89% of them. The
+role is reported as **docs** (technical writing and marketing). Reviewer
+identities per MR weren't kept, so the two can't be split without pulling
+the reviewers again.
+
+**22 Oct 2026, after the first routing scores: routing gets a third
+outcome.** Nahuel's decision (BUILD-PLAN, "Routing"): when unsure, Vera
+asks the area's lead instead of guessing, and at most 1 change in 6 may
+become such a question. Added to the routing eval for B1 (the only
+baseline with a score to be unsure about): a role is *routed* when its
+score passes the F1 threshold above, and *escalated* when it's between
+that threshold and a lower one. The lower threshold is the same fraction
+of each role's upper threshold, set on train as the lowest that keeps
+escalated MRs (any role) at or under 1 in 6. Scored on test: precision of
+routed pings, recall with escalations counted as caught, and the share of
+MRs escalated.
+
+**22 Oct 2026: the fix-up label failed its check.** Of 50 labelled
+positives, 8 were real fix-ups (16%; the bar was 80%). 17 came from files
+generated or maintained by tools (API docs, lint to-do lists, checksums)
+that weren't on the shared-files list; 25 were unrelated fixes to busy
+code files. Leaving out the generated files would still leave about 1 in
+4 real. Verdicts: `fixup-verdicts.json` (IDs and verdicts only). The
+negatives weren't judged, since the label already fails. As planned, M1
+falls back to **review comments per 100 lines changed** (non-generated
+lines; MRs with no counted lines left out), reported overall and for
+AI-disclosed vs not, as medians with 95% bootstrap intervals. The failed
+label's rate is not published as a result.
+
+**Planned follow-up before M2 (Nahuel's call): a stricter fix-up label,
+v2.** Written now, before any data for it is pulled. A merged MR is fixed
+up if, within 7 days of its merge, a merged MR (a) is titled
+`Revert "<its title>"`, or (b) links it in its description (`!<iid>` or
+its URL), or (c) names its source branch in a revert title. The shared
+files rule is dropped. Checked the same way, on 50 new positives and 50
+negatives drawn with a new seed, against the same bars (≥ 80% and ≥ 90%).
+
+**22 Oct 2026, after the mapping scores (exploratory): teams that didn't
+exist in train.** 405 of the 2,606 test MRs with a group (16%) belong to
+one of 49 groups that never appear in train; GitLab reorganized during the
+year (most are new AI groups). Mapping is also reported on the test MRs
+whose group exists in train. The headline stays the full test set.

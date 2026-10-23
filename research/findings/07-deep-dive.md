@@ -73,3 +73,9 @@ Design committed before the data was pulled (`studies/04-deep-dive/DESIGN.md`).
   toward zero.
 - Reverts are too rare in a 6,000 sample to judge quality.
 - All forum coding is by Claude. Nahuel's 10% check is still due.
+
+## Correction (22 Oct 2026)
+
+The "marketing" role includes GitLab's technical writers, who are most of
+its reviewers on product MRs. Cross-role reviews here are often
+engineering plus docs. See `09-evals.md`.
