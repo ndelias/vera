@@ -227,3 +227,20 @@ CREATE TABLE IF NOT EXISTS ev_scores (
   system TEXT, task TEXT, metric TEXT, subset TEXT,
   value REAL, lo REAL, hi REAL, n INTEGER
 );
+
+-- Study 06 (M2): fixed samples of MRs the agents run on, and what each
+-- agent run cost (from the API's usage, batch prices).
+CREATE TABLE IF NOT EXISTS ev_samples (
+  name  TEXT NOT NULL,
+  mr_id TEXT NOT NULL REFERENCES gl_mrs(id),
+  PRIMARY KEY (name, mr_id)
+);
+CREATE TABLE IF NOT EXISTS ev_costs (
+  system        TEXT NOT NULL,
+  mr_id         TEXT NOT NULL,
+  model         TEXT NOT NULL,
+  input_tokens  INTEGER, output_tokens INTEGER, cache_read INTEGER, cache_write INTEGER,
+  cost_usd      REAL,
+  status        TEXT NOT NULL,     -- ok | invalid | errored | expired
+  PRIMARY KEY (system, mr_id)
+);

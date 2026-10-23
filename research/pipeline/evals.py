@@ -5,6 +5,7 @@ See studies/05-evals/DESIGN.md.
     python3 research/pipeline/evals.py baselines  # B0, B1, B2 predictions (ev_predictions)
     python3 research/pipeline/evals.py check      # the fix-up label check sheet (gitignored)
     python3 research/pipeline/evals.py score      # every system's scores (ev_scores), printed
+    python3 research/pipeline/evals.py sample NAME SPLIT N SEED   # a fixed sample of MRs with a team label
 
 No model anywhere. The M2 agents write their predictions to ev_predictions
 under their own system name, and `score` scores them the same way.
@@ -259,6 +260,17 @@ def cmd_check() -> None:
     print(f"{len(sheet)} MRs to judge in {CHECK_PATH}; verdicts go in {VERDICTS_PATH}")
 
 
+def cmd_sample(name: str, split: str, n: str, seed: str) -> None:
+    """A fixed random sample of MRs with a team label, for the agents (study 06)."""
+    conn = connect()
+    ids = [r[0] for r in conn.execute("SELECT mr_id FROM ev_mrs WHERE split = ? AND grp IS NOT NULL ORDER BY mr_id", (split,))]
+    picked = random.Random(int(seed)).sample(ids, int(n))
+    conn.execute("DELETE FROM ev_samples WHERE name = ?", (name,))
+    conn.executemany("INSERT INTO ev_samples VALUES (?, ?)", [(name, m) for m in picked])
+    conn.commit()
+    print(f"sample {name}: {len(picked)} {split} MRs (seed {seed})")
+
+
 # ---------- scoring ----------
 
 def wilson(k: int, n: int) -> tuple[float, float]:
@@ -357,4 +369,4 @@ def cmd_score() -> None:
 
 
 if __name__ == "__main__":
-    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score}[sys.argv[1]]()
+    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample}[sys.argv[1]]()
