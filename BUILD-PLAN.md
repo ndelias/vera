@@ -97,6 +97,27 @@ and a slop score per person would be surveillance (a kill criterion). So:
 - Numbers stay at team level: e.g. likely-AI changes merged without a
   recorded check this month. Never per author.
 
+**Routing: people say what they cover; when unsure, Vera asks the lead.**
+*(Decided by Nahuel 2026-10-22, after M1's first routing scores.)* Rules
+alone can't route to design: "any frontend change" catches 91% of real
+design reviews, but only 1 ping in 10 is needed. So:
+- **People choose their role and their areas.** Each person picks a role
+  from a set list (engineer, designer, PM, docs, security, lead) and the
+  projects or features they cover, in `.vera.yml`. Nobody is pinged about
+  anything outside their areas.
+- **Vera models the organization.** Many teams, each with its own lead, PM
+  and designers. The Mapper's job is to say which areas a change touches;
+  the declared areas then decide who's asked (agents propose, code
+  decides).
+- **Three outcomes, not two.** Sure → ask the right people directly.
+  Unsure → ask the area's lead or PM ("who should review this?"); their
+  answer connects the reviewer and teaches Vera. Sure it's not needed →
+  stay quiet.
+- **The lead budget: at most 1 change in 6 becomes a question to a lead.**
+  Above that, Vera is a nuisance. Evals measure precision of direct pings,
+  recall counting escalations as caught, and the escalation rate against
+  this budget.
+
 ## Repo layout
 
 ```
@@ -130,6 +151,9 @@ fix-up label: whether a merged MR was followed within 7 days by another MR
 that touched the same files to fix or revert it. If that can't be labelled
 reliably from public history, say so and use review comments per line
 instead. *Done when:* baseline scores are on the panel's Evals page.
+*Done 2026-10-22* (`research/findings/09-evals.md`, /evals). The fix-up
+label failed its check (16% real), so the fallback is review comments per
+100 lines; a stricter label (v2, in the study design) is tried before M2.
 
 **M2: The agents, from the CLI.** `vera review <PR URL>` runs the coordinator
 and the four agents on any public GitHub PR and writes a trace. Evals: the

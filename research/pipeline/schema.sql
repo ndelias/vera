@@ -181,3 +181,49 @@ CREATE TABLE IF NOT EXISTS r6_size (
   generated_files INTEGER NOT NULL,
   too_large_files INTEGER NOT NULL
 );
+
+-- Study 05 (M1): evals. See studies/05-evals/DESIGN.md.
+-- Each sampled MR's changed files: paths and line counts only, no diff text.
+CREATE TABLE IF NOT EXISTS ev_files (
+  mr_id     TEXT NOT NULL REFERENCES gl_mrs(id),
+  path      TEXT NOT NULL,
+  added     INTEGER NOT NULL,
+  deleted   INTEGER NOT NULL,
+  new_file  INTEGER NOT NULL,
+  generated INTEGER NOT NULL,
+  too_large INTEGER NOT NULL,
+  PRIMARY KEY (mr_id, path)
+);
+CREATE TABLE IF NOT EXISTS ev_files_done (
+  mr_id TEXT PRIMARY KEY REFERENCES gl_mrs(id)
+);
+
+-- Fix-ups: the changed paths of every merged product MR in the window that
+-- looks like a fix (title or type::bug). The fix-up rule is applied at
+-- analysis time, by matching these against the sampled MRs' paths.
+CREATE TABLE IF NOT EXISTS ev_fix_files (
+  mr_id TEXT NOT NULL REFERENCES gl_mrs(id),
+  path  TEXT NOT NULL,
+  PRIMARY KEY (mr_id, path)
+);
+CREATE TABLE IF NOT EXISTS ev_fix_done (
+  mr_id TEXT PRIMARY KEY REFERENCES gl_mrs(id)
+);
+
+-- Predictions from every system (baselines now, the agents in M2), scored
+-- by one scorer. prediction is JSON: a ranked list of groups, a list of
+-- roles, or a risk score.
+CREATE TABLE IF NOT EXISTS ev_predictions (
+  system     TEXT NOT NULL,
+  task       TEXT NOT NULL,          -- mapping | routing | fixup
+  mr_id      TEXT NOT NULL REFERENCES gl_mrs(id),
+  prediction TEXT NOT NULL,
+  PRIMARY KEY (system, task, mr_id)
+);
+
+-- Every system's eval scores (evals.py score). The site's Evals page reads
+-- these; nothing per MR is published.
+CREATE TABLE IF NOT EXISTS ev_scores (
+  system TEXT, task TEXT, metric TEXT, subset TEXT,
+  value REAL, lo REAL, hi REAL, n INTEGER
+);

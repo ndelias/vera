@@ -79,3 +79,9 @@ are small and this is a correlation, so it's a lead, not a finding.
 - The candidates point the same way: the problem isn't access to code,
   it's the path a change takes through review and approval, especially
   across roles.
+
+## Correction (22 Oct 2026)
+
+The "marketing" role includes GitLab's technical writers, who are most of
+its reviewers on product MRs. Cross-role reviews here are often
+engineering plus docs. See `09-evals.md`.

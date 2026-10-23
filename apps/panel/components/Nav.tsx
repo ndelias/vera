@@ -7,6 +7,7 @@ export const EVIDENCE = [
   { href: "/evidence", label: "Overview" },
   { href: "/hypotheses", label: "Hypotheses" },
   { href: "/work", label: "Work data" },
+  { href: "/evals", label: "Evals" },
   { href: "/posts", label: "Posts" },
   { href: "/codebook", label: "Codebook" },
   { href: "/rounds", label: "Rounds" },
