@@ -421,7 +421,7 @@ def cmd_routing(name: str) -> None:
 def design_sample():
     """Nahuel's design labels and each labelled change's weight back to the 500."""
     labels = json.loads((ROOT / "studies" / "06-agents" / "design-labels.json").read_text())["labels"]
-    meta = json.loads((ROOT / "data" / "design100-strata.json").read_text())
+    meta = json.loads((ROOT / "studies" / "06-agents" / "design100-strata.json").read_text())
     w = {s: v["population"] / v["sampled"] for s, v in meta["strata"].items()}
     return {l["mr_id"]: l for l in labels}, {m: w[s] for m, s in meta["stratum_of"].items()}
 
@@ -488,6 +488,59 @@ def cmd_design() -> None:
             agree = sum(weight[m] for m in labels if vis.get(m) and vis[m]["visible"] == gold[m])
             raw = sum(1 for m in labels if vis.get(m) and vis[m]["visible"] == gold[m])
             print(f"  visibility check agrees with these labels: {raw} of {len(labels)} changes, {agree / total:.0%} weighted")
+
+
+def cmd_agents() -> None:
+    """Study 06's agent scores, added to ev_scores beside the baselines (run
+    after `score`): mapping on the 500 test changes, design routing on
+    Nahuel's 100 (weighted to the 500), the visibility check on the 50
+    held-out changes, and cost per change."""
+    import glob
+    conn = connect()
+    conn.execute("DELETE FROM ev_scores WHERE task IN ('agent_mapping', 'agent_design', 'agent_visibility', 'agent_cost')")
+    rows = []
+    # Mapping, test500: B1 and the Mapper versions on the same changes.
+    directory = {p[-12:-5]: {norm(t["name"]) for t in json.load(open(p))["teams"]} | {norm(t["key"]) for t in json.load(open(p))["teams"]}
+                 for p in glob.glob(str(ROOT / "data" / "directory" / "*.json"))}
+    gold = {m: (g, datetime.fromtimestamp(c, timezone.utc).strftime("%Y-%m")) for m, g, c in conn.execute(
+        "SELECT s.mr_id, e.grp, m.created_at FROM ev_samples s JOIN ev_mrs e ON e.mr_id = s.mr_id JOIN gl_mrs m ON m.id = s.mr_id WHERE s.name = 'test500'")}
+    listed = [m for m, (g, ym) in gold.items() if norm(g) in directory.get(ym, set())]
+    for system in ("B1", "mapper-sonnet-v1", "mapper-sonnet-v2"):
+        preds = {m: json.loads(p) for m, p in conn.execute("SELECT mr_id, prediction FROM ev_predictions WHERE system = ? AND task = 'mapping'", (system,)) if m in gold}
+        hit = lambda m, k: norm(gold[m][0]) in [norm(x) for x in preds.get(m, [])[:k]]
+        for metric, subset, ids, k in (("top1", "all", list(gold), 1), ("top3", "all", list(gold), 3), ("top3", "listed", listed, 3)):
+            n = sum(hit(m, k) for m in ids)
+            rows.append((system, "agent_mapping", metric, subset, n / len(ids), *wilson(n, len(ids)), len(ids)))
+    # Design routing, Nahuel's final labels, weighted to the 500.
+    labels, weight = design_sample()
+    pos = sum(weight[m] for m in labels if labels[m]["final"] == "yes")
+    for system in ("B2", "router-v1", "router-v2"):
+        preds = {m: json.loads(p) for m, p in conn.execute("SELECT mr_id, prediction FROM ev_predictions WHERE system = ? AND task = 'routing'", (system,)) if m in labels}
+        route = {m: set(p["route"] if isinstance(p, dict) else p) for m, p in preds.items()}
+        ask = {m: set(p["ask"]) if isinstance(p, dict) else set() for m, p in preds.items()}
+        caught = sum(weight[m] for m in labels if labels[m]["final"] == "yes" and ("design" in route[m] or "design" in ask[m]))
+        pinged = sum(weight[m] for m in labels if "design" in route[m])
+        needed = sum(weight[m] for m in labels if "design" in route[m] and labels[m]["final"] == "yes")
+        rows.append((system, "agent_design", "caught", "final", caught / pos, None, None, len(labels)))
+        rows.append((system, "agent_design", "needed", "final", needed / pinged if pinged else None, None, None, len(labels)))
+    # Visibility check on the held-out 50.
+    hold = [m for m, in conn.execute("SELECT mr_id FROM ev_samples WHERE name = 'design-holdout'")]
+    for system in ("visibility-sonnet-v1", "visibility-sonnet-v2-holdout"):
+        vis = {m: json.loads(p) for m, p in conn.execute("SELECT mr_id, prediction FROM ev_predictions WHERE system = ? AND task = 'visibility'", (system,))}
+        agree = sum(vis[m]["visible"] == (labels[m]["final"] == "yes") for m in hold)
+        yes = [m for m in hold if labels[m]["final"] == "yes"]
+        caught = sum(vis[m]["visible"] for m in yes)
+        extra = sum(vis[m]["visible"] and labels[m]["final"] != "yes" for m in hold)
+        rows.append((system, "agent_visibility", "agree", "holdout", agree / len(hold), *wilson(agree, len(hold)), len(hold)))
+        rows.append((system, "agent_visibility", "caught", "holdout", caught / len(yes), *wilson(caught, len(yes)), len(yes)))
+        rows.append((system, "agent_visibility", "extra", "holdout", extra, None, None, len(hold)))
+    # Cost per change at batch prices.
+    for system, per, n in conn.execute("SELECT system, AVG(cost_usd), COUNT(*) FROM ev_costs WHERE status = 'ok' GROUP BY system"):
+        rows.append((system, "agent_cost", "usd_per_change", "batch", per, None, None, n))
+    conn.executemany("INSERT INTO ev_scores VALUES (?, ?, ?, ?, ?, ?, ?, ?)", rows)
+    conn.commit()
+    for r in rows:
+        print(f"{r[0]:<30} {r[1]:<17} {r[2]:<15} {r[3]:<8} {r[4] if r[4] is None else round(r[4], 4)}  n={r[7]}")
 
 
 def cmd_sample(name: str, split: str, n: str, seed: str) -> None:
@@ -626,4 +679,4 @@ def cmd_score() -> None:
 
 
 if __name__ == "__main__":
-    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample, "pilot": cmd_pilot, "ownership": cmd_ownership, "route": cmd_route, "routing": cmd_routing, "route2": cmd_route2, "design": cmd_design}[sys.argv[1]](*sys.argv[2:])
+    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample, "pilot": cmd_pilot, "ownership": cmd_ownership, "route": cmd_route, "routing": cmd_routing, "route2": cmd_route2, "design": cmd_design, "agents": cmd_agents}[sys.argv[1]](*sys.argv[2:])

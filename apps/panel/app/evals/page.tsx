@@ -5,7 +5,7 @@ import { num } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Evals" };
 
-// Copy drafted in Nahuel's voice for him to edit (research/findings/09-evals.md).
+// Copy drafted in Nahuel's voice for him to edit (research/findings/09-evals.md, 10-agents.md).
 
 const interval = (s: Score | undefined) =>
   s && s.lo !== null && s.hi !== null && !Number.isNaN(s.lo) ? `${pctOf(s.lo)} to ${pctOf(s.hi)}` : "";
@@ -28,6 +28,10 @@ export default function Evals() {
   const label2 = find(s, "label:fixup-v2", "fixup", "share_real", "positives");
   const attention = (subset: string) => find(s, "data", "attention", "comments_per_100_lines", subset);
   const top3 = map("B1", "recall@3");
+  const agent = (sys: string, task: string, metric: string, subset: string) => find(s, sys, task, metric, subset);
+  const mapperV2 = agent("mapper-sonnet-v2", "agent_mapping", "top3", "listed");
+  const hasAgents = Boolean(mapperV2);
+  const cost = (sys: string) => agent(sys, "agent_cost", "usd_per_change", "batch")?.value;
 
   const ROUTERS: [string, string][] = [
     ["B2", "Hand rules (a day-one .vera.yml)"],
@@ -42,8 +46,8 @@ export default function Evals() {
         <h1>The number to beat</h1>
         <p className="lede">
           Before building any agent, I measured how well plain rules do its jobs, on {num(6000)} real merge requests at
-          GitLab. Rules learned from the first half of the year and were scored on the second. No model anywhere. The
-          agents have to beat these numbers, on the same changes, scored the same way.
+          GitLab. Rules learned from the first half of the year and were scored on the second. The agents are scored on
+          the same changes, the same way.
         </p>
       </div>
 
@@ -54,6 +58,61 @@ export default function Evals() {
           The agents need 80%.
         </p>
       </section>
+
+      {hasAgents ? (
+        <section className="section">
+          <div className="section-head">
+            <h2>The first agents, on the same changes</h2>
+            <p>
+              Claude Sonnet 5.5, run as a batch, scored by the same code as the rules. The Mapper names the owning team;
+              the visibility check reads a change and says whether it makes a design decision.
+            </p>
+          </div>
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Job</th><th className="num">Rules</th><th className="num">Agent</th><th className="num">Bar</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Owning team in the top three, 500 test changes</td>
+                  <td className="num">{pctOf(agent("B1", "agent_mapping", "top3", "all")?.value)}</td>
+                  <td className="num">{pctOf(agent("mapper-sonnet-v2", "agent_mapping", "top3", "all")?.value)}</td>
+                  <td className="num muted">80%</td>
+                </tr>
+                <tr>
+                  <td>Same, when the team was in that month&rsquo;s directory ({num(mapperV2?.n ?? 0)})</td>
+                  <td className="num">{pctOf(agent("B1", "agent_mapping", "top3", "listed")?.value)}</td>
+                  <td className="num">{pctOf(mapperV2?.value)}</td>
+                  <td className="num muted">80%</td>
+                </tr>
+                <tr>
+                  <td>Design: changes caught / pings needed, my 100 labels (first visibility check)</td>
+                  <td className="num">{pctOf(agent("B2", "agent_design", "caught", "final")?.value)} / {pctOf(agent("B2", "agent_design", "needed", "final")?.value)}</td>
+                  <td className="num">{pctOf(agent("router-v2", "agent_design", "caught", "final")?.value)} / {pctOf(agent("router-v2", "agent_design", "needed", "final")?.value)}</td>
+                  <td className="num muted">80% / 80%</td>
+                </tr>
+                <tr>
+                  <td>Design decision or not, 50 changes it never saw while tuning</td>
+                  <td className="num muted">–</td>
+                  <td className="num">{pctOf(agent("visibility-sonnet-v2-holdout", "agent_visibility", "agree", "holdout")?.value)} agree</td>
+                  <td className="num muted">–</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="muted" style={{ marginTop: 12, maxWidth: 720 }}>
+            The Mapper reads the change, the team directory and who owned those folders before; it beats the rules by about
+            20 points and sits at the bar when the team is listed. Who owns a change didn&rsquo;t say whether a designer
+            should see it, so a second agent reads the change and asks one question: does it make a design decision? The
+            first version asked whether a user would notice anything, and flagged bug fixes and permission changes too.
+            Asked the right question, it agreed with me on {num(Math.round((agent("visibility-sonnet-v2-holdout", "agent_visibility", "agree", "holdout")?.value ?? 0) * 50))} of
+            50 changes it hadn&rsquo;t seen. I labelled those 100 changes, then read Claude&rsquo;s reasoning on each and
+            revised 43 where it changed my mind; the revised labels are used. Each change cost under a cent
+            (Mapper ${(cost("mapper-sonnet-v2") ?? 0).toFixed(3)}, check ${(cost("visibility-sonnet-v2-holdout") ?? 0).toFixed(3)}).
+          </p>
+        </section>
+      ) : null}
 
       <section className="section">
         <div className="section-head">

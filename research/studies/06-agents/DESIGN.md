@@ -189,3 +189,15 @@ pings needed (hand rules 100%, 44%; routing v1 67%, 50%).
 20261025) into 50 to tune on and 50 held out. The question is rewritten
 on the tuning half only; v1 and v2 are then scored once on the held-out
 half. The held-out score rests on 50 changes, so its interval is wide.
+
+## Visibility check v2 results (23 Oct 2026)
+
+On the tuning half: agrees with Nahuel's final labels on 47 of 50 (v1 33).
+**Held out, scored once:** agrees on 48 of 50 (95% interval 87–99%; v1 36
+of 50), catches all 22 he said yes to, and flags 2 he said no to (v1 14).
+Design routing with v2 on the held-out half, weighted to the 500: caught
+100%, 66% of pings needed (hand rules: 100%, 48%). Against his first
+answers v2 agrees on 28 of 50 (v1 36): v2 learned the line he settled on
+after reading Claude's reasoning, which Claude's lean matched 99 of 100,
+so this is agreement with his reviewed calls, not independent proof.
+Spend so far in M2: about $11.20 of $20.

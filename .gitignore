@@ -2,6 +2,10 @@ research/data/raw/
 research/data/*.sqlite
 research/data/*.sqlite-journal
 research/data/fixup-check*.json
+# Agent runs (answers, diffs cache), the team directory and ownership evidence: rebuilt by the scripts
+research/data/batches/
+research/data/directory/
+research/data/ownership/
 .env
 node_modules/
 __pycache__/
