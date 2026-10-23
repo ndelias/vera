@@ -242,6 +242,8 @@ CREATE TABLE IF NOT EXISTS ev_branches (
 );
 CREATE TABLE IF NOT EXISTS ev_links_done (
   month TEXT PRIMARY KEY
+);
+
 -- Study 06 (M2): fixed samples of MRs the agents run on, and what each
 -- agent run cost (from the API's usage, batch prices).
 CREATE TABLE IF NOT EXISTS ev_samples (
