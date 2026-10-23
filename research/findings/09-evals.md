@@ -16,7 +16,8 @@ Every score is on test. No model is used anywhere.
 | **Routing, docs:** caught / needed | Path lookup: 71% / 63%. Hand rules: 89% / 50% | ≥ 80% / ≥ 80% |
 | Routing, product: caught / needed | Path lookup: 33% / 12% (only 36 MRs in test had a product reviewer) | ≥ 80% / ≥ 80% |
 | **Routing with "ask the lead"** (Nahuel's decision) | Path lookup asking on 16% of MRs (budget: 1 in 6): design caught **58%**, docs 83%, product 42% | Within the budget, ≥ 80% caught |
-| **Fix-ups** (planned label) | **Failed its check:** 16% of labelled fix-ups were real (bar: 80%) | Label v2 before M2 |
+| **Fix-ups** (planned label) | **Failed its check:** 16% of labelled fix-ups were real (bar: 80%) | — |
+| Fix-ups, stricter label v2 (a later MR links or reverts it) | **Failed too:** 12% real | A model judge in M2, if it passes the same check |
 | Review comments per 100 lines (the fallback) | 21.7 overall; AI-disclosed 20.3 (18.1–23.5), the rest 21.8 (20.8–22.9) | Baseline for M5 |
 
 Majority baselines, for the floor: mapping 5%; routing catches nothing.
@@ -43,6 +44,14 @@ Majority baselines, for the floor: mapping 5%; routing catches nothing.
   that gets an unrelated fix most weeks. A tool that blames a change for
   later problems from file overlap alone would be wrong 4 times in 5.
   Verdicts in `studies/05-evals/fixup-verdicts.json`.
+- **A link isn't a fix either.** The stricter label counted a later
+  change that links the first. Of 50, 6 were fixes or reverts; the rest
+  were follow-up work (34), stacked, sibling or batched changes (9), and
+  backports (3). Teams now split work into many small linked changes, so
+  links per month rose from about 800 to over 4,000 this year. Two
+  pre-written rules failed, so whether a change needed fixing can't be
+  read from public history with simple rules. Verdicts in
+  `studies/05-evals/fixup-verdicts-v2.json`.
 - **AI-disclosed changes get the same attention per line as the rest.**
   About 20 vs 22 review comments per 100 lines, with overlapping
   intervals. The drop in attention per line (Stage 3) is everywhere, not
@@ -62,5 +71,6 @@ read "marketing and technical writing". This eval calls the role docs.
 
 - **M2:** the agents write their predictions to the same table
   (`ev_predictions`) under their own name, and the same scorer scores them.
-- **Before M2:** fix-up label v2 (a later MR that reverts or links the
-  change), already written into the design, checked the same way.
+- **In M2:** a model judges each linked pair (fix or not). It's used only
+  if it agrees with Nahuel's verdicts on 50 pairs at the same bars; until
+  then, review comments per 100 lines stay the measure.

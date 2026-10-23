@@ -2,16 +2,18 @@
 
     python3 research/pipeline/collect_evals.py files     # changed files of the 6,000 Stage 3 MRs
     python3 research/pipeline/collect_evals.py fixes     # changed files of every fix-like MR in the window
+    python3 research/pipeline/collect_evals.py links     # label v2: MR links in descriptions, source branches
 
 Public API, no token. Resumable: each MR is recorded as done once stored.
 Paths and line counts only; diff text is never stored.
 """
 
+import re
 import sys
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 
-from collect_gitlab import get
+from collect_gitlab import get, months
 from db import connect
 from evals import FIX, WEEK
 
@@ -85,5 +87,39 @@ def cmd_fixes() -> None:
     conn.commit()
 
 
+# A product MR named in a description: !123, gitlab-org/gitlab!123, or its URL.
+LINK = re.compile(r"(?:(?<![\w/])|gitlab-org/gitlab)!(\d+)\b|gitlab\.com/gitlab-org/gitlab/-/merge_requests/(\d+)")
+
+
+def cmd_links() -> None:
+    """Every merged product MR created from the Stage 3 window to the end of
+    the data: the MRs its description links, and its source branch."""
+    conn = connect()
+    done = {m for m, in conn.execute("SELECT month FROM ev_links_done")}
+    spans = [(lo, hi) for lo, hi in months("2025-10-01", "2026-10-19") if lo[:7] not in done]
+
+    def fetch(span):
+        lo, hi = span
+        out, page = [], 1
+        while True:
+            items, headers = get(f"projects/{PROJECT}/merge_requests", {
+                "state": "merged", "created_after": lo, "created_before": min(hi, "2026-10-19T00:00:00Z"),
+                "per_page": 100, "page": page, "order_by": "created_at", "sort": "asc"})
+            out += [(f"product!{mr['iid']}", mr.get("source_branch") or "",
+                     {f"product!{a or b}" for a, b in LINK.findall(mr.get("description") or "")} - {f"product!{mr['iid']}"})
+                    for mr in items]
+            if not headers.get("X-Next-Page"):
+                return out
+            page += 1
+
+    with ThreadPoolExecutor(max_workers=4) as ex:
+        for (lo, _), rows in zip(spans, ex.map(fetch, spans)):
+            conn.executemany("INSERT OR REPLACE INTO ev_branches VALUES (?, ?)", [(m, b) for m, b, _ in rows if b])
+            conn.executemany("INSERT OR IGNORE INTO ev_links VALUES (?, ?)", [(m, l) for m, _, ls in rows for l in ls])
+            conn.execute("INSERT INTO ev_links_done VALUES (?)", (lo[:7],))
+            conn.commit()
+            print(f"{lo[:7]}: {len(rows)} MRs, {sum(len(ls) for _, _, ls in rows)} links", flush=True)
+
+
 if __name__ == "__main__":
-    {"files": cmd_files, "fixes": cmd_fixes}[sys.argv[1]]()
+    {"files": cmd_files, "fixes": cmd_fixes, "links": cmd_links}[sys.argv[1]]()

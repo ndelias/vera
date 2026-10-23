@@ -25,6 +25,7 @@ export default function Evals() {
   const route = (sys: string, metric: string, role: string) => find(s, sys, "routing", metric, role);
   const ask = find(s, "B1-ask", "routing", "ask_rate", "any");
   const label = find(s, "label:fixup-v1", "fixup", "share_real", "positives");
+  const label2 = find(s, "label:fixup-v2", "fixup", "share_real", "positives");
   const attention = (subset: string) => find(s, "data", "attention", "comments_per_100_lines", subset);
   const top3 = map("B1", "recall@3");
 
@@ -140,17 +141,22 @@ export default function Evals() {
 
       <section className="section">
         <div className="section-head">
-          <h2>Fix-ups: a label that failed</h2>
+          <h2>Fix-ups: two labels that failed</h2>
           <p>
-            I wanted to know which changes needed fixing within a week: a later fix that touched the same files. I read
-            50 of them before using the label.
+            I wanted to know which changes needed fixing within a week. I wrote two rules down before looking, and
+            read 50 changes each rule flagged before using it.
           </p>
         </div>
         <dl className="kv">
-          <dt>Really fixed by the later change</dt>
+          <dt>A later fix touched the same files</dt>
           <dd>
             <strong style={{ fontWeight: 500 }}>{pctOf(label?.value)}</strong>
-            <span className="muted"> · {label?.n ?? 0} read, the bar was 80%</span>
+            <span className="muted"> really fixed · {label?.n ?? 0} read, the bar was 80%</span>
+          </dd>
+          <dt>A later change linked it</dt>
+          <dd>
+            <strong style={{ fontWeight: 500 }}>{pctOf(label2?.value)}</strong>
+            <span className="muted"> really fixed · {label2?.n ?? 0} read, the bar was 80%</span>
           </dd>
           <dt>Review comments per 100 lines (the fallback)</dt>
           <dd>
@@ -162,10 +168,10 @@ export default function Evals() {
           </dd>
         </dl>
         <p className="muted" style={{ marginTop: 12, maxWidth: 720 }}>
-          Most &ldquo;fixes&rdquo; only shared a generated file or a busy one that gets an unrelated fix most weeks. So
-          the label isn&rsquo;t used, and the plan&rsquo;s fallback is: review comments per 100 lines. AI-disclosed
-          changes get about the same attention per line as the rest. A stricter label, a later change that reverts or
-          links the first, is written down to try before the agents.
+          Sharing a file mostly meant sharing a generated or busy file. A link mostly meant follow-up work, a stacked
+          change, or a backport. So neither label is used, and the plan&rsquo;s fallback is: review comments per 100
+          lines. AI-disclosed changes get about the same attention per line as the rest. With the agents, a model will
+          read each linked pair and judge it, and that judge is used only if it agrees with my own reading.
         </p>
       </section>
     </>

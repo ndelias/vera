@@ -1,0 +1,315 @@
+{
+ "judged": "2026-10-22",
+ "by": "Claude, from titles and the text around the link; for Nahuel to spot-check",
+ "rule": "real = the later MR fixes or reverts something the first MR introduced",
+ "positives": [
+  {
+   "mr_id": "product!255214",
+   "later_mr_id": "product!255659",
+   "real": true,
+   "note": "fix or revert"
+  },
+  {
+   "mr_id": "product!227173",
+   "later_mr_id": "product!227399",
+   "real": true,
+   "note": "fix or revert"
+  },
+  {
+   "mr_id": "product!217072",
+   "later_mr_id": "product!217079",
+   "real": false,
+   "note": "backport"
+  },
+  {
+   "mr_id": "product!239779",
+   "later_mr_id": "product!239783",
+   "real": false,
+   "note": "sibling change"
+  },
+  {
+   "mr_id": "product!257879",
+   "later_mr_id": "product!257871",
+   "real": false,
+   "note": "stacked change"
+  },
+  {
+   "mr_id": "product!211650",
+   "later_mr_id": "product!213651",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!228413",
+   "later_mr_id": "product!229165",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!252075",
+   "later_mr_id": "product!252348",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!215521",
+   "later_mr_id": "product!216074",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!258061",
+   "later_mr_id": "product!258628",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!253826",
+   "later_mr_id": "product!254336",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!218609",
+   "later_mr_id": "product!218815",
+   "real": false,
+   "note": "backport"
+  },
+  {
+   "mr_id": "product!241583",
+   "later_mr_id": "product!241581",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!251531",
+   "later_mr_id": "product!251542",
+   "real": false,
+   "note": "same batch of edits"
+  },
+  {
+   "mr_id": "product!257918",
+   "later_mr_id": "product!257920",
+   "real": false,
+   "note": "sibling change"
+  },
+  {
+   "mr_id": "product!251085",
+   "later_mr_id": "product!251527",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!256452",
+   "later_mr_id": "product!261267",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!242621",
+   "later_mr_id": "product!242835",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!246990",
+   "later_mr_id": "product!247559",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!251075",
+   "later_mr_id": "product!251309",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!226028",
+   "later_mr_id": "product!227653",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!227074",
+   "later_mr_id": "product!227182",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!250257",
+   "later_mr_id": "product!250255",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!248971",
+   "later_mr_id": "product!249178",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!250604",
+   "later_mr_id": "product!250691",
+   "real": false,
+   "note": "stacked change"
+  },
+  {
+   "mr_id": "product!254977",
+   "later_mr_id": "product!255455",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!235969",
+   "later_mr_id": "product!236092",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!235134",
+   "later_mr_id": "product!235276",
+   "real": true,
+   "note": "fix or revert"
+  },
+  {
+   "mr_id": "product!244274",
+   "later_mr_id": "product!244557",
+   "real": true,
+   "note": "fix or revert"
+  },
+  {
+   "mr_id": "product!241285",
+   "later_mr_id": "product!242709",
+   "real": true,
+   "note": "fix or revert"
+  },
+  {
+   "mr_id": "product!238050",
+   "later_mr_id": "product!239052",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!217273",
+   "later_mr_id": "product!217832",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!214440",
+   "later_mr_id": "product!214967",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!247870",
+   "later_mr_id": "product!248015",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!215499",
+   "later_mr_id": "product!216380",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!223997",
+   "later_mr_id": "product!221910",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!239853",
+   "later_mr_id": "product!239917",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!226268",
+   "later_mr_id": "product!227026",
+   "real": true,
+   "note": "fix or revert"
+  },
+  {
+   "mr_id": "product!223025",
+   "later_mr_id": "product!223291",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!236152",
+   "later_mr_id": "product!236756",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!218645",
+   "later_mr_id": "product!218682",
+   "real": false,
+   "note": "backport"
+  },
+  {
+   "mr_id": "product!244267",
+   "later_mr_id": "product!251435",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!233695",
+   "later_mr_id": "product!234082",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!258783",
+   "later_mr_id": "product!260903",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!254730",
+   "later_mr_id": "product!255529",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!213303",
+   "later_mr_id": "product!215498",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!253763",
+   "later_mr_id": "product!254349",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!239865",
+   "later_mr_id": "product!240147",
+   "real": false,
+   "note": "follow-up or related work"
+  },
+  {
+   "mr_id": "product!240353",
+   "later_mr_id": "product!240354",
+   "real": false,
+   "note": "stacked change"
+  },
+  {
+   "mr_id": "product!249604",
+   "later_mr_id": "product!249987",
+   "real": false,
+   "note": "stacked change"
+  }
+ ],
+ "summary": {
+  "positives_judged": 50,
+  "real": 6,
+  "share_real": 0.12,
+  "bar": 0.8,
+  "passes": false,
+  "negatives": "not judged: the label already fails on positives"
+ }
+}

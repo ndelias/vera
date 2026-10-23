@@ -54,7 +54,8 @@ def cmd_build() -> None:
       CREATE TABLE ev_mrs (
         mr_id TEXT PRIMARY KEY, split TEXT, grp TEXT, devops TEXT,
         design INTEGER, product INTEGER, docs INTEGER,
-        files INTEGER, lines INTEGER, ai INTEGER, fixup INTEGER, fixup_kind TEXT, fixup_by TEXT
+        files INTEGER, lines INTEGER, ai INTEGER, fixup INTEGER, fixup_kind TEXT, fixup_by TEXT,
+        fixup2 INTEGER, fixup2_kind TEXT, fixup2_by TEXT
       );
     """)
     rows = conn.execute("""
@@ -72,6 +73,33 @@ def cmd_build() -> None:
             fixes[path].append((mr_id, merged))
     # A fix made after the last MR in the data would be missed: only MRs with a full week after them count.
     data_end = conn.execute("SELECT MAX(created_at) FROM gl_mrs WHERE project = 'product'").fetchone()[0]
+    # Label v2: a later MR reverts it by title, links it, or reverts its branch.
+    merged_at = dict(conn.execute("SELECT id, merged_at FROM gl_mrs WHERE project = 'product' AND merged_at IS NOT NULL"))
+    linkers = defaultdict(list)
+    for linker, linked in conn.execute("SELECT mr_id, linked FROM ev_links"):
+        linkers[linked].append(linker)
+    branch = dict(conn.execute("SELECT mr_id, branch FROM ev_branches"))
+    branch_reverts = defaultdict(list)  # branch → (merge time, MR) of 'Revert "Merge branch '<branch>' into ..."'
+    for mr_id, t, m in conn.execute("SELECT id, title, merged_at FROM gl_mrs WHERE project = 'product' AND title LIKE 'Revert \"Merge branch %' AND merged_at IS NOT NULL"):
+        found = re.match(r"""Revert "Merge branch '([^']+)'""", t)
+        if found:
+            branch_reverts[found.group(1)].append((m, mr_id))
+    have_links = conn.execute("SELECT COUNT(*) FROM ev_links_done").fetchone()[0] > 0
+
+    def v2(mr_id: str, merged: int, title: str) -> tuple:
+        if not have_links or merged + WEEK > data_end:
+            return (None, None, None)
+        within = lambda t: t is not None and merged < t <= merged + WEEK
+        if any(within(t) for t in reverts.get(f'revert "{title.lower()}"', [])):
+            return (1, "revert", None)
+        hits = sorted((merged_at.get(l), l) for l in linkers.get(mr_id, []) if within(merged_at.get(l)))
+        if hits:
+            return (1, "link", hits[0][1])
+        hits = sorted((t, m) for t, m in branch_reverts.get(branch.get(mr_id, ""), []) if within(t) and m != mr_id)
+        if hits:
+            return (1, "branch_revert", hits[0][1])
+        return (0, None, None)
+
     for mr_id, created, merged, title, labels, roles, ai in rows:
         files, lines = conn.execute("SELECT COUNT(*), COALESCE(SUM(added + deleted), 0) FROM ev_files WHERE mr_id = ? AND generated = 0", (mr_id,)).fetchone()
         paths = [p for p, in conn.execute("SELECT path FROM ev_files WHERE mr_id = ? AND generated = 0", (mr_id,)) if not SHARED.search(p)]
@@ -85,12 +113,12 @@ def cmd_build() -> None:
                 hits = sorted((m, other) for p in paths for other, m in fixes.get(p, []) if other != mr_id and merged < m <= merged + WEEK)
                 if hits:
                     fixup, kind, by = 1, "fix", hits[0][1]
-        conn.execute("INSERT INTO ev_mrs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (
+        conn.execute("INSERT INTO ev_mrs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (
             mr_id, "train" if created < SPLIT else "test", label(labels, "group::"), label(labels, "devops::"),
-            *(int(SOURCE_ROLE[r] in roles) for r in ROLES), files, lines, int(bool(ai)), fixup, kind, by))
+            *(int(SOURCE_ROLE[r] in roles) for r in ROLES), files, lines, int(bool(ai)), fixup, kind, by, *v2(mr_id, merged, title)))
     conn.commit()
-    for split, n, g, fx, lab in conn.execute("SELECT split, COUNT(*), COUNT(grp), SUM(fixup), COUNT(fixup) FROM ev_mrs GROUP BY split"):
-        print(f"{split}: {n} MRs, {g} with one group, {fx or 0} fix-ups of {lab} labelled")
+    for split, n, g, fx, lab, fx2, lab2 in conn.execute("SELECT split, COUNT(*), COUNT(grp), SUM(fixup), COUNT(fixup), SUM(fixup2), COUNT(fixup2) FROM ev_mrs GROUP BY split"):
+        print(f"{split}: {n} MRs, {g} with one group, v1 {fx or 0} fix-ups of {lab}, v2 {fx2 or 0} of {lab2}")
 
 
 # ---------- baselines ----------
@@ -233,31 +261,47 @@ def later_mrs(n: int, merged: int, paths: list[str]) -> tuple[list[dict], int]:
     return [dict(v, shared=sorted(v["shared"])) for v in out.values()], failed
 
 
-def cmd_check() -> None:
+def link_context(n: int, linked_iid: int) -> str:
+    """The text around the link to MR linked_iid in MR n's description (for the check sheet only)."""
+    mr = json.loads(urllib.request.urlopen(urllib.request.Request(
+        f"https://gitlab.com/api/v4/projects/gitlab-org%2Fgitlab/merge_requests/{n}",
+        headers={"User-Agent": "blast-radius-research"}), timeout=60).read())
+    text = mr.get("description") or ""
+    at = max(text.find(f"!{linked_iid}"), text.find(f"merge_requests/{linked_iid}"))
+    return text[max(0, at - 200):at + 120] if at >= 0 else ""
+
+
+def cmd_check(version: str = "v1") -> None:
+    """The label check sheet: 50 positives and 50 negatives, side by side.
+    v1 is the shared-files label; v2 the stricter one (DESIGN.md)."""
     conn = connect()
-    rng = random.Random(SEED)
-    pos = [r[0] for r in conn.execute("SELECT mr_id FROM ev_mrs WHERE fixup = 1 ORDER BY mr_id")]
-    neg = [r[0] for r in conn.execute("SELECT mr_id FROM ev_mrs WHERE fixup = 0 ORDER BY mr_id")]
+    col, rng = ("fixup", random.Random(SEED)) if version == "v1" else ("fixup2", random.Random(SEED + 2))
+    path = CHECK_PATH if version == "v1" else CHECK_PATH.with_name("fixup-check-v2.json")
+    pos = [r[0] for r in conn.execute(f"SELECT mr_id FROM ev_mrs WHERE {col} = 1 ORDER BY mr_id")]
+    neg = [r[0] for r in conn.execute(f"SELECT mr_id FROM ev_mrs WHERE {col} = 0 ORDER BY mr_id")]
     sheet = []
     for kind, ids in (("positive", rng.sample(pos, min(50, len(pos)))), ("negative", rng.sample(neg, min(50, len(neg))))):
         for mr_id in ids:
             title, labels, merged = conn.execute("SELECT title, labels, merged_at FROM gl_mrs WHERE id = ?", (mr_id,)).fetchone()
-            fixup_kind, by = conn.execute("SELECT fixup_kind, fixup_by FROM ev_mrs WHERE mr_id = ?", (mr_id,)).fetchone()
+            fixup_kind, by = conn.execute(f"SELECT {col}_kind, {col}_by FROM ev_mrs WHERE mr_id = ?", (mr_id,)).fetchone()
             paths = [p for p, in conn.execute("SELECT path FROM ev_files WHERE mr_id = ? AND generated = 0", (mr_id,)) if not SHARED.search(p)]
             entry = {"mr_id": mr_id, "label": kind, "title": title, "labels": labels, "files": paths}
             if kind == "positive":
                 entry["kind"] = fixup_kind
                 if by:
                     t, l = conn.execute("SELECT title, labels FROM gl_mrs WHERE id = ?", (by,)).fetchone()
-                    shared = sorted(set(paths) & {p for p, in conn.execute("SELECT path FROM ev_fix_files WHERE mr_id = ?", (by,))})
-                    entry["fix"] = {"mr_id": by, "title": t, "labels": l, "shared": shared}
+                    entry["fix"] = {"mr_id": by, "title": t, "labels": l}
+                    if version == "v1":
+                        entry["fix"]["shared"] = sorted(set(paths) & {p for p, in conn.execute("SELECT path FROM ev_fix_files WHERE mr_id = ?", (by,))})
+                    elif fixup_kind == "link":
+                        entry["fix"]["context"] = link_context(int(by.split("!")[1]), int(mr_id.split("!")[1]))
             else:
-                entry["later_mrs"], entry["failed_queries"] = later_mrs(int(mr_id.split("!")[1]), merged, paths)
+                entry["later_mrs"], entry["failed_queries"] = later_mrs(int(mr_id.split("!")[1]), merged, paths[:MAX_FILES])
                 print(f"{mr_id}: {len(entry['later_mrs'])} later MRs, {entry['failed_queries']} queries failed", flush=True)
             sheet.append(entry)
             # Written as it goes: the negatives' file-history queries are slow.
-            CHECK_PATH.write_text(json.dumps(sheet, indent=1))
-    print(f"{len(sheet)} MRs to judge in {CHECK_PATH}; verdicts go in {VERDICTS_PATH}")
+            path.write_text(json.dumps(sheet, indent=1))
+    print(f"{len(sheet)} MRs to judge in {path}")
 
 
 def cmd_sample(name: str, split: str, n: str, seed: str) -> None:
@@ -349,10 +393,11 @@ def cmd_score() -> None:
 
     # Fix-ups: the label failed its check (DESIGN.md), so only the check's
     # result is kept, and the fallback is scored: review comments per 100 lines.
-    verdicts = json.loads(VERDICTS_PATH.read_text())["summary"] if VERDICTS_PATH.exists() else None
-    if verdicts:
-        k, n = verdicts["real"], verdicts["positives_judged"]
-        rows.append(("label:fixup-v1", "fixup", "share_real", "positives", k / n, *wilson(k, n), n))
+    for version, path in (("v1", VERDICTS_PATH), ("v2", VERDICTS_PATH.with_name("fixup-verdicts-v2.json"))):
+        if path.exists():
+            v = json.loads(path.read_text())["summary"]
+            k, n = v["real"], v["positives_judged"]
+            rows.append((f"label:fixup-{version}", "fixup", "share_real", "positives", k / n, *wilson(k, n), n))
     rng = random.Random(SEED)
     rates = conn.execute("""
       SELECT e.ai, 100.0 * m.notes_n / e.lines FROM ev_mrs e JOIN gl_mrs m ON m.id = e.mr_id
@@ -369,4 +414,4 @@ def cmd_score() -> None:
 
 
 if __name__ == "__main__":
-    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample}[sys.argv[1]]()
+    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample}[sys.argv[1]](*sys.argv[2:])

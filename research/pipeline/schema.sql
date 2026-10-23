@@ -228,6 +228,20 @@ CREATE TABLE IF NOT EXISTS ev_scores (
   value REAL, lo REAL, hi REAL, n INTEGER
 );
 
+-- Fix-up label v2 (studies/05-evals/DESIGN.md): which product MRs each merged
+-- product MR links in its description, and its source branch. Links only;
+-- the description text is never stored.
+CREATE TABLE IF NOT EXISTS ev_links (
+  mr_id     TEXT NOT NULL REFERENCES gl_mrs(id),   -- the MR whose description links
+  linked    TEXT NOT NULL,                         -- the product MR it links
+  PRIMARY KEY (mr_id, linked)
+);
+CREATE TABLE IF NOT EXISTS ev_branches (
+  mr_id  TEXT PRIMARY KEY REFERENCES gl_mrs(id),
+  branch TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS ev_links_done (
+  month TEXT PRIMARY KEY
 -- Study 06 (M2): fixed samples of MRs the agents run on, and what each
 -- agent run cost (from the API's usage, batch prices).
 CREATE TABLE IF NOT EXISTS ev_samples (
