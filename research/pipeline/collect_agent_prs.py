@@ -1,6 +1,7 @@
 """Study 07: coding agents' pull requests on public GitHub. See studies/07-agent-backlog/DESIGN.md.
 
     python3 research/pipeline/collect_agent_prs.py sample     # up to 400 PRs per agent, Apr 23 - Aug 23 2026
+    python3 research/pipeline/collect_agent_prs.py trim       # back to 400 per agent (the daily slices gather a few more)
     python3 research/pipeline/collect_agent_prs.py repos      # stars, last push for each sampled repo
     python3 research/pipeline/collect_agent_prs.py backlog    # per sampled repo: the agent's PRs open over 30 days
     python3 research/pipeline/collect_agent_prs.py mergeable  # up to 300 open PRs: can they still merge?
@@ -79,6 +80,20 @@ def cmd_sample() -> None:
         print(f"{agent}: {n} PRs", flush=True)
 
 
+def cmd_trim() -> None:
+    """The plan says up to 400 PRs per agent; slicing by day rounds up, so each
+    agent is cut back to 400 at random (fixed seed)."""
+    conn = connect()
+    rng = random.Random(SEED + 1)
+    for agent in AGENTS:
+        ids = [i for i, in conn.execute("SELECT id FROM ag_prs WHERE agent = ? ORDER BY id", (agent,))]
+        if len(ids) > PER_AGENT:
+            drop = set(ids) - set(rng.sample(ids, PER_AGENT))
+            conn.executemany("DELETE FROM ag_prs WHERE id = ?", [(i,) for i in drop])
+        print(f"{agent}: {min(len(ids), PER_AGENT)} kept of {len(ids)}")
+    conn.commit()
+
+
 def cmd_repos() -> None:
     conn = connect()
     todo = [r for r, in conn.execute("SELECT DISTINCT repo FROM ag_prs WHERE repo NOT IN (SELECT repo FROM ag_repos)")]
@@ -136,4 +151,4 @@ def cmd_mergeable() -> None:
 
 
 if __name__ == "__main__":
-    {"sample": cmd_sample, "repos": cmd_repos, "backlog": cmd_backlog, "mergeable": cmd_mergeable}[sys.argv[1]]()
+    {"sample": cmd_sample, "trim": cmd_trim, "repos": cmd_repos, "backlog": cmd_backlog, "mergeable": cmd_mergeable}[sys.argv[1]]()
