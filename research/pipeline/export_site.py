@@ -72,6 +72,10 @@ def main() -> None:
     dst.close()
 
     shutil.copy(ROOT / "studies" / "03-scoring" / "ranking.json", OUT_DIR / "ranking.json")
+    # Study 07's results: counts and shares only, no repository names.
+    backlog = ROOT / "findings" / "11-agent-backlog.json"
+    if backlog.exists():
+        shutil.copy(backlog, OUT_DIR / "agent-backlog.json")
     # The compressed copy is what's committed; the site's build unpacks it.
     with open(OUT, "rb") as f, gzip.open(OUT_DIR / "site.sqlite.gz", "wb", compresslevel=9) as g:
         shutil.copyfileobj(f, g)

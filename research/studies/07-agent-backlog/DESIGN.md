@@ -47,3 +47,14 @@ disproved if < 15%.
 
 All shares come with 95% intervals. Merged and closed-without-merging
 shares are reported for each agent, descriptively.
+
+## Changes after the plan was committed
+
+**23 Oct 2026, after sampling, before any analysis.** Slicing the window
+by day gathered 423–492 PRs per agent (each day's share was rounded up),
+so each agent was cut back to 400 at random (seed 20261024), as planned.
+
+**23 Oct 2026, after the analysis.** D3's active-repo sample is 9 PRs: the
+300 open PRs checked were drawn from all repos, and few were in active
+ones. The rule gives "supported", but 9 is too few to rely on; it's
+reported with that warning, beside the all-repo figure.
