@@ -1,0 +1,508 @@
+{
+ "question": "Should a product designer see this before it ships?",
+ "by": "Nahuel",
+ "sample": "design100 (seed 20261024)",
+ "note": "first = answer before Claude's lean was shown; final = after reading it (43 revised). Final labels are used.",
+ "labels": [
+  {
+   "mr_id": "product!232284",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!232425",
+   "first": "no",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!232981",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!233029",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!233250",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!233650",
+   "first": "no",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!234219",
+   "first": "no",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!234239",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!234271",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!234276",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!234622",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!235008",
+   "first": "no",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!235164",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!235352",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!235444",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!235478",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!235850",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!236101",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!236642",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!236744",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!237099",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!237169",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!237265",
+   "first": "no",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!237520",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!239695",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!239792",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!239842",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!239855",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!239865",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!239982",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!240297",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!240340",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!240658",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!240927",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!241404",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!241522",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!242112",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!242214",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!242564",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!242697",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!243421",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!243572",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!243874",
+   "first": "no",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!244058",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!244312",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!244514",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!244655",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!245523",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!245756",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!245768",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!246466",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!246943",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!247349",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!247417",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!247433",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!247877",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!248168",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!248971",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!249475",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!249570",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!250074",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!250396",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!250454",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!250529",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!250553",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!251217",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!251460",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!251463",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!251834",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!252931",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!253683",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!253896",
+   "first": "no",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!254946",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!255026",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!255075",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!255661",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!255680",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!255696",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!256013",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!256342",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!257025",
+   "first": "no",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!257203",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!257298",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!257330",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!257413",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!257485",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!258909",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!259067",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!259155",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!259686",
+   "first": "no",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!259799",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!259926",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!260001",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!260108",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!260216",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!260580",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!260988",
+   "first": "yes",
+   "final": "yes"
+  },
+  {
+   "mr_id": "product!260995",
+   "first": "no",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!261381",
+   "first": "yes",
+   "final": "no"
+  },
+  {
+   "mr_id": "product!262116",
+   "first": "yes",
+   "final": "no"
+  }
+ ]
+}

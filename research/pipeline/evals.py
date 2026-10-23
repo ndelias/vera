@@ -418,6 +418,78 @@ def cmd_routing(name: str) -> None:
         print(f"{system:<12} asks {asks / len(gold):.0%} | " + " | ".join(cells))
 
 
+def design_sample():
+    """Nahuel's design labels and each labelled change's weight back to the 500."""
+    labels = json.loads((ROOT / "studies" / "06-agents" / "design-labels.json").read_text())["labels"]
+    meta = json.loads((ROOT / "data" / "design100-strata.json").read_text())
+    w = {s: v["population"] / v["sampled"] for s, v in meta["strata"].items()}
+    return {l["mr_id"]: l for l in labels}, {m: w[s] for m, s in meta["stratum_of"].items()}
+
+
+def cmd_route2(visibility: str = "visibility-sonnet-v1", system: str = "router-v2") -> None:
+    """Routing v2 on the labelled 100 (study 06 DESIGN.md): v1 for docs and
+    product; design from the visibility check (high yes: ping; medium or low
+    yes: ask the lead; no: quiet), within the lead budget, weighted to the 500."""
+    conn = connect()
+    labels, weight = design_sample()
+    v1 = {m: json.loads(p) for m, p in conn.execute("SELECT mr_id, prediction FROM ev_predictions WHERE system = 'router-v1' AND task = 'routing'")}
+    vis = {m: json.loads(p) for m, p in conn.execute("SELECT mr_id, prediction FROM ev_predictions WHERE system = ? AND task = 'visibility'", (visibility,))}
+    plans = {}
+    for m in labels:
+        route = [r for r in v1[m]["route"] if r != "design"]
+        ask = [r for r in v1[m]["ask"] if r != "design"]
+        v = vis.get(m) or {"visible": False, "confidence": "low"}
+        if v["visible"] and v["confidence"] == "high":
+            route.append("design")
+        elif v["visible"]:
+            ask.append("design")
+        plans[m] = (route, ask, v["confidence"] if v["visible"] else "high")
+    # The lead budget, weighted: drop design asks on low confidence first, then medium.
+    total = sum(weight.values())
+    asking = lambda: sum(weight[m] for m in plans if plans[m][1]) / total
+    for level in ("low", "medium"):
+        for m in sorted(plans):
+            if asking() <= LEAD_BUDGET:
+                break
+            r, a, c = plans[m]
+            if c == level and "design" in a:
+                plans[m] = (r, [x for x in a if x != "design"], c)
+    conn.execute("DELETE FROM ev_predictions WHERE system = ? AND task = 'routing'", (system,))
+    conn.executemany("INSERT INTO ev_predictions VALUES (?, 'routing', ?, ?)",
+                     [(system, m, json.dumps({"route": r, "ask": a})) for m, (r, a, _) in plans.items()])
+    conn.commit()
+    print(f"{system}: asks the lead on {asking():.0%} of changes (weighted; budget {LEAD_BUDGET:.0%})")
+
+
+def cmd_design() -> None:
+    """Design routing on the labelled 100, weighted to the 500, against
+    Nahuel's final labels and his first answers; and the visibility check's
+    agreement with them."""
+    conn = connect()
+    labels, weight = design_sample()
+    total = sum(weight.values())
+    for which in ("final", "first"):
+        gold = {m: labels[m][which] == "yes" for m in labels}
+        pos = sum(weight[m] for m in gold if gold[m])
+        print(f"\n{which} labels: a designer should see {pos / total:.0%} of changes (weighted)")
+        for system in ("B2", "B1-ask", "router-v1", "router-v2"):
+            preds = {m: json.loads(p) for m, p in conn.execute("SELECT mr_id, prediction FROM ev_predictions WHERE system = ? AND task = 'routing'", (system,)) if m in labels}
+            if len(preds) < len(labels):
+                continue
+            route = {m: set(p["route"] if isinstance(p, dict) else p) for m, p in preds.items()}
+            ask = {m: set(p["ask"]) if isinstance(p, dict) else set() for m, p in preds.items()}
+            caught = sum(weight[m] for m in gold if gold[m] and ("design" in route[m] or "design" in ask[m]))
+            pinged = sum(weight[m] for m in gold if "design" in route[m])
+            needed = sum(weight[m] for m in gold if "design" in route[m] and gold[m])
+            asked = sum(weight[m] for m in gold if "design" in ask[m])
+            print(f"  {system:<10} caught {caught / pos:.0%}  pings needed {needed / pinged if pinged else float('nan'):.0%}  design asks on {asked / total:.0%} of changes")
+        vis = {m: json.loads(p) for m, p in conn.execute("SELECT mr_id, prediction FROM ev_predictions WHERE task = 'visibility'") if m in labels}
+        if vis:
+            agree = sum(weight[m] for m in labels if vis.get(m) and vis[m]["visible"] == gold[m])
+            raw = sum(1 for m in labels if vis.get(m) and vis[m]["visible"] == gold[m])
+            print(f"  visibility check agrees with these labels: {raw} of {len(labels)} changes, {agree / total:.0%} weighted")
+
+
 def cmd_sample(name: str, split: str, n: str, seed: str) -> None:
     """A fixed random sample of MRs with a team label, for the agents (study 06)."""
     conn = connect()
@@ -554,4 +626,4 @@ def cmd_score() -> None:
 
 
 if __name__ == "__main__":
-    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample, "pilot": cmd_pilot, "ownership": cmd_ownership, "route": cmd_route, "routing": cmd_routing}[sys.argv[1]](*sys.argv[2:])
+    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample, "pilot": cmd_pilot, "ownership": cmd_ownership, "route": cmd_route, "routing": cmd_routing, "route2": cmd_route2, "design": cmd_design}[sys.argv[1]](*sys.argv[2:])

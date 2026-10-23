@@ -4,7 +4,8 @@
 //
 //   node packages/agents/src/evals/mapper-batch.ts estimate <sample> <model>   # counts tokens, free
 //   node packages/agents/src/evals/mapper-batch.ts submit   <sample> <model> <system> [v2]
-//   (v2 adds ownership history from research/data/ownership, written by evals.py ownership)
+//   (v2 adds ownership history from research/data/ownership, written by evals.py ownership;
+//    "visibility" / "visibility-v2" run the visibility check instead of the Mapper, stored as task "visibility")
 //   node packages/agents/src/evals/mapper-batch.ts collect  <system>
 //
 // Diffs come from GitLab's public API and are cached under research/data/raw
@@ -17,6 +18,7 @@ import { fileURLToPath } from "node:url";
 import { DatabaseSync } from "node:sqlite";
 import { secret } from "@vera/core";
 import { PRICES, costUsd } from "@vera/core/pricing";
+import { parseVisibility, visibilityRequest } from "../visibility.ts";
 import { mapperRequest, parseMapper, type Change, type ChangedFile, type Directory, type MapperVersion, type Ownership } from "../mapper.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../../../..");
@@ -79,13 +81,16 @@ function ownership(mrId: string): Ownership {
 }
 
 async function requests(name: string, model: string, version = "v1") {
-  if (version !== "v1" && version !== "v2") throw new Error(`unknown Mapper version "${version}"`);
+  if (!["v1", "v2", "visibility", "visibility-v2"].includes(version)) throw new Error(`unknown version "${version}"`);
   const out: { custom_id: string; params: Anthropic.MessageCreateParamsNonStreaming }[] = [];
   for (const row of sample(name)) {
     const change: Change = { title: row.title, files: await files(row.mr_id) };
     if (version === "v2") change.ownership = ownership(row.mr_id);
+    const params = version.startsWith("visibility")
+      ? visibilityRequest(model, change, version === "visibility-v2" ? "v2" : "v1")
+      : mapperRequest(model, directoryFor(row.created_at), change, version as MapperVersion);
     // custom_id allows only letters, digits, _ and -
-    out.push({ custom_id: row.mr_id.replace("!", "-"), params: mapperRequest(model, directoryFor(row.created_at), change, version as MapperVersion) });
+    out.push({ custom_id: row.mr_id.replace("!", "-"), params });
   }
   return out;
 }
@@ -119,14 +124,15 @@ async function submit(name: string, model: string, system: string, version = "v1
 }
 
 async function collect(system: string) {
-  const meta = JSON.parse(readFileSync(join(BATCHES, `${system}.json`), "utf8")) as { id: string; model: string };
+  const meta = JSON.parse(readFileSync(join(BATCHES, `${system}.json`), "utf8")) as { id: string; model: string; version?: string };
+  const visibility = meta.version?.startsWith("visibility") ?? false;
   const c = client();
   const batch = await c.messages.batches.retrieve(meta.id);
   if (batch.processing_status !== "ended") {
     console.log(`${system}: ${batch.processing_status}, ${JSON.stringify(batch.request_counts)}`);
     return;
   }
-  const pred = db.prepare("INSERT OR REPLACE INTO ev_predictions VALUES (?, 'mapping', ?, ?)");
+  const pred = db.prepare(`INSERT OR REPLACE INTO ev_predictions VALUES (?, '${visibility ? "visibility" : "mapping"}', ?, ?)`);
   const cost = db.prepare("INSERT OR REPLACE INTO ev_costs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
   let ok = 0, total = 0;
   for await (const r of await c.messages.batches.results(meta.id)) {
@@ -144,9 +150,9 @@ async function collect(system: string) {
       cacheWriteTokens: u.cache_creation_input_tokens ?? 0,
     }, true);
     total += usd;
-    const out = parseMapper(m);
+    const out = visibility ? parseVisibility(m) : parseMapper(m);
     cost.run(system, mrId, meta.model, u.input_tokens, u.output_tokens, u.cache_read_input_tokens ?? 0, u.cache_creation_input_tokens ?? 0, usd, out ? "ok" : "invalid");
-    pred.run(system, mrId, JSON.stringify(out ? out.teams.map((t) => t.team) : []));
+    pred.run(system, mrId, JSON.stringify(visibility ? out : out && "teams" in out ? out.teams.map((t) => t.team) : []));
     if (out) ok++;
     // The full answer (reasons, confidence) is kept for reading, not scored.
     mkdirSync(join(BATCHES, system), { recursive: true });

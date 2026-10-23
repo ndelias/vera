@@ -142,3 +142,50 @@ reviewed" (GitLab requires a writer on docs changes).
 - **Cross-check, free:** how often GitLab's `UX` label agrees with him.
 - **Scored:** caught and needed for design, for the hand rules, the path
   lookup with asking, and routing v1.
+
+## Nahuel's design labels (23 Oct 2026)
+
+100 changes from the 500, drawn as planned (seed 20261024). Each card
+showed what the change is, what a person would notice, and a case for yes
+and for no. Claude's lean appeared after each answer. **Nahuel labelled 100
+changes, then read Claude's reasoning on each and revised 43 where it
+changed his mind. The revised labels are used (his call).** First answers:
+63 yes; final: 38 yes. The final labels match Claude's lean on 99 of 100,
+so any Claude-based system scored against them is partly scored against
+Claude: results here are reported as agreement with Nahuel's reviewed
+calls, and scores against his first answers are reported beside them.
+
+Routing on design, weighted to the 500, against the final labels: hand
+rules catch 100% with 44% of pings needed; path lookup with asking 48% and
+47%; routing v1 67% and 50%. Against the first answers: 52%/72%, 24%/72%,
+36%/64%. Neither file rules nor team ownership say whether a change
+alters what people see.
+
+## The visibility check (written before it runs)
+
+A new agent reads a change (title, paths, diff, as the Mapper does) and
+answers one question: **does this change what people using the product
+see or do?** Yes or no, a confidence (high, medium, low), and one line
+naming what changes. Sonnet 5.5, like the Mapper; no tuning, since no
+labels exist on train changes; it runs once on the 100 labelled changes.
+
+**Routing v2** keeps v1 for docs and product. For design: ping when the
+visibility check says yes with high confidence; ask the lead when it says
+yes with medium or low confidence; stay quiet when it says no. The lead
+budget (1 change in 6) applies as before. Scored on the 100, weighted to
+the 500, against the final and the first labels.
+
+## Visibility check v1 (23 Oct 2026) and the plan for v2
+
+v1 on the 100 labelled changes ($0.71): it flagged all 38 changes Nahuel
+said a designer should see, and 31 he said no to. Those 31 are changes a
+user would notice that aren't design work (bug fixes that restore intended
+behaviour, permission changes, a Slack message's timing). v1 asked "does a
+user notice anything?"; Nahuel answered "does this need a designer?".
+Routing v2 with it, weighted to the 500, final labels: caught 92%, 39% of
+pings needed (hand rules 100%, 44%; routing v1 67%, 50%).
+
+**v2 (Nahuel's call: split the 100).** The 100 are split at random (seed
+20261025) into 50 to tune on and 50 held out. The question is rewritten
+on the tuning half only; v1 and v2 are then scored once on the held-out
+half. The held-out score rests on 50 changes, so its interval is wide.
