@@ -65,3 +65,36 @@ Nahuel approves it.
   costs users, who bring their own key.
 - Adding `@anthropic-ai/sdk`, the official SDK (a dependency, so it needs
   Nahuel's OK).
+
+## Pilot results (23 Oct 2026) and the model
+
+50 train changes (seed 20261028); 39 had the right team in that month's
+directory. Right team in the top 3: path lookup without the change itself
+62% (67% when listed); Haiku 5.5 64% (82%); Sonnet 5.5 66% (85%); Opus 5.5
+68% (87%). Right team first: 50%, 32%, 56%, 54%. Cost per change at batch
+prices: Haiku $0.0005, Sonnet $0.0082, Opus $0.019; the pilot cost $1.38.
+The models are within noise of each other on the top 3; Sonnet and Opus
+put the right team first far more often than Haiku, which means fewer
+questions to leads.
+
+**Decided (Nahuel): Sonnet 5.5 runs the Mapper.** Its prompt is v1, as
+in the pilot. It's scored once on the test sample before any tuning.
+
+## Mapper v1 on test (23 Oct 2026)
+
+500 test changes (seed 20261023), scored once. Right team in the top 3:
+**62%** (95% interval 57–66%), against the path lookup's 43% on the same
+changes; **77%** (73–81%) on the 399 whose team was in that month's
+directory. The other 101 can't be answered by any system. When v1 rated
+its first guess high, it was right 60% of the time (medium 34%, low 11%).
+Cost $3.81 ($0.0076 a change).
+
+## Mapper v2: ownership history (Nahuel's call)
+
+Adds the ownership skill: for each change, the path lookup's share of past
+changes per team for the folders it touches, learned from train only (a
+train change is left out of its own history). The instructions also say
+when "high" is earned. v1's instructions are kept unchanged beside it.
+On the 50 pilot changes: top 3 68% (v1 66%), first guess 58% (56%), and
+a "high" first guess right 25 of 33 times (v1 21 of 31). Scored once on
+the same 500 test changes.

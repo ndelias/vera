@@ -40,6 +40,12 @@ CHECK_PATH = ROOT / "data" / "fixup-check.json"  # has titles: stays out of git
 VERDICTS_PATH = ROOT / "studies" / "05-evals" / "fixup-verdicts.json"  # ids and verdicts only
 
 
+def norm(team: str) -> str:
+    """A team name as labels and the directory both write it: case, spacing,
+    and the [DEPRECATED] tag GitLab adds to renamed teams' labels don't count."""
+    return re.sub(r"[\s_\-]+", " ", re.sub(r"\[deprecated\]", "", team.lower())).strip()
+
+
 def label(labels: str, prefix: str) -> str | None:
     found = [l[len(prefix):] for l in (labels or "").split(",") if l.startswith(prefix)]
     return found[0] if len(found) == 1 else None
@@ -139,8 +145,9 @@ def mr_files(conn) -> dict[str, list[tuple[str, int, int]]]:
     return out
 
 
-def cmd_baselines() -> None:
-    conn = connect()
+def path_lookup(conn):
+    """B1, learned from train: (b1, majority, mrs, train). b1(mr, leave_out)
+    gives the ranked teams, each role's share, and each team's share of the vote."""
     mrs = conn.execute("SELECT mr_id, split, grp, design, product, docs FROM ev_mrs").fetchall()
     gold = {m[0]: m for m in mrs}
     files = mr_files(conn)
@@ -171,7 +178,17 @@ def cmd_baselines() -> None:
                 weight += w
                 break
         ranked = [g for g, _ in groups.most_common()] or [majority]
-        return ranked, {r: roles[r] / weight if weight else 0.0 for r in ROLES}
+        total = sum(groups.values())
+        shares = {g: v / total for g, v in groups.most_common()} if total else {}
+        return ranked, {r: roles[r] / weight if weight else 0.0 for r in ROLES}, shares
+
+    return b1, majority, mrs, train
+
+
+def cmd_baselines() -> None:
+    conn = connect()
+    b1, majority, mrs, train = path_lookup(conn)
+    files = mr_files(conn)
 
     # Routing thresholds: best F1 on train, each train MR scored without itself.
     train_scores = {m[0]: b1(m[0], m[0])[1] for m in train}
@@ -214,7 +231,7 @@ def cmd_baselines() -> None:
 
     preds = []
     for m in mrs:
-        ranked, roles = b1(m[0], None)
+        ranked, roles, _ = b1(m[0], None)
         preds += [
             ("B0", "mapping", m[0], json.dumps([majority])),
             ("B0", "routing", m[0], json.dumps([])),
@@ -223,7 +240,9 @@ def cmd_baselines() -> None:
             ("B1-ask", "routing", m[0], json.dumps({"route": [r for r in ROLES if roles[r] >= threshold[r]], "ask": asks(roles, factor)})),
             ("B2", "routing", m[0], json.dumps(b2(m[0]))),
         ]
-    conn.execute("DELETE FROM ev_predictions WHERE system IN ('B0', 'B1', 'B1-ask', 'B2')")
+        if m[1] == "train":  # for comparisons on train samples: the lookup without the change itself
+            preds.append(("B1-loo", "mapping", m[0], json.dumps(b1(m[0], m[0])[0][:3])))
+    conn.execute("DELETE FROM ev_predictions WHERE system IN ('B0', 'B1', 'B1-ask', 'B1-loo', 'B2')")
     conn.executemany("INSERT INTO ev_predictions VALUES (?, ?, ?, ?)", preds)
     conn.commit()
     print(f"{len(preds)} predictions written")
@@ -304,6 +323,23 @@ def cmd_check(version: str = "v1") -> None:
     print(f"{len(sheet)} MRs to judge in {path}")
 
 
+def cmd_ownership(name: str) -> None:
+    """The Mapper's ownership evidence (study 06, v2): for each change in a
+    sample, the path lookup's share of past changes per team, learned from
+    train only; a train change is left out of its own history."""
+    conn = connect()
+    b1, _, mrs, _ = path_lookup(conn)
+    split = {m[0]: m[1] for m in mrs}
+    out = ROOT / "data" / "ownership"
+    out.mkdir(parents=True, exist_ok=True)
+    ids = [r[0] for r in conn.execute("SELECT mr_id FROM ev_samples WHERE name = ?", (name,))]
+    for mr_id in ids:
+        _, _, shares = b1(mr_id, mr_id if split[mr_id] == "train" else None)
+        top = [{"team": g, "share": round(v, 2)} for g, v in list(shares.items())[:5] if v >= 0.05]
+        (out / f"{mr_id.replace('!', '-')}.json").write_text(json.dumps({"teams": top}))
+    print(f"ownership evidence for {len(ids)} changes in {name}")
+
+
 def cmd_sample(name: str, split: str, n: str, seed: str) -> None:
     """A fixed random sample of MRs with a team label, for the agents (study 06)."""
     conn = connect()
@@ -313,6 +349,31 @@ def cmd_sample(name: str, split: str, n: str, seed: str) -> None:
     conn.executemany("INSERT INTO ev_samples VALUES (?, ?)", [(name, m) for m in picked])
     conn.commit()
     print(f"sample {name}: {len(picked)} {split} MRs (seed {seed})")
+
+
+def cmd_pilot(name: str) -> None:
+    """Mapping on a sample, for every system with predictions on it: accuracy,
+    whether the right team was in that month's directory at all, and cost."""
+    import glob
+    conn = connect()
+    directory = {p[-12:-5]: {norm(t["name"]) for t in json.load(open(p))["teams"]} | {norm(t["key"]) for t in json.load(open(p))["teams"]}
+                 for p in glob.glob(str(ROOT / "data" / "directory" / "*.json"))}
+    gold = {m: (g, datetime.fromtimestamp(c, timezone.utc).strftime("%Y-%m")) for m, g, c in conn.execute(
+        "SELECT s.mr_id, e.grp, m.created_at FROM ev_samples s JOIN ev_mrs e ON e.mr_id = s.mr_id JOIN gl_mrs m ON m.id = s.mr_id WHERE s.name = ?", (name,))}
+    answerable = {m for m, (g, ym) in gold.items() if norm(g) in directory.get(ym, set())}
+    systems = [r[0] for r in conn.execute(
+        f"SELECT DISTINCT system FROM ev_predictions WHERE task = 'mapping' AND mr_id IN ({','.join('?' * len(gold))})", list(gold))]
+    print(f"{name}: {len(gold)} changes, {len(answerable)} with the right team in that month's directory")
+    for system in sorted(systems):
+        preds = {m: json.loads(p) for m, p in conn.execute("SELECT mr_id, prediction FROM ev_predictions WHERE system = ? AND task = 'mapping'", (system,)) if m in gold}
+        hit = lambda m, k: norm(gold[m][0]) in [norm(x) for x in preds.get(m, [])[:k]]
+        n, na = len(gold), len(answerable)
+        cost = conn.execute("SELECT COUNT(*), SUM(status = 'ok'), SUM(cost_usd), AVG(input_tokens), AVG(output_tokens), AVG(cache_read) FROM ev_costs WHERE system = ?", (system,)).fetchone()
+        line = (f"{system:<22} top1 {sum(hit(m, 1) for m in gold) / n:.0%}  top3 {sum(hit(m, 3) for m in gold) / n:.0%}"
+                f"  | answerable top3 {sum(hit(m, 3) for m in answerable) / na:.0%}")
+        if cost[0]:
+            line += f"  | valid {cost[1]}/{cost[0]}  ${cost[2] or 0:.3f} total, ${(cost[2] or 0) / cost[0]:.4f}/change, in {cost[3]:.0f} out {cost[4]:.0f} cached {cost[5]:.0f}"
+        print(line)
 
 
 # ---------- scoring ----------
@@ -367,7 +428,8 @@ def cmd_score() -> None:
             for subset, keep in (("group", lambda g: True), ("group_seen", lambda g: g in train_groups)):
                 scored = [(test[m][1], p) for m, p in by_mr.items() if test[m][1] and keep(test[m][1])]
                 n = len(scored)
-                for metric, k in (("top1", sum(p[:1] == [g] for g, p in scored)), ("recall@3", sum(g in p[:3] for g, p in scored))):
+                hit = lambda g, p, k: norm(g) in [norm(x) for x in p[:k]]
+                for metric, k in (("top1", sum(hit(g, p, 1) for g, p in scored)), ("recall@3", sum(hit(g, p, 3) for g, p in scored))):
                     rows.append((system, task, metric, subset, k / n, *wilson(k, n), n))
         elif task == "routing":
             # A plain list is "route to these"; {"route", "ask"} adds asking the lead.
@@ -414,4 +476,4 @@ def cmd_score() -> None:
 
 
 if __name__ == "__main__":
-    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample}[sys.argv[1]](*sys.argv[2:])
+    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample, "pilot": cmd_pilot, "ownership": cmd_ownership}[sys.argv[1]](*sys.argv[2:])
