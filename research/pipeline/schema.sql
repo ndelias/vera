@@ -260,3 +260,32 @@ CREATE TABLE IF NOT EXISTS ev_costs (
   status        TEXT NOT NULL,     -- ok | invalid | errored | expired
   PRIMARY KEY (system, mr_id)
 );
+
+-- Study 07: coding agents' pull requests on public GitHub (studies/07-agent-backlog/DESIGN.md).
+-- No titles, bodies or authors beyond the agent account.
+CREATE TABLE IF NOT EXISTS ag_prs (
+  id          TEXT PRIMARY KEY,     -- owner/repo#number
+  agent       TEXT NOT NULL,
+  repo        TEXT NOT NULL,
+  created_at  INTEGER NOT NULL,
+  state       TEXT NOT NULL,        -- merged | closed | open
+  closed_at   INTEGER,
+  updated_at  INTEGER
+);
+CREATE TABLE IF NOT EXISTS ag_days_done (
+  agent TEXT NOT NULL, day TEXT NOT NULL, PRIMARY KEY (agent, day)
+);
+CREATE TABLE IF NOT EXISTS ag_repos (
+  repo TEXT PRIMARY KEY, stars INTEGER, pushed_at INTEGER, archived INTEGER, private INTEGER
+);
+CREATE TABLE IF NOT EXISTS ag_open_counts (
+  agent TEXT NOT NULL, repo TEXT NOT NULL,
+  open_over_30d INTEGER NOT NULL,   -- this agent's PRs open, created more than 30 days ago
+  PRIMARY KEY (agent, repo)
+);
+CREATE TABLE IF NOT EXISTS ag_mergeable (
+  id TEXT PRIMARY KEY REFERENCES ag_prs(id),
+  mergeable INTEGER,                -- 1, 0, or NULL when GitHub didn't say
+  mergeable_state TEXT,
+  base_ahead INTEGER                -- commits on the base branch not in the PR
+);

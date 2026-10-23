@@ -1,0 +1,135 @@
+{
+ "sampled_prs": 2000,
+ "repos": 1319,
+ "active_repos": 145,
+ "per_agent": {
+  "claude[bot]": {
+   "all": {
+    "n": 400,
+    "merged": 0.782,
+    "closed": 0.145,
+    "open": 0.072
+   },
+   "active": {
+    "n": 122,
+    "merged": 0.836,
+    "closed": 0.148,
+    "open": 0.016
+   }
+  },
+  "copilot-swe-agent[bot]": {
+   "all": {
+    "n": 400,
+    "merged": 0.74,
+    "closed": 0.152,
+    "open": 0.107
+   },
+   "active": {
+    "n": 58,
+    "merged": 0.638,
+    "closed": 0.328,
+    "open": 0.034
+   }
+  },
+  "cursor[bot]": {
+   "all": {
+    "n": 400,
+    "merged": 0.23,
+    "closed": 0.21,
+    "open": 0.56
+   },
+   "active": {
+    "n": 40,
+    "merged": 0.425,
+    "closed": 0.45,
+    "open": 0.125
+   }
+  },
+  "devin-ai-integration[bot]": {
+   "all": {
+    "n": 400,
+    "merged": 0.605,
+    "closed": 0.092,
+    "open": 0.302
+   },
+   "active": {
+    "n": 36,
+    "merged": 0.5,
+    "closed": 0.389,
+    "open": 0.111
+   }
+  },
+  "google-labs-jules[bot]": {
+   "all": {
+    "n": 400,
+    "merged": 0.455,
+    "closed": 0.295,
+    "open": 0.25
+   },
+   "active": {
+    "n": 15,
+    "merged": 0.6,
+    "closed": 0.2,
+    "open": 0.2
+   }
+  }
+ },
+ "D1": {
+  "all": {
+   "open": 517,
+   "n": 2000,
+   "share": 0.259,
+   "ci95": [
+    0.24,
+    0.278
+   ]
+  },
+  "active": {
+   "open": 16,
+   "n": 271,
+   "share": 0.059,
+   "ci95": [
+    0.037,
+    0.094
+   ]
+  },
+  "verdict": "disproved"
+ },
+ "D2": {
+  "repos_all": 143,
+  "repos_active": 4,
+  "largest_active": [
+   611,
+   307,
+   44,
+   34,
+   17
+  ],
+  "verdict": "disproved"
+ },
+ "D3": {
+  "all": {
+   "conflicts": 71,
+   "known": 300,
+   "unknown": 0,
+   "share": 0.237,
+   "ci95": [
+    0.192,
+    0.288
+   ],
+   "median_base_commits_ahead": 0
+  },
+  "active": {
+   "conflicts": 6,
+   "known": 9,
+   "unknown": 0,
+   "share": 0.667,
+   "ci95": [
+    0.354,
+    0.879
+   ],
+   "median_base_commits_ahead": 68
+  },
+  "verdict": "supported"
+ }
+}
