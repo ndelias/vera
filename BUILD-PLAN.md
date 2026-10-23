@@ -153,7 +153,9 @@ reliably from public history, say so and use review comments per line
 instead. *Done when:* baseline scores are on the panel's Evals page.
 *Done 2026-10-22* (`research/findings/09-evals.md`, /evals). The fix-up
 label failed its check (16% real), so the fallback is review comments per
-100 lines; a stricter label (v2, in the study design) is tried before M2.
+100 lines. A stricter label (a later MR links or reverts it) failed too
+(12% real), so M2 adds a step: a model judges linked pairs, used only if
+it matches Nahuel's verdicts on 50 pairs.
 
 **M2: The agents, from the CLI.** `vera review <PR URL>` runs the coordinator
 and the four agents on any public GitHub PR and writes a trace. Evals: the

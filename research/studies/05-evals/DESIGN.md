@@ -172,3 +172,13 @@ exist in train.** 405 of the 2,606 test MRs with a group (16%) belong to
 one of 49 groups that never appear in train; GitLab reorganized during the
 year (most are new AI groups). Mapping is also reported on the test MRs
 whose group exists in train. The headline stays the full test set.
+
+**22 Oct 2026: label v2 failed its check too.** Of 50 labelled positives,
+6 were real fix-ups or reverts (12%; the bar was 80%). Links between MRs
+at GitLab mostly mean follow-up work (34), stacked, sibling or batched
+changes (9), or backports (3). Verdicts: `fixup-verdicts-v2.json`.
+Negatives weren't judged. With two pre-written labels failed, fix-ups
+can't be labelled reliably from public history with simple rules, and
+M1 keeps review comments per 100 lines (Nahuel's call). Kept for M2: a
+model reads each linked pair and judges whether it's a real fix, used
+only if it agrees with Nahuel's verdicts on 50 pairs at the same bars.
