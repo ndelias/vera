@@ -222,3 +222,9 @@ pairs he calls real fix-ups, and rejects ≥ 90% of those he doesn't.
 - **The judge** reads both changes' titles and descriptions and the later
   change's diff. Haiku 5.5 and Sonnet 5.5 both run on the 50 (about $0.60
   together); if one passes, the cheaper passing model labels the rest.
+
+**24 Oct 2026, before any verdict (Nahuel's request): plain descriptions
+on the cards.** Each change now has one or two plain sentences saying
+what it does on its own, written by Claude from its title and description.
+They never say how the two changes relate, which is the judgment being
+made; no answer from Claude appears anywhere on the sheet.
