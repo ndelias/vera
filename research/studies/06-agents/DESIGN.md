@@ -201,3 +201,24 @@ answers v2 agrees on 28 of 50 (v1 36): v2 learned the line he settled on
 after reading Claude's reasoning, which Claude's lean matched 99 of 100,
 so this is agreement with his reviewed calls, not independent proof.
 Spend so far in M2: about $11.20 of $20.
+
+## The fix-up judge (written before it runs or Nahuel labels anything)
+
+The plan from study 05: a model reads a merged change and a later change
+that links it within 7 days, and says whether the later one fixes or
+reverts something the first got wrong. Used to label fix-ups only if it
+agrees with Nahuel on 50 pairs at the study 05 bars: it finds ≥ 80% of the
+pairs he calls real fix-ups, and rejects ≥ 90% of those he doesn't.
+
+- **Pairs (seed 20261026):** from the 675 linked pairs not in study 05's
+  check: 25 of the 81 whose later title says fix or revert, 25 of the
+  other 594. Agreement is reported per stratum and weighted to all 675.
+- **Nahuel's verdicts come first and stay his.** Each card shows both
+  changes' titles, the exact sentence where the later change mentions the
+  earlier one, and links to both. No summary and no answer from Claude,
+  before or after. The question: "Does the second change fix or undo
+  something the first one got wrong?" Yes, no or unsure; unsure is left
+  out and counted.
+- **The judge** reads both changes' titles and descriptions and the later
+  change's diff. Haiku 5.5 and Sonnet 5.5 both run on the 50 (about $0.60
+  together); if one passes, the cheaper passing model labels the rest.
