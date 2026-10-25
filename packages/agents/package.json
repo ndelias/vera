@@ -5,7 +5,8 @@
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
-    "./mapper": "./src/mapper.ts"
+    "./mapper": "./src/mapper.ts",
+    "./visibility": "./src/visibility.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.132.0",

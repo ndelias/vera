@@ -15,6 +15,25 @@ Status: research done (`research/findings/08-decision.md`). Building next.
 - `apps/panel/`: Vera's website (product, the case, the evidence), a static Next.js export built from a research snapshot
 - `packages/core/`: Vera's core. So far: the trace format, cost per call, redaction, secrets
 
+## Try it: `vera review`
+
+Reviews one GitHub pull request: which areas it touches, whether it makes a
+design decision, and who should be asked. Runs on your own Anthropic API key
+(about 1–2 cents a review); nothing is sent anywhere else.
+
+```bash
+npm install
+echo "ANTHROPIC_API_KEY=sk-ant-..." >> .env     # your key; .env is gitignored
+npm run vera -- review https://github.com/owner/repo/pull/123
+```
+
+It reads who owns what from the repo's `.vera.yml`, or its `CODEOWNERS`
+when there's no `.vera.yml`. To try a `.vera.yml` before committing one:
+`--config path/to/vera.yml` (see [`examples/vera.yml`](examples/vera.yml)).
+Without either, it names the areas but no people. Set `GITHUB_TOKEN` to go
+past GitHub's 60 requests an hour. Each run writes a trace (every step,
+model call, cost and time) to `.vera/runs/`.
+
 ## Running it
 
 ```bash

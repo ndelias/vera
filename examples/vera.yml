@@ -1,0 +1,22 @@
+# .vera.yml: who owns what, and who reviews it. Put it at the root of your repo.
+# Vera reads it from the branch a pull request merges into.
+
+# Asked when Vera isn't sure who should review (and when an area has no lead).
+lead: "@lena"
+
+areas:
+  - name: Checkout
+    description: Cart, payment and order confirmation
+    paths: ["src/checkout/", "app/views/cart/**"]
+  - name: Search
+    description: Search box, filters and results
+    paths: ["src/search/"]
+    lead: "@sam"            # asked instead of the global lead for this area
+
+# Roles: engineer, design, product, docs, security, lead.
+# People are asked only about the areas they list.
+people:
+  - { handle: "@ana", role: engineer, areas: [Checkout] }
+  - { handle: "@raj", role: engineer, areas: [Search] }
+  - { handle: "@dev", role: design, areas: [Checkout, Search] }
+  - { handle: "@wes", role: docs, areas: [Checkout, Search] }

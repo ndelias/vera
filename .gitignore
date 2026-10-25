@@ -14,3 +14,5 @@ research/data/.salt
 apps/panel/data/site.sqlite
 .vercel
 captures/
+.vera/
+research/data/runs/
