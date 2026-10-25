@@ -288,3 +288,6 @@ where that's objective, and his product judgment where it isn't.
   the other two; bar ≥ 80% agreement. These answers are synthetic, and
   the write-up says so.
 - **Budget:** about $2 at batch prices; each run's estimate is shown first.
+
+**25 Oct 2026, before any data: mastodon/mastodon has no CODEOWNERS file,
+so getsentry/sentry (which has one) takes its place.**
