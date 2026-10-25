@@ -1,0 +1,216 @@
+{
+ "question": "Does the second change fix or undo something the first one got wrong?",
+ "by": "Nahuel",
+ "judged": "2026-10-24",
+ "note": "Locked before any judge result or Claude opinion was shown. after_discussion: changed with Nahuel after scoring (24 Oct 2026); answer stays the locked verdict.",
+ "verdicts": [
+  {
+   "pair": "product!211945__product!212775",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!214493__product!215536",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!216560__product!217099",
+   "answer": "no"
+  },
+  {
+   "pair": "product!217313__product!219752",
+   "answer": "no"
+  },
+  {
+   "pair": "product!218688__product!219610",
+   "answer": "yes",
+   "after_discussion": "no",
+   "why": "The second change copies the first to an older release; the sheet's guidance lists backports as no."
+  },
+  {
+   "pair": "product!218978__product!219758",
+   "answer": "yes",
+   "after_discussion": "no",
+   "why": "The second change copies the first to an older release; the sheet's guidance lists backports as no."
+  },
+  {
+   "pair": "product!219686__product!219768",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!220310__product!226775",
+   "answer": "no"
+  },
+  {
+   "pair": "product!223286__product!223372",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!223966__product!225544",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!226732__product!227294",
+   "answer": "no"
+  },
+  {
+   "pair": "product!228505__product!228544",
+   "answer": "no"
+  },
+  {
+   "pair": "product!228662__product!229448",
+   "answer": "no"
+  },
+  {
+   "pair": "product!228876__product!230595",
+   "answer": "no"
+  },
+  {
+   "pair": "product!229529__product!229763",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!231251__product!231844",
+   "answer": "yes",
+   "after_discussion": "no",
+   "why": "The second change copies the first to an older release; the sheet's guidance lists backports as no."
+  },
+  {
+   "pair": "product!234729__product!235340",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!235312__product!235878",
+   "answer": "no"
+  },
+  {
+   "pair": "product!235758__product!236536",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!235850__product!235881",
+   "answer": "no"
+  },
+  {
+   "pair": "product!235888__product!235969",
+   "answer": "no"
+  },
+  {
+   "pair": "product!237592__product!238396",
+   "answer": "no"
+  },
+  {
+   "pair": "product!238106__product!241011",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!239127__product!240135",
+   "answer": "no"
+  },
+  {
+   "pair": "product!241011__product!241013",
+   "answer": "no"
+  },
+  {
+   "pair": "product!244250__product!246330",
+   "answer": "no"
+  },
+  {
+   "pair": "product!246399__product!252609",
+   "answer": "no"
+  },
+  {
+   "pair": "product!246413__product!248309",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!247134__product!251344",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!247163__product!248669",
+   "answer": "no"
+  },
+  {
+   "pair": "product!248409__product!248537",
+   "answer": "no"
+  },
+  {
+   "pair": "product!249051__product!249052",
+   "answer": "no"
+  },
+  {
+   "pair": "product!249462__product!249488",
+   "answer": "no"
+  },
+  {
+   "pair": "product!249546__product!250253",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!249914__product!250200",
+   "answer": "no"
+  },
+  {
+   "pair": "product!250074__product!250140",
+   "answer": "no"
+  },
+  {
+   "pair": "product!250085__product!251211",
+   "answer": "yes",
+   "after_discussion": "no",
+   "why": "The second change copies the first to an older release; the sheet's guidance lists backports as no."
+  },
+  {
+   "pair": "product!250756__product!251044",
+   "answer": "no"
+  },
+  {
+   "pair": "product!250814__product!253701",
+   "answer": "no"
+  },
+  {
+   "pair": "product!251038__product!253516",
+   "answer": "no"
+  },
+  {
+   "pair": "product!251847__product!252125",
+   "answer": "no"
+  },
+  {
+   "pair": "product!252244__product!252268",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!252575__product!252917",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!252774__product!253134",
+   "answer": "no"
+  },
+  {
+   "pair": "product!253264__product!253382",
+   "answer": "no"
+  },
+  {
+   "pair": "product!253516__product!254082",
+   "answer": "yes"
+  },
+  {
+   "pair": "product!255361__product!255776",
+   "answer": "no"
+  },
+  {
+   "pair": "product!256011__product!256374",
+   "answer": "no"
+  },
+  {
+   "pair": "product!257948__product!258407",
+   "answer": "no"
+  },
+  {
+   "pair": "product!258897__product!259181",
+   "answer": "no"
+  }
+ ]
+}

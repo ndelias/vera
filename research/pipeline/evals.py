@@ -497,7 +497,7 @@ def cmd_agents() -> None:
     held-out changes, and cost per change."""
     import glob
     conn = connect()
-    conn.execute("DELETE FROM ev_scores WHERE task IN ('agent_mapping', 'agent_design', 'agent_visibility', 'agent_cost')")
+    conn.execute("DELETE FROM ev_scores WHERE task IN ('agent_mapping', 'agent_design', 'agent_visibility', 'agent_judge', 'agent_cost')")
     rows = []
     # Mapping, test500: B1 and the Mapper versions on the same changes.
     directory = {p[-12:-5]: {norm(t["name"]) for t in json.load(open(p))["teams"]} | {norm(t["key"]) for t in json.load(open(p))["teams"]}
@@ -534,6 +534,16 @@ def cmd_agents() -> None:
         rows.append((system, "agent_visibility", "agree", "holdout", agree / len(hold), *wilson(agree, len(hold)), len(hold)))
         rows.append((system, "agent_visibility", "caught", "holdout", caught / len(yes), *wilson(caught, len(yes)), len(yes)))
         rows.append((system, "agent_visibility", "extra", "holdout", extra, None, None, len(hold)))
+    # The fix-up judge against Nahuel's locked verdicts on 50 linked pairs.
+    verdicts = {v["pair"]: v["answer"] == "yes" for v in json.loads((ROOT / "studies" / "06-agents" / "fixup-judge-verdicts.json").read_text())["verdicts"]}
+    for system in ("judge-haiku-v1", "judge-sonnet-v1"):
+        pred = {json.loads(p)["pair"]: json.loads(p) for p, in conn.execute("SELECT prediction FROM ev_predictions WHERE system = ? AND task = 'fixup_judge'", (system,))}
+        yes = [k for k in verdicts if verdicts[k]]
+        no = [k for k in verdicts if not verdicts[k]]
+        found = sum(1 for k in yes if pred.get(k, {}).get("fixes") is True)
+        rejected = sum(1 for k in no if pred.get(k, {}).get("fixes") is False)
+        rows.append((system, "agent_judge", "found", "verdicts", found / len(yes), *wilson(found, len(yes)), len(yes)))
+        rows.append((system, "agent_judge", "rejected", "verdicts", rejected / len(no), *wilson(rejected, len(no)), len(no)))
     # Cost per change at batch prices.
     for system, per, n in conn.execute("SELECT system, AVG(cost_usd), COUNT(*) FROM ev_costs WHERE status = 'ok' GROUP BY system"):
         rows.append((system, "agent_cost", "usd_per_change", "batch", per, None, None, n))

@@ -76,15 +76,16 @@ async function collect(system: string) {
   for await (const r of await c.messages.batches.results(meta.id)) {
     const pair = r.custom_id.replace(/^product-/, "product!").replace("__product-", "__product!");
     if (r.result.type !== "succeeded") {
-      cost.run(system, pair, meta.model, null, null, null, null, null, r.result.type);
+      cost.run(system, pair.split("__")[0]!, meta.model, null, null, null, null, null, r.result.type);
       continue;
     }
     const m = r.result.message, u = m.usage;
     const usd = costUsd(meta.model, { inputTokens: u.input_tokens, outputTokens: u.output_tokens, cacheReadTokens: u.cache_read_input_tokens ?? 0, cacheWriteTokens: u.cache_creation_input_tokens ?? 0 }, true);
     total += usd;
     const v = parseVerdict(m);
-    cost.run(system, pair, meta.model, u.input_tokens, u.output_tokens, u.cache_read_input_tokens ?? 0, u.cache_creation_input_tokens ?? 0, usd, v ? "ok" : "invalid");
-    pred.run(system, pair, JSON.stringify(v));
+    cost.run(system, pair.split("__")[0]!, meta.model, u.input_tokens, u.output_tokens, u.cache_read_input_tokens ?? 0, u.cache_creation_input_tokens ?? 0, usd, v ? "ok" : "invalid");
+    // Keyed by the first change (each is in one pair only); the pair travels in the prediction.
+    pred.run(system, pair.split("__")[0]!, JSON.stringify(v ? { pair, ...v } : { pair }));
   }
   console.log(`${system}: done, $${total.toFixed(3)}`);
 }

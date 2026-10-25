@@ -228,3 +228,19 @@ on the cards.** Each change now has one or two plain sentences saying
 what it does on its own, written by Claude from its title and description.
 They never say how the two changes relate, which is the judgment being
 made; no answer from Claude appears anywhere on the sheet.
+
+## Fix-up judge results (24 Oct 2026)
+
+Nahuel judged all 50 pairs (19 fix-ups, 31 not; no unsure) and the
+verdicts were locked before any judge result or Claude opinion was shown
+(`fixup-judge-verdicts.json`). Haiku 5.5 found 10 of his 19 fix-ups and
+rejected 21 of 31 others; **Sonnet 5.5 found 11 of 19 (58%) and rejected
+23 of 31 (74%)**. The bars were 80% and 90%: **neither passes**, so the
+judge isn't used and review comments per 100 lines stay the measure.
+Cost $0.45.
+
+After scoring, in discussion: 4 of the pairs he marked yes are backports
+(the second change copies the first to an older release), which the
+sheet's guidance listed as no. He recorded them as no after discussion;
+his locked verdicts stand. Counting them as no, Sonnet still fails (11 of
+15 found, 23 of 35 rejected).
