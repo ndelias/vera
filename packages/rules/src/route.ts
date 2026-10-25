@@ -43,17 +43,18 @@ export function route(o: Ownership, paths: string[], areas: AreaGuess[], design:
   // Engineering: the owners of each area Vera is sure about; otherwise the lead.
   for (const a of sure) {
     const owners = inArea(o, a.area, "engineer");
-    for (const p of owners) add({ who: p.handle, role: "engineer", action: "ask", why: `owns ${a.area}: ${a.reason}` });
+    for (const p of owners) add({ who: p.handle, role: "engineer", action: "ask", why: `owns ${a.area}` });
     if (!owners.length) askLead("engineer", `No engineer declared for ${a.area}`, a.area);
   }
   if (!sure.length && o.source !== "none") {
-    const why = top ? `Not sure which area this is (best guess ${top.area}, ${top.confidence})` : "No declared area matches";
+    const declared = top && o.areas.some((x) => x.name === top.area);
+    const why = !top ? "No declared area matches" : declared ? `Not sure which area this is (best guess ${top.area}, ${top.confidence})` : `No declared area fits (it looks like ${top.area})`;
     if (leadOf(o, top?.area)) askLead("engineer", why, top?.area);
     else {
       // No lead to ask: show the owners of the top candidates, marked as unsure.
       const candidates = areas.filter((a) => a.confidence !== "low" && o.areas.some((x) => x.name === a.area)).slice(0, 2);
       for (const a of candidates) {
-        for (const p of inArea(o, a.area, "engineer")) add({ who: p.handle, role: "engineer", action: "suggest", why: `possibly ${a.area} (${a.confidence}): ${a.reason}` });
+        for (const p of inArea(o, a.area, "engineer")) add({ who: p.handle, role: "engineer", action: "suggest", why: `possibly ${a.area} (${a.confidence})` });
       }
       notes.push(candidates.length ? `${why}. No lead is declared, so the possible owners above are a starting point, not a sure answer.` : `${why}. No lead is declared to ask.`);
     }
@@ -64,9 +65,9 @@ export function route(o: Ownership, paths: string[], areas: AreaGuess[], design:
     const area = sure[0]?.area ?? top?.area;
     const designers = area ? inArea(o, area, "design") : [];
     if (design.confidence === "high" && designers.length) {
-      for (const p of designers) add({ who: p.handle, role: "design", action: "ask", why: design.what });
+      for (const p of designers) add({ who: p.handle, role: "design", action: "ask", why: `design decision (${design.confidence})` });
     } else if (o.source !== "none") {
-      askLead("design", designers.length ? `Might be a design decision (${design.confidence}): ${design.what}` : `Design decision (${design.confidence}), but no designer is declared${area ? ` for ${area}` : ""}: ${design.what}`, area);
+      askLead("design", designers.length ? `Might be a design decision (${design.confidence})` : `Design decision (${design.confidence}), but no designer is declared${area ? ` for ${area}` : ""}`, area);
     }
   }
 

@@ -52,7 +52,7 @@ Rank up to three teams, most likely owner first. Use team names exactly as the d
 
 You get the repo's declared areas (each with the paths it covers and, when the team gave one, a description and the review roles it has) and the change: its title, its changed paths, and its diff. You may also get declared paths: each area's share of the changed files that sit under its paths. Treat that as strong evidence, but weigh it against what the change actually does: shared folders and catch-all rules can point at the wrong area.
 
-Rank up to three areas, most likely first, using names exactly as the list writes them. If no areas are declared, name the parts of the product the change touches in a few plain words instead. For each, give a confidence: high only when the code, the paths and the area's description all point to it; medium when most of it does; low otherwise. Give one short reason that points at the paths or code that show it.`,
+Rank up to three areas, most likely first, using names exactly as the list writes them. If no areas are declared, or none of them fit, name the part of the product the change touches in a few plain words instead, with low confidence, and say in the reason that it isn't a declared area. For each, give a confidence: high only when the code, the paths and the area's description all point to it; medium when most of it does; low otherwise. Give one short reason that points at the paths or code that show it.`,
 } as const;
 
 export type MapperVersion = keyof typeof INSTRUCTIONS;
