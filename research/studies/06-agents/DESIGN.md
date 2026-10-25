@@ -244,3 +244,47 @@ After scoring, in discussion: 4 of the pairs he marked yes are backports
 sheet's guidance listed as no. He recorded them as no after discussion;
 his locked verdicts stand. Counting them as no, Sonnet still fails (11 of
 15 found, 23 of 35 rejected).
+
+## The Briefer and the Examiner (written before any data or run)
+
+From findings 08: each reviewer gets a brief for their role, naming the
+3–5 places that need human judgment, ordered by risk, each pointing at
+files and lines; on risky changes, the Examiner asks 1–3 short questions
+only someone who read the change could answer, and grades the answers.
+**How they're tested (Nahuel's call):** against what real reviewers did
+where that's objective, and his product judgment where it isn't.
+
+### The Briefer: does "look here first" match where reviewers looked?
+
+- **Data:** merged pull requests from three active public repos with
+  CODEOWNERS (grafana/grafana, PostHog/posthog, mastodon/mastodon), merged
+  1 Jul – 30 Sep 2026, with 2–40 changed files, at most 1,500 changed
+  lines, opened by a person (not a bot), and at least 2 line comments from
+  reviewers other than the author (bots left out). Up to 35 per repo at
+  random (seed 20261025).
+- **Gold:** the files that got a reviewer's line comment.
+- **The brief:** the engineering brief only (most line comments come from
+  engineers), written from the diff alone: no comments, reviews or
+  later commits are shown to it.
+- **Scored:** of the files reviewers commented on, the share among the
+  brief's first 3 places (file recall@3), and how often its first place is
+  a commented file. **Baseline:** the 3 files with the most changed lines.
+  The Briefer passes if its recall@3 beats the baseline's and the 95%
+  bootstrap interval of the difference is above 0.
+
+### The Examiner: fair questions, fair grading
+
+- **Questions:** for the changes Nahuel said a designer should see (from
+  his 100 labels), the Examiner writes up to 3 questions for a designer or
+  product reviewer, each with what a good answer covers and the lines it
+  rests on. Nahuel rates each question on three things, yes or no: is it
+  clear; can it be answered from the change; would it tell apart someone
+  who looked from someone who didn't. Each card shows the change's plain
+  description and a link, and no rating from Claude. Bar: ≥ 80% of
+  questions get yes on all three.
+- **Grading:** for each question, three answers of known quality are
+  written by a separate model call: one that covers what a good answer
+  needs, one vague, one wrong. The grader must pass the first and fail
+  the other two; bar ≥ 80% agreement. These answers are synthetic, and
+  the write-up says so.
+- **Budget:** about $2 at batch prices; each run's estimate is shown first.
