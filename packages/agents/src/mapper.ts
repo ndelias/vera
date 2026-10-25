@@ -22,7 +22,7 @@ export type ChangedFile = { path: string; diff: string; generated: boolean; tooL
  * team's share of earlier changes there. Evidence, not the answer. */
 export type Ownership = { team: string; share: number }[];
 
-export type Change = { title: string; files: ChangedFile[]; ownership?: Ownership };
+export type Change = { title: string; files: ChangedFile[]; ownership?: Ownership; ownershipLabel?: string };
 
 export type MapperTeam = { team: string; confidence: "high" | "medium" | "low"; reason: string };
 export type MapperOutput = { teams: MapperTeam[] };
@@ -45,15 +45,25 @@ You get the team directory (each team's product areas, focus, and which review r
 You may also get ownership history: each team's share of past changes to the same folders. Treat it as evidence, not the answer. Folders are shared, and teams get renamed or split, so history can use old names; always answer with the directory's names, and weigh history against what the change actually does.
 
 Rank up to three teams, most likely owner first. Use team names exactly as the directory writes them. For each, give a confidence: high only when the code, the directory's areas and any history all point to that team; medium when most of it does; low otherwise. Give one short reason that points at the paths or code that show it. If the change is shared plumbing with no clear owner, still name the most likely team and say low.`,
+  // cli: for any repo through `vera review`. The areas come from the repo's
+  // own .vera.yml or CODEOWNERS, and the evidence is which changed files sit
+  // under each area's declared paths, not GitLab's history.
+  cli: `You are the Mapper in Vera, a code review assistant. For one change (a pull request), you name the areas it touches, so the right people are asked to review it.
+
+You get the repo's declared areas (each with the paths it covers and, when the team gave one, a description and the review roles it has) and the change: its title, its changed paths, and its diff. You may also get declared paths: each area's share of the changed files that sit under its paths. Treat that as strong evidence, but weigh it against what the change actually does: shared folders and catch-all rules can point at the wrong area.
+
+Rank up to three areas, most likely first, using names exactly as the list writes them. If no areas are declared, or none of them fit, name the part of the product the change touches in a few plain words instead, with low confidence, and say in the reason that it isn't a declared area. For each, give a confidence: high only when the code, the paths and the area's description all point to it; medium when most of it does; low otherwise. Give one short reason that points at the paths or code that show it.`,
 } as const;
 
 export type MapperVersion = keyof typeof INSTRUCTIONS;
 
 export function directoryText(d: Directory): string {
+  if (!d.teams.length) return `# Declared areas\n\nNone: this repo declares no areas or owners.`;
   const lines = d.teams.map((t) => {
     const areas = t.categories.length ? t.categories.join(", ") : "none listed";
     const roles = t.roles.length ? t.roles.join(", ") : "none listed";
-    return `- ${t.name} (stage ${t.stage}${t.section ? `, section ${t.section}` : ""}). Areas: ${areas}.${t.focus ? ` Focus: ${t.focus}.` : ""} Review roles: ${roles}.`;
+    const where = t.stage ? ` (stage ${t.stage}${t.section ? `, section ${t.section}` : ""})` : "";
+    return `- ${t.name}${where}. Areas: ${areas}.${t.focus ? ` Focus: ${t.focus}.` : ""} Review roles: ${roles}.`;
   });
   return `# Team directory, as of ${d.as_of}\n\n${lines.join("\n")}`;
 }
@@ -74,7 +84,7 @@ export function changeText(c: Change): string {
     }
   }
   const history = c.ownership?.length
-    ? `## Ownership history (share of past changes to these folders)\n${c.ownership.map((o) => `${o.team}: ${Math.round(o.share * 100)}%`).join("\n")}`
+    ? `## ${c.ownershipLabel ?? "Ownership history (share of past changes to these folders)"}\n${c.ownership.map((o) => `${o.team}: ${Math.round(o.share * 100)}%`).join("\n")}`
     : c.ownership
       ? "## Ownership history\nNo past changes to these folders."
       : "";

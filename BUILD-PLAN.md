@@ -167,6 +167,12 @@ alone; if they don't, they stay out of routing and that result goes on
 the Evals page. Cost and time per PR come from the traces. *Needs:* Nahuel's personal
 Anthropic API account. *Done when:* the CLI works on any public PR and the
 eval scores and cost are on the Evals page.
+*Progress (25 Oct 2026):* the Mapper, the visibility check and routing are
+scored (study 06, findings 10); the fix-up judge failed its check. `vera
+review <PR URL>` runs on any public GitHub PR: owners come from the repo's
+`.vera.yml`, else CODEOWNERS; when Vera isn't sure and no lead is declared,
+it shows its best candidates marked as unsure (Nahuel's call). About 1–2
+cents a review on Sonnet 5.5. Still to come: the Briefer and Examiner.
 
 **Before M3: the demo (2026-10-21).** /demo is the run viewer playing a
 scripted trace (apps/panel/lib/demo/run.ts) for a fictional shop's pull

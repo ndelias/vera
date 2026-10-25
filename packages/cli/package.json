@@ -1,0 +1,17 @@
+{
+  "name": "@vera/cli",
+  "version": "0.0.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "vera": "./src/main.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.132.0",
+    "@vera/agents": "*",
+    "@vera/core": "*",
+    "@vera/rules": "*",
+    "@vera/tools": "*"
+  }
+}

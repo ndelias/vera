@@ -7,7 +7,7 @@ import { redact } from "./redact.ts";
 
 export const TRACE_VERSION = 1;
 
-export type AgentName = "coordinator" | "mapper" | "briefer" | "examiner" | "signoff";
+export type AgentName = "coordinator" | "mapper" | "visibility" | "briefer" | "examiner" | "signoff";
 
 export type ChangeRef = {
   host: "github" | "gitlab";
