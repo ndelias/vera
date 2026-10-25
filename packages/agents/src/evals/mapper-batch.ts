@@ -17,15 +17,14 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DatabaseSync } from "node:sqlite";
 import { secret } from "@vera/core";
+import { files } from "./gitlab.ts";
 import { PRICES, costUsd } from "@vera/core/pricing";
 import { parseVisibility, visibilityRequest } from "../visibility.ts";
-import { mapperRequest, parseMapper, type Change, type ChangedFile, type Directory, type MapperVersion, type Ownership } from "../mapper.ts";
+import { mapperRequest, parseMapper, type Change, type Directory, type MapperVersion, type Ownership } from "../mapper.ts";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../../../..");
 const DATA = join(ROOT, "research/data");
-const DIFFS = join(DATA, "raw/diffs");
 const BATCHES = join(DATA, "batches");
-const GITLAB = "https://gitlab.com/api/v4/projects/gitlab-org%2Fgitlab";
 
 const db = new DatabaseSync(join(DATA, "research.sqlite"));
 
@@ -45,33 +44,6 @@ function sample(name: string): Row[] {
 function directoryFor(createdAt: number): Directory {
   const ym = new Date(createdAt * 1000).toISOString().slice(0, 7);
   return JSON.parse(readFileSync(join(DATA, "directory", `${ym}.json`), "utf8")) as Directory;
-}
-
-type GitLabDiff = { new_path: string; old_path: string; deleted_file: boolean; diff: string; generated_file?: boolean; too_large?: boolean };
-
-async function files(mrId: string): Promise<ChangedFile[]> {
-  const iid = mrId.split("!")[1];
-  const cache = join(DIFFS, `${iid}.json`);
-  if (!existsSync(cache)) {
-    const all: GitLabDiff[] = [];
-    for (let page = 1; page <= 30; page++) {
-      const res = await fetch(`${GITLAB}/merge_requests/${iid}/diffs?per_page=100&page=${page}`, {
-        headers: { "User-Agent": "blast-radius-research" },
-      });
-      if (!res.ok) throw new Error(`GitLab ${res.status} for ${mrId}`);
-      all.push(...((await res.json()) as GitLabDiff[]));
-      if (!res.headers.get("x-next-page")) break;
-    }
-    mkdirSync(DIFFS, { recursive: true });
-    writeFileSync(cache, JSON.stringify(all));
-  }
-  const raw = JSON.parse(readFileSync(cache, "utf8")) as GitLabDiff[];
-  return raw.map((d) => ({
-    path: d.deleted_file ? d.old_path : d.new_path,
-    diff: d.diff ?? "",
-    generated: Boolean(d.generated_file),
-    tooLarge: Boolean(d.too_large),
-  }));
 }
 
 function ownership(mrId: string): Ownership {

@@ -31,6 +31,7 @@ In active repos, merged / closed without merging / still open: Claude
 - **Public GitHub is a blind spot for this question.** Teams like the one
   that raised it work in private repos, and agents that open PRs under a
   person's account can't be counted.
-- **For Vera:** not "every team has an agent backlog", but "teams that
-  use agents heavily end up with more agent PRs than anyone can review,
-  and the ones left open go stale". A narrower, more believable customer.
+- **For Vera:** a trend to watch, not a target customer. One person
+  raised it, and the public data shows it in a few heavy users, not most
+  teams. As agents open more PRs, especially in small teams or where many
+  people push at once, backlogs like these may become more common.

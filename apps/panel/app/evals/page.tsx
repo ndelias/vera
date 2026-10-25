@@ -229,8 +229,10 @@ export default function Evals() {
         <p className="muted" style={{ marginTop: 12, maxWidth: 720 }}>
           Sharing a file mostly meant sharing a generated or busy file. A link mostly meant follow-up work, a stacked
           change, or a backport. So neither label is used, and the plan&rsquo;s fallback is: review comments per 100
-          lines. AI-disclosed changes get about the same attention per line as the rest. With the agents, a model will
-          read each linked pair and judge it, and that judge is used only if it agrees with my own reading.
+          lines. AI-disclosed changes get about the same attention per line as the rest. I also tried a model that reads
+          both changes: on 50 pairs I judged first, it found {pctOf(find(s, "judge-sonnet-v1", "agent_judge", "found", "verdicts")?.value)} of
+          my fix-ups and rejected {pctOf(find(s, "judge-sonnet-v1", "agent_judge", "rejected", "verdicts")?.value)} of the rest, short of the
+          80% and 90% it needed, so it isn&rsquo;t used either.
         </p>
       </section>
     </>
