@@ -19,7 +19,9 @@ Status: research done (`research/findings/08-decision.md`). Building next.
 
 Reviews one GitHub pull request: which areas it touches, whether it makes a
 design decision, and who should be asked. Runs on your own Anthropic API key
-(about 1–2 cents a review); nothing is sent anywhere else.
+(about 1–2 cents a review): the PR's title, file list and diff go to
+Anthropic's API under that key, and the PR is read from GitHub. Nothing is
+sent anywhere else.
 
 ```bash
 npm install

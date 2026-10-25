@@ -26,7 +26,8 @@ export type Review = {
 const AI_TOOL = "claude|anthropic|cursor|copilot|codex|openai|gpt|gemini|devin|aider|windsurf|cline|jules|amp|junie";
 const AI_TRAILER = new RegExp(`^(co-authored-by|assisted-by):.*\\b(${AI_TOOL})`, "im");
 const AI_GENERATED = new RegExp(`(generated|written|created) (with|by)\\s+\\[?(${AI_TOOL})`, "i");
-const AI_ACCOUNT = /\[bot\]$|^(devin-ai-integration|copilot-swe-agent|google-labs-jules|cursor)/i;
+// Coding agents with their own accounts. Other bots (Dependabot, Renovate) aren't AI-written.
+const AI_ACCOUNT = /^(devin-ai-integration|copilot-swe-agent|google-labs-jules|cursor|claude|chatgpt-codex-connector)(\[bot\])?$/i;
 
 export function aiSignals(pull: Pull): string[] {
   const out: string[] = [];
