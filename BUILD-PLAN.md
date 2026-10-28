@@ -215,6 +215,19 @@ gate is a separate opt-in. Teams named in CODEOWNERS are signed off by
 anyone with write access other than the author, since the default token
 can't read team membership.
 
+*The comment, action first (Nahuel's call, 28 Oct 2026).* Vera's comment
+opens with who has to sign off and who has (kept current on each sign-off),
+then "Where to look first": the engineer's brief, each place linked to its
+lines in Files changed. How Vera decided (areas, design call, AI signals,
+cost) is folded away below. Only the engineer's brief is used; the design
+brief waits for screenshots, like the Examiner's design questions.
+
+*Order from here (Nahuel's call, 28 Oct 2026).* 1. The comment's design
+with the Briefer in it. 2. Understanding checks: the Examiner for
+engineers, then screenshots so it can ask designers. 3. The run viewer
+(M3), then the demo company and case study (M5). 4. Slack (M6), last,
+because it carries whatever the review is by then.
+
 **M5: Demo company + case study.** A demo repo with seeded roles (engineer,
 designer, security, PM) and realistic AI-written changes. Measured against
 the decision document's targets: time to full sign-off, reviewer minutes

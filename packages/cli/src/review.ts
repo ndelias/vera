@@ -1,12 +1,13 @@
 // `vera review <PR URL>`: one pull request, end to end. Reads the PR and the
-// repo's ownership files, runs the Mapper and the design check, decides who
-// is asked, and records every step in a trace.
+// repo's ownership files, runs the Mapper, the design check and the
+// engineer's brief, decides who is asked, and records every step in a trace.
 
 import Anthropic from "@anthropic-ai/sdk";
 import { costUsd } from "@vera/core/pricing";
 import { createTrace, record, totals, type AgentName, type Trace } from "@vera/core/trace";
 import { mapperRequest, parseMapper, type Change, type Directory, type MapperOutput } from "@vera/agents/mapper";
 import { parseVisibility, visibilityRequest, type Visibility } from "@vera/agents/visibility";
+import { briefRequest, parseBrief, type Brief } from "@vera/agents/briefer";
 import { areasFor, ConfigError, fromCodeowners, fromVeraYml, matches, route, type Ownership, type Plan } from "@vera/rules";
 import { client as github, parsePullUrl, type Pull } from "@vera/tools/github";
 
@@ -16,6 +17,9 @@ export type Review = {
   ownershipError?: string;
   areas: MapperOutput | null;
   design: Visibility | null;
+  /** Where an engineer should look first. Only the engineer's brief is
+   * used: it beat the baseline (study 06); a design brief needs screenshots. */
+  brief: Brief | null;
   ai: string[];
   plan: Plan;
   trace: Trace;
@@ -61,7 +65,7 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
   const trace = createTrace();
   const ref = parsePullUrl(url);
   const t0 = Date.now();
-  record(trace, { at: t0, type: "run.start", runId: `${ref.owner}-${ref.repo}-${ref.number}-${t0}`, change: { host: "github", repo: `${ref.owner}/${ref.repo}`, number: ref.number, url: ref.url }, models: { mapper: opts.model, visibility: opts.model } });
+  record(trace, { at: t0, type: "run.start", runId: `${ref.owner}-${ref.repo}-${ref.number}-${t0}`, change: { host: "github", repo: `${ref.owner}/${ref.repo}`, number: ref.number, url: ref.url }, models: { mapper: opts.model, visibility: opts.model, briefer: opts.model } });
   record(trace, { at: Date.now(), type: "agent.start", agent: "coordinator", task: "read the pull request and the repo's ownership files" });
   const gh = github(opts.githubToken, (c) => record(trace, { at: Date.now(), type: "tool.call", agent: "coordinator", ...c }));
 
@@ -112,10 +116,11 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
       return out;
     }
 
-    // The two agents don't depend on each other, so they run at once.
-    const [areas, design] = await Promise.all([
+    // The agents don't depend on each other, so they run at once.
+    const [areas, design, brief] = await Promise.all([
       call("mapper", "which areas this change touches", mapperRequest(opts.model, directory(ownership, paths), change, "cli"), parseMapper),
       call("visibility", "does this change make a design decision?", visibilityRequest(opts.model, change, "v2"), parseVisibility),
+      call("briefer", "where an engineer should look first", briefRequest(opts.model, change, "engineer"), parseBrief),
     ]);
 
     const plan = route(ownership, paths, (areas?.teams ?? []).map((t) => ({ area: t.team, confidence: t.confidence, reason: t.reason })),
@@ -124,7 +129,7 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
     const ai = aiSignals(pull);
     record(trace, { at: Date.now(), type: "rule.eval", rule: "likely AI-written", matched: ai.length > 0, detail: ai.join("; ") || "no marker found" });
     record(trace, { at: Date.now(), type: "run.end", status: "ok" });
-    return { pull, ownership, ...(ownershipError ? { ownershipError } : {}), areas, design, ai, plan, trace };
+    return { pull, ownership, ...(ownershipError ? { ownershipError } : {}), areas, design, brief, ai, plan, trace };
   } catch (e) {
     record(trace, { at: Date.now(), type: "run.end", status: "error", error: (e as Error).message });
     throw Object.assign(e as Error, { trace });

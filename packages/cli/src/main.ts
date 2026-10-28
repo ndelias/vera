@@ -14,9 +14,9 @@ import { join } from "node:path";
 import { secret, toJsonl, totals } from "@vera/core";
 import { review, type Review } from "./review.ts";
 import { MARKER, toMarkdown } from "./markdown.ts";
-import { CHECK, readPlan, status, toCheck } from "./signoff.ts";
-import { counts, parseSignoff, type Ask } from "@vera/rules";
-import { client as github, parsePullUrl, type Comment, type PullRef } from "@vera/tools/github";
+import { CHECK, readPlan, status, statusBlock, toCheck, withStatus } from "./signoff.ts";
+import { counts, parseSignoff, type Signoff } from "@vera/rules";
+import { client as github, parsePullUrl, type PullRef } from "@vera/tools/github";
 
 const USAGE = `Usage: vera review <GitHub pull request URL> [--config .vera.yml] [--markdown | --comment] [--model claude-sonnet-5-5] [--out .vera/runs]
        vera sign-off <GitHub pull request URL> [--comment-id <id>]`;
@@ -44,6 +44,12 @@ function print(r: Review, tracePath: string) {
     "",
     `Design decision: ${r.design ? `${r.design.visible ? "yes" : "no"} (${r.design.confidence}). ${r.design.what}` : "(no answer)"}`,
     "",
+    "Where to look first (engineer)",
+    ...(!r.brief ? ["  (the Briefer gave no answer)"] : [
+      ...(r.brief.summary ? [`  ${r.brief.summary}`] : []),
+      ...r.brief.places.flatMap((p, i) => [`  ${i + 1}. ${p.risk.padEnd(6)} ${p.file} ${p.lines}`, `      ${p.what}. ${p.why}`.replace(/\.\./g, ".")]),
+    ]),
+    "",
     "Who to ask",
     ...(r.plan.asks.length ? r.plan.asks.map((a) => `  ${a.who.padEnd(20)} ${a.role.padEnd(9)} ${{ ask: "ask", "ask-lead": "ask, as lead", suggest: "possible owner" }[a.action].padEnd(15)} ${a.why}`) : ["  Nobody named."]),
     ...(r.plan.notes.length ? ["", "Notes", ...r.plan.notes.map((n) => `  ${n}`)] : []),
@@ -55,12 +61,9 @@ function print(r: Review, tracePath: string) {
 
 /** Updates the sign-off check. It's a side job: if the token can't write
  * checks, the review still stands, so this warns instead of failing. */
-async function updateCheck(token: string | undefined, ref: PullRef, sha: string, author: string, asks: Ask[], comments?: Comment[]) {
-  const gh = github(token);
+async function writeCheck(token: string | undefined, ref: PullRef, sha: string, s: Signoff) {
   try {
-    const [reviews, all] = await Promise.all([gh.reviews(ref), comments ?? gh.comments(ref)]);
-    const s = status(asks, author, reviews, all, MARKER);
-    const url = await gh.check(ref, sha, CHECK, toCheck(s));
+    const url = await github(token).check(ref, sha, CHECK, toCheck(s));
     console.log(`Sign-off: ${toCheck(s).title} (${url})`);
   } catch (e) {
     const hint = process.env.GITHUB_ACTIONS
@@ -92,7 +95,11 @@ if (args[0] === "sign-off") {
       console.log(vera ? "Vera's comment here predates sign-off; its next review adds the check." : "Vera hasn't reviewed this pull request yet, so there's no sign-off to update.");
       process.exit(0);
     }
-    await updateCheck(token, ref, pull.headSha, pull.author, asks, comments);
+    const s = status(asks, pull.author, await gh.reviews(ref), comments, MARKER);
+    await writeCheck(token, ref, pull.headSha, s);
+    // The comment's status block too, so it doesn't say "waiting" after someone signed off.
+    const body = withStatus(vera.body, statusBlock(s, asks));
+    if (body && body !== vera.body) await gh.comment(ref, body, MARKER);
     // A thumbs-up tells the person their sign-off counted; a confused face, that it didn't.
     const id = Number(flag("--comment-id", ""));
     const c = comments.find((x) => x.id === id);
@@ -129,9 +136,12 @@ try {
   const path = join(out, `${r.trace.events[0]?.type === "run.start" ? r.trace.events[0].runId : Date.now()}.jsonl`);
   writeFileSync(path, toJsonl(r.trace));
   if (args.includes("--comment")) {
-    const url = await github(githubToken).comment(r.pull.ref, toMarkdown(r), MARKER);
-    console.log(`Posted: ${url}`);
-    await updateCheck(githubToken, r.pull.ref, r.pull.headSha, r.pull.author, r.plan.asks);
+    // Sign-offs from before this push still count, so they're read first.
+    const gh = github(githubToken);
+    const [reviews, comments] = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref)]);
+    const s = status(r.plan.asks, r.pull.author, reviews, comments, MARKER);
+    console.log(`Posted: ${await gh.comment(r.pull.ref, toMarkdown(r, s), MARKER)}`);
+    await writeCheck(githubToken, r.pull.ref, r.pull.headSha, s);
   } else if (args.includes("--markdown")) {
     console.log(toMarkdown(r));
   } else {
