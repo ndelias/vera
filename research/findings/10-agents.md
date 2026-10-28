@@ -60,6 +60,9 @@ more often than Haiku and runs every agent here.
   real pull requests, the files the Briefer said to look at first were the
   ones human reviewers commented on 74% of the time, against 64% for
   "biggest files first"; its first pick was right 3 times in 4.
+  Cut to one sentence per place (v2, 28 Oct 2026), so it can be skimmed
+  in a PR comment, it still beats the baseline: 71% against 64%, first
+  pick right 77% of the time.
 - **Questions for designers need what designers see.** The Examiner wrote
   its questions from the code, so half of them asked what only the code
   shows. Judged from what a designer can see, 49% were good. Fair

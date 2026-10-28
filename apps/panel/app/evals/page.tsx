@@ -99,6 +99,12 @@ export default function Evals() {
                   <td className="num muted">beat it</td>
                 </tr>
                 <tr>
+                  <td>The same, with the brief&rsquo;s text cut to one sentence per place (what Vera&rsquo;s comment uses)</td>
+                  <td className="num">{pctOf(agent("B-largest", "agent_brief", "recall3", "brief")?.value)}</td>
+                  <td className="num">{pctOf(agent("briefer-sonnet-v2", "agent_brief", "recall3", "brief")?.value)}</td>
+                  <td className="num muted">beat it</td>
+                </tr>
+                <tr>
                   <td>Questions for a designer that I rated good on all three checks ({num(agent("examiner-sonnet-v1", "agent_exam", "good", "ratings")?.n ?? 0)})</td>
                   <td className="num muted">–</td>
                   <td className="num">{pctOf(agent("examiner-sonnet-v1", "agent_exam", "good", "ratings")?.value)}</td>

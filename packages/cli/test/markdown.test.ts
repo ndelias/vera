@@ -19,7 +19,7 @@ const base: Review = {
 test("action first: who signs off, then where to look, then how Vera decided, folded", () => {
   const md = toMarkdown(base);
   assert.ok(md.startsWith(MARKER));
-  assert.match(md, /### Vera · 1 sign-off needed\n\n- \*\*@ana\*\* · engineer · waiting/);
+  assert.match(md, /### Vera · 1 sign-off needed\n\n\| Who \| Role \| Sign-off \|\n\|---\|---\|---\|\n\| @ana \| engineer \| waiting \|/);
   const order = ["### Vera", "#### Where to look first", "<details><summary>How Vera decided", "**Checkout** (high)", "</details>"].map((x) => md.indexOf(x));
   assert.deepEqual(order, [...order].sort((a, b) => a - b));
   assert.ok(!order.includes(-1));
@@ -27,12 +27,11 @@ test("action first: who signs off, then where to look, then how Vera decided, fo
   assert.match(md, /^1 file, \+3 −1/m);
 });
 
-test("each place links to its lines in Files changed, unless the file isn't in the PR", () => {
+test("each place is a table row linking to its lines in Files changed, unless the file isn't in the PR", () => {
   const md = toMarkdown(base);
   const hash = createHash("sha256").update("a.ts").digest("hex");
-  assert.ok(md.includes(`1. **High** · [\`a.ts\` L10-24](https://github.com/o/r/pull/1/files#diff-${hash}R10)`));
-  assert.match(md, /   Applies the discount\. A negative total is possible/);
-  assert.match(md, /2\. \*\*Low\*\* · `gone\.ts` L3  \n/);
+  assert.ok(md.includes(`| **High** | [\`a.ts\` L10-24](https://github.com/o/r/pull/1/files#diff-${hash}R10 "a.ts") | Applies the discount. | A negative total is possible. |`));
+  assert.match(md, /\| \*\*Low\*\* \| `gone\.ts` L3<br><sub>gone\.ts<\/sub> \|/);
 });
 
 test("says plainly when no declared area fits and nobody is named", () => {
@@ -44,9 +43,9 @@ test("says plainly when no declared area fits and nobody is named", () => {
   assert.match(md, /The Briefer gave no answer this time\./);
 });
 
-test("model-written text keeps its ellipses and can't add HTML", () => {
-  const brief = { summary: "Adds <details> to the page", places: [{ file: "a.ts", lines: "1", what: "Waits...", why: "Retries forever...", risk: "medium" as const }] };
+test("model-written text keeps its ellipses, stays in its cell and can't add HTML", () => {
+  const brief = { summary: "Adds <details> to the page", places: [{ file: "a.ts", lines: "1", what: "Waits...", why: "Pipes a | b\ninto `<Foo>`", risk: "medium" as const }] };
   const md = toMarkdown({ ...base, brief });
   assert.match(md, /_Adds &lt;details> to the page_/);
-  assert.match(md, /   Waits\.\.\. Retries forever\.\.\./);
+  assert.ok(md.includes("| Waits... | Pipes a \\| b into `<Foo>`. |"));
 });

@@ -216,9 +216,11 @@ anyone with write access other than the author, since the default token
 can't read team membership.
 
 *The comment, action first (Nahuel's call, 28 Oct 2026).* Vera's comment
-opens with who has to sign off and who has (kept current on each sign-off),
-then "Where to look first": the engineer's brief, each place linked to its
-lines in Files changed. How Vera decided (areas, design call, AI signals,
+opens with a table of who has to sign off and who has (kept current on
+each sign-off), then "Where to look first": a table of the engineer's
+brief (risk, place, what, why), each place linked to its lines in Files
+changed. The brief is v2, one sentence per place, re-tested to still beat
+the baseline (study 06). How Vera decided (areas, design call, AI signals,
 cost) is folded away below. Only the engineer's brief is used; the design
 brief waits for screenshots, like the Examiner's design questions.
 

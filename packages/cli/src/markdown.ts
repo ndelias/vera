@@ -15,8 +15,10 @@ export const MARKER = "<!-- vera-review -->";
 const ACTION = { ask: "ask", "ask-lead": "ask, as lead (Vera isn't sure who should review)", suggest: "possible owner (Vera isn't sure)" } as const;
 const RISK = { high: "High", medium: "Medium", low: "Low" } as const;
 const sentence = (s: string) => (/[.!?]$/.test(s.trim()) ? s.trim() : `${s.trim()}.`);
-/** Model-written text goes in as text: no HTML, so it can't open a <details> or hide a marker. */
-const plain = (s: string) => s.replace(/</g, "&lt;");
+/** Model-written text goes in as text: no HTML outside code spans, so it can't open a
+ * <details> or hide a marker (inside backticks GitHub shows "<" as it is); one line, so
+ * it stays in its table cell. */
+const plain = (s: string) => s.split(/(`[^`]*`)/).map((part, i) => (i % 2 ? part : part.replace(/</g, "&lt;"))).join("").replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ");
 
 /** A link to the lines in the PR's "Files changed" view, which anchors each
  * file by the SHA-256 of its path and each line by R<number>. */
@@ -41,11 +43,13 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
   if (!r.brief) lines.push("_The Briefer gave no answer this time._");
   else {
     if (r.brief.summary) lines.push(`_${plain(r.brief.summary)}_`, "");
-    r.brief.places.forEach((p, i) => {
-      const label = `\`${p.file}\` ${p.lines.startsWith("L") ? p.lines : `L${p.lines}`}`;
+    lines.push("| Risk | Where | What | Why |", "|---|---|---|---|");
+    for (const p of r.brief.places) {
+      // The table shows the file's name; the link and its hover text carry the full path.
+      const label = `\`${p.file.split("/").pop()}\` ${p.lines.startsWith("L") ? p.lines : `L${p.lines}`}`;
       const url = linesLink(r, p.file, p.lines);
-      lines.push(`${i + 1}. **${RISK[p.risk]}** · ${url ? `[${label}](${url})` : label}  `, `   ${plain(sentence(p.what))} ${plain(p.why)}`);
-    });
+      lines.push(`| **${RISK[p.risk]}** | ${url ? `[${label}](${url} "${p.file}")` : `${plain(label)}<br><sub>${plain(p.file)}</sub>`} | ${plain(sentence(p.what))} | ${plain(sentence(p.why))} |`);
+    }
   }
 
   lines.push(

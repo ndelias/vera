@@ -1,0 +1,44 @@
+{
+ "prs": 105,
+ "answered": 105,
+ "recall3": {
+  "brief": 0.713,
+  "largest_files": 0.644,
+  "difference": 0.069,
+  "ci95": [
+   0.003,
+   0.135
+  ]
+ },
+ "first_place": {
+  "brief": 0.771,
+  "largest_files": 0.505
+ },
+ "per_repo": {
+  "PostHog/posthog": {
+   "prs": 35,
+   "brief": 0.646,
+   "largest_files": 0.54
+  },
+  "getsentry/sentry": {
+   "prs": 35,
+   "brief": 0.783,
+   "largest_files": 0.712
+  },
+  "grafana/grafana": {
+   "prs": 35,
+   "brief": 0.712,
+   "largest_files": 0.681
+  }
+ },
+ "verdict": "passes",
+ "vs_v1": {
+  "recall3_v1": 0.735,
+  "difference": -0.022
+ },
+ "why_words": {
+  "places": 499,
+  "median": 18,
+  "share_25_or_fewer": 0.992
+ }
+}

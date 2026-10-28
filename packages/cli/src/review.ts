@@ -120,7 +120,7 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
     const [areas, design, brief] = await Promise.all([
       call("mapper", "which areas this change touches", mapperRequest(opts.model, directory(ownership, paths), change, "cli"), parseMapper),
       call("visibility", "does this change make a design decision?", visibilityRequest(opts.model, change, "v2"), parseVisibility),
-      call("briefer", "where an engineer should look first", briefRequest(opts.model, change, "engineer"), parseBrief),
+      call("briefer", "where an engineer should look first", briefRequest(opts.model, change, "engineer", "v2"), parseBrief),
     ]);
 
     const plan = route(ownership, paths, (areas?.teams ?? []).map((t) => ({ area: t.team, confidence: t.confidence, reason: t.reason })),

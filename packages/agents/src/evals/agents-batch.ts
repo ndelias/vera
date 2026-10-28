@@ -5,7 +5,8 @@
 //   node packages/agents/src/evals/agents-batch.ts submit   <job> <model> <system> [from-system]
 //   node packages/agents/src/evals/agents-batch.ts collect  <system>
 //
-// Jobs: brief (engineering briefs on the GitHub PRs in br_prs), exam
+// Jobs: brief and brief2 (engineering briefs on the GitHub PRs in br_prs,
+// with the Briefer's v1 or v2 instructions), exam
 // (design questions on the examiner20 sample), answers (good / vague / wrong
 // answers to each question, from an exam system), grade (the grader on those
 // answers, from an answers system).
@@ -46,7 +47,7 @@ function saved<T>(system: string): Map<string, T> {
 }
 
 async function requests(job: string, model: string, from?: string): Promise<Req[]> {
-  if (job === "brief") {
+  if (job === "brief" || job === "brief2") {
     const gh = github(optional("GITHUB_TOKEN"));
     const out: Req[] = [];
     for (const { id } of db.prepare("SELECT id FROM br_prs ORDER BY id").all() as { id: string }[]) {
@@ -54,7 +55,7 @@ async function requests(job: string, model: string, from?: string): Promise<Req[
       const [owner, name] = repo.split("/") as [string, string];
       const pull = await gh.pull({ owner, repo: name, number: Number(n), url: `https://github.com/${repo}/pull/${n}` });
       const files = pull.files.map((f) => ({ path: f.path, diff: f.patch ?? "", generated: false, tooLarge: !f.patch && f.additions + f.deletions > 0 }));
-      out.push({ custom_id: cid(id), params: briefRequest(model, { title: pull.title, files }, "engineer") });
+      out.push({ custom_id: cid(id), params: briefRequest(model, { title: pull.title, files }, "engineer", job === "brief2" ? "v2" : "v1") });
     }
     return out;
   }
@@ -128,7 +129,7 @@ async function collect(system: string) {
     const m = r.result.message, u = m.usage;
     const usd = costUsd(meta.model, { inputTokens: u.input_tokens, outputTokens: u.output_tokens, cacheReadTokens: u.cache_read_input_tokens ?? 0, cacheWriteTokens: u.cache_creation_input_tokens ?? 0 }, true);
     total += usd;
-    const out = meta.job === "brief" ? parseBrief(m) : meta.job === "grade" ? parseJson<Grade>(m) : parseJson<unknown>(m);
+    const out = meta.job === "brief" || meta.job === "brief2" ? parseBrief(m) : meta.job === "grade" ? parseJson<Grade>(m) : parseJson<unknown>(m);
     if (out) ok++;
     cost.run(system, r.custom_id, meta.model, u.input_tokens, u.output_tokens, u.cache_read_input_tokens ?? 0, u.cache_creation_input_tokens ?? 0, usd, out ? "ok" : "invalid");
     writeFileSync(join(dir, `${r.custom_id}.json`), JSON.stringify(out));

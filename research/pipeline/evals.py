@@ -552,6 +552,10 @@ def cmd_agents() -> None:
         rows.append(("B-largest", "agent_brief", "recall3", "brief", b["recall3"]["largest_files"], None, None, b["prs"]))
         rows.append(("briefer-sonnet-v1", "agent_brief", "first_place", "brief", b["first_place"]["brief"], None, None, b["prs"]))
         rows.append(("B-largest", "agent_brief", "first_place", "brief", b["first_place"]["largest_files"], None, None, b["prs"]))
+    if (studies / "briefer-v2-scores.json").exists():
+        b = json.loads((studies / "briefer-v2-scores.json").read_text())
+        rows.append(("briefer-sonnet-v2", "agent_brief", "recall3", "brief", b["recall3"]["brief"], None, None, b["prs"]))
+        rows.append(("briefer-sonnet-v2", "agent_brief", "first_place", "brief", b["first_place"]["brief"], None, None, b["prs"]))
     if (studies / "examiner-question-ratings.json").exists():
         r = json.loads((studies / "examiner-question-ratings.json").read_text())["ratings"]
         good = sum(all(x[c] == "yes" for c in ("clear", "answerable", "telling")) for x in r)
@@ -606,7 +610,16 @@ def cmd_briefer(system: str = "briefer-sonnet-v1") -> None:
            "per_repo": {repo: {"prs": len(rs), "brief": round(mean([r[1] for r in rs]), 3), "largest_files": round(mean([r[2] for r in rs]), 3)}
                         for repo in sorted(set(repo_of.values())) for rs in [[r for r in rows if r[0] == repo]]},
            "verdict": "passes" if mean(diff) > 0 and lo > 0 else "doesn't pass"}
-    (ROOT / "studies" / "06-agents" / "briefer-scores.json").write_text(json.dumps(out, indent=1))
+    if system != "briefer-sonnet-v1":
+        # Briefer v2 (DESIGN.md, 28 Oct 2026): also against v1, and how long its "why"s are.
+        v1 = json.loads((ROOT / "studies" / "06-agents" / "briefer-scores.json").read_text())
+        words = sorted(len(p["why"].split()) for f in batch.glob("*.json") for p in (json.loads(f.read_text()) or {}).get("places", []))
+        out["vs_v1"] = {"recall3_v1": v1["recall3"]["brief"], "difference": round(out["recall3"]["brief"] - v1["recall3"]["brief"], 3)}
+        out["why_words"] = {"places": len(words), "median": words[len(words) // 2], "share_25_or_fewer": round(sum(w <= 25 for w in words) / len(words), 3)}
+        out["verdict"] = "passes" if (out["verdict"] == "passes" and out["vs_v1"]["difference"] >= -0.03
+                                      and out["why_words"]["share_25_or_fewer"] >= 0.9) else "doesn't pass"
+    name = "briefer-scores.json" if system == "briefer-sonnet-v1" else f"{system.replace('briefer-sonnet-', 'briefer-')}-scores.json"
+    (ROOT / "studies" / "06-agents" / name).write_text(json.dumps(out, indent=1))
     print(json.dumps(out, indent=1))
 
 

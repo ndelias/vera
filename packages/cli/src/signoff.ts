@@ -65,7 +65,7 @@ export const status = (asks: Ask[], author: string, reviews: PullReview[], comme
 // between these markers so a sign-off can update it without a new review.
 const OPEN = "<!-- vera-status -->";
 const CLOSE = "<!-- /vera-status -->";
-const AS = { ask: "", "ask-lead": ", as lead", suggest: ", possible owner" } as const;
+const AS = { ask: "", "ask-lead": " (as lead)", suggest: " (possible owner)" } as const;
 
 export function statusBlock(s: Signoff, asks: Ask[]): string {
   const left = s.roles.filter((r) => !r.by).length;
@@ -75,10 +75,11 @@ export function statusBlock(s: Signoff, asks: Ask[]): string {
     : `${left} of ${s.roles.length} sign-offs still needed`;
   const rows = s.roles.map((r) => {
     const as = AS[asks.find((a) => a.role === r.role)?.action ?? "ask"];
-    const people = r.asked.map((h) => `**${h}**`).join(" or ");
-    return `- ${people} · ${r.role}${as} · ${r.by ? `✓ signed off${r.asked.length > 1 || r.asked[0]!.toLowerCase() !== r.by.toLowerCase() ? ` by ${r.by}` : ""}${r.byAuthor ? " (author)" : ""}` : "waiting"}`;
+    const someoneElse = r.by && (r.asked.length > 1 || r.asked[0]?.toLowerCase() !== r.by.toLowerCase());
+    const state = r.by ? `✓ signed off${someoneElse ? ` by ${r.by}` : ""}${r.byAuthor ? " (author)" : ""}` : "waiting";
+    return `| ${r.asked.join(" or ")} | ${r.role}${as} | ${state} |`;
   });
-  return [OPEN, `### Vera · ${heading}`, "", ...rows, CLOSE].join("\n");
+  return [OPEN, `### Vera · ${heading}`, ...(rows.length ? ["", "| Who | Role | Sign-off |", "|---|---|---|", ...rows] : []), CLOSE].join("\n");
 }
 
 /** Vera's comment with its status block swapped for a fresh one, or null if it has none. */

@@ -101,7 +101,7 @@ if (args[0] === "sign-off") {
     await writeCheck(token, ref, pull.headSha, s);
     // The comment's status block too, so it doesn't say "waiting" after someone signed off.
     const body = withStatus(vera.body, statusBlock(s, asks));
-    if (body && body !== vera.body) await gh.comment(ref, body, MARKER);
+    if (body && body !== vera.body) await gh.comment(ref, body, MARKER).catch((e) => console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Vera's comment wasn't updated: ${(e as Error).message}`));
     // A thumbs-up tells the person their sign-off counted; a confused face, that it didn't.
     const id = Number(flag("--comment-id", ""));
     const c = comments.find((x) => x.id === id);
@@ -140,12 +140,14 @@ try {
   if (args.includes("--comment")) {
     // Sign-offs from before this push still count, so they're read first.
     const gh = github(githubToken);
-    // If they can't be read, the review is still posted, showing everyone as waiting.
+    // If they can't be read, the review is still posted, showing everyone as waiting,
+    // but the check is left as it was rather than reset; the next sign-off corrects both.
     const s = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref)])
       .then(([reviews, comments]) => status(r.plan.asks, r.pull.author, reviews, comments, MARKER))
-      .catch(() => status(r.plan.asks, r.pull.author, [], [], MARKER));
-    console.log(`Posted: ${await gh.comment(r.pull.ref, toMarkdown(r, s), MARKER)}`);
-    await writeCheck(githubToken, r.pull.ref, r.pull.headSha, s);
+      .catch(() => null);
+    console.log(`Posted: ${await gh.comment(r.pull.ref, toMarkdown(r, s ?? undefined), MARKER)}`);
+    if (s) await writeCheck(githubToken, r.pull.ref, r.pull.headSha, s);
+    else console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Couldn't read the PR's reviews, so the ${CHECK} check wasn't updated.`);
   } else if (args.includes("--markdown")) {
     console.log(toMarkdown(r));
   } else {

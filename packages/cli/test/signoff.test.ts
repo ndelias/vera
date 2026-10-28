@@ -36,10 +36,10 @@ test("nobody asked means nothing to sign off", () => {
 test("the status block names who's left and is swapped in place on a sign-off", () => {
   const before = statusBlock(status(asks, "ana", [], [], MARKER), asks);
   assert.match(before, /### Vera · 2 sign-offs needed/);
-  assert.match(before, /- \*\*@dev\*\* · design, as lead · waiting/);
+  assert.match(before, /\| @dev \| design \(as lead\) \| waiting \|/);
   const after = statusBlock(status(asks, "ana", [{ who: "dev", state: "APPROVED", trusted: true, at: "t" }], [], MARKER), asks);
   assert.match(after, /### Vera · 1 of 2 sign-offs still needed/);
-  assert.match(after, /- \*\*@dev\*\* · design, as lead · ✓ signed off$/m);
+  assert.match(after, /\| @dev \| design \(as lead\) \| ✓ signed off \|$/m);
   const body = `${MARKER}\n${before}\n\nthe rest`;
   assert.equal(withStatus(body, after), `${MARKER}\n${after}\n\nthe rest`);
   assert.equal(withStatus("an old comment", after), null);

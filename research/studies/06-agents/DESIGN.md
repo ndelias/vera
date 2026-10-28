@@ -322,3 +322,27 @@ or wrong, which is easier than real reviewers' answers. `grader-scores.json`.
 
 Spend for this round: $2.35 (briefs $1.90, questions $0.27, test answers
 $0.01, grading $0.18).
+
+### Briefer v2: shorter text (written 28 Oct 2026, before the run)
+
+In a PR comment, v1's "why" ran to a paragraph per place, too long to
+scan (Nahuel's call: ask for shorter, and re-test). v2 changes only the
+length wording: "what" in at most 8 words, "why" in one sentence of at
+most 20, the summary at most 20 words. Same 105 PRs, same model, same
+scoring. v2 replaces v1 in `vera review` if all three hold:
+
+1. It passes v1's rule: recall@3 beats the 3 largest files, with the 95%
+   bootstrap interval of the difference above 0.
+2. Its recall@3 is no more than 3 points below v1's (73.5%).
+3. At least 90% of its "why"s are 25 words or fewer.
+
+If it fails 1 or 2, the shorter wording moved where the brief points, and
+the comment cuts v1's text in code instead.
+
+**Result (28 Oct 2026): passes all three.** Recall@3 71.3% against 64.4%
+for the 3 largest files: +6.9 points (95% interval +0.3 to +13.5). That
+is 2.2 points below v1 (73.5%), inside the 3-point allowance. Its first
+place was a commented file 77% of the time (v1: 73%). The median "why"
+is 18 words, and 99.2% of 499 are 25 or fewer. Ahead of the baseline in
+all three repos. $1.66. `briefer-v2-scores.json`. v2 is what `vera
+review` uses.
