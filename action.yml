@@ -2,7 +2,8 @@ name: Vera review
 description: >
   Reviews each pull request: which areas it touches, whether it makes a
   design decision, and who should be asked. Posts one comment and keeps it
-  up to date. Reads only; never approves, blocks or runs the PR's code.
+  up to date, with a "Vera: sign-off" check showing who has signed off.
+  Never approves, blocks or runs the PR's code.
 author: Nahuel D'Elias
 branding:
   icon: eye
@@ -13,7 +14,7 @@ inputs:
     description: Your Anthropic API key (store it as a repository secret). A review costs about 1-2 cents.
     required: false
   github-token:
-    description: Token used to read the PR and post the comment. The default works when the job has pull-requests write permission.
+    description: Token used to read the PR and post the comment and check. The default works when the job has pull-requests and checks write permission.
     required: false
     default: ${{ github.token }}
   model:
@@ -24,17 +25,42 @@ inputs:
 runs:
   using: composite
   steps:
+    # A new or updated PR gets a full review. An approval or a `/vera sign-off`
+    # comment only updates the sign-off check: no model calls, no key needed.
+    - name: Decide what to do
+      id: mode
+      shell: bash
+      env:
+        EVENT: ${{ github.event_name }}
+        PR_URL: ${{ github.event.pull_request.html_url || github.event.issue.pull_request.html_url }}
+        HAS_KEY: ${{ inputs.anthropic-api-key != '' }}
+      run: |
+        mode=skip
+        if [ -z "$PR_URL" ]; then
+          echo "::notice::Vera works on pull requests; this run isn't for one, so there's nothing to do."
+        elif [ "$EVENT" = pull_request_review ] || [ "$EVENT" = issue_comment ]; then
+          mode=sign-off
+        elif [ "$HAS_KEY" != true ]; then
+          echo "::notice::No Anthropic API key, so Vera skipped this review. Pull requests from forks never get secrets; for your own branches, add ANTHROPIC_API_KEY as a repository secret."
+        else
+          mode=review
+        fi
+        echo "mode=$mode" >> "$GITHUB_OUTPUT"
+
     - name: Set up Node
+      if: steps.mode.outputs.mode != 'skip'
       uses: actions/setup-node@v4
       with:
         node-version: 24
 
     - name: Install Vera
+      if: steps.mode.outputs.mode != 'skip'
       shell: bash
       working-directory: ${{ github.action_path }}
       run: npm ci --workspace @vera/cli --include-workspace-root=false --no-audit --no-fund
 
     - name: Review the pull request
+      if: steps.mode.outputs.mode == 'review'
       shell: bash
       working-directory: ${{ github.action_path }}
       env:
@@ -42,13 +68,14 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         PR_URL: ${{ github.event.pull_request.html_url }}
         MODEL: ${{ inputs.model }}
-      run: |
-        if [ -z "$PR_URL" ]; then
-          echo "::notice::Vera reviews pull requests; this run isn't for one, so there's nothing to do."
-          exit 0
-        fi
-        if [ -z "$ANTHROPIC_API_KEY" ]; then
-          echo "::notice::No Anthropic API key, so Vera skipped this review. Pull requests from forks never get secrets; for your own branches, add ANTHROPIC_API_KEY as a repository secret."
-          exit 0
-        fi
-        node --disable-warning=ExperimentalWarning packages/cli/src/main.ts review "$PR_URL" --comment --model "$MODEL" --out "$RUNNER_TEMP/vera-runs"
+      run: node --disable-warning=ExperimentalWarning packages/cli/src/main.ts review "$PR_URL" --comment --model "$MODEL" --out "$RUNNER_TEMP/vera-runs"
+
+    - name: Update the sign-off check
+      if: steps.mode.outputs.mode == 'sign-off'
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        PR_URL: ${{ github.event.pull_request.html_url || github.event.issue.pull_request.html_url }}
+        COMMENT_ID: ${{ github.event.comment.id }}
+      run: node --disable-warning=ExperimentalWarning packages/cli/src/main.ts sign-off "$PR_URL" ${COMMENT_ID:+--comment-id "$COMMENT_ID"}

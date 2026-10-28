@@ -204,6 +204,16 @@ at the repo root makes Vera an installable Action that posts and updates
 one review comment per PR; Vera's own repo uses it first, then the
 portfolio. The sign-off check, understanding checks and the optional gate
 come after.
+*Sign-off check (Nahuel's call, 28 Oct 2026): approvals and comments both
+count.* Approving the PR signs off every role a person was asked for;
+`/vera sign-off [role]` does the same by comment, because GitHub won't let
+authors approve their own PRs (an author's sign-off is labelled as one).
+Requesting changes takes it back. Vera's comment carries who it asked,
+hidden, so approvals and comments update the check without model calls.
+While anyone is still to sign off the check is neutral, not failing; the
+gate is a separate opt-in. Teams named in CODEOWNERS are signed off by
+anyone with write access other than the author, since the default token
+can't read team membership.
 
 **M5: Demo company + case study.** A demo repo with seeded roles (engineer,
 designer, security, PM) and realistic AI-written changes. Measured against

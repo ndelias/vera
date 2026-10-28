@@ -5,7 +5,7 @@ import { MARKER, toMarkdown } from "../src/markdown.ts";
 import type { Review } from "../src/review.ts";
 
 const base: Review = {
-  pull: { ref: { owner: "o", repo: "r", number: 1, url: "u" }, title: "t", body: "", baseRef: "main", author: "ana", files: [{ path: "a.ts", status: "modified", additions: 3, deletions: 1 }], commitMessages: [] },
+  pull: { ref: { owner: "o", repo: "r", number: 1, url: "u" }, title: "t", body: "", baseRef: "main", headSha: "abc", author: "ana", files: [{ path: "a.ts", status: "modified", additions: 3, deletions: 1 }], commitMessages: [] },
   ownership: { source: ".vera.yml", areas: [], people: [] },
   areas: { teams: [{ team: "Checkout", confidence: "high", reason: "cart | totals" }] },
   design: { visible: false, confidence: "high", what: "No design decision" },

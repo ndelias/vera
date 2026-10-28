@@ -1,8 +1,10 @@
 // Vera's review as a GitHub comment. The hidden marker lets a later run find
-// and update the same comment instead of adding another.
+// and update the same comment instead of adding another; the hidden plan
+// lets the sign-off check be updated without running the agents again.
 
 import { totals } from "@vera/core";
 import type { Review } from "./review.ts";
+import { planMarker } from "./signoff.ts";
 
 export const MARKER = "<!-- vera-review -->";
 
@@ -16,6 +18,7 @@ export function toMarkdown(r: Review): string {
   const owners = r.ownership.source === "none" ? "nothing declared (no `.vera.yml` or CODEOWNERS)" : `\`${r.ownership.source}\``;
   const lines = [
     MARKER,
+    planMarker(r.plan.asks),
     "### Vera's review",
     "",
     `${r.pull.files.length} ${r.pull.files.length === 1 ? "file" : "files"}, +${add} −${del}${r.ai.length ? ` · likely AI-written: ${r.ai.join("; ")}` : ""} · owners from ${owners}`,
@@ -28,7 +31,8 @@ export function toMarkdown(r: Review): string {
     "**Who to ask**",
   ];
   if (r.plan.asks.length) {
-    lines.push("", "| Who | Role | | Why |", "|---|---|---|---|", ...r.plan.asks.map((a) => `| ${cell(a.who)} | ${a.role} | ${ACTION[a.action]} | ${cell(a.why)} |`));
+    lines.push("", "| Who | Role | | Why |", "|---|---|---|---|", ...r.plan.asks.map((a) => `| ${cell(a.who)} | ${a.role} | ${ACTION[a.action]} | ${cell(a.why)} |`),
+      "", "To sign off, approve the pull request or comment `/vera sign-off` (add a role, like `/vera sign-off design`, for just that one). The **Vera: sign-off** check shows who still needs to.");
   } else lines.push("Nobody named.");
   if (r.plan.notes.length) lines.push("", ...r.plan.notes.map((n) => `> ${n}`));
   lines.push("", `<sub>Vera only reads and suggests: it doesn't approve, block or change anything. $${t.costUsd.toFixed(3)} · ${t.modelCalls} model calls · ${(t.latencyMs / 1000).toFixed(1)} s · [What is Vera?](https://vera-agent.vercel.app)</sub>`);
