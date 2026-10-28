@@ -34,7 +34,10 @@ when there's no `.vera.yml`. To try a `.vera.yml` before committing one:
 `--config path/to/vera.yml` (see [`examples/vera.yml`](examples/vera.yml)).
 Without either, it names the areas but no people. Set `GITHUB_TOKEN` to go
 past GitHub's 60 requests an hour. Each run writes a trace (every step,
-model call, cost and time) to `.vera/runs/`.
+model call, cost and time) to `.vera/runs/`. Add `--markdown` to print the
+review as a GitHub comment, or `--comment` to post it on the PR (it updates
+Vera's earlier comment rather than adding another; needs a `GITHUB_TOKEN`
+that can write to the repo).
 
 ## Running it
 

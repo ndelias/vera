@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// vera review <pull request URL> [--config .vera.yml] [--model claude-sonnet-5-5] [--out .vera/runs]
+// vera review <pull request URL> [--config .vera.yml] [--markdown | --comment] [--model claude-sonnet-5-5] [--out .vera/runs]
+//   --markdown prints the review as a GitHub comment; --comment posts it (or updates Vera's earlier one).
 //
 // Needs ANTHROPIC_API_KEY (your own key; a review costs about 1-2 cents).
 // GITHUB_TOKEN is optional and raises GitHub's limit from 60 requests an hour.
@@ -8,8 +9,10 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { secret, toJsonl, totals } from "@vera/core";
 import { review, type Review } from "./review.ts";
+import { MARKER, toMarkdown } from "./markdown.ts";
+import { client as github, parsePullUrl } from "@vera/tools/github";
 
-const USAGE = "Usage: vera review <GitHub pull request URL> [--config .vera.yml] [--model claude-sonnet-5-5] [--out .vera/runs]";
+const USAGE = "Usage: vera review <GitHub pull request URL> [--config .vera.yml] [--markdown | --comment] [--model claude-sonnet-5-5] [--out .vera/runs]";
 
 function optional(name: string): string | undefined {
   try {
@@ -76,7 +79,14 @@ try {
   mkdirSync(out, { recursive: true });
   const path = join(out, `${r.trace.events[0]?.type === "run.start" ? r.trace.events[0].runId : Date.now()}.jsonl`);
   writeFileSync(path, toJsonl(r.trace));
-  print(r, path);
+  if (args.includes("--comment")) {
+    const url = await github(githubToken).comment(parsePullUrl(args[1]), toMarkdown(r), MARKER);
+    console.log(`Posted: ${url}`);
+  } else if (args.includes("--markdown")) {
+    console.log(toMarkdown(r));
+  } else {
+    print(r, path);
+  }
 } catch (e) {
   console.error(`vera: ${(e as Error).message}`);
   process.exit(1);
