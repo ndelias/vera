@@ -218,8 +218,10 @@ can't read team membership.
 *The comment, action first (Nahuel's call, 28 Oct 2026).* Vera's comment
 opens with a table of who has to sign off and who has (kept current on
 each sign-off), then "Where to look first": a table of the engineer's
-brief (risk, place, what, why), each place linked to its lines in Files
-changed. The brief is v2, one sentence per place, re-tested to still beat
+brief (risk, place, who checks it, what, why), each place linked to its
+lines in Files changed. "Who checks it" is the asked engineer who owns
+that file's area in `.vera.yml`, else every engineer asked (Nahuel's
+call: one column, so each place has a name on it). The brief is v2, one sentence per place, re-tested to still beat
 the baseline (study 06). How Vera decided (areas, design call, AI signals,
 cost) is folded away below. Only the engineer's brief is used; the design
 brief waits for screenshots, like the Examiner's design questions.

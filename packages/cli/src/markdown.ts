@@ -6,7 +6,7 @@
 
 import { createHash } from "node:crypto";
 import { totals } from "@vera/core";
-import { signoff, type Signoff } from "@vera/rules";
+import { checkerFor, signoff, type Signoff } from "@vera/rules";
 import type { Review } from "./review.ts";
 import { planMarker, statusBlock } from "./signoff.ts";
 
@@ -43,12 +43,13 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
   if (!r.brief) lines.push("_The Briefer gave no answer this time._");
   else {
     if (r.brief.summary) lines.push(`_${plain(r.brief.summary)}_`, "");
-    lines.push("| Risk | Where | What | Why |", "|---|---|---|---|");
+    lines.push("| Risk | Where | Who checks it | What | Why |", "|---|---|---|---|---|");
     for (const p of r.brief.places) {
       // The table shows the file's name; the link and its hover text carry the full path.
       const label = `\`${p.file.split("/").pop()}\` ${p.lines.startsWith("L") ? p.lines : `L${p.lines}`}`;
       const url = linesLink(r, p.file, p.lines);
-      lines.push(`| **${RISK[p.risk]}** | ${url ? `[${label}](${url} "${p.file}")` : `${plain(label)}<br><sub>${plain(p.file)}</sub>`} | ${plain(sentence(p.what))} | ${plain(sentence(p.why))} |`);
+      const who = checkerFor(r.ownership, r.plan.asks, p.file).join(" or ") || "–";
+      lines.push(`| **${RISK[p.risk]}** | ${url ? `[${label}](${url} "${p.file}")` : `${plain(label)}<br><sub>${plain(p.file)}</sub>`} | ${who} | ${plain(sentence(p.what))} | ${plain(sentence(p.why))} |`);
     }
   }
 

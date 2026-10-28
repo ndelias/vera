@@ -81,12 +81,18 @@ export function matches(pattern: string, path: string): boolean {
   return new RegExp(`^${anchored ? "" : "(?:.*/)?"}${re}(?:/.*)?$`).test(path);
 }
 
-/** Which declared areas each changed path falls under (the last matching rule wins, as in CODEOWNERS). */
+/** The declared area a path falls under: the last matching rule wins, as in CODEOWNERS. */
+export function areaOf(o: Ownership, path: string): string | undefined {
+  let hit: string | undefined;
+  for (const a of o.areas) if (a.paths.some((p) => matches(p, path))) hit = a.name;
+  return hit;
+}
+
+/** Which declared areas each changed path falls under, with how many paths each. */
 export function areasFor(o: Ownership, paths: string[]): Map<string, number> {
   const counts = new Map<string, number>();
   for (const path of paths) {
-    let hit: string | undefined;
-    for (const a of o.areas) if (a.paths.some((p) => matches(p, path))) hit = a.name;
+    const hit = areaOf(o, path);
     if (hit) counts.set(hit, (counts.get(hit) ?? 0) + 1);
   }
   return counts;
