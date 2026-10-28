@@ -42,7 +42,8 @@ that can write to the repo).
 ## Use it on your repo: the GitHub Action
 
 Vera can review every pull request on your repo and keep one comment up to
-date on each. It reads the PR through GitHub's API and never runs its code.
+date on each, with a **Vera: sign-off** check showing who has signed off. It
+reads the PR through GitHub's API and never runs its code.
 
 1. Add your Anthropic API key as a repository secret named
    `ANTHROPIC_API_KEY` (Settings → Secrets and variables → Actions).
@@ -53,15 +54,27 @@ name: Vera review
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  pull_request_review:
+    types: [submitted, dismissed]
+  issue_comment:
+    types: [created]
 permissions:
   contents: read
   pull-requests: write
+  checks: write
+concurrency:
+  group: vera-${{ github.event_name == 'pull_request' && 'review' || 'sign-off' }}-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   review:
-    if: ${{ !github.event.pull_request.draft }}
+    if: >-
+      (github.event_name == 'pull_request' && !github.event.pull_request.draft) ||
+      github.event_name == 'pull_request_review' ||
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '/vera sign'))
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - uses: ndelias/vera@main   # pin a release tag once there is one
+      - uses: ndelias/vera@v0.2.0
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
@@ -70,6 +83,22 @@ jobs:
    [`examples/vera.yml`](examples/vera.yml)); without it Vera uses CODEOWNERS.
 
 Pull requests from forks don't get secrets, so Vera skips them with a note.
+
+### Signing off
+
+Everyone Vera asks has to sign off, one way or the other:
+
+- **Approve the pull request**, as usual. It signs off every role you were
+  asked for.
+- **Comment `/vera sign-off`**, which also works on your own pull requests
+  (GitHub won't let you approve those). Name a role to sign off for just
+  that one: `/vera sign-off design`. Vera reacts 👍 when it counted, 😕
+  when you weren't asked for that role.
+
+Requesting changes takes your sign-off back. The check turns green when
+every role has signed off. Until then it's grey, not red: it's information
+and doesn't block merging. These updates don't call the model, so they cost
+nothing.
 
 ## Running it
 

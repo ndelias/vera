@@ -5,7 +5,7 @@ import type { Pull } from "@vera/tools/github";
 
 const pull = (author: string, body: string, commitMessages: string[]): Pull => ({
   ref: { owner: "o", repo: "r", number: 1, url: "https://github.com/o/r/pull/1" },
-  title: "t", body, baseRef: "main", author, files: [], commitMessages,
+  title: "t", body, baseRef: "main", headSha: "abc", author, files: [], commitMessages,
 });
 
 test("flags coding agents' accounts and explicit markers", () => {

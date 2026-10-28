@@ -1,18 +1,25 @@
 #!/usr/bin/env node
 // vera review <pull request URL> [--config .vera.yml] [--markdown | --comment] [--model claude-sonnet-5-5] [--out .vera/runs]
-//   --markdown prints the review as a GitHub comment; --comment posts it (or updates Vera's earlier one).
+//   --markdown prints the review as a GitHub comment; --comment posts it (or updates Vera's earlier
+//   one) and the "Vera: sign-off" check.
+// vera sign-off <pull request URL> [--comment-id <id>]
+//   Updates the sign-off check from the PR's approvals and `/vera sign-off` comments. No model calls.
 //
-// Needs ANTHROPIC_API_KEY (your own key; a review costs about 1-2 cents).
-// GITHUB_TOKEN is optional and raises GitHub's limit from 60 requests an hour.
+// review needs ANTHROPIC_API_KEY (your own key; a review costs about 1-2 cents).
+// GITHUB_TOKEN is optional for reading and raises GitHub's limit from 60 requests an hour;
+// posting the comment and the check needs one that can write to the repo.
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { secret, toJsonl, totals } from "@vera/core";
 import { review, type Review } from "./review.ts";
 import { MARKER, toMarkdown } from "./markdown.ts";
-import { client as github, parsePullUrl } from "@vera/tools/github";
+import { CHECK, readPlan, status, toCheck } from "./signoff.ts";
+import { counts, parseSignoff, type Ask } from "@vera/rules";
+import { client as github, parsePullUrl, type Comment, type PullRef } from "@vera/tools/github";
 
-const USAGE = "Usage: vera review <GitHub pull request URL> [--config .vera.yml] [--markdown | --comment] [--model claude-sonnet-5-5] [--out .vera/runs]";
+const USAGE = `Usage: vera review <GitHub pull request URL> [--config .vera.yml] [--markdown | --comment] [--model claude-sonnet-5-5] [--out .vera/runs]
+       vera sign-off <GitHub pull request URL> [--comment-id <id>]`;
 
 function optional(name: string): string | undefined {
   try {
@@ -46,14 +53,56 @@ function print(r: Review, tracePath: string) {
   console.log(lines.join("\n"));
 }
 
+/** Updates the sign-off check. It's a side job: if the token can't write
+ * checks, the review still stands, so this warns instead of failing. */
+async function updateCheck(token: string | undefined, ref: PullRef, sha: string, author: string, asks: Ask[], comments?: Comment[]) {
+  const gh = github(token);
+  try {
+    const [reviews, all] = await Promise.all([gh.reviews(ref), comments ?? gh.comments(ref)]);
+    const s = status(asks, author, reviews, all, MARKER);
+    const url = await gh.check(ref, sha, CHECK, toCheck(s));
+    console.log(`Sign-off: ${toCheck(s).title} (${url})`);
+  } catch (e) {
+    const hint = process.env.GITHUB_ACTIONS
+      ? " Add `checks: write` to the workflow's permissions."
+      : " GitHub only lets apps write checks, so this part works in GitHub Actions, not with a personal token.";
+    console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}The ${CHECK} check wasn't updated: ${(e as Error).message}${hint}`);
+  }
+}
+
 const args = process.argv.slice(2);
 const flag = (name: string, fallback: string) => {
   const i = args.indexOf(name);
   return i >= 0 && args[i + 1] ? args[i + 1]! : fallback;
 };
-if (args[0] !== "review" || !args[1]) {
+if (!["review", "sign-off"].includes(args[0] ?? "") || !args[1]) {
   console.error(USAGE);
   process.exit(2);
+}
+
+if (args[0] === "sign-off") {
+  const token = optional("GITHUB_TOKEN");
+  try {
+    const ref = parsePullUrl(args[1]);
+    const gh = github(token);
+    const [pull, comments] = await Promise.all([gh.pull(ref), gh.comments(ref)]);
+    const vera = comments.find((c) => c.body.includes(MARKER));
+    const asks = vera && readPlan(vera.body);
+    if (!asks) {
+      console.log(vera ? "Vera's comment here predates sign-off; its next review adds the check." : "Vera hasn't reviewed this pull request yet, so there's no sign-off to update.");
+      process.exit(0);
+    }
+    await updateCheck(token, ref, pull.headSha, pull.author, asks, comments);
+    // A thumbs-up tells the person their sign-off counted; a confused face, that it didn't.
+    const id = Number(flag("--comment-id", ""));
+    const c = comments.find((x) => x.id === id);
+    const roles = c && parseSignoff(c.body);
+    if (c && roles) await gh.react(ref, c.id, counts(asks, pull.author, c.who, c.trusted, roles) ? "+1" : "confused").catch(() => {});
+  } catch (e) {
+    console.error(`vera: ${(e as Error).message}`);
+    process.exit(1);
+  }
+  process.exit(0);
 }
 const out = flag("--out", ".vera/runs");
 let apiKey: string;
@@ -80,8 +129,9 @@ try {
   const path = join(out, `${r.trace.events[0]?.type === "run.start" ? r.trace.events[0].runId : Date.now()}.jsonl`);
   writeFileSync(path, toJsonl(r.trace));
   if (args.includes("--comment")) {
-    const url = await github(githubToken).comment(parsePullUrl(args[1]), toMarkdown(r), MARKER);
+    const url = await github(githubToken).comment(r.pull.ref, toMarkdown(r), MARKER);
     console.log(`Posted: ${url}`);
+    await updateCheck(githubToken, r.pull.ref, r.pull.headSha, r.pull.author, r.plan.asks);
   } else if (args.includes("--markdown")) {
     console.log(toMarkdown(r));
   } else {
