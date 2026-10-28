@@ -20,6 +20,7 @@ test("the comment carries the marker, the areas and a who-to-ask table", () => {
   assert.match(md, /\*\*Checkout\*\* \(high\)/);
   assert.match(md, /\| @ana \| engineer \| ask \| owns Checkout \|/);
   assert.match(md, /doesn't approve, block or change anything/);
+  assert.match(md, /^1 file, \+3 −1/m);
 });
 
 test("says plainly when no declared area fits and nobody is named", () => {

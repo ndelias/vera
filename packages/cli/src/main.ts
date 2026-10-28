@@ -28,7 +28,7 @@ function print(r: Review, tracePath: string) {
   const del = r.pull.files.reduce((n, f) => n + f.deletions, 0);
   const lines = [
     `Vera · ${r.pull.ref.owner}/${r.pull.ref.repo}#${r.pull.ref.number}: ${r.pull.title}`,
-    `  ${r.pull.files.length} files, +${add} -${del}${r.ai.length ? ` · likely AI-written: ${r.ai.join("; ")}` : ""}`,
+    `  ${r.pull.files.length} ${r.pull.files.length === 1 ? "file" : "files"}, +${add} -${del}${r.ai.length ? ` · likely AI-written: ${r.ai.join("; ")}` : ""}`,
     `  Owners from ${r.ownership.source === "none" ? "nothing declared" : `${r.ownership.source} (${r.ownership.areas.length} areas, ${r.ownership.people.length} people)`}`,
     ...(r.ownershipError ? [`  .vera.yml skipped: ${r.ownershipError}`] : []),
     "",
