@@ -1,0 +1,54 @@
+name: Vera review
+description: >
+  Reviews each pull request: which areas it touches, whether it makes a
+  design decision, and who should be asked. Posts one comment and keeps it
+  up to date. Reads only; never approves, blocks or runs the PR's code.
+author: Nahuel D'Elias
+branding:
+  icon: eye
+  color: green
+
+inputs:
+  anthropic-api-key:
+    description: Your Anthropic API key (store it as a repository secret). A review costs about 1-2 cents.
+    required: false
+  github-token:
+    description: Token used to read the PR and post the comment. The default works when the job has pull-requests write permission.
+    required: false
+    default: ${{ github.token }}
+  model:
+    description: The Claude model to use.
+    required: false
+    default: claude-sonnet-5-5
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 24
+
+    - name: Install Vera
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm ci --workspace @vera/cli --include-workspace-root=false --no-audit --no-fund
+
+    - name: Review the pull request
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      env:
+        ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        PR_URL: ${{ github.event.pull_request.html_url }}
+        MODEL: ${{ inputs.model }}
+      run: |
+        if [ -z "$PR_URL" ]; then
+          echo "::notice::Vera reviews pull requests; this run isn't for one, so there's nothing to do."
+          exit 0
+        fi
+        if [ -z "$ANTHROPIC_API_KEY" ]; then
+          echo "::notice::No Anthropic API key, so Vera skipped this review. Pull requests from forks never get secrets; for your own branches, add ANTHROPIC_API_KEY as a repository secret."
+          exit 0
+        fi
+        node --disable-warning=ExperimentalWarning packages/cli/src/main.ts review "$PR_URL" --comment --model "$MODEL" --out "$RUNNER_TEMP/vera-runs"
