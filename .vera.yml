@@ -8,8 +8,8 @@ areas:
     description: The Mapper, design check, Briefer, Examiner and their prompts and batch runs
     paths: ["packages/agents/"]
   - name: Review command
-    description: vera review, the routing rules, .vera.yml and CODEOWNERS reading, GitHub access
-    paths: ["packages/cli/", "packages/rules/", "packages/tools/", "examples/"]
+    description: vera review, the routing rules, .vera.yml and CODEOWNERS reading, GitHub access, the GitHub Action and CI
+    paths: ["packages/cli/", "packages/rules/", "packages/tools/", "examples/", "action.yml", ".github/"]
   - name: Core
     description: The trace format, prices, secrets and redaction every package uses
     paths: ["packages/core/"]

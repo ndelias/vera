@@ -199,6 +199,11 @@ owner and, above the size limit, a second reviewer are requested, with the
 reason in the comment. Teams can opt into a gate. *Done when:* it runs on Nahuel's
 portfolio repo, end to end, and another team could install it from a
 tagged release by following the setup docs.
+*First release (Nahuel's call, 28 Oct 2026): comment only.* `action.yml`
+at the repo root makes Vera an installable Action that posts and updates
+one review comment per PR; Vera's own repo uses it first, then the
+portfolio. The sign-off check, understanding checks and the optional gate
+come after.
 
 **M5: Demo company + case study.** A demo repo with seeded roles (engineer,
 designer, security, PM) and realistic AI-written changes. Measured against

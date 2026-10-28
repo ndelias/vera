@@ -39,6 +39,38 @@ review as a GitHub comment, or `--comment` to post it on the PR (it updates
 Vera's earlier comment rather than adding another; needs a `GITHUB_TOKEN`
 that can write to the repo).
 
+## Use it on your repo: the GitHub Action
+
+Vera can review every pull request on your repo and keep one comment up to
+date on each. It reads the PR through GitHub's API and never runs its code.
+
+1. Add your Anthropic API key as a repository secret named
+   `ANTHROPIC_API_KEY` (Settings → Secrets and variables → Actions).
+2. Add `.github/workflows/vera.yml`:
+
+```yaml
+name: Vera review
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  review:
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ndelias/vera@main   # pin a release tag once there is one
+        with:
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+```
+
+3. Optionally add a `.vera.yml` naming your areas and people (see
+   [`examples/vera.yml`](examples/vera.yml)); without it Vera uses CODEOWNERS.
+
+Pull requests from forks don't get secrets, so Vera skips them with a note.
+
 ## Running it
 
 ```bash
