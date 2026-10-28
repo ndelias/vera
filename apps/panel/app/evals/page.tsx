@@ -93,6 +93,18 @@ export default function Evals() {
                   <td className="num muted">80% / 80%</td>
                 </tr>
                 <tr>
+                  <td>Files reviewers commented on, in the brief&rsquo;s first three places (105 GitHub PRs)</td>
+                  <td className="num">{pctOf(agent("B-largest", "agent_brief", "recall3", "brief")?.value)}</td>
+                  <td className="num">{pctOf(agent("briefer-sonnet-v1", "agent_brief", "recall3", "brief")?.value)}</td>
+                  <td className="num muted">beat it</td>
+                </tr>
+                <tr>
+                  <td>Questions for a designer that I rated good on all three checks ({num(agent("examiner-sonnet-v1", "agent_exam", "good", "ratings")?.n ?? 0)})</td>
+                  <td className="num muted">–</td>
+                  <td className="num">{pctOf(agent("examiner-sonnet-v1", "agent_exam", "good", "ratings")?.value)}</td>
+                  <td className="num muted">80%</td>
+                </tr>
+                <tr>
                   <td>Design decision or not, 50 changes it never saw while tuning</td>
                   <td className="num muted">–</td>
                   <td className="num">{pctOf(agent("visibility-sonnet-v2-holdout", "agent_visibility", "agree", "holdout")?.value)} agree</td>
@@ -108,8 +120,11 @@ export default function Evals() {
             first version asked whether a user would notice anything, and flagged bug fixes and permission changes too.
             Asked the right question, it agreed with me on {num(Math.round((agent("visibility-sonnet-v2-holdout", "agent_visibility", "agree", "holdout")?.value ?? 0) * 50))} of
             50 changes it hadn&rsquo;t seen. I labelled those 100 changes, then read Claude&rsquo;s reasoning on each and
-            revised 43 where it changed my mind; the revised labels are used. Each change cost under a cent
-            (Mapper ${(cost("mapper-sonnet-v2") ?? 0).toFixed(3)}, check ${(cost("visibility-sonnet-v2-holdout") ?? 0).toFixed(3)}).
+            revised 43 where it changed my mind; the revised labels are used. The Briefer tells an engineer where to look
+            first, and on real pull requests that was where human reviewers commented 3 times in 4. The Examiner&rsquo;s
+            questions for designers fell short: written from the code, half asked what only the code shows, and a
+            designer needs to see the change to answer. The Mapper and the check cost under a cent a change
+            (Mapper ${(cost("mapper-sonnet-v2") ?? 0).toFixed(3)}, check ${(cost("visibility-sonnet-v2-holdout") ?? 0).toFixed(3)}); a brief, about two cents.
           </p>
         </section>
       ) : null}

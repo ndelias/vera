@@ -172,7 +172,11 @@ scored (study 06, findings 10); the fix-up judge failed its check. `vera
 review <PR URL>` runs on any public GitHub PR: owners come from the repo's
 `.vera.yml`, else CODEOWNERS; when Vera isn't sure and no lead is declared,
 it shows its best candidates marked as unsure (Nahuel's call). About 1–2
-cents a review on Sonnet 5.5. Still to come: the Briefer and Examiner.
+cents a review on Sonnet 5.5. *28 Oct 2026:* the Briefer passes (its
+first places match where reviewers commented, 74% vs 64%); the Examiner's
+questions for designers fail (49% good): they need screenshots of the
+change, so preview deployments come before the Examiner is used for
+design.
 
 **Before M3: the demo (2026-10-21).** /demo is the run viewer playing a
 scripted trace (apps/panel/lib/demo/run.ts) for a fictional shop's pull

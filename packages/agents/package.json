@@ -6,7 +6,9 @@
   "type": "module",
   "exports": {
     "./mapper": "./src/mapper.ts",
-    "./visibility": "./src/visibility.ts"
+    "./visibility": "./src/visibility.ts",
+    "./briefer": "./src/briefer.ts",
+    "./examiner": "./src/examiner.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.132.0",

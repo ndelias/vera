@@ -1,0 +1,35 @@
+{
+ "prs": 105,
+ "answered": 105,
+ "recall3": {
+  "brief": 0.735,
+  "largest_files": 0.644,
+  "difference": 0.091,
+  "ci95": [
+   0.029,
+   0.159
+  ]
+ },
+ "first_place": {
+  "brief": 0.733,
+  "largest_files": 0.505
+ },
+ "per_repo": {
+  "PostHog/posthog": {
+   "prs": 35,
+   "brief": 0.627,
+   "largest_files": 0.54
+  },
+  "getsentry/sentry": {
+   "prs": 35,
+   "brief": 0.779,
+   "largest_files": 0.712
+  },
+  "grafana/grafana": {
+   "prs": 35,
+   "brief": 0.8,
+   "largest_files": 0.681
+  }
+ },
+ "verdict": "passes"
+}

@@ -289,3 +289,23 @@ CREATE TABLE IF NOT EXISTS ag_mergeable (
   mergeable_state TEXT,
   base_ahead INTEGER                -- commits on the base branch not in the PR
 );
+
+-- Study 06, the Briefer: public GitHub PRs and which files reviewers left
+-- line comments on. Paths and counts only; no comment text or reviewer names.
+CREATE TABLE IF NOT EXISTS br_prs (
+  id         TEXT PRIMARY KEY,    -- owner/repo#number
+  repo       TEXT NOT NULL,
+  files      INTEGER NOT NULL,
+  lines      INTEGER NOT NULL,
+  merged_at  INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS br_files (
+  pr         TEXT NOT NULL REFERENCES br_prs(id),
+  path       TEXT NOT NULL,
+  changed    INTEGER NOT NULL,    -- lines added + deleted
+  comments   INTEGER NOT NULL,    -- reviewer line comments on this file
+  PRIMARY KEY (pr, path)
+);
+CREATE TABLE IF NOT EXISTS br_seen (
+  id TEXT PRIMARY KEY, kept INTEGER NOT NULL
+);

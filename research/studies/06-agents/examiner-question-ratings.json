@@ -1,0 +1,354 @@
+{
+ "rated_by": "Nahuel",
+ "date": "2026-10-28",
+ "checks": [
+  "clear",
+  "answerable",
+  "telling"
+ ],
+ "note": "Check 3 was reworded mid-rating (same meaning): 'Would you need to look at the change to answer it?'",
+ "ratings": [
+  {
+   "question": "product-232425__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-232425__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-232425__q2",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-233250__q0",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-233250__q1",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-233250__q2",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-233650__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-233650__q1",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-234219__q0",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-234219__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "no"
+  },
+  {
+   "question": "product-234219__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-236642__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-236642__q1",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-236642__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-237265__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-237265__q1",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-237265__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-237520__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-237520__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-237520__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-239695__q0",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-239695__q1",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-239695__q2",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-242697__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-242697__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-242697__q2",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-243421__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-243421__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-243421__q2",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-245523__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-245523__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-245523__q2",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-246943__q0",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-246943__q1",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-246943__q2",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-255075__q0",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-257025__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-257025__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-257025__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-257298__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-257298__q1",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-257298__q2",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-257485__q0",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-257485__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-257485__q2",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-258909__q0",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "yes"
+  },
+  {
+   "question": "product-258909__q1",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-258909__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-259155__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-259155__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-259155__q2",
+   "clear": "yes",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-259686__q0",
+   "clear": "no",
+   "answerable": "yes",
+   "telling": "no"
+  },
+  {
+   "question": "product-259686__q1",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-259686__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-260001__q0",
+   "clear": "no",
+   "answerable": "no",
+   "telling": "no"
+  },
+  {
+   "question": "product-260001__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "product-260001__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  }
+ ]
+}
