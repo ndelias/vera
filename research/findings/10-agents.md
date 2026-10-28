@@ -14,7 +14,10 @@ as the rules (`research/pipeline/evals.py`). M2 spend so far: about $11.
 | **Design routing**, Nahuel's labels, weighted to the 500 | Hand rules: 100% caught, 44% of pings needed | Routing v1 (Mapper): 67%, 50%. With the visibility check v1: 92%, 39% | 80% / 80% |
 | **Visibility check v2**, 50 held-out changes | — | Agrees with Nahuel on **48 of 50** (87–99%); catches all 22 of his yeses; 2 extra flags | — |
 | **Fix-up judge**, 50 linked pairs Nahuel judged | — | Sonnet finds 11 of 19 of his fix-ups (58%) and rejects 23 of 31 others (74%); Haiku 10 of 19, 21 of 31 | 80% / 90%: **fails** |
-| Cost per change (batch) | free | Mapper $0.008, visibility check $0.007, judge $0.009 | — |
+| **Briefer:** files reviewers commented on, in its first 3 places (105 GitHub PRs) | 3 largest files: 64% | **74%** (+9 points, interval +3 to +16); first place right 73% vs 51% | Beat the baseline: **passes** |
+| **Examiner:** questions for designers good on all three of Nahuel's checks (57) | — | **49%** (37–62%); clear 77%, answerable 53% | 80%: **fails** |
+| Examiner's grader, answers of known quality (171, synthetic) | — | 99% | 80%: passes (easy test) |
+| Cost per change (batch) | free | Mapper $0.008, visibility check $0.007, judge $0.009, brief $0.018 | — |
 
 Model pilot (50 train changes, Mapper): Haiku 5.5 82%, Sonnet 5.5 85%,
 Opus 5.5 87% when the team was listed, at $0.0005, $0.008 and $0.019 a
@@ -53,8 +56,22 @@ more often than Haiku and runs every agent here.
   both bars. Whether a change "fixes" another is often a judgment call
   even for a person; review comments per 100 lines stay the measure.
 
+- **The brief points engineers where reviewers actually looked.** On 105
+  real pull requests, the files the Briefer said to look at first were the
+  ones human reviewers commented on 74% of the time, against 64% for
+  "biggest files first"; its first pick was right 3 times in 4.
+- **Questions for designers need what designers see.** The Examiner wrote
+  its questions from the code, so half of them asked what only the code
+  shows. Judged from what a designer can see, 49% were good. Fair
+  questions for a designer need screenshots of the change, which the plan
+  always called for and Vera doesn't have yet.
+- **The grader is only tested on easy answers.** It sorted clearly good,
+  vague and wrong answers almost perfectly; real reviewers' answers are
+  messier, so this doesn't show it grades them well.
+
 ## Next
 
-The `vera review` command, then the Briefer and Examiner, which need people to rate their output, and the
+Screenshots of a change for the Examiner and the design brief (preview
+deployments), then the run viewer (M3), which need people to rate their output, and the
 `vera review` command. Study 07 checks whether coding agents' pull
 requests pile up unreviewed on public GitHub.

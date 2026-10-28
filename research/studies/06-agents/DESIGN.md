@@ -291,3 +291,34 @@ where that's objective, and his product judgment where it isn't.
 
 **25 Oct 2026, before any data: mastodon/mastodon has no CODEOWNERS file,
 so getsentry/sentry (which has one) takes its place.**
+
+**25 Oct 2026, before any question is written: 20 changes, not 38.** To
+keep Nahuel's rating near 30 minutes, the Examiner runs on 20 of the 38
+changes he said a designer should see, picked at random (seed 20261027).
+
+## Briefer and Examiner results (28 Oct 2026)
+
+**Briefer: passes.** 105 PRs (35 each from Grafana, PostHog, Sentry). Of
+the files reviewers commented on, the brief's first 3 places covered
+73.5% against 64.4% for the 3 largest files: +9.1 points (95% interval
++2.9 to +15.9). Its first place was a commented file 73% of the time
+(largest file: 51%). Ahead in all three repos. `briefer-scores.json`.
+
+**Examiner questions: fail.** 57 questions on 20 changes. Nahuel rated
+28 of 57 (49%, 95% interval 37–62%) yes on all three checks; bar 80%.
+Clear 44, answerable from the change 30, need to look to answer 29. He
+judged answerable from what a designer can see (the card's description
+and the link), which is the right standard for a designer's question: the
+Examiner wrote many questions only the code answers. 16 of 20 changes had
+at least one good question. While rating, check 3 was reworded (same
+meaning) to "Would you need to look at the change to answer it?", and he
+was told that an unanswerable question takes no on check 3 too.
+`examiner-question-ratings.json`.
+
+**Grader: passes, on synthetic answers.** 169 of 171 (99%): every good
+answer passed, every wrong one failed, 55 of 57 vague ones failed. The
+answers were written by a separate model call to be clearly good, vague
+or wrong, which is easier than real reviewers' answers. `grader-scores.json`.
+
+Spend for this round: $2.35 (briefs $1.90, questions $0.27, test answers
+$0.01, grading $0.18).

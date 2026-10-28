@@ -497,7 +497,7 @@ def cmd_agents() -> None:
     held-out changes, and cost per change."""
     import glob
     conn = connect()
-    conn.execute("DELETE FROM ev_scores WHERE task IN ('agent_mapping', 'agent_design', 'agent_visibility', 'agent_judge', 'agent_cost')")
+    conn.execute("DELETE FROM ev_scores WHERE task IN ('agent_mapping', 'agent_design', 'agent_visibility', 'agent_judge', 'agent_brief', 'agent_exam', 'agent_cost')")
     rows = []
     # Mapping, test500: B1 and the Mapper versions on the same changes.
     directory = {p[-12:-5]: {norm(t["name"]) for t in json.load(open(p))["teams"]} | {norm(t["key"]) for t in json.load(open(p))["teams"]}
@@ -544,6 +544,21 @@ def cmd_agents() -> None:
         rejected = sum(1 for k in no if pred.get(k, {}).get("fixes") is False)
         rows.append((system, "agent_judge", "found", "verdicts", found / len(yes), *wilson(found, len(yes)), len(yes)))
         rows.append((system, "agent_judge", "rejected", "verdicts", rejected / len(no), *wilson(rejected, len(no)), len(no)))
+    # The Briefer, the Examiner's questions and its grader (scores written by `briefer` and `grader`).
+    studies = ROOT / "studies" / "06-agents"
+    if (studies / "briefer-scores.json").exists():
+        b = json.loads((studies / "briefer-scores.json").read_text())
+        rows.append(("briefer-sonnet-v1", "agent_brief", "recall3", "brief", b["recall3"]["brief"], None, None, b["prs"]))
+        rows.append(("B-largest", "agent_brief", "recall3", "brief", b["recall3"]["largest_files"], None, None, b["prs"]))
+        rows.append(("briefer-sonnet-v1", "agent_brief", "first_place", "brief", b["first_place"]["brief"], None, None, b["prs"]))
+        rows.append(("B-largest", "agent_brief", "first_place", "brief", b["first_place"]["largest_files"], None, None, b["prs"]))
+    if (studies / "examiner-question-ratings.json").exists():
+        r = json.loads((studies / "examiner-question-ratings.json").read_text())["ratings"]
+        good = sum(all(x[c] == "yes" for c in ("clear", "answerable", "telling")) for x in r)
+        rows.append(("examiner-sonnet-v1", "agent_exam", "good", "ratings", good / len(r), *wilson(good, len(r)), len(r)))
+    if (studies / "grader-scores.json").exists():
+        g = json.loads((studies / "grader-scores.json").read_text())
+        rows.append(("grader-sonnet-v1", "agent_exam", "grader_agree", "synthetic", g["share"], *g["ci95"], g["answers"]))
     # Cost per change at batch prices.
     for system, per, n in conn.execute("SELECT system, AVG(cost_usd), COUNT(*) FROM ev_costs WHERE status = 'ok' GROUP BY system"):
         rows.append((system, "agent_cost", "usd_per_change", "batch", per, None, None, n))
@@ -551,6 +566,71 @@ def cmd_agents() -> None:
     conn.commit()
     for r in rows:
         print(f"{r[0]:<30} {r[1]:<17} {r[2]:<15} {r[3]:<8} {r[4] if r[4] is None else round(r[4], 4)}  n={r[7]}")
+
+
+def cmd_briefer(system: str = "briefer-sonnet-v1") -> None:
+    """The Briefer against where reviewers left line comments (study 06 DESIGN.md):
+    file recall@3 and first-place hits, against the 3 largest files, with a
+    paired bootstrap interval on the difference."""
+    import re as _re
+    conn = connect()
+    batch = ROOT / "data" / "batches" / system
+    gold, size, repo_of = defaultdict(set), defaultdict(dict), {}
+    for pr, path, changed, comments in conn.execute("SELECT pr, path, changed, comments FROM br_files"):
+        size[pr][path] = changed
+        if comments:
+            gold[pr].add(path)
+    for pr, repo in conn.execute("SELECT id, repo FROM br_prs"):
+        repo_of[pr] = repo
+    rows = []
+    for pr in sorted(repo_of):
+        f = batch / (_re.sub(r"[^A-Za-z0-9_-]", "_", pr)[:64] + ".json")
+        brief = json.loads(f.read_text()) if f.exists() else None
+        order = []
+        for place in (brief or {}).get("places", []):
+            if place["file"] in size[pr] and place["file"] not in order:
+                order.append(place["file"])
+        top3 = order[:3]
+        base = [p for p, _ in sorted(size[pr].items(), key=lambda kv: -kv[1])][:3]
+        g = gold[pr]
+        rows.append((repo_of[pr], len(g & set(top3)) / len(g), len(g & set(base)) / len(g),
+                     int(bool(top3) and top3[0] in g), int(base[0] in g), brief is not None))
+    rng = random.Random(SEED)
+    mean = lambda v: sum(v) / len(v)
+    diff = [r[1] - r[2] for r in rows]
+    lo, hi = bootstrap(diff, mean, rng)
+    out = {"prs": len(rows), "answered": sum(r[5] for r in rows),
+           "recall3": {"brief": round(mean([r[1] for r in rows]), 3), "largest_files": round(mean([r[2] for r in rows]), 3),
+                       "difference": round(mean(diff), 3), "ci95": [round(lo, 3), round(hi, 3)]},
+           "first_place": {"brief": round(mean([r[3] for r in rows]), 3), "largest_files": round(mean([r[4] for r in rows]), 3)},
+           "per_repo": {repo: {"prs": len(rs), "brief": round(mean([r[1] for r in rs]), 3), "largest_files": round(mean([r[2] for r in rs]), 3)}
+                        for repo in sorted(set(repo_of.values())) for rs in [[r for r in rows if r[0] == repo]]},
+           "verdict": "passes" if mean(diff) > 0 and lo > 0 else "doesn't pass"}
+    (ROOT / "studies" / "06-agents" / "briefer-scores.json").write_text(json.dumps(out, indent=1))
+    print(json.dumps(out, indent=1))
+
+
+def cmd_grader(system: str = "grader-sonnet-v1") -> None:
+    """The Examiner's grader on answers of known quality (study 06 DESIGN.md):
+    it should pass the good answer and fail the vague and the wrong one."""
+    batch = ROOT / "data" / "batches" / system
+    right, by_kind = 0, defaultdict(lambda: [0, 0])
+    for f in sorted(batch.glob("*.json")):
+        kind = f.stem.rsplit("__", 1)[1]
+        grade = json.loads(f.read_text())
+        if grade is None:
+            continue
+        ok = grade["pass"] == (kind == "good")
+        right += ok
+        by_kind[kind][0] += ok
+        by_kind[kind][1] += 1
+    n = sum(v[1] for v in by_kind.values())
+    lo, hi = wilson(right, n)
+    out = {"answers": n, "agree": right, "share": round(right / n, 3), "ci95": [round(lo, 3), round(hi, 3)],
+           "by_kind": {k: {"right": v[0], "n": v[1]} for k, v in sorted(by_kind.items())},
+           "verdict": "passes" if right / n >= 0.8 else "doesn't pass"}
+    (ROOT / "studies" / "06-agents" / "grader-scores.json").write_text(json.dumps(out, indent=1))
+    print(json.dumps(out, indent=1))
 
 
 def cmd_sample(name: str, split: str, n: str, seed: str) -> None:
@@ -689,4 +769,4 @@ def cmd_score() -> None:
 
 
 if __name__ == "__main__":
-    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample, "pilot": cmd_pilot, "ownership": cmd_ownership, "route": cmd_route, "routing": cmd_routing, "route2": cmd_route2, "design": cmd_design, "agents": cmd_agents}[sys.argv[1]](*sys.argv[2:])
+    {"build": cmd_build, "baselines": cmd_baselines, "check": cmd_check, "score": cmd_score, "sample": cmd_sample, "pilot": cmd_pilot, "ownership": cmd_ownership, "route": cmd_route, "routing": cmd_routing, "route2": cmd_route2, "design": cmd_design, "agents": cmd_agents, "briefer": cmd_briefer, "grader": cmd_grader}[sys.argv[1]](*sys.argv[2:])
