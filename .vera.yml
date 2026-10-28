@@ -1,0 +1,32 @@
+# Who owns what in Vera's own repo, and who reviews it. Vera reads this
+# when it reviews a pull request here (`vera review <PR URL>`).
+
+lead: "@ndelias"
+
+areas:
+  - name: Agents
+    description: The Mapper, design check, Briefer, Examiner and their prompts and batch runs
+    paths: ["packages/agents/"]
+  - name: Review command
+    description: vera review, the routing rules, .vera.yml and CODEOWNERS reading, GitHub access
+    paths: ["packages/cli/", "packages/rules/", "packages/tools/", "examples/"]
+  - name: Core
+    description: The trace format, prices, secrets and redaction every package uses
+    paths: ["packages/core/"]
+  - name: Website
+    description: vera-agent.vercel.app, the case, the evidence pages, the demo and the evals
+    paths: ["apps/panel/"]
+  - name: Research
+    description: Studies, data pipelines, findings and the evals' scorers
+    paths: ["research/"]
+  - name: Plan and docs
+    description: The README, the build plan and the working rules
+    paths: ["README.md", "BUILD-PLAN.md", "CLAUDE.md", ".vera.yml", "LICENSE", "NOTICE"]
+
+# One person for now, in every role. A team lists each person once per role
+# they review for, with the areas they cover.
+people:
+  - { handle: "@ndelias", role: engineer, areas: [Agents, Review command, Core, Website, Research, Plan and docs] }
+  - { handle: "@ndelias", role: design, areas: [Website] }
+  - { handle: "@ndelias", role: product, areas: [Website, Plan and docs] }
+  - { handle: "@ndelias", role: docs, areas: [Plan and docs, Research] }
