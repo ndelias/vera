@@ -30,7 +30,7 @@ test("action first: who signs off, then where to look, then how Vera decided, fo
 test("each place is a table row linking to its lines in Files changed, unless the file isn't in the PR", () => {
   const md = toMarkdown(base);
   const hash = createHash("sha256").update("a.ts").digest("hex");
-  assert.ok(md.includes(`| **High** | [\`a.ts\` L10-24](https://github.com/o/r/pull/1/files#diff-${hash}R10 "a.ts") | Applies the discount. | A negative total is possible. |`));
+  assert.ok(md.includes(`| **High** | [\`a.ts\` L10-24](https://github.com/o/r/pull/1/files#diff-${hash}R10 "a.ts") | @ana | Applies the discount. | A negative total is possible. |`));
   assert.match(md, /\| \*\*Low\*\* \| `gone\.ts` L3<br><sub>gone\.ts<\/sub> \|/);
 });
 

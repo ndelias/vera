@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ConfigError, areasFor, fromCodeowners, fromVeraYml, matches, route } from "../src/index.ts";
+import { ConfigError, areasFor, checkerFor, fromCodeowners, fromVeraYml, matches, route } from "../src/index.ts";
 
 const YML = `
 lead: "@lena"
@@ -79,4 +79,24 @@ test("unsure with no lead declared: suggest the top candidates, marked as unsure
   ], { decision: false, confidence: "high", what: "No design decision" });
   assert.deepEqual(plan.asks.map((a) => [a.who, a.action]), [["@access-squad", "suggest"], ["@identity-squad", "suggest"]]);
   assert.match(plan.notes.join(" "), /not a sure answer/);
+});
+
+test("each file in the brief goes to the asked engineer who owns its area", () => {
+  const o = fromVeraYml(`
+areas:
+  - { name: Checkout, paths: ["src/checkout/"] }
+  - { name: Search, paths: ["src/search/"] }
+people:
+  - { handle: "@ana", role: engineer, areas: [Checkout] }
+  - { handle: "@sam", role: engineer, areas: [Search] }
+`);
+  const asks = [
+    { who: "@ana", role: "engineer" as const, action: "ask" as const, why: "owns Checkout" },
+    { who: "@sam", role: "engineer" as const, action: "ask" as const, why: "owns Search" },
+  ];
+  assert.deepEqual(checkerFor(o, asks, "src/checkout/cart.ts"), ["@ana"]);
+  assert.deepEqual(checkerFor(o, asks, "src/search/index.ts"), ["@sam"]);
+  assert.deepEqual(checkerFor(o, asks, "README.md"), ["@ana", "@sam"]);
+  assert.deepEqual(checkerFor(o, [{ who: "@lena", role: "engineer", action: "ask-lead", why: "unsure" }], "src/search/index.ts"), ["@lena"]);
+  assert.deepEqual(checkerFor(o, [], "src/search/index.ts"), []);
 });

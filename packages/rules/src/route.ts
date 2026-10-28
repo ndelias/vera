@@ -3,7 +3,7 @@
 // what the team declared. Three outcomes per role: ask directly, ask the lead
 // when Vera isn't sure, or stay quiet (BUILD-PLAN, Routing).
 
-import type { Ownership, Person, Role } from "./config.ts";
+import { areaOf, type Ownership, type Person, type Role } from "./config.ts";
 
 export type AreaGuess = { area: string; confidence: "high" | "medium" | "low"; reason: string };
 export type DesignGuess = { decision: boolean; confidence: "high" | "medium" | "low"; what: string };
@@ -79,4 +79,14 @@ export function route(o: Ownership, paths: string[], areas: AreaGuess[], design:
   }
 
   return { asks, notes };
+}
+
+/** Who should check one file in the engineer's brief: the engineers asked
+ * who own the file's area, else every engineer asked (which may be the
+ * lead, when Vera wasn't sure). Empty when no engineer was asked. */
+export function checkerFor(o: Ownership, asks: Ask[], path: string): string[] {
+  const engineers = asks.filter((a) => a.role === "engineer");
+  const area = areaOf(o, path);
+  const owners = area ? engineers.filter((a) => inArea(o, area, "engineer").some((p) => p.handle === a.who)) : [];
+  return [...new Set((owners.length ? owners : engineers).map((a) => a.who))];
 }
