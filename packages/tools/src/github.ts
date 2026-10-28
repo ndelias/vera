@@ -70,6 +70,26 @@ export function client(token: string | undefined, onCall: OnCall = () => {}) {
       return { ref, title: pr.title, body: pr.body ?? "", baseRef: pr.base.ref, author: pr.user.login, files, commitMessages: commits.map((c) => c.commit.message) };
     },
 
+    /** Posts Vera's comment on the PR, or updates the one it posted before
+     * (found by a hidden marker), so a PR never collects a pile of them.
+     * Needs a token that can write to the repo. */
+    async comment(ref: PullRef, body: string, marker: string): Promise<string> {
+      if (!token) throw new GitHubError("Posting a comment needs GITHUB_TOKEN (a token that can write to the repo).");
+      const base = `/repos/${ref.owner}/${ref.repo}/issues`;
+      const existing = (await get<{ id: number; body: string; html_url: string }[]>("github.comments", `${base}/${ref.number}/comments?per_page=100`, (c) => `${c.length} comments`))!
+        .find((c) => c.body.includes(marker));
+      const t0 = Date.now();
+      const res = await fetch(`${API}${existing ? `${base}/comments/${existing.id}` : `${base}/${ref.number}/comments`}`, {
+        method: existing ? "PATCH" : "POST",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body: JSON.stringify({ body }),
+      });
+      const ok = res.ok;
+      onCall({ tool: existing ? "github.comment.update" : "github.comment.create", input: ref.url, ok, latencyMs: Date.now() - t0, summary: ok ? "posted" : "failed", ...(ok ? {} : { error: `GitHub ${res.status}` }) });
+      if (!ok) throw new GitHubError(`GitHub ${res.status} posting the comment. The token may not be allowed to write to ${ref.owner}/${ref.repo}.`);
+      return ((await res.json()) as { html_url: string }).html_url;
+    },
+
     /** `.vera.yml` and CODEOWNERS as they are on the branch the PR merges into. */
     async ownershipFiles(ref: PullRef, baseRef: string): Promise<{ veraYml: string | null; codeowners: string | null }> {
       const contents = `/repos/${ref.owner}/${ref.repo}/contents`;
