@@ -29,6 +29,8 @@ function optional(name: string): string | undefined {
   }
 }
 
+const sentence = (s: string) => (/[.!?]$/.test(s.trim()) ? s.trim() : `${s.trim()}.`);
+
 function print(r: Review, tracePath: string) {
   const t = totals(r.trace);
   const add = r.pull.files.reduce((n, f) => n + f.additions, 0);
@@ -47,7 +49,7 @@ function print(r: Review, tracePath: string) {
     "Where to look first (engineer)",
     ...(!r.brief ? ["  (the Briefer gave no answer)"] : [
       ...(r.brief.summary ? [`  ${r.brief.summary}`] : []),
-      ...r.brief.places.flatMap((p, i) => [`  ${i + 1}. ${p.risk.padEnd(6)} ${p.file} ${p.lines}`, `      ${p.what}. ${p.why}`.replace(/\.\./g, ".")]),
+      ...r.brief.places.flatMap((p, i) => [`  ${i + 1}. ${p.risk.padEnd(6)} ${p.file} ${p.lines}`, `      ${sentence(p.what)} ${p.why}`]),
     ]),
     "",
     "Who to ask",
@@ -138,8 +140,10 @@ try {
   if (args.includes("--comment")) {
     // Sign-offs from before this push still count, so they're read first.
     const gh = github(githubToken);
-    const [reviews, comments] = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref)]);
-    const s = status(r.plan.asks, r.pull.author, reviews, comments, MARKER);
+    // If they can't be read, the review is still posted, showing everyone as waiting.
+    const s = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref)])
+      .then(([reviews, comments]) => status(r.plan.asks, r.pull.author, reviews, comments, MARKER))
+      .catch(() => status(r.plan.asks, r.pull.author, [], [], MARKER));
     console.log(`Posted: ${await gh.comment(r.pull.ref, toMarkdown(r, s), MARKER)}`);
     await writeCheck(githubToken, r.pull.ref, r.pull.headSha, s);
   } else if (args.includes("--markdown")) {

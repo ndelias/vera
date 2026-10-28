@@ -43,3 +43,10 @@ test("says plainly when no declared area fits and nobody is named", () => {
   assert.match(md, /> No lead is declared to ask\./);
   assert.match(md, /The Briefer gave no answer this time\./);
 });
+
+test("model-written text keeps its ellipses and can't add HTML", () => {
+  const brief = { summary: "Adds <details> to the page", places: [{ file: "a.ts", lines: "1", what: "Waits...", why: "Retries forever...", risk: "medium" as const }] };
+  const md = toMarkdown({ ...base, brief });
+  assert.match(md, /_Adds &lt;details> to the page_/);
+  assert.match(md, /   Waits\.\.\. Retries forever\.\.\./);
+});

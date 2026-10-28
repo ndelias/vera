@@ -14,6 +14,9 @@ export const MARKER = "<!-- vera-review -->";
 
 const ACTION = { ask: "ask", "ask-lead": "ask, as lead (Vera isn't sure who should review)", suggest: "possible owner (Vera isn't sure)" } as const;
 const RISK = { high: "High", medium: "Medium", low: "Low" } as const;
+const sentence = (s: string) => (/[.!?]$/.test(s.trim()) ? s.trim() : `${s.trim()}.`);
+/** Model-written text goes in as text: no HTML, so it can't open a <details> or hide a marker. */
+const plain = (s: string) => s.replace(/</g, "&lt;");
 
 /** A link to the lines in the PR's "Files changed" view, which anchors each
  * file by the SHA-256 of its path and each line by R<number>. */
@@ -37,11 +40,11 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
   lines.push("#### Where to look first", "");
   if (!r.brief) lines.push("_The Briefer gave no answer this time._");
   else {
-    if (r.brief.summary) lines.push(`_${r.brief.summary}_`, "");
+    if (r.brief.summary) lines.push(`_${plain(r.brief.summary)}_`, "");
     r.brief.places.forEach((p, i) => {
       const label = `\`${p.file}\` ${p.lines.startsWith("L") ? p.lines : `L${p.lines}`}`;
       const url = linesLink(r, p.file, p.lines);
-      lines.push(`${i + 1}. **${RISK[p.risk]}** · ${url ? `[${label}](${url})` : label}  `, `   ${p.what}. ${p.why}`.replace(/\.\./g, "."));
+      lines.push(`${i + 1}. **${RISK[p.risk]}** · ${url ? `[${label}](${url})` : label}  `, `   ${plain(sentence(p.what))} ${plain(p.why)}`);
     });
   }
 
@@ -57,7 +60,7 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
     `**Design decision:** ${r.design ? `${r.design.visible ? "yes" : "no"} (${r.design.confidence}). ${r.design.what}` : "(no answer)"}`,
     "",
     "**Who was asked, and why**",
-    ...(r.plan.asks.length ? r.plan.asks.map((a) => `- ${a.who}, ${a.role}: ${ACTION[a.action]}. ${a.why}.`.replace(/\.\./g, ".")) : ["- Nobody named."]),
+    ...(r.plan.asks.length ? r.plan.asks.map((a) => `- ${a.who}, ${a.role}: ${ACTION[a.action]}. ${sentence(a.why)}`) : ["- Nobody named."]),
     ...(r.plan.asks.length && r.plan.notes.length ? ["", ...r.plan.notes.map((n) => `> ${n}`)] : []),
     "",
     "</details>",
