@@ -60,3 +60,31 @@ export function toCheck(s: Signoff): Check {
 
 export const status = (asks: Ask[], author: string, reviews: PullReview[], comments: Comment[], marker: string) =>
   signoff(asks, author, events(reviews, comments, marker));
+
+// The top of Vera's comment: who has to sign off and who has. It sits
+// between these markers so a sign-off can update it without a new review.
+const OPEN = "<!-- vera-status -->";
+const CLOSE = "<!-- /vera-status -->";
+const AS = { ask: "", "ask-lead": " (as lead)", suggest: " (possible owner)" } as const;
+
+export function statusBlock(s: Signoff, asks: Ask[]): string {
+  const left = s.roles.filter((r) => !r.by).length;
+  const heading = !s.roles.length ? "Nobody to ask"
+    : !left ? "Signed off"
+    : left === s.roles.length ? `${left} ${left === 1 ? "sign-off" : "sign-offs"} needed`
+    : `${left} of ${s.roles.length} sign-offs still needed`;
+  const rows = s.roles.map((r) => {
+    const as = AS[asks.find((a) => a.role === r.role)?.action ?? "ask"];
+    const someoneElse = r.by && (r.asked.length > 1 || r.asked[0]?.toLowerCase() !== r.by.toLowerCase());
+    const state = r.by ? `✓ signed off${someoneElse ? ` by ${r.by}` : ""}${r.byAuthor ? " (author)" : ""}` : "waiting";
+    return `| ${r.asked.join(" or ")} | ${r.role}${as} | ${state} |`;
+  });
+  return [OPEN, `### Vera · ${heading}`, ...(rows.length ? ["", "| Who | Role | Sign-off |", "|---|---|---|", ...rows] : []), CLOSE].join("\n");
+}
+
+/** Vera's comment with its status block swapped for a fresh one, or null if it has none. */
+export function withStatus(body: string, block: string): string | null {
+  const start = body.indexOf(OPEN);
+  const end = body.indexOf(CLOSE);
+  return start >= 0 && end > start ? body.slice(0, start) + block + body.slice(end + CLOSE.length) : null;
+}

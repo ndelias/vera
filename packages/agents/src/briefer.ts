@@ -16,11 +16,19 @@ const FOCUS: Record<BriefRole, string> = {
   security: "how data and permissions flow: who can see or do what, input handling, secrets, and anything that crosses a trust boundary",
 };
 
-const instructions = (role: BriefRole) => `You are the Briefer in Vera, a code review assistant. You write the brief for one reviewer, whose role is: ${role}. They will read the change themselves; your job is to tell them where to look first.
+const instructions = (role: BriefRole, version: BrieferVersion) => `You are the Briefer in Vera, a code review assistant. You write the brief for one reviewer, whose role is: ${role}. They will read the change themselves; your job is to tell them where to look first.
 
 Name the 3 to 5 places in this change that most need a person's judgment, for this role, ordered by risk (highest first). For a ${role}, focus on ${FOCUS[role]}. Skip what a person needn't check: generated files, renames, formatting, and tests that only mirror the code (unless the tests are what's risky).
 
-For each place, give the file path exactly as the change lists it, the line range in the new version of the file (read it from the diff's @@ headers), what is there in a few words, why it needs judgment, and a risk (high, medium or low). Start with a one-sentence summary of the change for this reviewer. Only claim what the diff shows.`;
+${LENGTH[version]} Only claim what the diff shows.`;
+
+// v2 (28 Oct 2026) only shortens the text: v1's "why" ran to a paragraph,
+// too long to scan in a PR comment. Where it points is meant to stay the same.
+const LENGTH = {
+  v1: "For each place, give the file path exactly as the change lists it, the line range in the new version of the file (read it from the diff's @@ headers), what is there in a few words, why it needs judgment, and a risk (high, medium or low). Start with a one-sentence summary of the change for this reviewer.",
+  v2: "For each place, give the file path exactly as the change lists it, the line range in the new version of the file (read it from the diff's @@ headers), what is there in at most 8 words, why it needs judgment in one plain sentence of at most 20 words (the risk itself, not what to check), and a risk (high, medium or low). Start with a one-sentence summary of the change for this reviewer, at most 20 words. Reviewers skim this: short and specific beats complete.",
+} as const;
+export type BrieferVersion = keyof typeof LENGTH;
 
 const OUTPUT_SCHEMA = {
   type: "object",
@@ -46,12 +54,12 @@ const OUTPUT_SCHEMA = {
   additionalProperties: false,
 } as const;
 
-export function briefRequest(model: string, c: Change, role: BriefRole): Anthropic.MessageCreateParamsNonStreaming {
+export function briefRequest(model: string, c: Change, role: BriefRole, version: BrieferVersion = "v2"): Anthropic.MessageCreateParamsNonStreaming {
   return {
     model,
     max_tokens: 8000,
     output_config: { effort: "medium", format: { type: "json_schema", schema: OUTPUT_SCHEMA } },
-    system: [{ type: "text", text: instructions(role), cache_control: { type: "ephemeral" } }],
+    system: [{ type: "text", text: instructions(role, version), cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: changeText({ title: c.title, files: c.files }) }],
   };
 }
