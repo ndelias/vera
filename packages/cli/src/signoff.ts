@@ -1,9 +1,11 @@
 // The "Vera: sign-off" check. Vera's comment carries who it asked, hidden,
 // so when someone approves or comments `/vera sign-off`, this re-reads it and
-// updates the check without running the agents again: no API key, no cost.
+// updates the check without running the agents again. Grading answers to
+// the understanding check is the only model call on this path.
 
 import { parseSignoff, signoff, type Ask, type Signoff, type SignoffEvent } from "@vera/rules";
 import type { Check, Comment, PullReview } from "@vera/tools/github";
+import { describe, gradesMarker, type Grades, type Understanding } from "./understanding.ts";
 
 export const CHECK = "Vera: sign-off";
 const PLAN = /<!-- vera-plan:([A-Za-z0-9+/=]*) -->/;
@@ -37,7 +39,10 @@ export function events(reviews: PullReview[], comments: Comment[], marker: strin
 
 const HOW = "**To sign off:** approve the pull request, or comment `/vera sign-off`. To sign off for one role only, name it: `/vera sign-off design`. Requesting changes takes a sign-off back.";
 
-export function toCheck(s: Signoff): Check {
+/** The engineer's understanding, shown next to their sign-off. */
+const withUnderstanding = (r: Signoff["roles"][number], u?: Understanding) => (u && r.by && r.role === "engineer" ? ` · ${describe(u)}` : "");
+
+export function toCheck(s: Signoff, u?: Understanding): Check {
   if (!s.roles.length) {
     return { conclusion: "neutral", title: "Nobody to sign off", summary: "Vera didn't name anyone to ask about this change (its comment says why), so there's nothing to sign off." };
   }
@@ -49,9 +54,10 @@ export function toCheck(s: Signoff): Check {
   const summary = [
     "| Role | Asked | Signed off |",
     "|---|---|---|",
-    ...s.roles.map((r) => `| ${r.role} | ${r.asked.join(", ")} | ${r.by ? `✓ ${who(r)}` : "waiting"} |`),
+    ...s.roles.map((r) => `| ${r.role} | ${r.asked.join(", ")} | ${r.by ? `✓ ${who(r)}${withUnderstanding(r, u)}` : "waiting"} |`),
     "",
     HOW,
+    ...(u ? ["", `**Understanding check:** ${u.questions} ${u.questions === 1 ? "question" : "questions"} for the engineer, answered where they sign off.`, ...u.reasons.map((x, n) => `${n + 1}. ${x}`)] : []),
     "",
     "This check is information only: it doesn't block merging.",
   ].join("\n");
@@ -67,7 +73,7 @@ const OPEN = "<!-- vera-status -->";
 const CLOSE = "<!-- /vera-status -->";
 const AS = { ask: "", "ask-lead": " (as lead)", suggest: " (possible owner)" } as const;
 
-export function statusBlock(s: Signoff, asks: Ask[]): string {
+export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: Grades = {}): string {
   const left = s.roles.filter((r) => !r.by).length;
   const heading = !s.roles.length ? "Nobody to ask"
     : !left ? "Signed off"
@@ -76,10 +82,11 @@ export function statusBlock(s: Signoff, asks: Ask[]): string {
   const rows = s.roles.map((r) => {
     const as = AS[asks.find((a) => a.role === r.role)?.action ?? "ask"];
     const someoneElse = r.by && (r.asked.length > 1 || r.asked[0]?.toLowerCase() !== r.by.toLowerCase());
-    const state = r.by ? `✓ signed off${someoneElse ? ` by ${r.by}` : ""}${r.byAuthor ? " (author)" : ""}` : "waiting";
+    const state = r.by ? `✓ signed off${someoneElse ? ` by ${r.by}` : ""}${r.byAuthor ? " (author)" : ""}${withUnderstanding(r, u)}` : "waiting";
     return `| ${r.asked.join(" or ")} | ${r.role}${as} | ${state} |`;
   });
-  return [OPEN, `### Vera · ${heading}`, ...(rows.length ? ["", "| Who | Role | Sign-off |", "|---|---|---|", ...rows] : []), CLOSE].join("\n");
+  const kept = Object.keys(grades).length ? [gradesMarker(grades)] : [];
+  return [OPEN, ...kept, `### Vera · ${heading}`, ...(rows.length ? ["", "| Who | Role | Sign-off |", "|---|---|---|", ...rows] : []), CLOSE].join("\n");
 }
 
 /** Vera's comment with its status block swapped for a fresh one, or null if it has none. */

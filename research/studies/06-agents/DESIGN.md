@@ -372,3 +372,19 @@ call: he rates about 30).
   separate call. Bar: at least 80% graded as expected. Synthetic answers
   are easier than real ones, and the write-up says so.
 - **Budget:** under $1.
+
+**Result (28 Oct 2026): passes, narrowly.** Nahuel rated 29 of 36
+questions good on all three checks: 80.6% (95% interval 65–90%), against
+a bar of 80%. All 36 were clear and all 36 answerable from the change;
+the 7 misses could be guessed from the title. They sat in 3 of the 12
+changes (one Grafana PR with 3, one Grafana PR and one Sentry PR with 2
+each); 11 of 12 changes had at least one good question.
+`examiner-eng-question-ratings.json`.
+
+**Grader: passes, on synthetic answers.** 108 of 108: every good answer
+passed, every vague and every wrong one failed (95% interval 97–100%).
+The answers were written by a separate call to be clearly good, vague or
+wrong, which is easier than real reviewers' answers; how it grades real
+answers is measured from real use. `grader-eng-scores.json`.
+
+Spend: questions $0.16, test answers $0.06, grading $0.12.

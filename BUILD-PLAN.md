@@ -226,6 +226,15 @@ the baseline (study 06). How Vera decided (areas, design call, AI signals,
 cost) is folded away below. Only the engineer's brief is used; the design
 brief waits for screenshots, like the Examiner's design questions.
 
+*Understanding checks (Nahuel's calls, 28 Oct 2026).* For engineers first:
+their questions passed Nahuel's ratings (study 06, 29 of 36). Asked when
+the change is likely AI-written or the brief marks a place high risk, and
+an engineer is asked. Answered where the engineer signs off (the
+approval's text, or under `/vera sign-off`), graded by the grader, and
+shown on the sign-off ("understood 2 of 3"). New commits bring new
+questions. It records; it doesn't block. What a good answer covers is
+sealed in Vera's comment with a key derived from the repo's Anthropic key.
+
 *Order from here (Nahuel's call, 28 Oct 2026).* 1. The comment's design
 with the Briefer in it. 2. Understanding checks: the Examiner for
 engineers, then screenshots so it can ask designers. 3. The run viewer

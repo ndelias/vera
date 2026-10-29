@@ -2,8 +2,9 @@
 // vera review <pull request URL> [--config .vera.yml] [--markdown | --comment] [--model claude-sonnet-5-5] [--out .vera/runs]
 //   --markdown prints the review as a GitHub comment; --comment posts it (or updates Vera's earlier
 //   one) and the "Vera: sign-off" check.
-// vera sign-off <pull request URL> [--comment-id <id>]
-//   Updates the sign-off check from the PR's approvals and `/vera sign-off` comments. No model calls.
+// vera sign-off <pull request URL> [--comment-id <id>] [--model claude-sonnet-5-5]
+//   Updates the sign-off check from the PR's approvals and `/vera sign-off` comments. Its only
+//   model calls grade answers to the understanding check, once each (needs ANTHROPIC_API_KEY).
 //
 // review needs ANTHROPIC_API_KEY (your own key; a review costs about 2-4 cents).
 // GITHUB_TOKEN is optional for reading and raises GitHub's limit from 60 requests an hour;
@@ -15,11 +16,14 @@ import { secret, toJsonl, totals } from "@vera/core";
 import { review, type Review } from "./review.ts";
 import { MARKER, toMarkdown } from "./markdown.ts";
 import { CHECK, readPlan, status, statusBlock, toCheck, withStatus } from "./signoff.ts";
+import { latestAnswers, open, readExam, readGrades, type Grades, type Understanding } from "./understanding.ts";
+import Anthropic from "@anthropic-ai/sdk";
+import { gradeRequest, parseJson, type Grade } from "@vera/agents/examiner";
 import { counts, parseSignoff, type Signoff } from "@vera/rules";
-import { client as github, parsePullUrl, type PullRef } from "@vera/tools/github";
+import { client as github, parsePullUrl, type Comment, type PullRef, type PullReview } from "@vera/tools/github";
 
 const USAGE = `Usage: vera review <GitHub pull request URL> [--config .vera.yml] [--markdown | --comment] [--model claude-sonnet-5-5] [--out .vera/runs]
-       vera sign-off <GitHub pull request URL> [--comment-id <id>]`;
+       vera sign-off <GitHub pull request URL> [--comment-id <id>] [--model claude-sonnet-5-5]`;
 
 function optional(name: string): string | undefined {
   try {
@@ -52,6 +56,8 @@ function print(r: Review, tracePath: string) {
       ...r.brief.places.flatMap((p, i) => [`  ${i + 1}. ${p.risk.padEnd(6)} ${p.file} ${p.lines}`, `      ${sentence(p.what)} ${p.why}`]),
     ]),
     "",
+    ...(r.exam ? ["", `Understanding check (because ${r.exam.why})`, ...r.exam.questions.map((q, i) => `  ${i + 1}. ${q.question}`)] : []),
+    "",
     "Who to ask",
     ...(r.plan.asks.length ? r.plan.asks.map((a) => `  ${a.who.padEnd(20)} ${a.role.padEnd(9)} ${{ ask: "ask", "ask-lead": "ask, as lead", suggest: "possible owner" }[a.action].padEnd(15)} ${a.why}`) : ["  Nobody named."]),
     ...(r.plan.notes.length ? ["", "Notes", ...r.plan.notes.map((n) => `  ${n}`)] : []),
@@ -63,16 +69,54 @@ function print(r: Review, tracePath: string) {
 
 /** Updates the sign-off check. It's a side job: if the token can't write
  * checks, the review still stands, so this warns instead of failing. */
-async function writeCheck(token: string | undefined, ref: PullRef, sha: string, s: Signoff) {
+async function writeCheck(token: string | undefined, ref: PullRef, sha: string, s: Signoff, u?: Understanding) {
   try {
-    const url = await github(token).check(ref, sha, CHECK, toCheck(s));
-    console.log(`Sign-off: ${toCheck(s).title} (${url})`);
+    const url = await github(token).check(ref, sha, CHECK, toCheck(s, u));
+    console.log(`Sign-off: ${toCheck(s, u).title} (${url})`);
   } catch (e) {
     const hint = process.env.GITHUB_ACTIONS
       ? " Add `checks: write` to the workflow's permissions."
       : " GitHub only lets apps write checks, so this part works in GitHub Actions, not with a personal token.";
     console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}The ${CHECK} check wasn't updated: ${(e as Error).message}${hint}`);
   }
+}
+
+/** Grades the engineer's latest answers to the understanding check, each
+ * answer once (grades are kept in Vera's comment). Without the repo's
+ * Anthropic key the answers can't be read or graded, and it says so. */
+async function understanding(body: string, s: Signoff, reviews: PullReview[], comments: Comment[]): Promise<{ u?: Understanding; grades: Grades }> {
+  const exam = readExam(body);
+  const grades = readGrades(body);
+  if (!exam) return { grades };
+  const u: Understanding = { questions: exam.questions.length, answered: 0, passed: 0, graded: false, reasons: [] };
+  const signer = s.roles.find((r) => r.role === "engineer")?.by;
+  const latest = signer ? latestAnswers(signer, exam.at, reviews, comments, MARKER) : null;
+  if (!latest) return { u, grades };
+  const apiKey = optional("ANTHROPIC_API_KEY");
+  const keys = apiKey ? open(exam.keys, apiKey) : null;
+  const good = keys ? (JSON.parse(keys) as string[]) : null;
+  const anthropic = apiKey ? new Anthropic({ apiKey }) : null;
+  let all = true;
+  for (const [n, question] of exam.questions.entries()) {
+    const answer = latest.answers.get(n + 1);
+    const key = `${latest.id}:${n}`;
+    if (!answer) {
+      u.reasons.push(`${question} _Not answered._`);
+      continue;
+    }
+    u.answered++;
+    if (!(key in grades) && anthropic && good?.[n]) {
+      const g = parseJson<Grade>(await anthropic.messages.create(gradeRequest(flag("--model", "claude-sonnet-5-5"), { question, good_answer: good[n]!, cites: [] }, answer)));
+      if (g) grades[key] = { pass: g.pass, reason: g.reason };
+    }
+    const g = grades[key];
+    if (!g) all = false;
+    else if (g.pass) u.passed++;
+    u.reasons.push(`${question} ${g ? `${g.pass ? "✓" : "✗"} ${g.reason}` : "_Not graded yet._"}`);
+  }
+  u.graded = all;
+  if (!all) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Some answers weren't graded: ${!apiKey ? "no ANTHROPIC_API_KEY" : !keys ? "the key differs from the one the questions were sealed with" : "the grader gave no answer"}.`);
+  return { u, grades };
 }
 
 const args = process.argv.slice(2);
@@ -97,10 +141,12 @@ if (args[0] === "sign-off") {
       console.log(vera ? "Vera's comment here predates sign-off; its next review adds the check." : "Vera hasn't reviewed this pull request yet, so there's no sign-off to update.");
       process.exit(0);
     }
-    const s = status(asks, pull.author, await gh.reviews(ref), comments, MARKER);
-    await writeCheck(token, ref, pull.headSha, s);
+    const reviews = await gh.reviews(ref);
+    const s = status(asks, pull.author, reviews, comments, MARKER);
+    const { u, grades } = await understanding(vera.body, s, reviews, comments);
+    await writeCheck(token, ref, pull.headSha, s, u);
     // The comment's status block too, so it doesn't say "waiting" after someone signed off.
-    const body = withStatus(vera.body, statusBlock(s, asks));
+    const body = withStatus(vera.body, statusBlock(s, asks, u, grades));
     if (body && body !== vera.body) await gh.comment(ref, body, MARKER).catch((e) => console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Vera's comment wasn't updated: ${(e as Error).message}`));
     // A thumbs-up tells the person their sign-off counted; a confused face, that it didn't.
     const id = Number(flag("--comment-id", ""));
@@ -145,11 +191,13 @@ try {
     const s = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref)])
       .then(([reviews, comments]) => status(r.plan.asks, r.pull.author, reviews, comments, MARKER))
       .catch(() => null);
-    console.log(`Posted: ${await gh.comment(r.pull.ref, toMarkdown(r, s ?? undefined), MARKER)}`);
-    if (s) await writeCheck(githubToken, r.pull.ref, r.pull.headSha, s);
+    // New questions mean earlier answers don't count; the engineer answers these ones.
+    const u: Understanding | undefined = r.exam ? { questions: r.exam.questions.length, answered: 0, passed: 0, graded: false, reasons: [] } : undefined;
+    console.log(`Posted: ${await gh.comment(r.pull.ref, toMarkdown(r, s ?? undefined, apiKey, u), MARKER)}`);
+    if (s) await writeCheck(githubToken, r.pull.ref, r.pull.headSha, s, u);
     else console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Couldn't read the PR's reviews, so the ${CHECK} check wasn't updated.`);
   } else if (args.includes("--markdown")) {
-    console.log(toMarkdown(r));
+    console.log(toMarkdown(r, undefined, apiKey));
   } else {
     print(r, path);
   }

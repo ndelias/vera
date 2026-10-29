@@ -18,7 +18,7 @@ export type Pull = {
   commitMessages: string[];
 };
 
-export type PullReview = { who: string; state: string; trusted: boolean; at: string };
+export type PullReview = { id: number; who: string; state: string; body: string; trusted: boolean; at: string };
 export type Comment = { id: number; who: string; body: string; trusted: boolean; at: string };
 export type Check = { conclusion: "success" | "neutral" | "failure"; title: string; summary: string };
 
@@ -102,8 +102,8 @@ export function client(token: string | undefined, onCall: OnCall = () => {}) {
 
     /** Submitted reviews, oldest first. */
     async reviews(ref: PullRef): Promise<PullReview[]> {
-      const raw = await all<{ user: { login: string } | null; state: string; author_association: string; submitted_at?: string }>("github.reviews", `/repos/${ref.owner}/${ref.repo}/pulls/${ref.number}/reviews`);
-      return raw.map((r) => ({ who: r.user?.login ?? "ghost", state: r.state, trusted: TRUSTED.has(r.author_association), at: r.submitted_at ?? "" }));
+      const raw = await all<{ id: number; user: { login: string } | null; state: string; body: string | null; author_association: string; submitted_at?: string }>("github.reviews", `/repos/${ref.owner}/${ref.repo}/pulls/${ref.number}/reviews`);
+      return raw.map((r) => ({ id: r.id, who: r.user?.login ?? "ghost", state: r.state, body: r.body ?? "", trusted: TRUSTED.has(r.author_association), at: r.submitted_at ?? "" }));
     },
 
     /** Posts Vera's comment on the PR, or updates the one it posted before

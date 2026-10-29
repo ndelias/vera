@@ -11,6 +11,7 @@ const base: Review = {
   areas: { teams: [{ team: "Checkout", confidence: "high", reason: "cart | totals" }] },
   design: { visible: false, confidence: "high", what: "No design decision" },
   brief: { summary: "Adds a coupon field to the cart.", places: [{ file: "a.ts", lines: "10-24", what: "Applies the discount", why: "A negative total is possible", risk: "high" }, { file: "gone.ts", lines: "3", what: "Old helper", why: "Still imported elsewhere?", risk: "low" }] },
+  exam: null,
   ai: [],
   plan: { asks: [{ who: "@ana", role: "engineer", action: "ask", why: "owns Checkout" }], notes: [] },
   trace: createTrace(),
@@ -48,4 +49,14 @@ test("model-written text keeps its ellipses, stays in its cell and can't add HTM
   const md = toMarkdown({ ...base, brief });
   assert.match(md, /_Adds &lt;details> to the page_/);
   assert.ok(md.includes("| Waits... | Pipes a \\| b into `<Foo>`. |"));
+});
+
+test("the understanding check: questions after the brief, the good answers sealed", () => {
+  const exam = { questions: [{ question: "What happens after 3 retries?", good_answer: "The job is marked failed.", cites: [] }], why: "it's likely AI-written" };
+  const md = toMarkdown({ ...base, exam }, undefined, "sk-test");
+  assert.match(md, /#### Before you sign off, @ana\n\nVera asks because it's likely AI-written\./);
+  assert.match(md, /^1\. What happens after 3 retries\?$/m);
+  assert.ok(md.indexOf("#### Where to look first") < md.indexOf("#### Before you sign off"));
+  assert.ok(!md.includes("marked failed"));
+  assert.ok(!toMarkdown({ ...base, exam }).includes("Before you sign off"), "no secret, no questions");
 });

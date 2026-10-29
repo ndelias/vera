@@ -1,0 +1,227 @@
+{
+ "rated_by": "Nahuel",
+ "date": "2026-10-28",
+ "checks": [
+  "clear",
+  "answerable",
+  "telling"
+ ],
+ "ratings": [
+  {
+   "question": "PostHog_posthog_71366__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_71366__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_71366__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_79752__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_79752__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_79752__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_89938__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_89938__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_89938__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_99442__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_99442__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "PostHog_posthog_99442__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "getsentry_sentry_120564__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "getsentry_sentry_120564__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "getsentry_sentry_120564__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "getsentry_sentry_122484__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "getsentry_sentry_122484__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "getsentry_sentry_122484__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "getsentry_sentry_123512__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "getsentry_sentry_123512__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "getsentry_sentry_123512__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "getsentry_sentry_123809__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "no"
+  },
+  {
+   "question": "getsentry_sentry_123809__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "no"
+  },
+  {
+   "question": "getsentry_sentry_123809__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "grafana_grafana_127240__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "grafana_grafana_127240__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "grafana_grafana_127240__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "grafana_grafana_128142__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "grafana_grafana_128142__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "grafana_grafana_128142__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "grafana_grafana_130143__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "no"
+  },
+  {
+   "question": "grafana_grafana_130143__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "no"
+  },
+  {
+   "question": "grafana_grafana_130143__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "no"
+  },
+  {
+   "question": "grafana_grafana_130172__q0",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "no"
+  },
+  {
+   "question": "grafana_grafana_130172__q1",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "yes"
+  },
+  {
+   "question": "grafana_grafana_130172__q2",
+   "clear": "yes",
+   "answerable": "yes",
+   "telling": "no"
+  }
+ ]
+}

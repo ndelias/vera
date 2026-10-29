@@ -8,6 +8,7 @@ import { createTrace, record, totals, type AgentName, type Trace } from "@vera/c
 import { mapperRequest, parseMapper, type Change, type Directory, type MapperOutput } from "@vera/agents/mapper";
 import { parseVisibility, visibilityRequest, type Visibility } from "@vera/agents/visibility";
 import { briefRequest, parseBrief, type Brief } from "@vera/agents/briefer";
+import { examRequest, parseJson, type Exam, type Question } from "@vera/agents/examiner";
 import { areasFor, ConfigError, fromCodeowners, fromVeraYml, matches, route, type Ownership, type Plan } from "@vera/rules";
 import { client as github, parsePullUrl, type Pull } from "@vera/tools/github";
 
@@ -20,6 +21,9 @@ export type Review = {
   /** Where an engineer should look first. Only the engineer's brief is
    * used: it beat the baseline (study 06); a design brief needs screenshots. */
   brief: Brief | null;
+  /** The understanding check: questions for the engineer, on likely-AI or
+   * high-risk changes only (Nahuel's call, 28 Oct 2026), and why it was asked. */
+  exam: { questions: Question[]; why: string } | null;
   ai: string[];
   plan: Plan;
   trace: Trace;
@@ -65,7 +69,7 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
   const trace = createTrace();
   const ref = parsePullUrl(url);
   const t0 = Date.now();
-  record(trace, { at: t0, type: "run.start", runId: `${ref.owner}-${ref.repo}-${ref.number}-${t0}`, change: { host: "github", repo: `${ref.owner}/${ref.repo}`, number: ref.number, url: ref.url }, models: { mapper: opts.model, visibility: opts.model, briefer: opts.model } });
+  record(trace, { at: t0, type: "run.start", runId: `${ref.owner}-${ref.repo}-${ref.number}-${t0}`, change: { host: "github", repo: `${ref.owner}/${ref.repo}`, number: ref.number, url: ref.url }, models: { mapper: opts.model, visibility: opts.model, briefer: opts.model, examiner: opts.model } });
   record(trace, { at: Date.now(), type: "agent.start", agent: "coordinator", task: "read the pull request and the repo's ownership files" });
   const gh = github(opts.githubToken, (c) => record(trace, { at: Date.now(), type: "tool.call", agent: "coordinator", ...c }));
 
@@ -128,8 +132,19 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
     for (const a of plan.asks) record(trace, { at: Date.now(), type: "rule.eval", rule: `${a.role}: ${a.action}`, matched: true, detail: `${a.who}: ${a.why}` });
     const ai = aiSignals(pull);
     record(trace, { at: Date.now(), type: "rule.eval", rule: "likely AI-written", matched: ai.length > 0, detail: ai.join("; ") || "no marker found" });
+
+    // The understanding check: only when an engineer is asked, and the change
+    // is likely AI-written or the brief marks a place high risk.
+    const high = (brief?.places ?? []).filter((p) => p.risk === "high").length;
+    const why = ai.length ? "it's likely AI-written" : high ? `the brief marks ${high === 1 ? "a place" : `${high} places`} high risk` : "";
+    const engineer = plan.asks.some((a) => a.role === "engineer");
+    record(trace, { at: Date.now(), type: "rule.eval", rule: "understanding check", matched: !!why && engineer, detail: !engineer ? "no engineer asked" : why || "not likely AI-written, and nothing high risk" });
+    const asked = why && engineer
+      ? await call("examiner", "questions for the engineer before they sign off", examRequest(opts.model, change, "engineer"), (m) => parseJson<Exam>(m))
+      : null;
+    const exam = asked?.questions?.length ? { questions: asked.questions.slice(0, 3), why } : null;
     record(trace, { at: Date.now(), type: "run.end", status: "ok" });
-    return { pull, ownership, ...(ownershipError ? { ownershipError } : {}), areas, design, brief, ai, plan, trace };
+    return { pull, ownership, ...(ownershipError ? { ownershipError } : {}), areas, design, brief, exam, ai, plan, trace };
   } catch (e) {
     record(trace, { at: Date.now(), type: "run.end", status: "error", error: (e as Error).message });
     throw Object.assign(e as Error, { trace });
