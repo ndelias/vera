@@ -7,7 +7,8 @@
 //
 // Jobs: brief and brief2 (engineering briefs on the GitHub PRs in br_prs,
 // with the Briefer's v1 or v2 instructions), exam
-// (design questions on the examiner20 sample), answers (good / vague / wrong
+// (design questions on the examiner20 sample), exam-eng (engineer questions
+// on the 12 GitHub PRs in studies/06-agents/examiner-eng-sample.json), answers (good / vague / wrong
 // answers to each question, from an exam system), grade (the grader on those
 // answers, from an answers system).
 
@@ -56,6 +57,19 @@ async function requests(job: string, model: string, from?: string): Promise<Req[
       const pull = await gh.pull({ owner, repo: name, number: Number(n), url: `https://github.com/${repo}/pull/${n}` });
       const files = pull.files.map((f) => ({ path: f.path, diff: f.patch ?? "", generated: false, tooLarge: !f.patch && f.additions + f.deletions > 0 }));
       out.push({ custom_id: cid(id), params: briefRequest(model, { title: pull.title, files }, "engineer", job === "brief2" ? "v2" : "v1") });
+    }
+    return out;
+  }
+  if (job === "exam-eng") {
+    const gh = github(optional("GITHUB_TOKEN"));
+    const sample = JSON.parse(readFileSync(join(ROOT, "research/studies/06-agents/examiner-eng-sample.json"), "utf8")) as { prs: string[] };
+    const out: Req[] = [];
+    for (const id of sample.prs) {
+      const [repo, n] = id.split("#") as [string, string];
+      const [owner, name] = repo.split("/") as [string, string];
+      const pull = await gh.pull({ owner, repo: name, number: Number(n), url: `https://github.com/${repo}/pull/${n}` });
+      const files = pull.files.map((f) => ({ path: f.path, diff: f.patch ?? "", generated: false, tooLarge: !f.patch && f.additions + f.deletions > 0 }));
+      out.push({ custom_id: cid(id), params: examRequest(model, { title: pull.title, files }, "engineer") });
     }
     return out;
   }

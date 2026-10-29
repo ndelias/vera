@@ -1,0 +1,19 @@
+{
+ "seed": 20261029,
+ "written": "2026-10-28",
+ "from": "br_prs (the Briefer's 105 PRs)",
+ "prs": [
+  "PostHog/posthog#71366",
+  "PostHog/posthog#79752",
+  "PostHog/posthog#89938",
+  "PostHog/posthog#99442",
+  "getsentry/sentry#120564",
+  "getsentry/sentry#122484",
+  "getsentry/sentry#123512",
+  "getsentry/sentry#123809",
+  "grafana/grafana#127240",
+  "grafana/grafana#128142",
+  "grafana/grafana#130143",
+  "grafana/grafana#130172"
+ ]
+}
