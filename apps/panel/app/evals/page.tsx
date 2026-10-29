@@ -111,6 +111,18 @@ export default function Evals() {
                   <td className="num muted">80%</td>
                 </tr>
                 <tr>
+                  <td>Questions for an engineer that I rated good on all three checks ({num(agent("examiner-eng-sonnet-v1", "agent_exam", "good", "ratings")?.n ?? 0)})</td>
+                  <td className="num muted">–</td>
+                  <td className="num">{pctOf(agent("examiner-eng-sonnet-v1", "agent_exam", "good", "ratings")?.value)}</td>
+                  <td className="num muted">80%</td>
+                </tr>
+                <tr>
+                  <td>Answers to those questions graded as expected: good passed, vague and wrong failed ({num(agent("grader-eng-sonnet-v1", "agent_exam", "grader_agree", "synthetic")?.n ?? 0)}, written to be clear-cut)</td>
+                  <td className="num muted">–</td>
+                  <td className="num">{pctOf(agent("grader-eng-sonnet-v1", "agent_exam", "grader_agree", "synthetic")?.value)}</td>
+                  <td className="num muted">80%</td>
+                </tr>
+                <tr>
                   <td>Design decision or not, 50 changes it never saw while tuning</td>
                   <td className="num muted">–</td>
                   <td className="num">{pctOf(agent("visibility-sonnet-v2-holdout", "agent_visibility", "agree", "holdout")?.value)} agree</td>
@@ -129,7 +141,8 @@ export default function Evals() {
             revised 43 where it changed my mind; the revised labels are used. The Briefer tells an engineer where to look
             first, and on real pull requests that was where human reviewers commented 3 times in 4. The Examiner&rsquo;s
             questions for designers fell short: written from the code, half asked what only the code shows, and a
-            designer needs to see the change to answer. The Mapper and the check cost under a cent a change
+            designer needs to see the change to answer. For engineers, who read the code, I rated {num(Math.round((agent("examiner-eng-sonnet-v1", "agent_exam", "good", "ratings")?.value ?? 0) * 36))} of
+            36 good, just over the bar; the misses were questions I could have guessed from the title. The Mapper and the check cost under a cent a change
             (Mapper ${(cost("mapper-sonnet-v2") ?? 0).toFixed(3)}, check ${(cost("visibility-sonnet-v2-holdout") ?? 0).toFixed(3)}); a brief, about two cents.
           </p>
         </section>

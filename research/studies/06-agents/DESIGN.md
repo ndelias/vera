@@ -346,3 +346,45 @@ place was a commented file 77% of the time (v1: 73%). The median "why"
 is 18 words, and 99.2% of 499 are 25 or fewer. Ahead of the baseline in
 all three repos. $1.66. `briefer-v2-scores.json`. v2 is what `vera
 review` uses.
+
+## The Examiner for engineers (written 28 Oct 2026, before any question)
+
+The understanding check comes to `vera review` for engineers first; the
+designer questions failed for lack of screenshots. Engineer questions have
+never been tested, so they are tested the same way, smaller (Nahuel's
+call: he rates about 30).
+
+- **Changes:** 12 of the Briefer's 105 GitHub PRs, 4 per repo (Grafana,
+  PostHog, Sentry), picked at random (seed 20261029). The list is saved
+  in `examiner-eng-sample.json` before the Examiner runs.
+- **Questions:** the Examiner as it is (`examRequest`, role engineer,
+  Sonnet 5.5), 1 to 3 questions per change, from the diff alone.
+- **Rating:** Nahuel rates each question yes or no on three checks: is it
+  clear; can it be answered from the change; would you need to look at the
+  change to answer it (a question that can't be answered takes no here
+  too). Each card shows the PR's title, a plain description of what the
+  change does, and a link to it, and nothing about what any system thinks
+  of the question. A glossary explains technical terms.
+- **Bar:** at least 80% of questions get yes on all three. Below that,
+  engineer questions don't ship, and the write-up says which check failed.
+- **Grader:** the same synthetic test as for designers, on these
+  questions: for each, a good, a vague and a wrong answer, written by a
+  separate call. Bar: at least 80% graded as expected. Synthetic answers
+  are easier than real ones, and the write-up says so.
+- **Budget:** under $1.
+
+**Result (28 Oct 2026): passes, narrowly.** Nahuel rated 29 of 36
+questions good on all three checks: 80.6% (95% interval 65–90%), against
+a bar of 80%. All 36 were clear and all 36 answerable from the change;
+the 7 misses could be guessed from the title. They sat in 3 of the 12
+changes (one Grafana PR with 3, one Grafana PR and one Sentry PR with 2
+each); 11 of 12 changes had at least one good question.
+`examiner-eng-question-ratings.json`.
+
+**Grader: passes, on synthetic answers.** 108 of 108: every good answer
+passed, every vague and every wrong one failed (95% interval 97–100%).
+The answers were written by a separate call to be clearly good, vague or
+wrong, which is easier than real reviewers' answers; how it grades real
+answers is measured from real use. `grader-eng-scores.json`.
+
+Spend: questions $0.16, test answers $0.06, grading $0.12.

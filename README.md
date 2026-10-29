@@ -109,7 +109,26 @@ Everyone Vera asks has to sign off, one way or the other:
   that one: `/vera sign-off design`. Vera reacts 👍 when it counted, 😕
   when you weren't asked for that role.
 
-Requesting changes takes your sign-off back. The check turns green when
+Requesting changes takes your sign-off back.
+
+### Understanding checks
+
+When a change is likely AI-written, or its brief marks a place high risk,
+Vera adds 1–3 questions for the engineer to its comment: questions only
+someone who read the change could answer. Answer them where you sign off,
+in your approval's text or under `/vera sign-off`, numbered:
+
+```
+/vera sign-off
+1. It retries three times, then marks the job failed.
+2. Only admins: the check is in the permissions middleware.
+```
+
+Vera grades each answer and the sign-off table shows the result, e.g.
+"✓ signed off · understood 2 of 2". It records understanding; it doesn't
+block the merge. What a good answer covers is kept in Vera's comment,
+encrypted with a key derived from your `ANTHROPIC_API_KEY`, so only Vera's
+own runs can read it. Grading an answer costs a fraction of a cent. The check turns green when
 every role has signed off. Until then it's grey, not red: it's information
 and doesn't block merging. These updates don't call the model, so they cost
 nothing.

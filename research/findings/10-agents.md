@@ -68,6 +68,11 @@ more often than Haiku and runs every agent here.
   shows. Judged from what a designer can see, 49% were good. Fair
   questions for a designer need screenshots of the change, which the plan
   always called for and Vera doesn't have yet.
+- **Questions for engineers pass, narrowly.** Asked of engineers, who read
+  the code, Nahuel rated 29 of 36 good (81%, bar 80%). Every question was
+  clear and answerable; the misses could be guessed from the title. The
+  grader sorted 108 clear-cut answers without a miss. Vera asks engineers
+  these questions on likely-AI and high-risk changes (28 Oct 2026).
 - **The grader is only tested on easy answers.** It sorted clearly good,
   vague and wrong answers almost perfectly; real reviewers' answers are
   messier, so this doesn't show it grades them well.

@@ -563,6 +563,14 @@ def cmd_agents() -> None:
     if (studies / "grader-scores.json").exists():
         g = json.loads((studies / "grader-scores.json").read_text())
         rows.append(("grader-sonnet-v1", "agent_exam", "grader_agree", "synthetic", g["share"], *g["ci95"], g["answers"]))
+    # The Examiner for engineers (DESIGN.md, 28 Oct 2026): Nahuel's ratings, and the grader on its questions.
+    if (studies / "examiner-eng-question-ratings.json").exists():
+        r = json.loads((studies / "examiner-eng-question-ratings.json").read_text())["ratings"]
+        good = sum(all(x[c] == "yes" for c in ("clear", "answerable", "telling")) for x in r)
+        rows.append(("examiner-eng-sonnet-v1", "agent_exam", "good", "ratings", good / len(r), *wilson(good, len(r)), len(r)))
+    if (studies / "grader-eng-scores.json").exists():
+        g = json.loads((studies / "grader-eng-scores.json").read_text())
+        rows.append(("grader-eng-sonnet-v1", "agent_exam", "grader_agree", "synthetic", g["share"], *g["ci95"], g["answers"]))
     # Cost per change at batch prices.
     for system, per, n in conn.execute("SELECT system, AVG(cost_usd), COUNT(*) FROM ev_costs WHERE status = 'ok' GROUP BY system"):
         rows.append((system, "agent_cost", "usd_per_change", "batch", per, None, None, n))
@@ -642,7 +650,8 @@ def cmd_grader(system: str = "grader-sonnet-v1") -> None:
     out = {"answers": n, "agree": right, "share": round(right / n, 3), "ci95": [round(lo, 3), round(hi, 3)],
            "by_kind": {k: {"right": v[0], "n": v[1]} for k, v in sorted(by_kind.items())},
            "verdict": "passes" if right / n >= 0.8 else "doesn't pass"}
-    (ROOT / "studies" / "06-agents" / "grader-scores.json").write_text(json.dumps(out, indent=1))
+    name = "grader-scores.json" if system == "grader-sonnet-v1" else f"{system.replace('-sonnet-v1', '')}-scores.json"
+    (ROOT / "studies" / "06-agents" / name).write_text(json.dumps(out, indent=1))
     print(json.dumps(out, indent=1))
 
 

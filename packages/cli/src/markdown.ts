@@ -9,6 +9,7 @@ import { totals } from "@vera/core";
 import { checkerFor, signoff, type Signoff } from "@vera/rules";
 import type { Review } from "./review.ts";
 import { planMarker, statusBlock } from "./signoff.ts";
+import { examMarker, type Understanding } from "./understanding.ts";
 
 export const MARKER = "<!-- vera-review -->";
 
@@ -29,12 +30,14 @@ function linesLink(r: Review, file: string, lines: string): string | null {
   return `https://github.com/${owner}/${repo}/pull/${number}/files#diff-${createHash("sha256").update(file).digest("hex")}${first ? `R${first}` : ""}`;
 }
 
-export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.author, [])): string {
+/** `secret` seals what a good answer covers (see understanding.ts); without one, the questions aren't posted. */
+export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.author, []), secret?: string, u?: Understanding): string {
   const t = totals(r.trace);
   const add = r.pull.files.reduce((n, f) => n + f.additions, 0);
   const del = r.pull.files.reduce((n, f) => n + f.deletions, 0);
   const owners = r.ownership.source === "none" ? "nothing declared (no `.vera.yml` or CODEOWNERS)" : `\`${r.ownership.source}\``;
-  const lines = [MARKER, planMarker(r.plan.asks), statusBlock(s, r.plan.asks), ""];
+  const exam = r.exam && secret ? r.exam : null;
+  const lines = [MARKER, planMarker(r.plan.asks), ...(exam ? [examMarker(exam.questions, exam.why, secret!)] : []), statusBlock(s, r.plan.asks, u), ""];
 
   if (r.plan.asks.length) lines.push("Sign off by approving, or comment `/vera sign-off` (add a role, like `/vera sign-off design`, for just that one).", "");
   else lines.push(...(r.plan.notes.length ? r.plan.notes : ["Vera couldn't name anyone for this change."]).map((n) => `> ${n}`), "");
@@ -51,6 +54,18 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
       const who = checkerFor(r.ownership, r.plan.asks, p.file).join(" or ") || "–";
       lines.push(`| **${RISK[p.risk]}** | ${url ? `[${label}](${url} "${p.file}")` : `${plain(label)}<br><sub>${plain(p.file)}</sub>`} | ${who} | ${plain(sentence(p.what))} | ${plain(sentence(p.why))} |`);
     }
+  }
+
+  if (exam) {
+    const engineers = [...new Set(r.plan.asks.filter((a) => a.role === "engineer").map((a) => a.who))].join(" or ");
+    lines.push(
+      "",
+      `#### Before you sign off, ${engineers}`,
+      "",
+      `Vera asks because ${exam.why}. Answer in the same place you sign off: in your approval's text, or under \`/vera sign-off\`, numbered. A sentence or two each is enough. Vera checks the answers and shows the result next to your sign-off; it doesn't block the merge.`,
+      "",
+      ...exam.questions.map((q, i) => `${i + 1}. ${plain(q.question)}`),
+    );
   }
 
   lines.push(

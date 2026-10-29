@@ -2,7 +2,9 @@ name: Vera review
 description: >
   Reviews each pull request: which areas it touches, whether it makes a
   design decision, and who should be asked. Posts one comment and keeps it
-  up to date, with a "Vera: sign-off" check showing who has signed off.
+  up to date, with a "Vera: sign-off" check showing who has signed off. On
+  likely-AI or high-risk changes it asks the engineer 1-3 questions, answered
+  where they sign off, and shows whether they understood the change.
   Never approves, blocks or runs the PR's code.
 author: Nahuel D'Elias
 branding:
@@ -26,7 +28,8 @@ runs:
   using: composite
   steps:
     # A new or updated PR gets a full review. An approval or a `/vera sign-off`
-    # comment only updates the sign-off check: no model calls, no key needed.
+    # comment only updates the sign-off check; its one model call grades
+    # answers to the understanding check, when there are any.
     - name: Decide what to do
       id: mode
       shell: bash
@@ -75,7 +78,9 @@ runs:
       shell: bash
       working-directory: ${{ github.action_path }}
       env:
+        ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
         PR_URL: ${{ github.event.pull_request.html_url || github.event.issue.pull_request.html_url }}
         COMMENT_ID: ${{ github.event.comment.id }}
-      run: node --disable-warning=ExperimentalWarning packages/cli/src/main.ts sign-off "$PR_URL" ${COMMENT_ID:+--comment-id "$COMMENT_ID"}
+        MODEL: ${{ inputs.model }}
+      run: node --disable-warning=ExperimentalWarning packages/cli/src/main.ts sign-off "$PR_URL" --model "$MODEL" ${COMMENT_ID:+--comment-id "$COMMENT_ID"}

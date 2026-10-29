@@ -1,0 +1,24 @@
+{
+ "answers": 108,
+ "agree": 108,
+ "share": 1.0,
+ "ci95": [
+  0.966,
+  1.0
+ ],
+ "by_kind": {
+  "good": {
+   "right": 36,
+   "n": 36
+  },
+  "vague": {
+   "right": 36,
+   "n": 36
+  },
+  "wrong": {
+   "right": 36,
+   "n": 36
+  }
+ },
+ "verdict": "passes"
+}
