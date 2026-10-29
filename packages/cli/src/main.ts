@@ -5,7 +5,7 @@
 // vera sign-off <pull request URL> [--comment-id <id>]
 //   Updates the sign-off check from the PR's approvals and `/vera sign-off` comments. No model calls.
 //
-// review needs ANTHROPIC_API_KEY (your own key; a review costs about 1-2 cents).
+// review needs ANTHROPIC_API_KEY (your own key; a review costs about 2-4 cents).
 // GITHUB_TOKEN is optional for reading and raises GitHub's limit from 60 requests an hour;
 // posting the comment and the check needs one that can write to the repo.
 
