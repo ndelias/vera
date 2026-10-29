@@ -5,7 +5,9 @@ Live at https://vera-agent.vercel.app. The research chose the problem,
 not the other way round. "Blast Radius" was
 the working name for the original idea, which the data ruled out.
 
-Status: research done (`research/findings/08-decision.md`). Building next.
+Status: installable as a GitHub Action (v0.3.0). Understanding checks are
+next; the order from here is in [`BUILD-PLAN.md`](BUILD-PLAN.md). The research
+that chose the problem is in `research/findings/08-decision.md`.
 
 - `research/PLAN.md`: the claims we're testing, the data sources, the methods
 - `research/studies/`: one folder per study (scripts and notes)
@@ -18,8 +20,9 @@ Status: research done (`research/findings/08-decision.md`). Building next.
 ## Try it: `vera review`
 
 Reviews one GitHub pull request: which areas it touches, whether it makes a
-design decision, and who should be asked. Runs on your own Anthropic API key
-(about 1–2 cents a review): the PR's title, file list and diff go to
+design decision, who should be asked, and where an engineer should look
+first. Runs on your own Anthropic API key (about 2–4 cents a review on Claude
+Sonnet 5.5, more on big PRs): the PR's title, file list and diff go to
 Anthropic's API under that key, and the PR is read from GitHub. Nothing is
 sent anywhere else.
 
@@ -44,6 +47,14 @@ that can write to the repo).
 Vera can review every pull request on your repo and keep one comment up to
 date on each, with a **Vera: sign-off** check showing who has signed off. It
 reads the PR through GitHub's API and never runs its code.
+
+The comment leads with what people need to act on:
+
+- **Who has to sign off,** as a table, updated as people sign off.
+- **Where to look first:** the 3–5 places that most need a person's
+  judgment, each linked to its lines and naming who should check it.
+- **How Vera decided,** folded away below: the areas, the design call,
+  likely-AI signals, and the cost.
 
 1. Add your Anthropic API key as a repository secret named
    `ANTHROPIC_API_KEY` (Settings → Secrets and variables → Actions).
@@ -74,12 +85,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: ndelias/vera@v0.2.0
+      - uses: ndelias/vera@v0.3.0
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
 
-3. Optionally add a `.vera.yml` naming your areas and people (see
+3. Optionally pin the exact commit instead of the tag, so what runs with
+   your key can't change under you:
+   `ndelias/vera@eaffb19f3a57ae5ebaa578222a17925e22a92aba # v0.3.0`.
+4. Optionally add a `.vera.yml` naming your areas and people (see
    [`examples/vera.yml`](examples/vera.yml)); without it Vera uses CODEOWNERS.
 
 Pull requests from forks don't get secrets, so Vera skips them with a note.

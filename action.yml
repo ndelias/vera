@@ -11,7 +11,7 @@ branding:
 
 inputs:
   anthropic-api-key:
-    description: Your Anthropic API key (store it as a repository secret). A review costs about 1-2 cents.
+    description: Your Anthropic API key (store it as a repository secret). A review costs about 2-4 cents, more on big pull requests.
     required: false
   github-token:
     description: Token used to read the PR and post the comment and check. The default works when the job has pull-requests and checks write permission.
