@@ -5,7 +5,7 @@ Live at https://vera-agent.vercel.app. The research chose the problem,
 not the other way round. "Blast Radius" was
 the working name for the original idea, which the data ruled out.
 
-Status: installable as a GitHub Action (v0.4.0), with understanding checks
+Status: installable as a GitHub Action (v0.5.0), with understanding checks
 for engineers. Questions for designers come next; the order from here is in
 [`BUILD-PLAN.md`](BUILD-PLAN.md). The research
 that chose the problem is in `research/findings/08-decision.md`.
@@ -93,14 +93,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: ndelias/vera@v0.4.0
+      - uses: ndelias/vera@v0.5.0
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
 
 3. Optionally pin the exact commit instead of the tag, so what runs with
    your key can't change under you:
-   `ndelias/vera@1ccae6aff0b0c82b555000a13cde8919909acf51 # v0.4.0`.
+   `ndelias/vera@513438f36c745b443ee8b3bb87a5bd472b13e654 # v0.5.0`.
 4. Optionally add a `.vera.yml` naming your areas and people (see
    [`examples/vera.yml`](examples/vera.yml)); without it Vera uses CODEOWNERS.
 
