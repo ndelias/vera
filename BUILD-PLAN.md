@@ -235,6 +235,16 @@ shown on the sign-off ("understood 2 of 3"). New commits bring new
 questions. It records; it doesn't block. What a good answer covers is
 sealed in Vera's comment with a key derived from the repo's Anthropic key.
 
+*The comment, like the site (Nahuel's call, 30 Oct 2026).* Replaces
+"action first": the comment now follows the mock-up on Vera's site. What
+this touches (each place a risk square, its linked lines and what, with
+why and who checks it underneath), the lime likely-AI flag, the questions,
+then sign-off, one line per role. The squares and the flag are small SVGs
+served from the site (`apps/panel/public/dots`), light and dark, because
+GitHub comments take no CSS; their alt text carries the same meaning.
+Sign-off moves to the end, as in the mock-up; the check run still shows
+who's left at the top of the pull request.
+
 *Order from here (Nahuel's call, 28 Oct 2026).* 1. The comment's design
 with the Briefer in it. 2. Understanding checks: the Examiner for
 engineers, then screenshots so it can ask designers. 3. The run viewer
