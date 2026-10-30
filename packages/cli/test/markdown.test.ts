@@ -17,46 +17,52 @@ const base: Review = {
   trace: createTrace(),
 };
 
-test("action first: who signs off, then where to look, then how Vera decided, folded", () => {
+test("laid out like the site's mock-up: what it touches, then sign-off, then how Vera decided, folded", () => {
   const md = toMarkdown(base);
   assert.ok(md.startsWith(MARKER));
-  assert.match(md, /### Vera · 1 sign-off needed\n\n\| Who \| Role \| Sign-off \|\n\|---\|---\|---\|\n\| @ana \| engineer \| waiting \|/);
-  const order = ["### Vera", "#### Where to look first", "<details><summary>How Vera decided", "**Checkout** (high)", "</details>"].map((x) => md.indexOf(x));
+  assert.match(md, /###### SIGN-OFF · WAITING ON 1 OF 1\n\n<picture>.*alt="Waiting"><\/picture> \*\*Engineer\*\* · @ana · waiting · owns Checkout$/m);
+  const order = ["###### WHAT THIS TOUCHES", "###### SIGN-OFF", "<details><summary>How Vera decided", "**Checkout** (high)", "</details>"].map((x) => md.indexOf(x));
   assert.deepEqual(order, [...order].sort((a, b) => a - b));
   assert.ok(!order.includes(-1));
-  assert.match(md, /- @ana, engineer: ask\. owns Checkout\./);
   assert.match(md, /^1 file, \+3 −1/m);
 });
 
-test("each place is a table row linking to its lines in Files changed, unless the file isn't in the PR", () => {
+test("each place has its square, links to its lines in Files changed (unless the file isn't in the PR), and says why", () => {
   const md = toMarkdown(base);
   const hash = createHash("sha256").update("a.ts").digest("hex");
-  assert.ok(md.includes(`| **High** | [\`a.ts\` L10-24](https://github.com/o/r/pull/1/files#diff-${hash}R10 "a.ts") | @ana | Applies the discount. | A negative total is possible. |`));
-  assert.match(md, /\| \*\*Low\*\* \| `gone\.ts` L3<br><sub>gone\.ts<\/sub> \|/);
+  assert.ok(md.includes(`<img src="https://vera-agent.vercel.app/dots/high.svg" width="16" height="10" alt="High"></picture> [\`a.ts\` L10-24](https://github.com/o/r/pull/1/files#diff-${hash}R10 "a.ts") · Applies the discount.\n<sub>A negative total is possible. · @ana checks this</sub>`));
+  assert.match(md, /alt="Low"><\/picture> `gone\.ts` L3 · Old helper\.\n<sub>Still imported elsewhere\? · @ana checks this<\/sub>/);
+});
+
+test("the likely-AI flag sits under the places, as on the site", () => {
+  const md = toMarkdown({ ...base, ai: ["AI help disclosed", "412 lines"] });
+  assert.match(md, /^> <img src="https:\/\/vera-agent\.vercel\.app\/dots\/ai-flag\.svg" [^>]*alt="Likely AI-written"> AI help disclosed, 412 lines\.$/m);
+  assert.ok(md.indexOf("ai-flag.svg") < md.indexOf("###### SIGN-OFF"));
+  assert.ok(!toMarkdown(base).includes("ai-flag.svg"));
 });
 
 test("says plainly when no declared area fits and nobody is named", () => {
   const md = toMarkdown({ ...base, areas: { teams: [] }, brief: null, plan: { asks: [], notes: ["No lead is declared to ask."] } });
-  assert.match(md, /### Vera · Nobody to ask/);
+  assert.match(md, /###### SIGN-OFF · NOBODY TO ASK/);
   assert.match(md, /None of the declared areas fit this change\./);
-  assert.match(md, /- Nobody named\./);
   assert.match(md, /> No lead is declared to ask\./);
   assert.match(md, /The Briefer gave no answer this time\./);
+  assert.ok(!md.includes("Sign off by approving"));
 });
 
-test("model-written text keeps its ellipses, stays in its cell and can't add HTML", () => {
+test("model-written text keeps its ellipses and pipes, stays on its line and can't add HTML", () => {
   const brief = { summary: "Adds <details> to the page", places: [{ file: "a.ts", lines: "1", what: "Waits...", why: "Pipes a | b\ninto `<Foo>`", risk: "medium" as const }] };
   const md = toMarkdown({ ...base, brief });
   assert.match(md, /_Adds &lt;details> to the page_/);
-  assert.ok(md.includes("| Waits... | Pipes a \\| b into `<Foo>`. |"));
+  assert.ok(md.includes(" · Waits...\n<sub>Pipes a | b into `<Foo>`. · @ana checks this</sub>"));
 });
 
-test("the understanding check: questions after the brief, the good answers sealed", () => {
+test("the understanding check: questions after the places, the good answers sealed", () => {
   const exam = { questions: [{ question: "What happens after 3 retries?", good_answer: "The job is marked failed.", cites: [] }], why: "it's likely AI-written" };
   const md = toMarkdown({ ...base, exam }, undefined, "sk-test");
-  assert.match(md, /#### Before you sign off, @ana\n\nVera asks because it's likely AI-written\./);
-  assert.match(md, /^1\. What happens after 3 retries\?$/m);
-  assert.ok(md.indexOf("#### Where to look first") < md.indexOf("#### Before you sign off"));
+  assert.match(md, /###### BEFORE YOU SIGN OFF\n\n1\. What happens after 3 retries\?\n\n<sub>For @ana, because it's likely AI-written\./);
+  assert.ok(md.indexOf("###### WHAT THIS TOUCHES") < md.indexOf("###### BEFORE YOU SIGN OFF"));
+  assert.ok(md.indexOf("###### BEFORE YOU SIGN OFF") < md.indexOf("###### SIGN-OFF"));
   assert.ok(!md.includes("marked failed"));
-  assert.ok(!toMarkdown({ ...base, exam }).includes("Before you sign off"), "no secret, no questions");
+  assert.ok(!toMarkdown({ ...base, exam }).includes("BEFORE YOU SIGN OFF"), "no secret, no questions");
 });

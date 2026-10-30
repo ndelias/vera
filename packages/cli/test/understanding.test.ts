@@ -36,12 +36,12 @@ test("the latest sign-off with answers, after the questions were asked", () => {
   assert.equal(latestAnswers("@ana", "2026-10-28T13:00:00Z", reviews, comments, MARKER), null);
 });
 
-test("the table shows understanding next to the engineer's sign-off, and keeps grades", () => {
+test("the sign-off list shows understanding next to the engineer's sign-off, and keeps grades", () => {
   const asks: Ask[] = [{ who: "@ana", role: "engineer", action: "ask", why: "owns Checkout" }];
   const s = signoff(asks, "bo", [{ kind: "review", who: "ana", state: "APPROVED", trusted: true }]);
   const u = { questions: 2, answered: 2, passed: 1, graded: true, reasons: ["Q1 ✓ right", "Q2 ✗ missed the retry"] };
   const block = statusBlock(s, asks, u, { "r8:0": { pass: true, reason: "right" } });
-  assert.match(block, /\| @ana \| engineer \| ✓ signed off · understood 1 of 2 \|/);
+  assert.match(block, /\*\*Engineer\*\* · @ana · signed off · understood 1 of 2 · owns Checkout$/m);
   assert.deepEqual(readGrades(block), { "r8:0": { pass: true, reason: "right" } });
   assert.match(toCheck(s, u).summary, /2\. Q2 ✗ missed the retry/);
   assert.equal(describe({ ...u, answered: 0 }), "questions not answered");

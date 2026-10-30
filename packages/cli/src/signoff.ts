@@ -5,6 +5,7 @@
 
 import { parseSignoff, signoff, type Ask, type Signoff, type SignoffEvent } from "@vera/rules";
 import type { Check, Comment, PullReview } from "@vera/tools/github";
+import { dot } from "./dots.ts";
 import { describe, gradesMarker, type Grades, type Understanding } from "./understanding.ts";
 
 export const CHECK = "Vera: sign-off";
@@ -67,26 +68,29 @@ export function toCheck(s: Signoff, u?: Understanding): Check {
 export const status = (asks: Ask[], author: string, reviews: PullReview[], comments: Comment[], marker: string) =>
   signoff(asks, author, events(reviews, comments, marker));
 
-// The top of Vera's comment: who has to sign off and who has. It sits
-// between these markers so a sign-off can update it without a new review.
+// Vera's comment ends with who has to sign off and who has, as on the site's
+// mock-up. It sits between these markers so a sign-off can update it
+// without a new review.
 const OPEN = "<!-- vera-status -->";
 const CLOSE = "<!-- /vera-status -->";
 const AS = { ask: "", "ask-lead": " (as lead)", suggest: " (possible owner)" } as const;
+const ROLE = (role: string) => role.charAt(0).toUpperCase() + role.slice(1);
 
 export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: Grades = {}): string {
   const left = s.roles.filter((r) => !r.by).length;
-  const heading = !s.roles.length ? "Nobody to ask"
-    : !left ? "Signed off"
-    : left === s.roles.length ? `${left} ${left === 1 ? "sign-off" : "sign-offs"} needed`
-    : `${left} of ${s.roles.length} sign-offs still needed`;
+  const heading = !s.roles.length ? "nobody to ask"
+    : !left ? "done"
+    : `waiting on ${left} of ${s.roles.length}`;
+  // One line each (GitHub breaks comment lines where they break here).
   const rows = s.roles.map((r) => {
-    const as = AS[asks.find((a) => a.role === r.role)?.action ?? "ask"];
+    const ask = asks.find((a) => a.role === r.role);
     const someoneElse = r.by && (r.asked.length > 1 || r.asked[0]?.toLowerCase() !== r.by.toLowerCase());
-    const state = r.by ? `✓ signed off${someoneElse ? ` by ${r.by}` : ""}${r.byAuthor ? " (author)" : ""}${withUnderstanding(r, u)}` : "waiting";
-    return `| ${r.asked.join(" or ")} | ${r.role}${as} | ${state} |`;
+    const state = r.by ? `signed off${someoneElse ? ` by ${r.by}` : ""}${r.byAuthor ? " (author)" : ""}${withUnderstanding(r, u)}` : "waiting";
+    const mark = r.by ? dot("done", "Signed off") : dot("low", "Waiting");
+    return `${mark} **${ROLE(r.role)}**${AS[ask?.action ?? "ask"]} · ${r.asked.join(" or ")} · ${state}${ask?.why ? ` · ${ask.why.replace(/\.$/, "")}` : ""}`;
   });
   const kept = Object.keys(grades).length ? [gradesMarker(grades)] : [];
-  return [OPEN, ...kept, `### Vera · ${heading}`, ...(rows.length ? ["", "| Who | Role | Sign-off |", "|---|---|---|", ...rows] : []), CLOSE].join("\n");
+  return [OPEN, ...kept, `###### SIGN-OFF · ${heading.toUpperCase()}`, ...(rows.length ? ["", ...rows] : []), CLOSE].join("\n");
 }
 
 /** Vera's comment with its status block swapped for a fresh one, or null if it has none. */
