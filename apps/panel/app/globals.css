@@ -1414,6 +1414,20 @@ th.num {
   border-top: 1px solid var(--line);
   font-size: 13px;
 }
+.pr-mock figcaption a {
+  color: var(--ink);
+}
+
+.install-steps {
+  max-width: 720px;
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 10px;
+}
+.install-steps a {
+  color: var(--ink);
+}
 .risk,
 .signoff {
   display: inline-block;

@@ -41,9 +41,9 @@ export default function Product() {
 
       <section className="section" id="how">
         <div className="section-head">
-          <h2>Four agents, one change</h2>
+          <h2>Four steps, one change</h2>
           <p>
-            A coordinator hands each pull request to four agents. They read; they never run the code or push to it.
+            Agents read each pull request and plain code decides who signs off. Nothing runs the code or pushes to it.
           </p>
         </div>
         <AgentsShowcase agents={AGENTS} />
@@ -53,8 +53,8 @@ export default function Product() {
         <div className="section-head">
           <h2>What a reviewer sees</h2>
           <p>
-            One comment on the pull request and one check. The comment says what changed and who needs to look; the check
-            stays pending until the people the rules name have signed off.
+            One comment on the pull request and one check. The comment says where to look and who needs to sign off;
+            the check shows who&apos;s left. Neither blocks the merge.
           </p>
         </div>
         <figure className="pr-mock">
@@ -67,35 +67,33 @@ export default function Product() {
             <div>
               <h3 className="pr-mock-label">What this touches</h3>
               <ul className="pr-mock-list">
-                <li><span className="risk is-high" />Checkout totals <span className="muted">· pricing logic, 6 files</span></li>
-                <li><span className="risk is-mid" />Order summary UI <span className="muted">· 2 components, preview linked</span></li>
-                <li><span className="risk" />Tests <span className="muted">· 4 files, written with AI</span></li>
+                <li><span className="risk is-high" />totals.ts L40–88 · Calls the pricing service <span className="muted">· a timeout leaves the total undefined</span></li>
+                <li><span className="risk is-mid" />OrderSummary.tsx L12–30 · New rounding line <span className="muted">· discount codes may round differently</span></li>
+                <li><span className="risk" />totals.test.ts L1–60 · Tests for the new totals <span className="muted">· none covers a timeout</span></li>
               </ul>
               <p className="pr-mock-flag">
                 <span className="pr-mock-flag-label">Likely AI-written</span>
-                AI help disclosed, 412 lines, no tests for the new rounding, 2 bot findings still open. Added the
-                checkout owner as a second reviewer.
+                AI co-author trailer in 3 of 3 commits.
               </p>
             </div>
             <div>
-              <h3 className="pr-mock-label">Before you approve</h3>
+              <h3 className="pr-mock-label">Before you sign off</h3>
               <ol className="pr-mock-questions">
                 <li>What happens to an order&apos;s total if the pricing service times out?</li>
                 <li>Which existing discount codes would now round differently?</li>
               </ol>
             </div>
             <div>
-              <h3 className="pr-mock-label">Sign-off</h3>
+              <h3 className="pr-mock-label">Sign-off · waiting on 1 of 2</h3>
               <ul className="pr-mock-list">
-                <li><span className="signoff is-done" />Engineering <span className="muted">· approved, answers recorded</span></li>
-                <li><span className="signoff" />Checkout owner <span className="muted">· asked because it&apos;s likely AI-written</span></li>
-                <li><span className="signoff is-done" />Design <span className="muted">· approved the preview</span></li>
-                <li><span className="signoff" />Product <span className="muted">· asked in Slack, 2 h ago</span></li>
+                <li><span className="signoff is-done" />Engineer · @ana <span className="muted">· signed off · understood 2 of 2</span></li>
+                <li><span className="signoff" />Design (as lead) · @lena <span className="muted">· waiting · the order summary changes</span></li>
               </ul>
             </div>
           </div>
           <figcaption className="muted">
-            A mock-up of the planned comment. Vera hasn&apos;t run on a real pull request yet.
+            An example in the layout Vera posts.{" "}
+            <a href="https://github.com/ndelias/vera/pull/27#issuecomment-6528131441">See a real one on GitHub</a>.
           </figcaption>
         </figure>
       </section>
@@ -105,27 +103,30 @@ export default function Product() {
           <div className="section-head" style={{ marginBottom: 0 }}>
             <h2>Agents propose, code decides</h2>
             <p>
-              Who has to sign off comes from rules in the repo, not from a model, including what happens when a change looks
-              AI-written. The gate is a check run and the record only grows. An agent can suggest who should look; it
+              Who has to sign off comes from the repo&apos;s <code>.vera.yml</code>, or its CODEOWNERS, not from a model. The
+              agents suggest areas and where to look; code decides who is asked and records who signed off. An agent
               can&apos;t talk its way past the rules.
             </p>
           </div>
           <pre className="code-card" aria-label="Example .vera.yml">
 {`# .vera.yml
-signoff:
-  - when: "src/ui/**"
-    roles: [design]
-  - when: "src/auth/**"
-    roles: [security]
-  - when: { label: "behaviour-change" }
-    roles: [product]
-ai_changes:          # likely AI-written
-  add: [code_owner]
-  second_reviewer_over: 200   # lines
-  understanding: required
-understanding:
-  record: true
-  gate: false   # teams can turn it on`}
+lead: "@lena"   # when Vera isn't sure
+
+areas:
+  - name: Checkout
+    description: Cart and payment
+    paths: ["src/checkout/"]
+  - name: Search
+    paths: ["src/search/"]
+    lead: "@sam"
+
+people:
+  - handle: "@ana"
+    role: engineer
+    areas: [Checkout]
+  - handle: "@dev"
+    role: design
+    areas: [Checkout, Search]`}
           </pre>
         </div>
       </section>
@@ -133,7 +134,10 @@ understanding:
       <section className="section" id="surfaces">
         <div className="section-head">
           <h2>Where it runs</h2>
-          <p>Without a server first, so it&apos;s cheap to keep alive and nobody&apos;s code sits on my machines.</p>
+          <p>
+            Free and open source (Apache 2.0), on your own Anthropic key. No server, so nobody&apos;s code sits on my
+            machines.
+          </p>
         </div>
         <div className="grid-2">
           {SURFACES.map((s) => (
@@ -146,6 +150,22 @@ understanding:
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="section" id="install">
+        <div className="section-head">
+          <h2>Try it on your repo</h2>
+          <p>Three steps, about five minutes.</p>
+        </div>
+        <ol className="install-steps">
+          <li>Add your Anthropic API key as a repository secret named <code>ANTHROPIC_API_KEY</code>.</li>
+          <li>
+            Add the workflow from the{" "}
+            <a href="https://github.com/ndelias/vera#use-it-on-your-repo-the-github-action">README</a>, which runs{" "}
+            <code>ndelias/vera@v0.5.0</code> on each pull request.
+          </li>
+          <li>Optionally, add a <code>.vera.yml</code> naming your areas and people. Without one, Vera uses CODEOWNERS.</li>
+        </ol>
       </section>
 
       <section className="section" aria-label="The problem in numbers">
@@ -184,13 +204,13 @@ understanding:
         <div className="section-head">
           <h2>Where it&apos;s at</h2>
           <p>
-            The research is done and the foundations are in. Each step ends with something that runs and the numbers
-            behind it.
+            Vera is installable (v0.5.0) and reviews its own pull requests and my portfolio&apos;s. Each step ends with
+            something that runs and the numbers behind it.
           </p>
         </div>
         <ol className="roadmap">
           {MILESTONES.map((m) => (
-            <li key={m.id} className={`roadmap-step is-${m.status}`}>
+            <li key={m.title} className={`roadmap-step is-${m.status}`}>
               <span className="roadmap-id">{m.id}</span>
               <div>
                 <h3>{m.title}</h3>

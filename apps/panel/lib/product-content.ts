@@ -7,49 +7,49 @@ export const AGENTS: { name: string; job: string; body: string; icon: string }[]
   {
     name: "Mapper",
     icon: "map",
-    job: "What it touches, and how risky it is",
-    body: "Reads the diff, the files around it, code owners and what the review bots already found, and groups the change into areas. It also spots likely AI-written code nobody has checked: new logic with no tests, duplicated blocks, bot findings still open.",
+    job: "What it touches",
+    body: "Reads the diff and the team's .vera.yml or CODEOWNERS, and groups the change into the areas people own. A second check asks whether a designer should see it. Separately, plain code looks for signs it's AI-written: an AI co-author in the commits, an agent's account, or a \"generated with\" line.",
   },
   {
     name: "Briefer",
     icon: "brief",
-    job: "One brief per role",
-    body: "Design gets the preview and the screens that changed. Security gets the data flow. Each person sees what they need to judge, not the whole diff. Then it answers their questions in Slack or on the PR, from the code, with the lines it used.",
+    job: "Where to look first",
+    body: "Picks the 3 to 5 places that most need a person's judgment, each linked to its lines, with why and who should check it. On 105 real pull requests, its first three were the files reviewers commented on 71% of the time, against 64% for biggest files first. Next: a brief for designers, from screenshots.",
   },
   {
     name: "Examiner",
     icon: "examine",
     job: "Did the reviewer understand it?",
-    body: "On risky changes, asks the reviewer one to three questions about the change and grades the answer. The result goes on the approval.",
+    body: "When a change is likely AI-written or has a high-risk place, it asks the engineer one to three questions, then grades the answers they give with their sign-off. The result shows next to the sign-off; it never blocks the merge. I rated 29 of 36 of its questions good on real pull requests.",
   },
   {
     name: "Sign-off",
     icon: "signoff",
     job: "Everyone at once",
-    body: "Asks every role the rules name in parallel, chases the ones still waiting, and keeps one record of who approved what. Likely AI-written changes also go to the owner of the code they touch, and to a second reviewer when the rules say so, with the reason attached.",
+    body: "Rules, not a model: the people .vera.yml names for the areas a change touches are asked, all at once. Approving, or commenting /vera sign-off, signs off, and a check shows who's left. Next: chasing the ones still waiting, in Slack.",
   },
 ];
 
 export const SURFACES: { name: string; status: Status; body: string }[] = [
   {
-    name: "Run viewer",
-    status: "planned",
-    body: "Real runs on public pull requests, replayed step by step: each agent's reasoning, tool calls, time and cost. No install.",
+    name: "GitHub Action",
+    status: "done",
+    body: "Runs in your CI on your own Anthropic key, about 2 to 4 cents a review. Posts one comment per pull request, keeps the sign-off check current, and grades answers. No server.",
   },
   {
     name: "CLI",
-    status: "planned",
-    body: "vera review <pull request URL>, with your own API key, on any public GitHub pull request.",
+    status: "done",
+    body: "vera review <pull request URL>, with your own key, on any public GitHub pull request. Prints the review without posting anything.",
   },
   {
-    name: "GitHub Action",
+    name: "Run viewer",
     status: "planned",
-    body: "Runs in your CI. Posts the comment, creates the sign-off check and records approvals. No server.",
+    body: "Real runs on public pull requests, replayed step by step: each agent's reasoning, tool calls, time and cost. No install. For now, the demo plays a scripted run.",
   },
   {
     name: "Slack",
     status: "planned",
-    body: "Later, on a demo workspace: @vera asks design, security and product to sign off in parallel, and answers questions about the change.",
+    body: "Later, self-hosted: @vera asks design, security and product to sign off in parallel, and answers questions about the change.",
   },
 ];
 
@@ -69,26 +69,32 @@ export const MILESTONES: { id: string; title: string; status: Status; body: stri
   {
     id: "M1",
     title: "Evals before agents",
-    status: "next",
+    status: "done",
     body: "Datasets from GitLab's history and a rules-only baseline: the number the agents have to beat.",
   },
   {
     id: "M2",
     title: "The agents, from the CLI",
-    status: "planned",
-    body: "The coordinator and the four agents on any public pull request, scored against the evals, including whether the likely-AI signals predict fix-ups better than size alone.",
+    status: "done",
+    body: "The agents on any public pull request, each scored on the Evals page before it shipped. Two didn't pass and stay out: a judge of fix-ups, and questions for designers without screenshots.",
+  },
+  {
+    id: "M4",
+    title: "GitHub Action, and checks for engineers",
+    status: "done",
+    body: "Installable from a tagged release (v0.5.0): the comment, the sign-off check and questions for engineers, running on Vera's repo and my portfolio.",
+  },
+  {
+    id: "M4",
+    title: "Questions for designers",
+    status: "next",
+    body: "Screenshots of the change from preview deployments, so the Briefer and the Examiner can work for designers too.",
   },
   {
     id: "M3",
     title: "Run viewer",
     status: "planned",
     body: "Recorded runs on real pull requests, replayed here.",
-  },
-  {
-    id: "M4",
-    title: "GitHub Action and understanding checks",
-    status: "planned",
-    body: "The comment, the sign-off check and the reviewer questions, running end to end on my own repo.",
   },
   {
     id: "M5",
