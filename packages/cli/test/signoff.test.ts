@@ -33,14 +33,25 @@ test("nobody asked means nothing to sign off", () => {
   assert.equal(toCheck(status([], "ana", [], [], MARKER)).title, "Nobody to sign off");
 });
 
-test("the sign-off list names who's left and is swapped in place on a sign-off", () => {
+test("the blocks name who's left and are swapped in place on a sign-off", () => {
   const before = statusBlock(status(asks, "ana", [], [], MARKER), asks);
-  assert.match(before, /###### SIGN-OFF · WAITING ON 2 OF 2/);
-  assert.match(before, /alt="Waiting"><\/picture> \*\*Design\*\* \(as lead\) · @dev · waiting/);
+  assert.match(before, /###### WHO SIGNS OFF · WAITING ON 2 OF 2/);
+  assert.match(before, /#### @dev\n\n<picture>.*alt="Waiting"><\/picture> \*\*Design\*\* \(as lead\) · waiting/);
   const after = statusBlock(status(asks, "ana", [{ id: 1, who: "dev", state: "APPROVED", body: "", trusted: true, at: "t" }], [], MARKER), asks);
-  assert.match(after, /###### SIGN-OFF · WAITING ON 1 OF 2/);
-  assert.match(after, /done\.svg" width="16" height="10" alt="Signed off"><\/picture> \*\*Design\*\* \(as lead\) · @dev · signed off( · |$)/m);
+  assert.match(after, /###### WHO SIGNS OFF · WAITING ON 1 OF 2/);
+  assert.match(after, /done\.svg" width="16" height="10" alt="Signed off"><\/picture> \*\*Design\*\* \(as lead\) · signed off( · |$)/m);
   const body = `${MARKER}\n${before}\n\nthe rest`;
   assert.equal(withStatus(body, after), `${MARKER}\n${after}\n\nthe rest`);
   assert.equal(withStatus("an old comment", after), null);
+});
+
+test("redrawn on a sign-off, the blocks keep their places, and the questions go once the engineer has signed off", () => {
+  const eng: Ask[] = [{ who: "@ana", role: "engineer", action: "ask", why: "owns Checkout" }];
+  const view = { brief: { spots: [{ file: "a.ts", label: "a.ts", lines: "1", url: null, what: "w", why: "y", risk: "high" as const, who: ["@ana"] }], design: null, docs: [] }, exam: { questions: ["Why?"], why: "it's likely AI-written" } };
+  const before = statusBlock(status(eng, "bo", [], [], MARKER), eng, undefined, {}, view);
+  assert.match(before, /`a\.ts` L1 · w\. \| y\. \|/);
+  assert.match(before, /\*\*Before you sign off\*\*\n\n1\. Why\?/);
+  const after = statusBlock(status(eng, "bo", [{ id: 1, who: "ana", state: "APPROVED", body: "", trusted: true, at: "t" }], [], MARKER), eng, undefined, {}, view);
+  assert.match(after, /`a\.ts` L1/);
+  assert.ok(!after.includes("Before you sign off"));
 });

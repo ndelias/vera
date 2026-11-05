@@ -49,17 +49,19 @@ Vera can review every pull request on your repo and keep one comment up to
 date on each, with a **Vera: sign-off** check showing who has signed off. It
 reads the PR through GitHub's API and never runs its code.
 
-The comment is laid out like the mock-up on
-[Vera's site](https://vera-agent.vercel.app/#preview):
+The comment has a sentence on what the change does, a flag when it looks
+AI-written, then one block per person asked:
 
-- **What this touches:** the 3–5 places that most need a person's
-  judgment, each marked by risk, linked to its lines, and naming who should
-  check it, with a flag when the change looks AI-written.
+- **Their roles,** and whether each is signed off yet, updated as people
+  sign off.
+- **Where to look:** for engineers, the 3–5 places that most need a
+  person's judgment, each marked by risk and linked to its lines; for
+  designers, the design call; for docs people, the changed docs.
 - **Before you sign off:** questions for the engineer, when the change is
   likely AI-written or has a high-risk place.
-- **Sign-off:** who has to sign off and who has, updated as people sign off.
-- **How Vera decided,** folded away below: the areas, the design call, and
-  the cost.
+
+**How Vera decided** is folded away below: the areas, the design call, and
+the cost.
 
 The risk and sign-off squares are small images from Vera's site; if they
 can't load, their text (High, Waiting) shows instead.
