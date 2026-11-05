@@ -7,7 +7,8 @@ import { parse } from "yaml";
 export const ROLES = ["engineer", "design", "product", "docs", "security", "lead"] as const;
 export type Role = (typeof ROLES)[number];
 
-export type Person = { handle: string; role: Role; areas: string[] };
+/** `slack` is the person's Slack member ID (U…), for Vera to message them their part of a review. */
+export type Person = { handle: string; role: Role; areas: string[]; slack?: string };
 export type Area = { name: string; paths: string[]; description: string; lead?: string };
 
 /** What Vera knows about a repo's people and areas, and where it came from. */
@@ -48,7 +49,8 @@ export function fromVeraYml(text: string): Ownership {
     const theirs = Array.isArray(x.areas) ? x.areas.filter(str) : [];
     const unknown = theirs.filter((a) => !names.has(a));
     if (unknown.length) throw new ConfigError(`people[${i}] (${x.handle}): no area named ${unknown.join(", ")}`);
-    people.push({ handle: x.handle, role: x.role as Role, areas: theirs });
+    if (x.slack !== undefined && !(str(x.slack) && /^[UW][A-Z0-9]{6,}$/.test(x.slack))) throw new ConfigError(`people[${i}] (${x.handle}): slack must be a Slack member ID, like U0123ABCD (in Slack: their profile, ⋮, Copy member ID)`);
+    people.push({ handle: x.handle, role: x.role as Role, areas: theirs, ...(str(x.slack) ? { slack: x.slack } : {}) });
   }
   return { source: ".vera.yml", ...(str(d.lead) ? { lead: d.lead } : {}), areas, people };
 }
@@ -96,4 +98,11 @@ export function areasFor(o: Ownership, paths: string[]): Map<string, number> {
     if (hit) counts.set(hit, (counts.get(hit) ?? 0) + 1);
   }
   return counts;
+}
+
+/** Each handle's Slack member ID, from any of its entries in `.vera.yml`. */
+export function slackIds(o: Ownership): Map<string, string> {
+  const ids = new Map<string, string>();
+  for (const p of o.people) if (p.slack && !ids.has(p.handle.toLowerCase())) ids.set(p.handle.toLowerCase(), p.slack);
+  return ids;
 }

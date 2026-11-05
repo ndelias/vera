@@ -15,12 +15,13 @@ import { join } from "node:path";
 import { secret, toJsonl, totals } from "@vera/core";
 import { review, type Review } from "./review.ts";
 import { MARKER, toMarkdown } from "./markdown.ts";
-import { readBrief } from "./people.ts";
+import { people, readBrief } from "./people.ts";
+import { message, readSent, sendAll, withSent } from "./slack.ts";
 import { CHECK, readPlan, status, statusBlock, toCheck, withStatus } from "./signoff.ts";
 import { latestAnswers, open, readExam, readGrades, type Grades, type Understanding } from "./understanding.ts";
 import Anthropic from "@anthropic-ai/sdk";
 import { gradeRequest, parseJson, type Grade } from "@vera/agents/examiner";
-import { counts, parseSignoff, type Signoff } from "@vera/rules";
+import { counts, parseSignoff, signoff, slackIds, type Signoff } from "@vera/rules";
 import { client as github, parsePullUrl, type Comment, type PullRef, type PullReview } from "@vera/tools/github";
 
 const USAGE = `Usage: vera review <GitHub pull request URL> [--config .vera.yml] [--markdown | --comment] [--model claude-sonnet-5-5] [--out .vera/runs]
@@ -151,6 +152,15 @@ if (args[0] === "sign-off") {
     const brief = readBrief(vera.body);
     const exam = brief && readExam(vera.body);
     const body = withStatus(vera.body, statusBlock(s, asks, u, grades, brief ? { brief, exam: exam ? { questions: exam.questions, why: exam.why } : null } : undefined));
+    // Each person's Slack message too, when they were sent one.
+    const sent = readSent(vera.body);
+    const slackToken = optional("SLACK_BOT_TOKEN");
+    if (slackToken && brief && Object.keys(sent).length) {
+      const pr = { url: ref.url, repo: `${ref.owner}/${ref.repo}`, number: ref.number, title: pull.title, author: pull.author };
+      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(exam ? { why: exam.why } : {}) };
+      const { problems } = await sendAll(slackToken, new Map(), people(asks, brief, exam?.questions ?? []), (p) => message(p, pr, s, extra, u), sent);
+      for (const p of problems) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Slack message not updated for ${p}`);
+    }
     if (body && body !== vera.body) await gh.comment(ref, body, MARKER).catch((e) => console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Vera's comment wasn't updated: ${(e as Error).message}`));
     // A thumbs-up tells the person their sign-off counted; a confused face, that it didn't.
     const id = Number(flag("--comment-id", ""));
@@ -192,12 +202,25 @@ try {
     const gh = github(githubToken);
     // If they can't be read, the review is still posted, showing everyone as waiting,
     // but the check is left as it was rather than reset; the next sign-off corrects both.
-    const s = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref)])
-      .then(([reviews, comments]) => status(r.plan.asks, r.pull.author, reviews, comments, MARKER))
-      .catch(() => null);
+    const read = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref)]).catch(() => null);
+    const s = read && status(r.plan.asks, r.pull.author, read[0], read[1], MARKER);
+    const prior = readSent(read?.[1].find((c) => c.body.includes(MARKER))?.body ?? "");
     // New questions mean earlier answers don't count; the engineer answers these ones.
     const u: Understanding | undefined = r.exam ? { questions: r.exam.questions.length, answered: 0, passed: 0, graded: false, reasons: [] } : undefined;
-    console.log(`Posted: ${await gh.comment(r.pull.ref, toMarkdown(r, s ?? undefined, apiKey, u), MARKER)}`);
+    let body = toMarkdown(r, s ?? undefined, apiKey, u);
+    const slackToken = optional("SLACK_BOT_TOKEN");
+    if (slackToken) {
+      const brief = readBrief(body)!;
+      const everyone = people(r.plan.asks, brief, r.exam?.questions.map((q) => q.question) ?? []);
+      const pr = { url: r.pull.ref.url, repo: `${r.pull.ref.owner}/${r.pull.ref.repo}`, number: r.pull.ref.number, title: r.pull.title, author: r.pull.author };
+      const now = s ?? signoff(r.plan.asks, r.pull.author, []);
+      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(r.exam ? { why: r.exam.why } : {}) };
+      const { sent, problems } = await sendAll(slackToken, slackIds(r.ownership), everyone, (p) => message(p, pr, now, extra, u), prior);
+      body = withSent(body, sent);
+      console.log(`Slack: ${Object.keys(sent).length} of ${everyone.length} ${everyone.length === 1 ? "person" : "people"} messaged${everyone.length > Object.keys(sent).length ? " (the rest have no slack ID in .vera.yml)" : ""}.`);
+      for (const p of problems) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Slack message not sent to ${p}`);
+    } else body = withSent(body, prior);
+    console.log(`Posted: ${await gh.comment(r.pull.ref, body, MARKER)}`);
     if (s) await writeCheck(githubToken, r.pull.ref, r.pull.headSha, s, u);
     else console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Couldn't read the PR's reviews, so the ${CHECK} check wasn't updated.`);
   } else if (args.includes("--markdown")) {

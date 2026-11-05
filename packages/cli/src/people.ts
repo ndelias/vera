@@ -9,8 +9,9 @@ import type { Ask } from "@vera/rules";
 export type Risk = "high" | "medium" | "low";
 /** A place from the engineer's brief, with who checks it and its link. */
 export type Spot = { file: string; label: string; lines: string; url: string | null; what: string; why: string; risk: Risk; who: string[] };
-/** Everything the blocks show besides the sign-offs. `design` is the design call's description when there is one. */
-export type Brief = { spots: Spot[]; design: string | null; docs: string[] };
+/** Everything the blocks show besides the sign-offs. `design` is the design call's description when there is one;
+ * `summary` and `ai` are the change in a sentence and the likely-AI signals, for Slack. */
+export type Brief = { spots: Spot[]; design: string | null; docs: string[]; summary?: string; ai?: string[] };
 export type Person = { who: string; asks: Ask[]; spots: Spot[]; design: string | null; docs: string[]; questions: string[] };
 
 const BRIEF = /<!-- vera-brief:([A-Za-z0-9+/=]*) -->/;

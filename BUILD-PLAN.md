@@ -278,6 +278,16 @@ the change in the thread, answers the questions there (multiple choice is
 on the table), and signs off from Slack. The comment stays as the record
 on the pull request and for anyone not on Slack.
 
+*Slack, how (Nahuel's call, 5 Nov 2026).* A small app of its own
+(apps/slack) on its own Vercel project, which a team can deploy for
+itself; not inside Vera's site, and not a container. No database: the
+conversation lives in the Slack thread and the review in Vera's comment,
+and a sign-off from Slack writes back to GitHub. In three stages: 1.
+sending (the Action messages each person their block, no server; which
+message is whose rides hidden in the comment), 2. the server (people ask
+Vera about the change in the thread), 3. answering and signing off in
+Slack.
+
 **M5: Demo company + case study.** A demo repo with seeded roles (engineer,
 designer, security, PM) and realistic AI-written changes. Measured against
 the decision document's targets: time to full sign-off, reviewer minutes

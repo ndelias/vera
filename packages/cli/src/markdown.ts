@@ -44,6 +44,8 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
     spots: (r.brief?.places ?? []).map((p) => ({ ...p, label: label.get(p.file)!, url: linesLink(r, p.file, p.lines), who: checkerFor(r.ownership, r.plan.asks, p.file) })),
     design: r.design?.visible ? r.design.what : null,
     docs: r.pull.files.map((f) => f.path).filter((f) => DOCS.test(f)),
+    ...(r.brief?.summary ? { summary: r.brief.summary } : {}),
+    ...(r.ai.length ? { ai: r.ai } : {}),
   };
   const lines = [MARKER, planMarker(r.plan.asks), ...(exam ? [examMarker(exam.questions, exam.why, secret!)] : []), briefMarker(brief), ""];
 
