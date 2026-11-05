@@ -64,7 +64,8 @@ AI-written, then one block per person asked:
 the cost.
 
 **In Slack (optional):** with a Slack app's token, each person also gets
-their part as a Slack message, kept up to date. Setup:
+their part as a Slack message, kept up to date. With the small server in
+`apps/slack`, they can also write back and ask Vera about the change. Setup:
 [apps/slack](apps/slack/README.md).
 
 The risk and sign-off squares are small images from Vera's site; if they

@@ -12,7 +12,11 @@ import { describe, type Understanding } from "./understanding.ts";
 /** The message each person was sent, by lowercased handle. */
 export type Sent = Record<string, { channel: string; ts: string }>;
 export type Pr = { url: string; repo: string; number: number; title: string; author: string };
-export type Message = { text: string; blocks: unknown[] };
+export type Message = { text: string; blocks: unknown[]; metadata?: { event_type: string; event_payload: Record<string, string> } };
+
+/** Slack message metadata naming the pull request a message is about. The server
+ * (apps/slack) reads it to know which change a reply in the conversation is about. */
+export const PR_EVENT = "vera_pr";
 type Fetch = typeof fetch;
 
 const SENT = /<!-- vera-slack:([A-Za-z0-9+/=]*) -->/;
@@ -71,6 +75,7 @@ export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string
   const mine = p.asks.map((a) => ROLE(a.role)).join(", ");
   return {
     text: `Vera asks you to review ${pr.repo}#${pr.number} (${mine}): ${pr.title}`,
+    metadata: { event_type: PR_EVENT, event_payload: { url: pr.url } },
     blocks: [
       { type: "header", text: { type: "plain_text", text: `Review: ${pr.title}`.slice(0, 150) } },
       section(`<${pr.url}|${pr.repo}#${pr.number}> by ${esc(pr.author)}${extra.summary ? `\n_${esc(extra.summary)}_` : ""}`),
