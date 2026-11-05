@@ -113,6 +113,14 @@ design reviews, but only 1 ping in 10 is needed. So:
   Unsure → ask the area's lead or PM ("who should review this?"); their
   answer connects the reviewer and teaches Vera. Sure it's not needed →
   stay quiet.
+  *Unsure about design where no designer is declared (Nahuel's call, 4
+  Nov 2026):* if a team declares designers but none for the areas a
+  change touches, and Vera isn't sure it's a design decision, nobody is
+  asked; the comment notes it under How Vera decided. The portfolio's six
+  build-log PRs had each asked for a design sign-off this way. Sure calls
+  still go to the lead. Fixing the judgment itself (a new log entry isn't
+  a design decision) waits for the designer work, scored on Vera's own
+  reviews, which Nahuel labels.
 - **The lead budget: at most 1 change in 6 becomes a question to a lead.**
   Above that, Vera is a nuisance. Evals measure precision of direct pings,
   recall counting escalations as caught, and the escalation rate against

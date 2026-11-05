@@ -58,6 +58,28 @@ test("a design decision with no designer declared goes to the lead", () => {
   assert.ok(plan.asks.some((a) => a.who === "@sam" && a.role === "design" && a.action === "ask-lead"));
 });
 
+test("unsure of a design decision where no designer covers the area: a note, nobody asked", () => {
+  const o = fromVeraYml(YML);
+  const plan = route(o, ["src/search/notes.md"], [{ area: "Search", confidence: "high", reason: "search docs" }], { decision: true, confidence: "medium", what: "new wording" });
+  assert.ok(!plan.asks.some((a) => a.role === "design"));
+  assert.ok(plan.notes.some((n) => /no designer covers Search, so nobody was asked/.test(n)));
+});
+
+test("unsure of a design decision and no designers declared at all: still the lead", () => {
+  const o = fromVeraYml(`lead: "@lena"\nareas:\n  - { name: Search, paths: ["src/search/"] }\npeople:\n  - { handle: "@ana", role: engineer, areas: [Search] }\n`);
+  const plan = route(o, ["src/search/ui.vue"], [{ area: "Search", confidence: "high", reason: "search UI" }], { decision: true, confidence: "medium", what: "new filter chips" });
+  assert.ok(plan.asks.some((a) => a.who === "@lena" && a.role === "design" && a.action === "ask-lead"));
+});
+
+test("a design decision in several areas asks each area's designers", () => {
+  const o = fromVeraYml(YML);
+  const plan = route(o, ["src/search/ui.vue", "src/checkout/cart.vue"], [
+    { area: "Search", confidence: "high", reason: "search UI" },
+    { area: "Checkout", confidence: "high", reason: "cart UI" },
+  ], { decision: true, confidence: "high", what: "new filter chips" });
+  assert.ok(plan.asks.some((a) => a.who === "@dev" && a.role === "design" && a.action === "ask"));
+});
+
 test("docs changes go to the area's writer", () => {
   const o = fromVeraYml(YML);
   const plan = route(o, ["src/checkout/README.md"], [{ area: "Checkout", confidence: "high", reason: "checkout docs" }], null);

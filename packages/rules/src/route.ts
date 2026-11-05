@@ -62,10 +62,17 @@ export function route(o: Ownership, paths: string[], areas: AreaGuess[], design:
 
   // Design: only when the change makes a design decision.
   if (design?.decision) {
-    const area = sure[0]?.area ?? top?.area;
-    const designers = area ? inArea(o, area, "design") : [];
+    const touched = sure.length ? sure.map((a) => a.area) : top ? [top.area] : [];
+    const area = touched[0];
+    const designers = [...new Map(touched.flatMap((a) => inArea(o, a, "design")).map((p) => [p.handle, p])).values()];
+    // A team that declares designers, but none for these areas, has said
+    // design doesn't cover them: when Vera is unsure, it says so instead of
+    // asking (Nahuel's call, 4 Nov 2026).
+    const notCovered = !designers.length && design.confidence !== "high" && o.people.some((p) => p.role === "design");
     if (design.confidence === "high" && designers.length) {
       for (const p of designers) add({ who: p.handle, role: "design", action: "ask", why: `design decision (${design.confidence})` });
+    } else if (notCovered) {
+      notes.push(`Might be a design decision (${design.confidence}), but no designer covers ${touched.join(" or ") || "these files"}, so nobody was asked.`);
     } else if (o.source !== "none") {
       askLead("design", designers.length ? `Might be a design decision (${design.confidence})` : `Design decision (${design.confidence}), but no designer is declared${area ? ` for ${area}` : ""}`, area);
     }
