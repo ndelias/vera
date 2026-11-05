@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ConfigError, areasFor, checkerFor, fromCodeowners, fromVeraYml, matches, route } from "../src/index.ts";
+import { ConfigError, areasFor, checkerFor, fromCodeowners, fromVeraYml, matches, route, slackIds } from "../src/index.ts";
 
 const YML = `
 lead: "@lena"
@@ -121,4 +121,10 @@ people:
   assert.deepEqual(checkerFor(o, asks, "README.md"), ["@ana", "@sam"]);
   assert.deepEqual(checkerFor(o, [{ who: "@lena", role: "engineer", action: "ask-lead", why: "unsure" }], "src/search/index.ts"), ["@lena"]);
   assert.deepEqual(checkerFor(o, [], "src/search/index.ts"), []);
+});
+
+test("people can give a Slack member ID, checked for shape", () => {
+  const o = fromVeraYml(`areas: [{ name: A }]\npeople:\n  - { handle: "@Ana", role: engineer, areas: [A], slack: U0123ABCD }\n  - { handle: "@ana", role: design, areas: [A] }\n`);
+  assert.equal(slackIds(o).get("@ana"), "U0123ABCD");
+  assert.throws(() => fromVeraYml(`people:\n  - { handle: "@x", role: engineer, slack: "@x" }`), /Slack member ID/);
 });

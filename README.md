@@ -63,6 +63,10 @@ AI-written, then one block per person asked:
 **How Vera decided** is folded away below: the areas, the design call, and
 the cost.
 
+**In Slack (optional):** with a Slack app's token, each person also gets
+their part as a Slack message, kept up to date. Setup:
+[apps/slack](apps/slack/README.md).
+
 The risk and sign-off squares are small images from Vera's site; if they
 can't load, their text (High, Waiting) shows instead.
 

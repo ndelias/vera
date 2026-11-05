@@ -19,6 +19,9 @@ inputs:
     description: Token used to read the PR and post the comment and check. The default works when the job has pull-requests and checks write permission.
     required: false
     default: ${{ github.token }}
+  slack-bot-token:
+    description: Optional. Your Slack app's bot token (xoxb-…, stored as a repository secret). With it, each person asked who has a `slack` member ID in `.vera.yml` gets their part of the review as a Slack message, updated as the review changes.
+    required: false
   model:
     description: The Claude model to use.
     required: false
@@ -69,6 +72,7 @@ runs:
       env:
         ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
+        SLACK_BOT_TOKEN: ${{ inputs.slack-bot-token }}
         PR_URL: ${{ github.event.pull_request.html_url }}
         MODEL: ${{ inputs.model }}
       run: node --disable-warning=ExperimentalWarning packages/cli/src/main.ts review "$PR_URL" --comment --model "$MODEL" --out "$RUNNER_TEMP/vera-runs"
@@ -80,6 +84,7 @@ runs:
       env:
         ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
+        SLACK_BOT_TOKEN: ${{ inputs.slack-bot-token }}
         PR_URL: ${{ github.event.pull_request.html_url || github.event.issue.pull_request.html_url }}
         COMMENT_ID: ${{ github.event.comment.id }}
         MODEL: ${{ inputs.model }}
