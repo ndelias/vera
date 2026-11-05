@@ -11,8 +11,8 @@
     "node": "24.x"
   },
   "scripts": {
-    "typecheck": "tsc -p tsconfig.json --noEmit && npm run typecheck -w panel",
-    "test": "node --test --disable-warning=ExperimentalWarning \"packages/*/test/**/*.test.ts\" \"apps/panel/lib/**/*.test.ts\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit && npm run typecheck -w panel && npm run typecheck -w @vera/slack",
+    "test": "node --test --disable-warning=ExperimentalWarning \"packages/*/test/**/*.test.ts\" \"apps/panel/lib/**/*.test.ts\" \"apps/slack/test/**/*.test.ts\"",
     "ci": "npm run typecheck && npm test",
     "vera": "node --disable-warning=ExperimentalWarning packages/cli/src/main.ts"
   },

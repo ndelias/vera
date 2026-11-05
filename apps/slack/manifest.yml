@@ -1,16 +1,19 @@
 # Vera's Slack app. In Slack: api.slack.com/apps → Create New App → From a
-# manifest → pick the workspace → paste this. Stage 1 only sends messages,
-# so people can read them but not reply yet; the server (stage 2) turns
-# replies on and adds the events it needs.
+# manifest → pick the workspace → paste this (or, for an app you already
+# made: App Manifest → paste → Save → reinstall when Slack asks).
+#
+# Sending only (no server): delete the event_subscriptions block, set
+# messages_tab_read_only_enabled to true, and drop im:history.
+# Replies: put your server's address in request_url first (see README.md).
 display_information:
   name: Vera
-  description: Your part of each code review, sent to you, and sign-off.
+  description: Your part of each code review, sent to you, and answers about the change.
   background_color: "#0b0b0b"
 features:
   app_home:
     home_tab_enabled: false
     messages_tab_enabled: true
-    messages_tab_read_only_enabled: true
+    messages_tab_read_only_enabled: false
   bot_user:
     display_name: Vera
     always_online: true
@@ -18,7 +21,12 @@ oauth_config:
   scopes:
     bot:
       - chat:write
+      - im:history
 settings:
+  event_subscriptions:
+    request_url: https://YOUR-VERA-SLACK.vercel.app/api/events
+    bot_events:
+      - message.im
   org_deploy_enabled: false
   socket_mode_enabled: false
   token_rotation_enabled: false

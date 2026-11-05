@@ -288,6 +288,17 @@ message is whose rides hidden in the comment), 2. the server (people ask
 Vera about the change in the thread), 3. answering and signing off in
 Slack.
 
+*Slack replies (Nahuel's calls, 5 Nov 2026).* Vera answers from the review
+plus the diff, not the review alone: "what is happening here?" usually
+needs the code. The server is plain request handlers with no framework,
+and the host lives in one file (api/events.ts), so moving off Vercel is a
+new five-line file. That file reads Vercel's waitUntil hook directly
+rather than adding @vercel/functions, which brings 24 other packages
+(about 11 MB) for that one function; if Vercel moves the hook, Vera
+answers before replying, slower but still working. Which pull request a
+message is about rides in Slack's message metadata, set only by Vera, so
+people can only ask about changes they were asked to review.
+
 **M5: Demo company + case study.** A demo repo with seeded roles (engineer,
 designer, security, PM) and realistic AI-written changes. Measured against
 the decision document's targets: time to full sign-off, reviewer minutes
