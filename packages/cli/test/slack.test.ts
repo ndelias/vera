@@ -52,10 +52,12 @@ test("people with a Slack ID are messaged once, then their message is updated; t
   const one = await sendAll("xoxb-test", ids, everyone, render, {}, first.f);
   assert.deepEqual(one.sent, { "@ana": { channel: "D1", ts: "1.1" } });
   assert.deepEqual(first.calls.map((c) => [c.method, c.body.channel]), [["chat.postMessage", "U0ANA0001"]]);
+  assert.equal(first.calls[0]!.body.unfurl_links, false, "no GitHub preview cards");
   const again = fakeSlack({ "chat.update": [{ ok: true }] });
   const two = await sendAll("xoxb-test", ids, everyone, render, one.sent, again.f);
   assert.deepEqual(two.sent, one.sent);
   assert.deepEqual(again.calls.map((c) => [c.method, c.body.ts]), [["chat.update", "1.1"]]);
+  assert.deepEqual(again.calls[0]!.body.attachments, [], "an update clears old preview cards");
 });
 
 test("someone no longer asked is told so; a deleted message is sent again; failures are reported, not thrown", async () => {
