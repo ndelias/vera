@@ -162,7 +162,7 @@ people:
           <li>
             Add the workflow from the{" "}
             <a href="https://github.com/ndelias/vera#use-it-on-your-repo-the-github-action">README</a>, which runs{" "}
-            <code>ndelias/vera@v0.5.0</code> on each pull request.
+            <code>ndelias/vera@v0.5.1</code> on each pull request.
           </li>
           <li>Optionally, add a <code>.vera.yml</code> naming your areas and people. Without one, Vera uses CODEOWNERS.</li>
         </ol>
@@ -204,7 +204,7 @@ people:
         <div className="section-head">
           <h2>Where it&apos;s at</h2>
           <p>
-            Vera is installable (v0.5.0) and reviews its own pull requests and my portfolio&apos;s. Each step ends with
+            Vera is installable (v0.5.1) and reviews its own pull requests and my portfolio&apos;s. Each step ends with
             something that runs and the numbers behind it.
           </p>
         </div>
