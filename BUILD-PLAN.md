@@ -259,6 +259,25 @@ engineers, then screenshots so it can ask designers. 3. The run viewer
 (M3), then the demo company and case study (M5). 4. Slack (M6), last,
 because it carries whatever the review is by then.
 
+*A block per person (Nahuel's call, 5 Nov 2026).* The comment was laid
+out by section (places, questions, sign-off), so each reviewer had to
+piece their own part together; on a pull request where one person held
+three roles, they appeared three times. Now each person gets one block:
+their roles and where each stands, a table of where to look (the
+engineer's places, routed by who checks each file; the design call for
+designers; the changed docs for docs people), and the engineer's
+questions, which go once the engineer has signed off. Files with the same
+name show enough of their path to tell apart. What the blocks need is
+kept hidden in the comment, so a sign-off redraws them without the
+agents. Slack sends each person the same block (people.ts).
+
+*Slack moves up (Nahuel's call, 5 Nov 2026).* After the block per
+person, Slack (M6) comes next, ahead of questions for designers and the
+run viewer. Each person gets their block as a message, can ask Vera about
+the change in the thread, answers the questions there (multiple choice is
+on the table), and signs off from Slack. The comment stays as the record
+on the pull request and for anyone not on Slack.
+
 **M5: Demo company + case study.** A demo repo with seeded roles (engineer,
 designer, security, PM) and realistic AI-written changes. Measured against
 the decision document's targets: time to full sign-off, reviewer minutes

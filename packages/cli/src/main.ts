@@ -15,6 +15,7 @@ import { join } from "node:path";
 import { secret, toJsonl, totals } from "@vera/core";
 import { review, type Review } from "./review.ts";
 import { MARKER, toMarkdown } from "./markdown.ts";
+import { readBrief } from "./people.ts";
 import { CHECK, readPlan, status, statusBlock, toCheck, withStatus } from "./signoff.ts";
 import { latestAnswers, open, readExam, readGrades, type Grades, type Understanding } from "./understanding.ts";
 import Anthropic from "@anthropic-ai/sdk";
@@ -146,7 +147,10 @@ if (args[0] === "sign-off") {
     const { u, grades } = await understanding(vera.body, s, reviews, comments);
     await writeCheck(token, ref, pull.headSha, s, u);
     // The comment's status block too, so it doesn't say "waiting" after someone signed off.
-    const body = withStatus(vera.body, statusBlock(s, asks, u, grades));
+    // A comment from before the blocks per person has no brief, and shows its questions elsewhere.
+    const brief = readBrief(vera.body);
+    const exam = brief && readExam(vera.body);
+    const body = withStatus(vera.body, statusBlock(s, asks, u, grades, brief ? { brief, exam: exam ? { questions: exam.questions, why: exam.why } : null } : undefined));
     if (body && body !== vera.body) await gh.comment(ref, body, MARKER).catch((e) => console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Vera's comment wasn't updated: ${(e as Error).message}`));
     // A thumbs-up tells the person their sign-off counted; a confused face, that it didn't.
     const id = Number(flag("--comment-id", ""));

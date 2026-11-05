@@ -14,7 +14,7 @@ export type DesignGuess = { decision: boolean; confidence: "high" | "medium" | "
 export type Ask = { who: string; role: Role; action: "ask" | "ask-lead" | "suggest"; why: string };
 export type Plan = { asks: Ask[]; notes: string[] };
 
-const DOCS = /(^|\/)(docs?|documentation)\/|\.mdx?$/i;
+export const DOCS = /(^|\/)(docs?|documentation)\/|\.mdx?$/i;
 
 function inArea(o: Ownership, area: string, role: Role): Person[] {
   return o.people.filter((p) => p.role === role && p.areas.includes(area));

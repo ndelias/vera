@@ -6,6 +6,7 @@
 import { parseSignoff, signoff, type Ask, type Signoff, type SignoffEvent } from "@vera/rules";
 import type { Check, Comment, PullReview } from "@vera/tools/github";
 import { dot } from "./dots.ts";
+import { people, type Brief, type Spot } from "./people.ts";
 import { describe, gradesMarker, type Grades, type Understanding } from "./understanding.ts";
 
 export const CHECK = "Vera: sign-off";
@@ -68,29 +69,66 @@ export function toCheck(s: Signoff, u?: Understanding): Check {
 export const status = (asks: Ask[], author: string, reviews: PullReview[], comments: Comment[], marker: string) =>
   signoff(asks, author, events(reviews, comments, marker));
 
-// Vera's comment ends with who has to sign off and who has, as on the site's
-// mock-up. It sits between these markers so a sign-off can update it
-// without a new review.
+// Who signs off, one block per person (people.ts): their roles and where
+// each stands, what to look at, and their questions. It sits between these
+// markers so a sign-off can redraw it without a new review.
 const OPEN = "<!-- vera-status -->";
 const CLOSE = "<!-- /vera-status -->";
 const AS = { ask: "", "ask-lead": " (as lead)", suggest: " (possible owner)" } as const;
 const ROLE = (role: string) => role.charAt(0).toUpperCase() + role.slice(1);
+const RISK = { high: "High", medium: "Medium", low: "Low" } as const;
+/** Model-written text: one line, no HTML outside code spans (as in markdown.ts). */
+const text = (s: string) => s.split(/(`[^`]*`)/).map((part, i) => (i % 2 ? part : part.replace(/</g, "&lt;"))).join("").replace(/\s*\n\s*/g, " ");
+/** The same in a table cell, where a pipe would end the cell. */
+const cell = (s: string) => text(s).replace(/\|/g, "\\|");
+const sentence = (s: string) => (/[.!?]$/.test(s.trim()) ? s.trim() : `${s.trim()}.`);
+const MAX_DOCS = 5;
 
-export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: Grades = {}): string {
+/** What the blocks show besides the sign-offs. Without it (a comment from
+ * before v0.6.0) each block is just the person and their roles. */
+export type View = { brief: Brief; exam: { questions: string[]; why: string } | null };
+
+export function spotRow(p: Spot): string {
+  const at = p.lines.startsWith("L") ? p.lines : `L${p.lines}`;
+  const where = p.url ? `[\`${p.label}\` ${cell(at)}](${p.url} "${p.file}")` : `\`${p.label}\` ${cell(at)}`;
+  return `| ${dot(p.risk, RISK[p.risk])} ${where} · ${cell(sentence(p.what))} | ${cell(sentence(p.why))} |`;
+}
+
+export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: Grades = {}, view?: View): string {
   const left = s.roles.filter((r) => !r.by).length;
   const heading = !s.roles.length ? "nobody to ask"
     : !left ? "done"
     : `waiting on ${left} of ${s.roles.length}`;
-  // One line each (GitHub breaks comment lines where they break here).
-  const rows = s.roles.map((r) => {
-    const ask = asks.find((a) => a.role === r.role);
-    const someoneElse = r.by && (r.asked.length > 1 || r.asked[0]?.toLowerCase() !== r.by.toLowerCase());
-    const state = r.by ? `signed off${someoneElse ? ` by ${r.by}` : ""}${r.byAuthor ? " (author)" : ""}${withUnderstanding(r, u)}` : "waiting";
-    const mark = r.by ? dot("done", "Signed off") : dot("low", "Waiting");
-    return `${mark} **${ROLE(r.role)}**${AS[ask?.action ?? "ask"]} · ${r.asked.join(" or ")} · ${state}${ask?.why ? ` · ${ask.why.replace(/\.$/, "")}` : ""}`;
+  const brief = view?.brief ?? { spots: [], design: null, docs: [] };
+  const blocks = people(asks, brief, view?.exam?.questions ?? []).map((p) => {
+    // One line per role (GitHub breaks comment lines where they break here).
+    const roles = p.asks.map((a) => {
+      const r = s.roles.find((x) => x.role === a.role);
+      const someoneElse = r?.by && r.by.toLowerCase() !== p.who.toLowerCase();
+      const state = r?.by ? `signed off${someoneElse ? ` by ${r.by}` : ""}${r.byAuthor ? " (author)" : ""}${r ? withUnderstanding(r, u) : ""}` : "waiting";
+      const mark = r?.by ? dot("done", "Signed off") : dot("low", "Waiting");
+      return `${mark} **${ROLE(a.role)}**${AS[a.action]} · ${state}${a.why ? ` · ${a.why.replace(/\.$/, "")}` : ""}`;
+    });
+    const docs = p.docs.slice(0, MAX_DOCS).map((f) => `\`${f}\``).join(", ") + (p.docs.length > MAX_DOCS ? ` and ${p.docs.length - MAX_DOCS} more` : "");
+    const rows = [
+      ...p.spots.map(spotRow),
+      ...(p.design ? [`| **The design:** ${cell(sentence(p.design))} | Vera can't see screens yet, so it can't point at places for design. |`] : []),
+      ...(p.docs.length ? [`| **The docs:** ${docs} | Documentation changed. |`] : []),
+    ];
+    // Once the engineer has signed off, the result shows on their line instead.
+    const answered = !!s.roles.find((r) => r.role === "engineer")?.by;
+    const exam = p.questions.length && view?.exam && !answered ? [
+      "",
+      "**Before you sign off**",
+      "",
+      ...p.questions.map((q, i) => `${i + 1}. ${text(q)}`),
+      "",
+      `<sub>Asked because ${view.exam.why}. Answer where you sign off, numbered: in your approval or under \`/vera sign-off\`. A sentence or two each; Vera shows the result next to your sign-off and never blocks the merge.</sub>`,
+    ] : [];
+    return ["", `#### ${p.who}`, "", ...roles, ...(rows.length ? ["", "| Look at | Why |", "|---|---|", ...rows] : []), ...exam];
   });
   const kept = Object.keys(grades).length ? [gradesMarker(grades)] : [];
-  return [OPEN, ...kept, `###### SIGN-OFF · ${heading.toUpperCase()}`, ...(rows.length ? ["", ...rows] : []), CLOSE].join("\n");
+  return [OPEN, ...kept, `###### WHO SIGNS OFF · ${heading.toUpperCase()}`, ...blocks.flat(), CLOSE].join("\n");
 }
 
 /** Vera's comment with its status block swapped for a fresh one, or null if it has none. */
