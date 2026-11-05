@@ -34,6 +34,10 @@ as people push and sign off. Built in stages (BUILD-PLAN, M6):
      - { handle: "@ana", role: engineer, areas: [Checkout], slack: U0123ABCD }
    ```
 
+   Vera reads `.vera.yml` from the branch a pull request merges into, so
+   new IDs start working on the pull requests opened after they're merged,
+   not on the one that adds them.
+
 People without a `slack` ID are skipped; the comment on the pull request
 still has everyone's part. Which message went to whom is kept hidden in
 that comment, so there's nothing else to store.

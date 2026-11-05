@@ -215,9 +215,12 @@ try {
       const pr = { url: r.pull.ref.url, repo: `${r.pull.ref.owner}/${r.pull.ref.repo}`, number: r.pull.ref.number, title: r.pull.title, author: r.pull.author };
       const now = s ?? signoff(r.plan.asks, r.pull.author, []);
       const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(r.exam ? { why: r.exam.why } : {}) };
-      const { sent, problems } = await sendAll(slackToken, slackIds(r.ownership), everyone, (p) => message(p, pr, now, extra, u), prior);
+      const ids = slackIds(r.ownership);
+      const { sent, problems } = await sendAll(slackToken, ids, everyone, (p) => message(p, pr, now, extra, u), prior);
       body = withSent(body, sent);
-      console.log(`Slack: ${Object.keys(sent).length} of ${everyone.length} ${everyone.length === 1 ? "person" : "people"} messaged${everyone.length > Object.keys(sent).length ? " (the rest have no slack ID in .vera.yml)" : ""}.`);
+      // .vera.yml comes from the branch the PR merges into, so an ID added in this PR only counts once it's merged.
+      const noId = everyone.filter((p) => !ids.has(p.who.toLowerCase())).length;
+      console.log(`Slack: ${Object.keys(sent).length} of ${everyone.length} ${everyone.length === 1 ? "person" : "people"} messaged${noId ? ` (${noId} with no slack ID in .vera.yml on ${r.pull.baseRef}, the branch this merges into)` : ""}.`);
       for (const p of problems) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Slack message not sent to ${p}`);
     } else body = withSent(body, prior);
     console.log(`Posted: ${await gh.comment(r.pull.ref, body, MARKER)}`);
