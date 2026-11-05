@@ -24,9 +24,10 @@ areas:
     paths: ["README.md", "BUILD-PLAN.md", "CLAUDE.md", ".vera.yml", "LICENSE", "NOTICE"]
 
 # One person for now, in every role. A team lists each person once per role
-# they review for, with the areas they cover.
+# they review for, with the areas they cover. A Slack member ID on any one
+# of a person's lines sends them their part of each review in Slack.
 people:
-  - { handle: "@ndelias", role: engineer, areas: [Agents, Review command, Core, Website, Research, Plan and docs] }
+  - { handle: "@ndelias", role: engineer, areas: [Agents, Review command, Core, Website, Research, Plan and docs], slack: U0CETU3P2HM }
   - { handle: "@ndelias", role: design, areas: [Website] }
   - { handle: "@ndelias", role: product, areas: [Website, Plan and docs] }
   - { handle: "@ndelias", role: docs, areas: [Plan and docs, Research] }
