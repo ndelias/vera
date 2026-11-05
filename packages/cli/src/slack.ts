@@ -97,6 +97,11 @@ async function slack(token: string, method: string, body: object, fetchImpl: Fet
 /** Sends each person with a Slack ID their message, or updates the one they
  * were sent before; people no longer asked are told so. Never throws: a
  * Slack failure is reported and the review goes on. Returns what was sent. */
+// No link previews: every link in the message points at the same pull request, and Slack would
+// add a GitHub card for each. An update also clears the cards a message got before this change.
+const PLAIN = { unfurl_links: false, unfurl_media: false };
+const NO_CARDS = { attachments: [] };
+
 export async function sendAll(token: string, ids: Map<string, string>, everyone: Person[], render: (p: Person) => Message, prior: Sent, fetchImpl: Fetch = fetch): Promise<{ sent: Sent; problems: string[] }> {
   const sent: Sent = {};
   const problems: string[] = [];
@@ -108,7 +113,7 @@ export async function sendAll(token: string, ids: Map<string, string>, everyone:
     try {
       const m = render(p);
       if (was) {
-        const r = await slack(token, "chat.update", { channel: was.channel, ts: was.ts, ...m }, fetchImpl);
+        const r = await slack(token, "chat.update", { channel: was.channel, ts: was.ts, ...m, ...NO_CARDS }, fetchImpl);
         if (r.ok) {
           sent[key] = was;
           continue;
@@ -119,7 +124,7 @@ export async function sendAll(token: string, ids: Map<string, string>, everyone:
           continue;
         }
       }
-      const r = await slack(token, "chat.postMessage", { channel: id, ...m }, fetchImpl);
+      const r = await slack(token, "chat.postMessage", { channel: id, ...m, ...PLAIN }, fetchImpl);
       if (r.ok && r.channel && r.ts) sent[key] = { channel: r.channel, ts: r.ts };
       else problems.push(`${p.who}: ${r.error}`);
     } catch (e) {
@@ -129,7 +134,7 @@ export async function sendAll(token: string, ids: Map<string, string>, everyone:
   }
   for (const [key, was] of Object.entries(prior)) {
     if (everyone.some((p) => p.who.toLowerCase() === key)) continue;
-    const r = await slack(token, "chat.update", { channel: was.channel, ts: was.ts, ...GONE }, fetchImpl).catch((e: Error) => ({ ok: false, error: e.message }));
+    const r = await slack(token, "chat.update", { channel: was.channel, ts: was.ts, ...GONE, ...NO_CARDS }, fetchImpl).catch((e: Error) => ({ ok: false, error: e.message }));
     if (!r.ok) problems.push(`${key}: ${r.error}`);
   }
   return { sent, problems };
