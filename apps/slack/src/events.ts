@@ -9,11 +9,15 @@
 // that thread's Vera messages (Slack message metadata, set by Vera); a new
 // message is about the most recent one Vera sent. Only Vera's own messages
 // count, so nobody can point it at a pull request they weren't asked to review.
+//
+// The same address takes Slack's button presses and forms (sign-off.ts).
 
 import Anthropic from "@anthropic-ai/sdk";
-import { client as github, parsePullUrl } from "../../../packages/tools/src/github.ts";
+import { client as github, parsePullUrl, type PullRef } from "../../../packages/tools/src/github.ts";
 import { answerRequest, answerText, context, type Turn } from "./answer.ts";
-import { api, type Api, type Fetch, type SlackMessage } from "./slack.ts";
+import { appTokens, type AppCreds } from "./github-app.ts";
+import { FORM, pressed, sent, type Payload } from "./sign-off.ts";
+import { api, type Api, type SlackMessage } from "./slack.ts";
 import { verify } from "./verify.ts";
 
 /** Same as PR_EVENT in packages/cli/src/slack.ts and MARKER in packages/cli/src/markdown.ts. */
@@ -21,11 +25,13 @@ export const PR_EVENT = "vera_pr";
 export const VERA_COMMENT = "<!-- vera-review -->";
 const PULL_URL = /https:\/\/github\.com\/[^/\s|>"]+\/[^/\s|>"]+\/pull\/\d+/;
 
-export type Env = { slackToken: string; signingSecret: string; anthropicKey: string; githubToken?: string; model: string };
+export type Env = { slackToken: string; signingSecret: string; anthropicKey: string; githubToken?: string; app?: AppCreds; model: string };
 /** Keeps `work` going after the response; a host that can't returns it, and it's awaited first. */
 export type Later = (work: Promise<unknown>) => void | Promise<unknown>;
 type Event = { type?: string; channel_type?: string; subtype?: string; bot_id?: string; user?: string; text?: string; channel?: string; ts?: string; thread_ts?: string };
-export type Deps = { slack: Api; anthropic: Pick<Anthropic, "messages">; github: ReturnType<typeof github> };
+export type GitHub = ReturnType<typeof github>;
+/** `github` is GitHub for one repo: as the GitHub App when there is one, else with GITHUB_TOKEN (read-only). */
+export type Deps = { slack: Api; anthropic: Pick<Anthropic, "messages">; github: (ref: PullRef) => Promise<GitHub>; canPost: boolean };
 
 /** The settings from the host's environment, or the names of the ones missing. */
 export function envFrom(e: Record<string, string | undefined>): Env | string[] {
@@ -35,6 +41,7 @@ export function envFrom(e: Record<string, string | undefined>): Env | string[] {
   return {
     slackToken: e.SLACK_BOT_TOKEN!, signingSecret: e.SLACK_SIGNING_SECRET!, anthropicKey: e.ANTHROPIC_API_KEY!,
     ...(e.GITHUB_TOKEN ? { githubToken: e.GITHUB_TOKEN } : {}),
+    ...(e.GITHUB_APP_ID && e.GITHUB_APP_PRIVATE_KEY ? { app: { appId: e.GITHUB_APP_ID, privateKey: e.GITHUB_APP_PRIVATE_KEY } } : {}),
     model: e.VERA_MODEL || "claude-sonnet-5-5",
   };
 }
@@ -48,6 +55,19 @@ export async function handle(req: Request, env: Env | string[], later: Later, de
   if (!verify(env.signingSecret, req.headers.get("x-slack-request-timestamp"), req.headers.get("x-slack-signature"), raw, nowMs)) {
     return new Response("bad signature", { status: 401 });
   }
+  const d = (): Deps => ({
+    slack: deps?.slack ?? api(env.slackToken),
+    anthropic: deps?.anthropic ?? new Anthropic({ apiKey: env.anthropicKey }),
+    github: deps?.github ?? repoClient(env),
+    canPost: deps?.canPost ?? !!env.app,
+  });
+  // Button presses and forms come form-encoded, as one JSON "payload".
+  if (raw.startsWith("payload=")) {
+    const p = JSON.parse(new URLSearchParams(raw).get("payload") ?? "{}") as Payload;
+    if (p.type === "block_actions") return pressed(p, later, d());
+    if (p.type === "view_submission" && p.view?.callback_id === FORM) return sent(p, later, d());
+    return new Response(null, { status: 200 });
+  }
   const body = JSON.parse(raw) as { type?: string; challenge?: string; event?: Event };
   if (body.type === "url_verification") return Response.json({ challenge: body.challenge });
   // A retry after a timeout means the first try is still being answered, so it's skipped.
@@ -55,14 +75,19 @@ export async function handle(req: Request, env: Env | string[], later: Later, de
   if (req.headers.get("x-slack-retry-num") && req.headers.get("x-slack-retry-reason") === "http_timeout") return new Response(null, { status: 200 });
   const e = body.event;
   if (body.type === "event_callback" && e && isQuestion(e)) {
-    const d: Deps = {
-      slack: deps?.slack ?? api(env.slackToken),
-      anthropic: deps?.anthropic ?? new Anthropic({ apiKey: env.anthropicKey }),
-      github: deps?.github ?? github(env.githubToken),
-    };
-    await later(reply(e as Required<Pick<Event, "channel" | "ts" | "text">> & Event, env, d).catch((err: Error) => console.error(`Vera couldn't answer: ${err.message}`)));
+    await later(reply(e as Required<Pick<Event, "channel" | "ts" | "text">> & Event, env, d()).catch((err: Error) => console.error(`Vera couldn't answer: ${err.message}`)));
   }
   return new Response(null, { status: 200 });
+}
+
+/** The app's tokens are kept for the life of the function instance, which serves many requests. */
+let tokens: { appId: string; get: ReturnType<typeof appTokens> } | undefined;
+function repoClient(env: Env): Deps["github"] {
+  const app = env.app;
+  if (!app) return async () => github(env.githubToken);
+  if (tokens?.appId !== app.appId) tokens = { appId: app.appId, get: appTokens(app) };
+  const get = tokens.get;
+  return async (ref) => github(await get(ref.owner, ref.repo));
 }
 
 /** A person writing to Vera directly: not a bot, not an edit or deletion, with some text. */
@@ -95,7 +120,8 @@ async function reply(e: Required<Pick<Event, "channel" | "ts" | "text">> & Event
   const intro = e.thread_ts ? "" : `About <${url}|${ref.owner}/${ref.repo}#${ref.number}>, the latest one I sent you:\n`;
   const ts = await d.slack.post({ channel: e.channel, thread_ts: at, text: `${intro}_Reading the change…_`, metadata });
   try {
-    const [pull, comments] = await Promise.all([d.github.pull(ref), d.github.comments(ref)]);
+    const gh = await d.github(ref);
+    const [pull, comments] = await Promise.all([gh.pull(ref), gh.comments(ref)]);
     const vera = comments.find((c) => c.body.includes(VERA_COMMENT))?.body ?? null;
     const m = await d.anthropic.messages.create(answerRequest(env.model, context(pull, vera), turns(thread, e)));
     await d.slack.update({ channel: e.channel, ts, text: `${intro}${answerText(m)}` });

@@ -1,7 +1,8 @@
 // GitHub access for one pull request: what it changes, its commits, reviews
 // and comments, and the repo's ownership files. Reading needs no token
 // (GitHub allows 60 requests an hour without one); Vera's only writes are
-// its own comment, its sign-off check and a reaction to sign-off comments.
+// its own comment, its sign-off check, a reaction to sign-off comments, and
+// (from the Slack server) a sign-off someone made in Slack.
 
 const API = "https://api.github.com";
 
@@ -115,6 +116,13 @@ export function client(token: string | undefined, onCall: OnCall = () => {}) {
       const posted = existing
         ? await send("github.comment.update", "PATCH", `${base}/comments/${existing.id}`, { body }, "Updating Vera's comment")
         : await send("github.comment.create", "POST", `${base}/${ref.number}/comments`, { body }, "Posting Vera's comment");
+      return (posted as { html_url: string }).html_url;
+    },
+
+    /** Posts a new comment. The Slack server uses it for a sign-off made in
+     * Slack: a new one, since the workflow only runs on new comments. */
+    async post(ref: PullRef, body: string): Promise<string> {
+      const posted = await send("github.comment.create", "POST", `/repos/${ref.owner}/${ref.repo}/issues/${ref.number}/comments`, { body }, "Posting the sign-off");
       return (posted as { html_url: string }).html_url;
     },
 
