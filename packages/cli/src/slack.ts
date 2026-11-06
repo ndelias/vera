@@ -2,10 +2,11 @@
 // gets their block from the comment as a direct message from the team's
 // Slack app, and later runs update that message rather than send another.
 // Which message is whose is kept hidden in Vera's comment, so there's no
-// database. Answering and signing off in Slack come with the server
-// (apps/slack); until then the message says to do both on the pull request.
+// database. With the server (apps/slack) and its GitHub App (the
+// `slack-app` input), the message also has a Sign off button; without
+// them, it says to answer and sign off on the pull request.
 
-import type { Signoff } from "@vera/rules";
+import { SIGN_OFF_ACTION, type Signoff } from "@vera/rules";
 import type { Person } from "./people.ts";
 import { describe, type Understanding } from "./understanding.ts";
 
@@ -50,7 +51,7 @@ const section = (text: string) => ({ type: "section", text: { type: "mrkdwn", te
 const context = (text: string) => ({ type: "context", elements: [{ type: "mrkdwn", text: text.slice(0, 3000) }] });
 
 /** One person's message: the same block as in the comment, in Slack's layout. */
-export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string; ai?: string[]; why?: string }, u?: Understanding): Message {
+export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string; ai?: string[]; why?: string; signOff?: boolean }, u?: Understanding): Message {
   const roles = p.asks.map((a) => {
     const r = s.roles.find((x) => x.role === a.role);
     const someoneElse = r?.by && r.by.toLowerCase() !== p.who.toLowerCase();
@@ -70,8 +71,16 @@ export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string
   const questions = p.questions.length && !answered ? [
     { type: "divider" },
     section(`*Before you sign off*\n${p.questions.map((q, i) => `${i + 1}. ${esc(q)}`).join("\n")}`),
-    context(`${extra.why ? `Asked because ${esc(extra.why)}. ` : ""}For now, answer on the pull request when you sign off, numbered: in your approval or under \`/vera sign-off\`.`),
+    context(`${extra.why ? `Asked because ${esc(extra.why)}. ` : ""}${extra.signOff
+      ? "You answer them when you sign off: press Sign off below. A sentence or two each; Vera shows the result next to your sign-off and never blocks the merge."
+      : "Answer on the pull request when you sign off, numbered: in your approval or under `/vera sign-off`."}`),
   ] : [];
+  // The button stays while any of their roles is waiting; signing off again for a done role does nothing.
+  const waiting = p.asks.some((a) => !s.roles.find((r) => r.role === a.role)?.by);
+  const button = extra.signOff && waiting ? [{
+    type: "actions",
+    elements: [{ type: "button", style: "primary", text: { type: "plain_text", text: "Sign off" }, action_id: SIGN_OFF_ACTION, value: pr.url }],
+  }] : [];
   const mine = p.asks.map((a) => ROLE(a.role)).join(", ");
   return {
     text: `Vera asks you to review ${pr.repo}#${pr.number} (${mine}): ${pr.title}`,
@@ -83,6 +92,7 @@ export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string
       section(roles.join("\n")),
       ...(look.length ? [{ type: "divider" }, section("*Where to look*"), ...look] : []),
       ...questions,
+      ...button,
       context(`Vera reads and suggests: it never approves, blocks or changes the code. <${pr.url}|Open the pull request>`),
     ],
   };

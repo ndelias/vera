@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { counts, parseSignoff, signoff, type Ask } from "../src/index.ts";
+import { counts, parseSignoff, signoff, slackSigner, slackSignoff, type Ask } from "../src/index.ts";
 
 const asks: Ask[] = [
   { who: "@ana", role: "engineer", action: "ask", why: "owns Checkout" },
@@ -53,4 +53,21 @@ test("a team's part is signed off by anyone with write access but the author", (
   assert.equal(signoff(team, "ana", [{ kind: "review", who: "ana", state: "APPROVED", trusted: true }]).done, false);
   assert.equal(signoff(team, "ana", [{ kind: "review", who: "pat", state: "APPROVED", trusted: false }]).done, false);
   assert.equal(signoff(team, "ana", [{ kind: "review", who: "pat", state: "APPROVED", trusted: true }]).roles[0]!.by, "@pat");
+});
+
+test("a Slack sign-off is a /vera sign-off comment naming the person, with one line per answer", () => {
+  const body = slackSignoff("@ana", ["engineer"], ["It retries\nthree times.", "", "Only 2. admins"]);
+  assert.equal(body, "<!-- vera-slack-signoff:ana -->\n**ana** signed off in Slack.\n\n/vera sign-off engineer\n1. It retries three times.\n3. Only 2. admins");
+  assert.deepEqual(parseSignoff(body), ["engineer"]);
+  assert.equal(parseSignoff(slackSignoff("ana", "all", [])), "all");
+});
+
+test("a Slack sign-off counts for the person only when the team's GitHub App wrote it", () => {
+  const body = slackSignoff("@ana", "all", []);
+  assert.equal(slackSigner("vera-slack[bot]", body, "vera-slack"), "ana");
+  assert.equal(slackSigner("Vera-Slack[bot]", body, "vera-slack"), "ana");
+  assert.equal(slackSigner("mallory", body, "vera-slack"), null, "anyone can paste the marker");
+  assert.equal(slackSigner("other-app[bot]", body, "vera-slack"), null);
+  assert.equal(slackSigner("vera-slack[bot]", body, ""), null, "no app set up");
+  assert.equal(slackSigner("vera-slack[bot]", "/vera sign-off", "vera-slack"), null);
 });
