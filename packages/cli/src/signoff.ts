@@ -27,15 +27,16 @@ export function readPlan(body: string): Ask[] | null {
 }
 
 /** Sign-offs posted from Slack by the team's GitHub App (its slug, the
- * `slack-app` input), as if the person had commented themselves. They can
- * only have been posted for someone Vera sent a message to, so they count
- * like a comment from someone with write access. Without the input, or from
- * anyone else, they're ordinary comments. */
+ * `slack-app` input), as if the person had commented themselves. The server
+ * only posts them for someone Vera messaged, for roles they're asked for.
+ * `trusted` stays false: GitHub hasn't said this person can write to the
+ * repo, so a Slack sign-off never counts for a team's part. Without the
+ * input, or from anyone else, they're ordinary comments. */
 export function fromSlack(comments: Comment[], app: string | undefined): Comment[] {
   if (!app) return comments;
   return comments.map((c) => {
     const who = slackSigner(c.who, c.body, app);
-    return who ? { ...c, who, trusted: true } : c;
+    return who ? { ...c, who, trusted: false } : c;
   });
 }
 
