@@ -50,8 +50,9 @@ export async function handle(req: Request, env: Env | string[], later: Later, de
   }
   const body = JSON.parse(raw) as { type?: string; challenge?: string; event?: Event };
   if (body.type === "url_verification") return Response.json({ challenge: body.challenge });
-  // A retry means Slack didn't hear "got it" in time; the first try is already being answered.
-  if (req.headers.get("x-slack-retry-num")) return new Response(null, { status: 200 });
+  // A retry after a timeout means the first try is still being answered, so it's skipped.
+  // A retry after an error (the first try failed outright) is answered.
+  if (req.headers.get("x-slack-retry-num") && req.headers.get("x-slack-retry-reason") === "http_timeout") return new Response(null, { status: 200 });
   const e = body.event;
   if (body.type === "event_callback" && e && isQuestion(e)) {
     const d: Deps = {
@@ -104,10 +105,11 @@ async function reply(e: Required<Pick<Event, "channel" | "ts" | "text">> & Event
   }
 }
 
-/** The conversation so far: the person's messages and Vera's answers, without Vera's review message itself. */
+/** The conversation so far: the person's messages and Vera's answers, without Vera's review message itself.
+ * In a direct message with Vera, every bot message is Vera's; edits keep their ts, so they count once. */
 export function turns(thread: SlackMessage[], e: { ts: string; text: string }): Turn[] {
   const out: Turn[] = thread
-    .filter((m) => m.text && !m.text.startsWith("Vera asks you to review") && m.ts <= e.ts)
+    .filter((m) => m.text && !m.text.startsWith("Vera asks you to review") && Number(m.ts) <= Number(e.ts))
     .map((m) => ({ role: m.bot_id ? "assistant" : "user", text: m.text!.replace(/^About <[^>]+>, the latest one I sent you:\n/, "") }));
   if (!thread.some((m) => m.ts === e.ts)) out.push({ role: "user", text: e.text });
   return out;
