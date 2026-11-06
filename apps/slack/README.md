@@ -22,7 +22,7 @@ as people push and sign off. Built in stages (BUILD-PLAN, M6):
 4. **The workflow.** Pass it to Vera:
 
    ```yaml
-   - uses: ndelias/vera@v0.6.0
+   - uses: ndelias/vera@v0.7.0
      with:
        anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
        slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}

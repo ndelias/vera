@@ -26,7 +26,7 @@ export const AGENTS: { name: string; job: string; body: string; icon: string }[]
     name: "Sign-off",
     icon: "signoff",
     job: "Everyone at once",
-    body: "Rules, not a model: the people .vera.yml names for the areas a change touches are asked, all at once. Approving, or commenting /vera sign-off, signs off, and a check shows who's left. Next: chasing the ones still waiting, in Slack.",
+    body: "Rules, not a model: the people .vera.yml names for the areas a change touches are asked, all at once. Approving, or commenting /vera sign-off, signs off, and a check shows who's left. With the Slack app, each person also gets their part as a message, kept current. Next: signing off from Slack.",
   },
 ];
 
@@ -48,8 +48,8 @@ export const SURFACES: { name: string; status: Status; body: string }[] = [
   },
   {
     name: "Slack",
-    status: "planned",
-    body: "Later, self-hosted: @vera asks design, security and product to sign off in parallel, and answers questions about the change.",
+    status: "done",
+    body: "Optional, on your own Slack app and a small server you deploy (v0.7.0): each person gets their part as a direct message, kept current, and can ask Vera about the change. Signing off from Slack comes next.",
   },
 ];
 
@@ -85,9 +85,15 @@ export const MILESTONES: { id: string; title: string; status: Status; body: stri
     body: "Installable from a tagged release (v0.5.0): the comment, the sign-off check and questions for engineers, running on Vera's repo and my portfolio.",
   },
   {
+    id: "M6",
+    title: "Slack",
+    status: "next",
+    body: "Live on a demo workspace (v0.7.0): each person's part as a message, and answers about the change from its diff. Next: answering the questions and signing off from Slack.",
+  },
+  {
     id: "M4",
     title: "Questions for designers",
-    status: "next",
+    status: "planned",
     body: "Screenshots of the change from preview deployments, so the Briefer and the Examiner can work for designers too.",
   },
   {
@@ -101,11 +107,5 @@ export const MILESTONES: { id: string; title: string; status: Status; body: stri
     title: "Demo company",
     status: "planned",
     body: "Seeded roles and realistic AI-written changes, measured against the targets in the case.",
-  },
-  {
-    id: "M6",
-    title: "Slack",
-    status: "planned",
-    body: "Cross-role sign-off from Slack on a demo workspace.",
   },
 ];
