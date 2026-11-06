@@ -2,12 +2,12 @@
 # manifest → pick the workspace → paste this (or, for an app you already
 # made: App Manifest → paste → Save → reinstall when Slack asks).
 #
-# Sending only (no server): delete the event_subscriptions block, set
-# messages_tab_read_only_enabled to true, and drop im:history.
-# Replies: put your server's address in request_url first (see README.md).
+# Sending only (no server): delete the event_subscriptions and interactivity
+# blocks, set messages_tab_read_only_enabled to true, and drop im:history.
+# With the server: put its address in both request_urls first (see README.md).
 display_information:
   name: Vera
-  description: Your part of each code review, sent to you, and answers about the change.
+  description: Your part of each code review, sent to you, answers about the change, and signing off.
   background_color: "#0b0b0b"
 features:
   app_home:
@@ -27,6 +27,9 @@ settings:
     request_url: https://YOUR-VERA-SLACK.vercel.app/api/events
     bot_events:
       - message.im
+  interactivity:
+    is_enabled: true
+    request_url: https://YOUR-VERA-SLACK.vercel.app/api/events
   org_deploy_enabled: false
   socket_mode_enabled: false
   token_rotation_enabled: false
