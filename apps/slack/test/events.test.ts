@@ -65,8 +65,10 @@ test("Slack's URL check gets its challenge back; unsigned requests and retries d
   const bad = await handle(new Request("https://vera.test", { method: "POST", body: "{}" }), env, () => {}, undefined, NOW);
   assert.equal(bad.status, 401);
   let ran = false;
-  await handle(signed(dm(), { "x-slack-retry-num": "1" }), env, () => { ran = true; }, undefined, NOW);
-  assert.ok(!ran);
+  await handle(signed(dm(), { "x-slack-retry-num": "1", "x-slack-retry-reason": "http_timeout" }), env, () => { ran = true; }, fakes().deps, NOW);
+  assert.ok(!ran, "a timeout retry: the first try is still answering");
+  await handle(signed(dm(), { "x-slack-retry-num": "1", "x-slack-retry-reason": "http_error" }), env, () => { ran = true; }, fakes().deps, NOW);
+  assert.ok(ran, "an error retry: the first try failed, so this one answers");
 });
 
 test("missing settings are named, not guessed", () => {
