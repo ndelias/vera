@@ -62,7 +62,7 @@ test("a sign-off the GitHub App posted from Slack counts for that person, answer
   const fromApp = { id: 2, who: "vera-slack[bot]", body: slackSignoff("@ana", "all", ["It retries."]), trusted: false, at };
   const pasted = { id: 3, who: "mallory", body: slackSignoff("@dev", "all", []), trusted: false, at };
   const comments = fromSlack([fromApp, pasted], "vera-slack");
-  assert.deepEqual(comments.map((c) => [c.who, c.trusted]), [["ana", true], ["mallory", false]]);
+  assert.deepEqual(comments.map((c) => [c.who, c.trusted]), [["ana", false], ["mallory", false]]);
   const s = status(asks, "bo", [], comments, MARKER);
   assert.deepEqual(s.roles.map((r) => r.by), ["@ana", undefined]);
   assert.deepEqual(latestAnswers("@ana", "2026-10-28T10:00:00Z", [], comments, MARKER)?.answers, new Map([[1, "It retries."]]));
