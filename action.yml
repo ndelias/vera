@@ -22,6 +22,9 @@ inputs:
   slack-bot-token:
     description: Optional. Your Slack app's bot token (xoxb-…, stored as a repository secret). With it, each person asked who has a `slack` member ID in `.vera.yml` gets their part of the review as a Slack message, updated as the review changes.
     required: false
+  slack-app:
+    description: Optional. The name (slug) of your GitHub App for Vera's Slack server, e.g. vera-slack. With it, Slack messages get a Sign off button, and sign-offs that app posts from Slack count for the person who signed off. See apps/slack/README.md.
+    required: false
   model:
     description: The Claude model to use.
     required: false
@@ -73,6 +76,7 @@ runs:
         ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
         SLACK_BOT_TOKEN: ${{ inputs.slack-bot-token }}
+        SLACK_APP: ${{ inputs.slack-app }}
         PR_URL: ${{ github.event.pull_request.html_url }}
         MODEL: ${{ inputs.model }}
       run: node --disable-warning=ExperimentalWarning packages/cli/src/main.ts review "$PR_URL" --comment --model "$MODEL" --out "$RUNNER_TEMP/vera-runs"
@@ -85,6 +89,7 @@ runs:
         ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
         SLACK_BOT_TOKEN: ${{ inputs.slack-bot-token }}
+        SLACK_APP: ${{ inputs.slack-app }}
         PR_URL: ${{ github.event.pull_request.html_url || github.event.issue.pull_request.html_url }}
         COMMENT_ID: ${{ github.event.comment.id }}
         MODEL: ${{ inputs.model }}

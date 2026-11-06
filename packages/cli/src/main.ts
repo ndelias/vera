@@ -17,7 +17,7 @@ import { review, type Review } from "./review.ts";
 import { MARKER, toMarkdown } from "./markdown.ts";
 import { people, readBrief } from "./people.ts";
 import { message, readSent, sendAll, withSent } from "./slack.ts";
-import { CHECK, readPlan, status, statusBlock, toCheck, withStatus } from "./signoff.ts";
+import { CHECK, fromSlack, readPlan, status, statusBlock, toCheck, withStatus } from "./signoff.ts";
 import { latestAnswers, open, readExam, readGrades, type Grades, type Understanding } from "./understanding.ts";
 import Anthropic from "@anthropic-ai/sdk";
 import { gradeRequest, parseJson, type Grade } from "@vera/agents/examiner";
@@ -34,6 +34,9 @@ function optional(name: string): string | undefined {
     return undefined;
   }
 }
+
+/** The GitHub App that posts sign-offs from Slack (the `slack-app` input). Not a secret. */
+const SLACK_APP = process.env.SLACK_APP?.trim() || undefined;
 
 const sentence = (s: string) => (/[.!?]$/.test(s.trim()) ? s.trim() : `${s.trim()}.`);
 
@@ -136,7 +139,8 @@ if (args[0] === "sign-off") {
   try {
     const ref = parsePullUrl(args[1]);
     const gh = github(token);
-    const [pull, comments] = await Promise.all([gh.pull(ref), gh.comments(ref)]);
+    const [pull, raw] = await Promise.all([gh.pull(ref), gh.comments(ref)]);
+    const comments = fromSlack(raw, SLACK_APP);
     const vera = comments.find((c) => c.body.includes(MARKER));
     const asks = vera && readPlan(vera.body);
     if (!asks) {
@@ -157,7 +161,7 @@ if (args[0] === "sign-off") {
     const slackToken = optional("SLACK_BOT_TOKEN");
     if (slackToken && brief && Object.keys(sent).length) {
       const pr = { url: ref.url, repo: `${ref.owner}/${ref.repo}`, number: ref.number, title: pull.title, author: pull.author };
-      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(exam ? { why: exam.why } : {}) };
+      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(exam ? { why: exam.why } : {}), signOff: !!SLACK_APP };
       const { problems } = await sendAll(slackToken, new Map(), people(asks, brief, exam?.questions ?? []), (p) => message(p, pr, s, extra, u), sent);
       for (const p of problems) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Slack message not updated for ${p}`);
     }
@@ -202,7 +206,7 @@ try {
     const gh = github(githubToken);
     // If they can't be read, the review is still posted, showing everyone as waiting,
     // but the check is left as it was rather than reset; the next sign-off corrects both.
-    const read = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref)]).catch(() => null);
+    const read = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref).then((c) => fromSlack(c, SLACK_APP))]).catch(() => null);
     const s = read && status(r.plan.asks, r.pull.author, read[0], read[1], MARKER);
     const prior = readSent(read?.[1].find((c) => c.body.includes(MARKER))?.body ?? "");
     // New questions mean earlier answers don't count; the engineer answers these ones.
@@ -214,7 +218,7 @@ try {
       const everyone = people(r.plan.asks, brief, r.exam?.questions.map((q) => q.question) ?? []);
       const pr = { url: r.pull.ref.url, repo: `${r.pull.ref.owner}/${r.pull.ref.repo}`, number: r.pull.ref.number, title: r.pull.title, author: r.pull.author };
       const now = s ?? signoff(r.plan.asks, r.pull.author, []);
-      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(r.exam ? { why: r.exam.why } : {}) };
+      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(r.exam ? { why: r.exam.why } : {}), signOff: !!SLACK_APP };
       const ids = slackIds(r.ownership);
       const { sent, problems } = await sendAll(slackToken, ids, everyone, (p) => message(p, pr, now, extra, u), prior);
       body = withSent(body, sent);

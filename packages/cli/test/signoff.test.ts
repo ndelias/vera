@@ -1,8 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import type { Ask } from "@vera/rules";
+import { slackSignoff, type Ask } from "@vera/rules";
 import { MARKER } from "../src/markdown.ts";
-import { planMarker, readPlan, status, statusBlock, toCheck, withStatus } from "../src/signoff.ts";
+import { latestAnswers } from "../src/understanding.ts";
+import { fromSlack, planMarker, readPlan, status, statusBlock, toCheck, withStatus } from "../src/signoff.ts";
 
 const asks: Ask[] = [
   { who: "@ana", role: "engineer", action: "ask", why: "owns Checkout -- and <!-- tricky -->" },
@@ -54,4 +55,16 @@ test("redrawn on a sign-off, the blocks keep their places, and the questions go 
   const after = statusBlock(status(eng, "bo", [{ id: 1, who: "ana", state: "APPROVED", body: "", trusted: true, at: "t" }], [], MARKER), eng, undefined, {}, view);
   assert.match(after, /`a\.ts` L1/);
   assert.ok(!after.includes("Before you sign off"));
+});
+
+test("a sign-off the GitHub App posted from Slack counts for that person, answers included; a pasted one doesn't", () => {
+  const at = "2026-10-28T10:05:00Z";
+  const fromApp = { id: 2, who: "vera-slack[bot]", body: slackSignoff("@ana", "all", ["It retries."]), trusted: false, at };
+  const pasted = { id: 3, who: "mallory", body: slackSignoff("@dev", "all", []), trusted: false, at };
+  const comments = fromSlack([fromApp, pasted], "vera-slack");
+  assert.deepEqual(comments.map((c) => [c.who, c.trusted]), [["ana", true], ["mallory", false]]);
+  const s = status(asks, "bo", [], comments, MARKER);
+  assert.deepEqual(s.roles.map((r) => r.by), ["@ana", undefined]);
+  assert.deepEqual(latestAnswers("@ana", "2026-10-28T10:00:00Z", [], comments, MARKER)?.answers, new Map([[1, "It retries."]]));
+  assert.equal(fromSlack([fromApp], undefined)[0]!.who, "vera-slack[bot]", "without the slack-app input it's just a comment");
 });

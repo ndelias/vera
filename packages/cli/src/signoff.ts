@@ -3,7 +3,7 @@
 // updates the check without running the agents again. Grading answers to
 // the understanding check is the only model call on this path.
 
-import { parseSignoff, signoff, type Ask, type Signoff, type SignoffEvent } from "@vera/rules";
+import { parseSignoff, signoff, slackSigner, type Ask, type Signoff, type SignoffEvent } from "@vera/rules";
 import type { Check, Comment, PullReview } from "@vera/tools/github";
 import { dot } from "./dots.ts";
 import { people, type Brief, type Spot } from "./people.ts";
@@ -24,6 +24,19 @@ export function readPlan(body: string): Ask[] | null {
   } catch {
     return null;
   }
+}
+
+/** Sign-offs posted from Slack by the team's GitHub App (its slug, the
+ * `slack-app` input), as if the person had commented themselves. They can
+ * only have been posted for someone Vera sent a message to, so they count
+ * like a comment from someone with write access. Without the input, or from
+ * anyone else, they're ordinary comments. */
+export function fromSlack(comments: Comment[], app: string | undefined): Comment[] {
+  if (!app) return comments;
+  return comments.map((c) => {
+    const who = slackSigner(c.who, c.body, app);
+    return who ? { ...c, who, trusted: true } : c;
+  });
 }
 
 /** Reviews and sign-off comments in the order they happened. Vera's own

@@ -35,6 +35,17 @@ test("once the engineer has signed off, the questions go and the result shows", 
   assert.ok(!t.includes("Before you sign off"));
 });
 
+test("with the GitHub App set up, the message has a Sign off button until their roles are signed off", () => {
+  const button = (m: { blocks: unknown[] }) => (m.blocks as { type: string; elements?: { action_id: string; value: string }[] }[]).find((b) => b.type === "actions")?.elements?.[0];
+  const waiting = message(everyone[0]!, pr, signoff(asks, "bo", []), { signOff: true });
+  assert.deepEqual([button(waiting)?.action_id, button(waiting)?.value], ["vera_sign_off", pr.url]);
+  assert.match(text(waiting), /press Sign off below/);
+  assert.equal(button(message(everyone[0]!, pr, signoff(asks, "bo", []), {})), undefined, "no app, no button");
+  assert.match(text(message(everyone[0]!, pr, signoff(asks, "bo", []), {})), /Answer on the pull request/);
+  const done = signoff(asks, "bo", [{ kind: "review", who: "ana", state: "APPROVED", trusted: true }]);
+  assert.equal(button(message(everyone[0]!, pr, done, { signOff: true })), undefined);
+});
+
 function fakeSlack(replies: Record<string, object[]>) {
   const calls: { method: string; body: Record<string, unknown> }[] = [];
   const f = (async (url: string, init: { body: string }) => {
