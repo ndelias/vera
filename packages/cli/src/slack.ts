@@ -76,6 +76,7 @@ export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string
       : "Answer on the pull request when you sign off, numbered: in your approval or under `/vera sign-off`."}`),
   ] : [];
   // The button stays while any of their roles is waiting; signing off again for a done role does nothing.
+  // It opens the form on Vera's Slack server (apps/slack/src/sign-off.ts).
   const waiting = p.asks.some((a) => !s.roles.find((r) => r.role === a.role)?.by);
   const button = extra.signOff && waiting ? [{
     type: "actions",
