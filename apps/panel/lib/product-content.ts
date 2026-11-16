@@ -49,7 +49,7 @@ export const SURFACES: { name: string; status: Status; body: string }[] = [
   {
     name: "Slack",
     status: "done",
-    body: "Optional, on your own Slack app and a small server you deploy (v0.7.0): each person gets their part as a direct message, kept current, and can ask Vera about the change. Signing off from Slack comes next.",
+    body: "Optional, on your own Slack app and a small server you deploy (v0.8.0): each person gets their part as a direct message, kept current, can ask Vera about the change, and can sign off with a button, answering Vera's questions in a form. Signing off is new and still being tried on Vera's own pull requests.",
   },
 ];
 
@@ -88,7 +88,7 @@ export const MILESTONES: { id: string; title: string; status: Status; body: stri
     id: "M6",
     title: "Slack",
     status: "next",
-    body: "Live on a demo workspace (v0.7.0): each person's part as a message, and answers about the change from its diff. Next: answering the questions and signing off from Slack.",
+    body: "Live on a demo workspace (v0.8.0): each person's part as a message, answers about the change from its diff, and signing off from Slack, posted on the pull request by the team's GitHub App. Still being tried on Vera's own pull requests.",
   },
   {
     id: "M4",
