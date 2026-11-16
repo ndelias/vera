@@ -67,8 +67,9 @@ the cost.
 
 **In Slack (optional):** with a Slack app's token, each person also gets
 their part as a Slack message, kept up to date. With the small server in
-`apps/slack`, they can also write back and ask Vera about the change. Setup:
-[apps/slack](apps/slack/README.md).
+`apps/slack`, they can also write back and ask Vera about the change, and
+with a GitHub App for it, sign off and answer the questions from Slack.
+Setup: [apps/slack](apps/slack/README.md).
 
 The risk and sign-off squares are small images from Vera's site; if they
 can't load, their text (High, Waiting) shows instead.
@@ -125,6 +126,8 @@ Everyone Vera asks has to sign off, one way or the other:
   (GitHub won't let you approve those). Name a role to sign off for just
   that one: `/vera sign-off design`. Vera reacts 👍 when it counted, 😕
   when you weren't asked for that role.
+- **Press Sign off in Vera's Slack message**, when your team has set that
+  up. Vera posts your sign-off and answers on the pull request for you.
 
 Requesting changes takes your sign-off back.
 

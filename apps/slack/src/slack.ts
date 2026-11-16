@@ -11,7 +11,7 @@ export type SlackMessage = {
   blocks?: unknown[];
   metadata?: { event_type?: string; event_payload?: Record<string, unknown> };
 };
-type Reply = { ok: boolean; error?: string; ts?: string; channel?: string; messages?: SlackMessage[] };
+type Reply = { ok: boolean; error?: string; ts?: string; channel?: string; messages?: SlackMessage[]; view?: { id: string } };
 
 export function api(token: string, fetchImpl: Fetch = fetch) {
   async function call(method: string, params: Record<string, unknown>): Promise<Reply> {
@@ -34,6 +34,9 @@ export function api(token: string, fetchImpl: Fetch = fetch) {
     post: async (m: { channel: string; thread_ts: string; text: string; metadata?: object }) =>
       (await call("chat.postMessage", { ...m, unfurl_links: false, unfurl_media: false })).ts!,
     update: async (m: { channel: string; ts: string; text: string }) => { await call("chat.update", m); },
+    /** Opens a form (a modal) for the person who pressed a button; returns its id. */
+    openView: async (trigger_id: string, view: object) => (await call("views.open", { trigger_id, view })).view!.id,
+    updateView: async (view_id: string, view: object) => { await call("views.update", { view_id, view }); },
   };
 }
 export type Api = ReturnType<typeof api>;

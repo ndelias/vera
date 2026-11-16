@@ -2,13 +2,16 @@
 
 Each person Vera asks gets their part of the review as a Slack message:
 their roles, where to look, and their questions. The message is updated
-as people push and sign off. Built in stages (BUILD-PLAN, M6):
+as people push and sign off. Three parts, each optional on top of the one
+before (BUILD-PLAN, M6):
 
 1. **Sending:** the GitHub Action messages each person. No server.
-2. **Replies** (now): people write to Vera and it answers about the change,
+2. **Replies:** people write to Vera and it answers about the change,
    from the pull request, its diff and Vera's review. Needs the server
    in this folder.
-3. **Answering the questions and signing off** in Slack.
+3. **Signing off:** a Sign off button in each message opens a form with
+   the person's roles and Vera's questions. Needs the server and a GitHub
+   App for it to post as.
 
 ## Set it up
 
@@ -70,14 +73,59 @@ It's a few plain request handlers (`src/`) and one file for the host
    | `SLACK_BOT_TOKEN` | The same `xoxb-…` token as the Action's |
    | `SLACK_SIGNING_SECRET` | Slack app → Basic Information → Signing Secret. Proves requests come from Slack |
    | `ANTHROPIC_API_KEY` | The key answers are charged to |
-   | `GITHUB_TOKEN` | A fine-grained token, read-only: Contents and Pull requests on the repos Vera reviews. Optional for public repos, but without it GitHub allows 60 reads an hour |
+   | `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY` | The GitHub App's, for signing off (below). With them, the server reads pull requests as the app too, so it needs no `GITHUB_TOKEN` |
+   | `GITHUB_TOKEN` | Without the app: a fine-grained token, read-only: Contents and Pull requests on the repos Vera reviews. Optional for public repos, but without it GitHub allows 60 reads an hour |
    | `VERA_MODEL` | Optional. Defaults to `claude-sonnet-5-5` |
 
 3. **Point Slack at it.** Slack app → App Manifest → paste
-   [`manifest.yml`](manifest.yml) with your address in `request_url`
+   [`manifest.yml`](manifest.yml) with your address in both `request_url`s
    (`https://…/api/events`) → Save. Slack checks the address right away.
    Then reinstall the app when Slack asks, for the new permission to read
    the messages people send Vera.
 
 On another host, copy `api/events.ts` and swap in that host's way of
 running work after the response.
+
+## Signing off in Slack
+
+With this part, each message has a **Sign off** button while any of the
+person's roles is waiting. It opens a form: the roles to sign off for, and
+Vera's questions when they're the engineer. Sending it posts their sign-off
+on the pull request, a `/vera sign-off` comment with their numbered
+answers, as the team's GitHub App. From there it's the same as signing off
+on GitHub: Vera grades the answers, updates the check and the comment, and
+updates the Slack message. Their answers are visible on the pull request,
+as they would be in an approval.
+
+Why an app: Vera only counts what GitHub vouches for. GitHub records who
+wrote each comment, and Vera counts a Slack sign-off only when the app
+wrote it, so nobody can paste one in. The server signs off only for the
+person whose direct message the button is in, and only for roles they're
+asked for.
+
+1. **Create the app.** GitHub → Settings → Developer settings → GitHub
+   Apps → New GitHub App. Give it a name nobody on GitHub has used, like
+   `vera-yourteam`; the comments will show as `vera-yourteam[bot]`.
+   Homepage: your repo's address. Webhook: untick Active. Repository
+   permissions: Contents **Read-only**, Pull requests **Read and write**.
+   Only on this account. Create.
+2. **Its key.** On the app's page, note the App ID, then Generate a
+   private key (a `.pem` file downloads).
+3. **Install it** (Install App, on the left) on the repos Vera reviews.
+4. **The server's settings.** In the Vercel project, add `GITHUB_APP_ID`
+   and `GITHUB_APP_PRIVATE_KEY` (the whole `.pem` file's text, from
+   `-----BEGIN` to the end), remove `GITHUB_TOKEN`, and redeploy. Then
+   delete the `.pem` file.
+5. **The workflow.** Tell the Action the app's name, as it appears in its
+   address (`github.com/apps/<name>`):
+
+   ```yaml
+   - uses: ndelias/vera@v0.7.0
+     with:
+       anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+       slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+       slack-app: vera-yourteam
+   ```
+
+   The input adds the button and tells Vera which app's sign-offs count.
+   Without it, Slack sign-offs are ordinary comments and don't count.

@@ -33,12 +33,15 @@ function fakes(thread: SlackMessage[] = [], recent: SlackMessage[] = []) {
       recent: async () => recent,
       post: async (m) => { posts.push(m); return "300.1"; },
       update: async (m) => { updates.push(m.text); },
+      openView: async () => "V1",
+      updateView: async () => {},
     },
     anthropic: { messages: { create: async (p: Anthropic.MessageCreateParamsNonStreaming) => { asked.push(p); return { stop_reason: "end_turn", content: [{ type: "text", text: "It rounds <once> at `cart.ts:12`." }] }; } } } as unknown as Deps["anthropic"],
-    github: {
+    canPost: true,
+    github: async () => ({
       pull: async () => ({ ref: { owner: "acme", repo: "shop", number: 7, url: URL_A }, title: "Rounding", body: "", baseRef: "main", headSha: "abc", author: "bo", files: [{ path: "src/cart.ts", status: "modified", additions: 1, deletions: 1, patch: "@@ -12 +12 @@\n-a\n+b" }], commitMessages: [] }),
       comments: async () => [{ id: 1, who: "vera", body: `${VERA_COMMENT}\n<!-- vera-brief:xyz -->\n_Rounds totals once._`, trusted: true, at: "" }],
-    } as unknown as Deps["github"],
+    }) as unknown as Awaited<ReturnType<Deps["github"]>>,
   };
   return { deps, posts, updates, asked };
 }

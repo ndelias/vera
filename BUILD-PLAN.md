@@ -299,6 +299,19 @@ answers before replying, slower but still working. Which pull request a
 message is about rides in Slack's message metadata, set only by Vera, so
 people can only ask about changes they were asked to review.
 
+*Slack sign-off (Nahuel's calls, 6 Nov 2026).* Written answers, not
+multiple choice: the same questions and the same grader as on GitHub, so
+"understood 2 of 2" means the same wherever someone signed off, and it
+can't be guessed. The sign-off reaches GitHub as a `/vera sign-off`
+comment posted by the team's own GitHub App, not a personal token: GitHub
+vouches for who wrote a comment, so Vera counts a Slack sign-off only from
+that app (the Action's `slack-app` input) and a pasted copy counts for
+nothing; the pull request shows honestly that it came from Slack; and the
+app's tokens last an hour and renew themselves, so there's no token to
+expire. Who is signing off comes from Slack: the button is in a direct
+message Vera sent one person, and Vera's comment records which message went
+to whom. No new dependencies: the app's token is signed with node:crypto.
+
 **M5: Demo company + case study.** A demo repo with seeded roles (engineer,
 designer, security, PM) and realistic AI-written changes. Measured against
 the decision document's targets: time to full sign-off, reviewer minutes
