@@ -5,11 +5,11 @@ Live at https://vera-agent.vercel.app. The research chose the problem,
 not the other way round. "Blast Radius" was
 the working name for the original idea, which the data ruled out.
 
-Status: installable as a GitHub Action (v0.7.0), with understanding checks
+Status: installable as a GitHub Action (v0.8.0), with understanding checks
 for engineers, and an optional Slack app: each person gets their part as a
-message and can ask Vera about the change. Answering the questions and
-signing off in Slack come next; the order from here is in
-[`BUILD-PLAN.md`](BUILD-PLAN.md). The research
+message, can ask Vera about the change, and can sign off there. Signing off
+in Slack is new and still being tried on Vera's own pull requests; the
+order from here is in [`BUILD-PLAN.md`](BUILD-PLAN.md). The research
 that chose the problem is in `research/findings/08-decision.md`.
 
 - `research/PLAN.md`: the claims we're testing, the data sources, the methods
@@ -103,14 +103,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: ndelias/vera@v0.7.0
+      - uses: ndelias/vera@v0.8.0
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
 
 3. Optionally pin the exact commit instead of the tag, so what runs with
    your key can't change under you:
-   `ndelias/vera@48e07236dfcdcd0462601c9a1766843f462994f6 # v0.7.0`.
+   `ndelias/vera@a71f9f6d5c6f721bb1e5d5b769df86a3e9e15bc3 # v0.8.0`.
 4. Optionally add a `.vera.yml` naming your areas and people (see
    [`examples/vera.yml`](examples/vera.yml)); without it Vera uses CODEOWNERS.
 

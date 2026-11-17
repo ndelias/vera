@@ -25,7 +25,7 @@ before (BUILD-PLAN, M6):
 4. **The workflow.** Pass it to Vera:
 
    ```yaml
-   - uses: ndelias/vera@v0.7.0
+   - uses: ndelias/vera@v0.8.0
      with:
        anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
        slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -115,12 +115,18 @@ asked for.
 4. **The server's settings.** In the Vercel project, add `GITHUB_APP_ID`
    and `GITHUB_APP_PRIVATE_KEY` (the whole `.pem` file's text, from
    `-----BEGIN` to the end), remove `GITHUB_TOKEN`, and redeploy. Then
-   delete the `.pem` file.
-5. **The workflow.** Tell the Action the app's name, as it appears in its
+   delete the `.pem` file. On a Mac, `pbcopy < your-key.pem` copies it
+   without opening it (Finder hides the `.pem` ending, so check the name
+   with `ls`).
+5. **The button.** If your Slack app was set up before v0.8.0: Slack app →
+   Interactivity & Shortcuts → on, Request URL the same
+   `https://…/api/events` address → Save Changes. A new app from
+   [`manifest.yml`](manifest.yml) has this already.
+6. **The workflow.** Tell the Action the app's name, as it appears in its
    address (`github.com/apps/<name>`):
 
    ```yaml
-   - uses: ndelias/vera@v0.7.0
+   - uses: ndelias/vera@v0.8.0
      with:
        anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
        slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
