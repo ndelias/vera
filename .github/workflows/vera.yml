@@ -34,3 +34,4 @@ jobs:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
           slack-app: vera-ndelias
+          verify: true
