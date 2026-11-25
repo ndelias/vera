@@ -139,9 +139,12 @@ export function client(token: string | undefined, onCall: OnCall = () => {}) {
       const base = `/repos/${ref.owner}/${ref.repo}`;
       const runs = (await get<{ check_runs: { id: number; name: string }[] }>("github.checks", `${base}/commits/${sha}/check-runs?check_name=${encodeURIComponent(name)}`, (r) => `${r.check_runs.length} runs`))!.check_runs;
       const body = { name, status: "completed", conclusion: c.conclusion, output: { title: c.title, summary: c.summary } };
+      // A check another app made (say, before Vera posted as its own GitHub App) can't be
+      // updated by this one, so a new one is made instead.
+      const create = () => send("github.check.create", "POST", `${base}/check-runs`, { ...body, head_sha: sha }, `Creating the ${name} check`);
       const done = runs[0]
-        ? await send("github.check.update", "PATCH", `${base}/check-runs/${runs[0].id}`, body, `Updating the ${name} check`)
-        : await send("github.check.create", "POST", `${base}/check-runs`, { ...body, head_sha: sha }, `Creating the ${name} check`);
+        ? await send("github.check.update", "PATCH", `${base}/check-runs/${runs[0].id}`, body, `Updating the ${name} check`).catch(create)
+        : await create();
       return (done as { html_url: string }).html_url;
     },
 
