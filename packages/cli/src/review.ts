@@ -10,6 +10,7 @@ import { parseVisibility, visibilityRequest, type Visibility } from "@vera/agent
 import { briefRequest, parseBrief, type Brief } from "@vera/agents/briefer";
 import { examRequest, parseJson, type Exam, type Question } from "@vera/agents/examiner";
 import { fileHunks, parseAbout, parseTriage, triageRequest, type FileHunk, type Skip } from "@vera/agents/triage";
+import { guideRequest, parseGuide, type Step } from "@vera/agents/guide";
 import { areasFor, ConfigError, fromCodeowners, fromVeraYml, matches, route, type Ownership, type Plan } from "@vera/rules";
 import { client as github, parsePullUrl, type Pull } from "@vera/tools/github";
 
@@ -28,7 +29,9 @@ export type Review = {
   /** Verify, Also changed and Cleared (Nahuel's calls, 25 Nov 2026), with the
    * `verify` switch only: the change's hunks and the ones Triage cleared.
    * Undefined when the switch is off; skips null when Triage gave no answer. */
-  triage?: { hunks: FileHunk[]; skips: Skip[] | null; about?: string };
+  triage?: { hunks: FileHunk[]; skips: Skip[] | null; about?: string;
+    /** The walkthrough: every hunk grouped into steps, in reading order (the Guide). */
+    steps?: Step[] | null };
   ai: string[];
   plan: Plan;
   trace: Trace;
@@ -128,7 +131,7 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
     // The agents don't depend on each other, so they run at once.
     const hunks = opts.verify ? fileHunks(pull.files.map((f) => ({ path: f.path, patch: f.patch ?? null }))) : [];
     const ids = new Set(hunks.map((h) => h.id));
-    const [areas, design, brief, skips] = await Promise.all([
+    const [areas, design, brief, skips, steps] = await Promise.all([
       call("mapper", "which areas this change touches", mapperRequest(opts.model, directory(ownership, paths), change, "cli"), parseMapper),
       call("visibility", "does this change make a design decision?", visibilityRequest(opts.model, change, "v2"), parseVisibility),
       call("briefer", "where an engineer should look first", briefRequest(opts.model, change, "engineer", "v2"), parseBrief),
@@ -138,6 +141,9 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
             const about = parseAbout(m);
             return skips ? { skips, ...(about ? { about } : {}) } : null;
           })
+        : Promise.resolve(null),
+      opts.verify && hunks.length
+        ? call("guide", "the walkthrough: every change in steps, in reading order", guideRequest(opts.model, pull.title, hunks), (m) => parseGuide(m, hunks.map((h) => h.id)))
         : Promise.resolve(null),
     ]);
 
@@ -159,7 +165,7 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
       : null;
     const exam = asked?.questions?.length ? { questions: asked.questions.slice(0, 3), why } : null;
     record(trace, { at: Date.now(), type: "run.end", status: "ok" });
-    return { pull, ownership, ...(ownershipError ? { ownershipError } : {}), areas, design, brief, exam, ...(opts.verify ? { triage: { hunks, skips: skips?.skips ?? null, ...(skips?.about ? { about: skips.about } : {}) } } : {}), ai, plan, trace };
+    return { pull, ownership, ...(ownershipError ? { ownershipError } : {}), areas, design, brief, exam, ...(opts.verify ? { triage: { hunks, skips: skips?.skips ?? null, ...(skips?.about ? { about: skips.about } : {}), steps } } : {}), ai, plan, trace };
   } catch (e) {
     record(trace, { at: Date.now(), type: "run.end", status: "error", error: (e as Error).message });
     throw Object.assign(e as Error, { trace });

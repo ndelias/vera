@@ -143,3 +143,65 @@ export function sections(v: VerifyView): string[] {
   }
   return out;
 }
+
+// —— The walkthrough (Nahuel's call, 25 Nov 2026) ——
+// Every change, grouped by the Guide into steps in reading order. How much care a step
+// needs comes from the measured agents: one holding a Briefer place is Verify, one
+// Triage cleared entirely (for engineers) is Cleared, the rest is Skim.
+
+export type Level = "verify" | "skim" | "cleared";
+export type WalkStep = {
+  title: string; explain: string; level: Level; lines: number;
+  places: Range[];
+  /** Verify: the spots in this step, by their place in the brief. */
+  spots: number[];
+  /** Cleared: why, per file. */
+  why: { label: string; reason: string }[];
+};
+
+export function walkthrough(
+  hunks: FileHunk[],
+  skips: Skip[] | null,
+  steps: { title: string; explain: string; hunks: number[] }[],
+  spots: { file: string; lines: string }[],
+  label: (file: string) => string,
+  link: (file: string, line: number) => string | null,
+): WalkStep[] {
+  const byId = new Map(hunks.map((h) => [h.id, h]));
+  const cleared = new Map((skips ? clearedFor(skips, "engineer") : []).map((s) => [s.hunk, s]));
+  const spans = spots.map((s) => ({ file: s.file, at: span(s.lines) }));
+  const touches = (h: FileHunk, i: number) => spans[i]!.file === h.path && !!spans[i]!.at && h.start <= spans[i]!.at![1] && spans[i]!.at![0] <= h.end;
+  return steps.flatMap((step) => {
+    const hs = step.hunks.map((id) => byId.get(id)).filter((h): h is FileHunk => !!h && h.changed > 0);
+    if (!hs.length) return [];
+    const mine = spans.map((_, i) => i).filter((i) => hs.some((h) => touches(h, i)));
+    const level: Level = mine.length ? "verify" : hs.every((h) => cleared.has(h.id)) ? "cleared" : "skim";
+    const files = new Map<string, FileHunk[]>();
+    for (const h of hs) files.set(h.path, [...(files.get(h.path) ?? []), h]);
+    const places = [...files].map(([file, fh]) => ({ file, label: label(file), ranges: join(fh), lines: fh.reduce((n, h) => n + h.changed, 0), url: link(file, fh[0]!.start) }));
+    const why = level === "cleared" ? [...files].map(([file, fh]) => ({ label: label(file), reason: [...new Set(fh.map((h) => REASON[cleared.get(h.id)!.reason]))].join(", ") })) : [];
+    return [{ title: step.title, explain: step.explain, level, lines: hs.reduce((n, h) => n + h.changed, 0), places, spots: mine, why }];
+  });
+}
+
+const LEVEL = { verify: "Verify", skim: "Skim", cleared: "Cleared" } as const;
+
+/** The walkthrough as markdown: a heading with the counts, then each step in order. */
+export function walkthroughSection(steps: WalkStep[], spots: { threadUrl?: string }[]): string[] {
+  const count = (l: Level) => steps.filter((s) => s.level === l).length;
+  const parts = [`${n(steps.length, "step")}`, ...(["verify", "skim", "cleared"] as const).filter((l) => count(l)).map((l) => (l === "cleared" ? `${count(l)} cleared` : `${count(l)} to ${l}`))];
+  const out = [`#### Walkthrough · ${parts.join(" · ")}`, ""];
+  steps.forEach((s, i) => {
+    const threads = s.spots.map((x) => spots[x]?.threadUrl).filter((u): u is string => !!u);
+    const how = s.level === "verify"
+      ? `**Verify**${threads.length ? ` in ${threads.length === 1 ? `[its thread](${threads[0]})` : threads.map((u, k) => `[thread ${k + 1}](${u})`).join(", ")}` : ""}`
+      : s.level === "cleared" ? `Cleared: ${s.why.map((w) => (s.why.length > 1 ? `\`${w.label}\` ${w.reason.toLowerCase()}` : w.reason)).join("; ")}` : "Skim";
+    out.push(
+      `**${i + 1}. ${cell(s.title)}** · ${how}`,
+      cell(s.explain),
+      `<sub>${s.places.slice(0, 6).map(where).join(" · ")}${s.places.length > 6 ? ` · and ${n(s.places.length - 6, "more file")}` : ""} · ${n(s.lines, "line")}</sub>`,
+      "",
+    );
+  });
+  return out;
+}

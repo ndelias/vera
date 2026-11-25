@@ -10,7 +10,8 @@
     "./briefer": "./src/briefer.ts",
     "./examiner": "./src/examiner.ts",
     "./triage": "./src/triage.ts",
-    "./explainer": "./src/explainer.ts"
+    "./explainer": "./src/explainer.ts",
+    "./guide": "./src/guide.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.132.0",

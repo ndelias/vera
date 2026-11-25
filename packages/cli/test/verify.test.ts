@@ -5,7 +5,7 @@ import { fileHunks } from "@vera/agents/triage";
 import { toMarkdown } from "../src/markdown.ts";
 import { readBrief } from "../src/people.ts";
 import type { Review } from "../src/review.ts";
-import { span, verifyView } from "../src/verify.ts";
+import { span, verifyView, walkthrough } from "../src/verify.ts";
 import { sealFor } from "../src/sealed.ts";
 
 const SEAL = sealFor("sk-test", { owner: "o", repo: "r", number: 1 });
@@ -90,4 +90,33 @@ test("without the switch, the comment is as before", () => {
   const md = toMarkdown(off, SEAL);
   assert.ok(md.includes("| Look at | Why |"));
   assert.ok(!md.includes("Verify 1 spot") && !md.includes("vera-lockup"));
+});
+
+// h0 cart L8-13 (the spot), h1 cart L62-63, h2 test, h3 lockfile (cleared), h4 docs (cleared for engineers)
+const steps = [
+  { title: "Applies the coupon", explain: "Takes the discount off the total.", hunks: [0, 1] },
+  { title: "Tests the discount", explain: "Checks a nine-pound total.", hunks: [2] },
+  { title: "Updates the lockfile and docs", explain: "Bumps a and documents coupons.", hunks: [3, 4] },
+];
+
+test("a step is Verify when it holds a spot, Cleared when Triage cleared all of it, and Skim otherwise", () => {
+  const w = walkthrough(hunks, skips, steps, [{ file: "src/cart.ts", lines: "10-12" }], (f) => f, () => null);
+  assert.deepEqual(w.map((s) => [s.title, s.level, s.lines, s.spots]), [["Applies the coupon", "verify", 6, [0]], ["Tests the discount", "skim", 1, []], ["Updates the lockfile and docs", "cleared", 4, []]]);
+  assert.deepEqual(w[2]!.why, [{ label: "yarn.lock", reason: "Lockfile" }, { label: "docs/coupons.md", reason: "Docs" }]);
+});
+
+test("the comment walks through every step in order, in place of Also changed and Cleared", () => {
+  const comments = [{ id: 7, who: "vera-ndelias[bot]", body: "<!-- vera-spot -->", path: "src/cart.ts", line: 12, replyTo: null, trusted: false, at: "1", url: "https://github.com/o/r/pull/1#discussion_r7" }];
+  const md = toMarkdown({ ...base, triage: { hunks, skips, steps } }, SEAL, undefined, undefined, { comments, ids: [7] });
+  assert.match(md, /^#### Walkthrough · 3 steps · 1 to verify · 1 to skim · 1 cleared$/m);
+  assert.match(md, /^\*\*1\. Applies the coupon\*\* · \*\*Verify\*\* in \[its thread\]\(https:\/\/github\.com\/o\/r\/pull\/1#discussion_r7\)\nTakes the discount off the total\.\n<sub>.*`cart\.ts`.* L8–13, L62–63 · 6 lines<\/sub>$/m);
+  assert.match(md, /^\*\*2\. Tests the discount\*\* · Skim$/m);
+  assert.match(md, /^\*\*3\. Updates the lockfile and docs\*\* · Cleared: `yarn\.lock` lockfile; `coupons\.md` docs$/m);
+  assert.ok(!md.includes("<b>Also changed</b>") && !md.includes("<b>Cleared by Vera</b>"));
+  assert.deepEqual(readBrief(md, SEAL)?.walk, { steps: 3, verify: 1, skim: 1, cleared: 1 });
+});
+
+test("without a walkthrough (the Guide gave no answer), Also changed and Cleared are back", () => {
+  const md = toMarkdown({ ...base, triage: { hunks, skips, steps: null } }, SEAL);
+  assert.ok(md.includes("<b>Also changed</b>") && !md.includes("#### Walkthrough"));
 });
