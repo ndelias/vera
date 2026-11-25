@@ -45,7 +45,7 @@ test("ticking all of your spots is your engineer sign-off; unticking one takes i
 
 test("a later request for changes clears a tick sign-off, as it does an approval", () => {
   const verified = { ana: "2026-11-25T18:00:00Z" };
-  const s = status(asks, "cy", [{ who: "ana", state: "CHANGES_REQUESTED", trusted: true, at: "2026-11-25T19:00:00Z" }], [], "<!-- vera-review -->", tickEvents(verified));
+  const s = status(asks, "cy", [{ id: 1, body: "", who: "ana", state: "CHANGES_REQUESTED", trusted: true, at: "2026-11-25T19:00:00Z" }], [], "<!-- vera-review -->", tickEvents(verified));
   assert.equal(s.roles[0]?.by, undefined);
 });
 
