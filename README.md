@@ -116,6 +116,27 @@ jobs:
    `ndelias/vera@a71f9f6d5c6f721bb1e5d5b769df86a3e9e15bc3 # v0.8.0`.
 4. Optionally add a `.vera.yml` naming your areas and people (see
    [`examples/vera.yml`](examples/vera.yml)); without it Vera uses CODEOWNERS.
+5. Optionally, have Vera post under your team's own name and logo instead
+   of "github-actions": make a GitHub App (Contents read; Pull requests,
+   Issues and Checks read and write; webhook off), install it on the repo,
+   save its ID as the variable `VERA_APP_ID` and a private key as the
+   secret `VERA_APP_PRIVATE_KEY`, and add before Vera's step:
+
+   ```yaml
+   - id: app
+     if: vars.VERA_APP_ID != ''
+     continue-on-error: true
+     uses: actions/create-github-app-token@v2
+     with:
+       app-id: ${{ vars.VERA_APP_ID }}
+       private-key: ${{ secrets.VERA_APP_PRIVATE_KEY }}
+   ```
+
+   then give Vera `github-token: ${{ steps.app.outputs.token || github.token }}`.
+   An app's posts start workflows, so skip the app's own: start the job's
+   `if:` with `github.event.sender.login != 'your-app[bot]' &&` (if the same
+   app posts Slack answers, see `.github/workflows/vera.yml` here). The app
+   for Slack sign-off ([apps/slack](apps/slack/README.md)) can be the same one.
 
 Pull requests from forks don't get secrets, so Vera skips them with a note.
 

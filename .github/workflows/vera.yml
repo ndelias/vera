@@ -23,17 +23,30 @@ concurrency:
 
 jobs:
   review:
+    # Vera posts as the vera-ndelias GitHub App, and an app's posts start workflows, so its
+    # own posts are skipped; the Slack server's answers and sign-offs (same app) still count.
     if: >-
+      (github.event.sender.login != 'vera-ndelias[bot]' || contains(github.event.comment.body, '<!-- vera-slack-')) && (
       (github.event_name == 'pull_request' && !github.event.pull_request.draft) ||
       github.event_name == 'pull_request_review' ||
       (github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '/vera sign')) ||
-      github.event_name == 'pull_request_review_comment'
+      github.event_name == 'pull_request_review_comment')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      # A short-lived token from the GitHub App, so Vera's comments, threads and check show
+      # its name and logo. Without the app's key (a fork, or not set up) Vera posts as before.
+      - id: app
+        if: vars.VERA_APP_ID != ''
+        continue-on-error: true
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.VERA_APP_ID }}
+          private-key: ${{ secrets.VERA_APP_PRIVATE_KEY }}
       - uses: ./
         with:
+          github-token: ${{ steps.app.outputs.token || github.token }}
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
           slack-app: vera-ndelias
