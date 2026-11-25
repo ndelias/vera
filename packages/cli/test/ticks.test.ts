@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import type { Ask } from "@vera/rules";
 import type { Brief } from "../src/people.ts";
 import { status, statusBlock } from "../src/signoff.ts";
-import { applyEdit, boxes, complete, readVerified, tickEvents, ticked, update } from "../src/ticks.ts";
+import { applyEdit, boxes, complete, readVerified, tickEvents, ticked, update, verifiedMarker as verifiedMarkerFor } from "../src/ticks.ts";
 
 const spot = (file: string, who: string[]) => ({ file, label: file, lines: "1-2", url: null, what: "w", why: "y", risk: "high" as const, who });
 const brief: Brief = { spots: [spot("a.ts", ["@ana"]), spot("b.ts", ["@ana", "@ben"])], design: null, docs: [], verify: true };
@@ -51,4 +51,13 @@ test("a later request for changes clears a tick sign-off, as it does an approval
 
 test("someone with no spots never counts as finished", () => {
   assert.deepEqual([...complete({ ...brief, spots: [] }, [])], []);
+});
+
+test("the finished record can't be forged by editing the comment: it's read from before the edit", () => {
+  const before = draw();
+  const forged = before.replace("<!-- /vera-status -->", "") + verifiedMarkerFor({ ben: "2026-11-25T18:00:00Z" });
+  // What the sign-off path does on an edit: boxes from the edit (own ticks only), record from before.
+  const { body } = applyEdit(before, forged, "ana");
+  assert.deepEqual(readVerified(forged), { ben: "2026-11-25T18:00:00Z" }, "the forged record is in the edited comment");
+  assert.deepEqual(update(readVerified(before), complete(brief, boxes(body)), "now"), {}, "but not in what counts");
 });

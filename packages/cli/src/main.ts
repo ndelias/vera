@@ -172,7 +172,9 @@ if (args[0] === "sign-off") {
     if (brief?.verify && edit && edit.commentId === vera.id) {
       const { body: kept, reverted } = applyEdit(edit.before, vera.body, edit.sender);
       current = kept;
-      verified = update(verified, complete(brief, boxes(kept)), new Date().toISOString());
+      // Who had finished comes from the comment as it was before this edit: anyone who can
+      // edit the comment could rewrite the hidden record, but not what GitHub says it was.
+      verified = update(readVerified(edit.before), complete(brief, boxes(kept)), new Date().toISOString());
       if (reverted) console.log(`Put back ${reverted} tick ${reverted === 1 ? "box" : "boxes"} that @${edit.sender} changed for someone else.`);
     }
     const s = status(asks, pull.author, reviews, comments, MARKER, tickEvents(verified));
