@@ -11,7 +11,9 @@ export type Risk = "high" | "medium" | "low";
 export type Spot = { file: string; label: string; lines: string; url: string | null; what: string; why: string; risk: Risk; who: string[] };
 /** Everything the blocks show besides the sign-offs. `design` is the design call's description when there is one;
  * `summary` and `ai` are the change in a sentence and the likely-AI signals, for Slack. */
-export type Brief = { spots: Spot[]; design: string | null; docs: string[]; summary?: string; ai?: string[] };
+export type Brief = { spots: Spot[]; design: string | null; docs: string[]; summary?: string; ai?: string[];
+  /** With the `verify` switch: each engineer ticks their spots, and ticking all of them is their sign-off. */
+  verify?: boolean };
 export type Person = { who: string; asks: Ask[]; spots: Spot[]; design: string | null; docs: string[]; questions: string[] };
 
 const BRIEF = /<!-- vera-brief:([A-Za-z0-9+/=]*) -->/;

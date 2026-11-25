@@ -9,6 +9,7 @@ import { mapperRequest, parseMapper, type Change, type Directory, type MapperOut
 import { parseVisibility, visibilityRequest, type Visibility } from "@vera/agents/visibility";
 import { briefRequest, parseBrief, type Brief } from "@vera/agents/briefer";
 import { examRequest, parseJson, type Exam, type Question } from "@vera/agents/examiner";
+import { fileHunks, parseTriage, triageRequest, type FileHunk, type Skip } from "@vera/agents/triage";
 import { areasFor, ConfigError, fromCodeowners, fromVeraYml, matches, route, type Ownership, type Plan } from "@vera/rules";
 import { client as github, parsePullUrl, type Pull } from "@vera/tools/github";
 
@@ -24,6 +25,10 @@ export type Review = {
   /** The understanding check: questions for the engineer, on likely-AI or
    * high-risk changes only (Nahuel's call, 28 Oct 2026), and why it was asked. */
   exam: { questions: Question[]; why: string } | null;
+  /** Verify, Also changed and Cleared (Nahuel's calls, 25 Nov 2026), with the
+   * `verify` switch only: the change's hunks and the ones Triage cleared.
+   * Undefined when the switch is off; skips null when Triage gave no answer. */
+  triage?: { hunks: FileHunk[]; skips: Skip[] | null };
   ai: string[];
   plan: Plan;
   trace: Trace;
@@ -65,7 +70,7 @@ function directory(o: Ownership, paths: string[]): Directory {
   };
 }
 
-export async function review(url: string, opts: { apiKey: string; githubToken?: string; model: string; config?: string }): Promise<Review> {
+export async function review(url: string, opts: { apiKey: string; githubToken?: string; model: string; config?: string; verify?: boolean }): Promise<Review> {
   const trace = createTrace();
   const ref = parsePullUrl(url);
   const t0 = Date.now();
@@ -121,10 +126,15 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
     }
 
     // The agents don't depend on each other, so they run at once.
-    const [areas, design, brief] = await Promise.all([
+    const hunks = opts.verify ? fileHunks(pull.files.map((f) => ({ path: f.path, patch: f.patch ?? null }))) : [];
+    const ids = new Set(hunks.map((h) => h.id));
+    const [areas, design, brief, skips] = await Promise.all([
       call("mapper", "which areas this change touches", mapperRequest(opts.model, directory(ownership, paths), change, "cli"), parseMapper),
       call("visibility", "does this change make a design decision?", visibilityRequest(opts.model, change, "v2"), parseVisibility),
       call("briefer", "where an engineer should look first", briefRequest(opts.model, change, "engineer", "v2"), parseBrief),
+      opts.verify && hunks.length
+        ? call("triage", "which parts a reviewer can skip", triageRequest(opts.model, pull.title, hunks), (m) => parseTriage(m, ids))
+        : Promise.resolve(null),
     ]);
 
     const plan = route(ownership, paths, (areas?.teams ?? []).map((t) => ({ area: t.team, confidence: t.confidence, reason: t.reason })),
@@ -134,17 +144,18 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
     record(trace, { at: Date.now(), type: "rule.eval", rule: "likely AI-written", matched: ai.length > 0, detail: ai.join("; ") || "no marker found" });
 
     // The understanding check: only when an engineer is asked, and the change
-    // is likely AI-written or the brief marks a place high risk.
+    // is likely AI-written or the brief marks a place high risk. With Verify,
+    // the questions are out of the flow: ticking the spots is the check.
     const high = (brief?.places ?? []).filter((p) => p.risk === "high").length;
     const why = ai.length ? "it's likely AI-written" : high ? `the brief marks ${high === 1 ? "a place" : `${high} places`} high risk` : "";
     const engineer = plan.asks.some((a) => a.role === "engineer");
     record(trace, { at: Date.now(), type: "rule.eval", rule: "understanding check", matched: !!why && engineer, detail: !engineer ? "no engineer asked" : why || "not likely AI-written, and nothing high risk" });
-    const asked = why && engineer
+    const asked = why && engineer && !opts.verify
       ? await call("examiner", "questions for the engineer before they sign off", examRequest(opts.model, change, "engineer"), (m) => parseJson<Exam>(m))
       : null;
     const exam = asked?.questions?.length ? { questions: asked.questions.slice(0, 3), why } : null;
     record(trace, { at: Date.now(), type: "run.end", status: "ok" });
-    return { pull, ownership, ...(ownershipError ? { ownershipError } : {}), areas, design, brief, exam, ai, plan, trace };
+    return { pull, ownership, ...(ownershipError ? { ownershipError } : {}), areas, design, brief, exam, ...(opts.verify ? { triage: { hunks, skips } } : {}), ai, plan, trace };
   } catch (e) {
     record(trace, { at: Date.now(), type: "run.end", status: "error", error: (e as Error).message });
     throw Object.assign(e as Error, { trace });

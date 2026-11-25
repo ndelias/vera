@@ -13,6 +13,7 @@ import { aiFlag } from "./dots.ts";
 import { briefMarker, labels, type Brief } from "./people.ts";
 import { planMarker, spotRow, statusBlock } from "./signoff.ts";
 import { examMarker, type Understanding } from "./understanding.ts";
+import { headline, sections, verifyView } from "./verify.ts";
 
 export const MARKER = "<!-- vera-review -->";
 
@@ -46,11 +47,15 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
     docs: r.pull.files.map((f) => f.path).filter((f) => DOCS.test(f)),
     ...(r.brief?.summary ? { summary: r.brief.summary } : {}),
     ...(r.ai.length ? { ai: r.ai } : {}),
+    ...(r.triage ? { verify: true } : {}),
   };
+  const every = labels(r.pull.files.map((f) => f.path));
+  const v = r.triage ? verifyView(r.triage.hunks, r.triage.skips, brief.spots, (f) => every.get(f) ?? f, (f, line) => linesLink(r, f, String(line))) : null;
   const lines = [MARKER, planMarker(r.plan.asks), ...(exam ? [examMarker(exam.questions, exam.why, secret!)] : []), briefMarker(brief), ""];
 
   if (!r.brief) lines.push("_The Briefer gave no answer this time._");
   else if (r.brief.summary) lines.push(`_${plain(r.brief.summary)}_`);
+  if (v) lines.push("", headline(v, brief.spots.length));
   if (r.ai.length) lines.push("", `> ${aiFlag()} ${plain(sentence(r.ai.join(", ")))}`);
 
   const view = { brief, exam: exam ? { questions: exam.questions.map((q) => q.question), why: exam.why } : null };
@@ -58,9 +63,11 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
   // With no engineer asked, the places have nobody's block to sit in.
   const unclaimed = brief.spots.filter((p) => !p.who.length);
   if (unclaimed.length) lines.push("###### WHERE TO LOOK", "", "| Look at | Why |", "|---|---|", ...unclaimed.map(spotRow), "");
-  if (r.plan.asks.length) lines.push("<sub>Sign off by approving, or comment `/vera sign-off` (add a role, like `/vera sign-off design`, for just that one).</sub>");
+  if (v && r.plan.asks.some((a) => a.role === "engineer") && brief.spots.length) lines.push("<sub>Tick each of your spots once you've checked it: ticking all of them signs you off as engineer. Approving, or commenting `/vera sign-off`, still works.</sub>");
+  else if (r.plan.asks.length) lines.push("<sub>Sign off by approving, or comment `/vera sign-off` (add a role, like `/vera sign-off design`, for just that one).</sub>");
   else lines.push(...(r.plan.notes.length ? r.plan.notes : ["Vera couldn't name anyone for this change."]).map((n) => `> ${n}`));
 
+  if (v) lines.push("", ...sections(v).slice(0, -1));
   lines.push(
     "",
     "<details><summary>How Vera decided</summary>",

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import type Anthropic from "@anthropic-ai/sdk";
-import { clearedFor, hunksText, parseTriage, triageRequest, type Skip } from "../src/triage.ts";
+import { clearedFor, fileHunks, hunksText, parseTriage, triageRequest, type Skip } from "../src/triage.ts";
 
 const reply = (text: string, stop: Anthropic.Message["stop_reason"] = "end_turn") =>
   ({ stop_reason: stop, content: [{ type: "text", text }] }) as unknown as Anthropic.Message;
@@ -52,4 +52,13 @@ test("docs and wording are cleared for engineers only", () => {
   assert.deepEqual(clearedFor(skips, "engineer").map((s) => s.hunk), [0, 1, 2]);
   assert.deepEqual(clearedFor(skips, "docs").map((s) => s.hunk), [2]);
   assert.deepEqual(clearedFor(skips, "any").map((s) => s.hunk), [2]);
+});
+
+test("a change splits into numbered hunks with their new lines and size", () => {
+  const hs = fileHunks([
+    { path: "a.ts", patch: "@@ -1,3 +1,4 @@\n ctx\n-old\n+new\n+more\n ctx\n@@ -40,2 +41,2 @@\n-x\n+y" },
+    { path: "img.png", patch: null },
+    { path: "b.ts", patch: "@@ -0,0 +1 @@\n+first" },
+  ]);
+  assert.deepEqual(hs.map((h) => [h.id, h.path, h.start, h.end, h.changed]), [[0, "a.ts", 1, 4, 3], [1, "a.ts", 41, 42, 2], [2, "b.ts", 1, 1, 1]]);
 });

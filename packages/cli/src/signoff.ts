@@ -8,6 +8,7 @@ import type { Check, Comment, PullReview } from "@vera/tools/github";
 import { dot } from "./dots.ts";
 import { people, type Brief, type Spot } from "./people.ts";
 import { describe, gradesMarker, type Grades, type Understanding } from "./understanding.ts";
+import { tickId } from "./verify.ts";
 
 export const CHECK = "Vera: sign-off";
 const PLAN = /<!-- vera-plan:([A-Za-z0-9+/=]*) -->/;
@@ -100,7 +101,16 @@ const MAX_DOCS = 5;
 
 /** What the blocks show besides the sign-offs. Without it (a comment from
  * before v0.6.0) each block is just the person and their roles. */
-export type View = { brief: Brief; exam: { questions: string[]; why: string } | null };
+export type View = { brief: Brief; exam: { questions: string[]; why: string } | null;
+  /** With Verify: the boxes ticked so far, as "spot:handle" (see verify.ts). */
+  ticked?: Set<string> };
+
+/** A spot as a tick box for one person (Verify): ticked once they've checked it. */
+export function spotTick(p: Spot, i: number, who: string, ticked: boolean): string {
+  const at = p.lines.startsWith("L") ? p.lines : `L${p.lines}`;
+  const where = p.url ? `[\`${p.label}\` ${text(at)}](${p.url} "${p.file}")` : `\`${p.label}\` ${text(at)}`;
+  return `- [${ticked ? "x" : " "}] ${dot(p.risk, RISK[p.risk])} ${where} · ${text(sentence(p.what))} ${text(sentence(p.why))} ${tickId(i, who)}`;
+}
 
 export function spotRow(p: Spot): string {
   const at = p.lines.startsWith("L") ? p.lines : `L${p.lines}`;
@@ -124,8 +134,10 @@ export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: 
       return `${mark} **${ROLE(a.role)}**${AS[a.action]} · ${state}${a.why ? ` · ${a.why.replace(/\.$/, "")}` : ""}`;
     });
     const docs = p.docs.slice(0, MAX_DOCS).map((f) => `\`${f}\``).join(", ") + (p.docs.length > MAX_DOCS ? ` and ${p.docs.length - MAX_DOCS} more` : "");
+    // With Verify, an engineer's spots are tick boxes; design and docs stay as rows.
+    const ticks = brief.verify ? p.spots.map((x) => spotTick(x, brief.spots.indexOf(x), p.who, !!view?.ticked?.has(`${brief.spots.indexOf(x)}:${p.who.replace(/^@/, "").toLowerCase()}`))) : [];
     const rows = [
-      ...p.spots.map(spotRow),
+      ...(brief.verify ? [] : p.spots.map(spotRow)),
       ...(p.design ? [`| **The design:** ${cell(sentence(p.design))} | Vera can't see screens yet, so it can't point at places for design. |`] : []),
       ...(p.docs.length ? [`| **The docs:** ${docs} | Documentation changed. |`] : []),
     ];
@@ -139,7 +151,7 @@ export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: 
       "",
       `<sub>Asked because ${view.exam.why}. Answer where you sign off, numbered: in your approval or under \`/vera sign-off\`. A sentence or two each; Vera shows the result next to your sign-off and never blocks the merge.</sub>`,
     ] : [];
-    return ["", `#### ${p.who}`, "", ...roles, ...(rows.length ? ["", "| Look at | Why |", "|---|---|", ...rows] : []), ...exam];
+    return ["", `#### ${p.who}`, "", ...roles, ...(ticks.length ? ["", ...ticks] : []), ...(rows.length ? ["", "| Look at | Why |", "|---|---|", ...rows] : []), ...exam];
   });
   const kept = Object.keys(grades).length ? [gradesMarker(grades)] : [];
   return [OPEN, ...kept, `###### WHO SIGNS OFF · ${heading.toUpperCase()}`, ...blocks.flat(), CLOSE].join("\n");

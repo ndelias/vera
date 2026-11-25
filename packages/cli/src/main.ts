@@ -197,7 +197,9 @@ if (configPath) {
   }
 }
 try {
-  const r = await review(args[1], { apiKey, model: flag("--model", "claude-sonnet-5-5"), ...(githubToken ? { githubToken } : {}), ...(config !== undefined ? { config } : {}) });
+  // Verify, Also changed and Cleared: off unless asked for, until study 08 passes.
+  const verify = args.includes("--verify") || process.env.VERA_VERIFY === "true";
+  const r = await review(args[1], { apiKey, model: flag("--model", "claude-sonnet-5-5"), ...(githubToken ? { githubToken } : {}), ...(config !== undefined ? { config } : {}), verify });
   mkdirSync(out, { recursive: true });
   const path = join(out, `${r.trace.events[0]?.type === "run.start" ? r.trace.events[0].runId : Date.now()}.jsonl`);
   writeFileSync(path, toJsonl(r.trace));

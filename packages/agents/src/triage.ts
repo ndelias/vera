@@ -114,3 +114,27 @@ export function parseTriage(message: Anthropic.Message, ids: Set<number>): Skip[
     return null;
   }
 }
+
+/** A hunk with where it sits in the new file and how many lines it changes. */
+export type FileHunk = Hunk & { start: number; end: number; changed: number };
+const HEADER = /^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/;
+
+/** Each file's patch split into hunks, numbered across the whole change in diff order. */
+export function fileHunks(files: { path: string; patch: string | null }[]): FileHunk[] {
+  const out: FileHunk[] = [];
+  for (const f of files) {
+    let cur: FileHunk | null = null;
+    for (const line of (f.patch ?? "").split("\n")) {
+      const h = HEADER.exec(line);
+      if (h) {
+        const start = Number(h[1]);
+        cur = { id: out.length, path: f.path, text: line, start, end: start + Math.max(Number(h[2] ?? 1), 1) - 1, changed: 0 };
+        out.push(cur);
+      } else if (cur) {
+        cur.text += `\n${line}`;
+        if ((line.startsWith("+") || line.startsWith("-")) && !line.startsWith("+++") && !line.startsWith("---")) cur.changed++;
+      }
+    }
+  }
+  return out;
+}

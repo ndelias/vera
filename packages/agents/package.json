@@ -8,7 +8,8 @@
     "./mapper": "./src/mapper.ts",
     "./visibility": "./src/visibility.ts",
     "./briefer": "./src/briefer.ts",
-    "./examiner": "./src/examiner.ts"
+    "./examiner": "./src/examiner.ts",
+    "./triage": "./src/triage.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.132.0",

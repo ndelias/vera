@@ -25,6 +25,10 @@ inputs:
   slack-app:
     description: Optional. The name (slug) of your GitHub App for Vera's Slack server, e.g. vera-slack. With it, Slack messages get a Sign off button, and sign-offs that app posts from Slack count for the person who signed off. See apps/slack/README.md.
     required: false
+  verify:
+    description: "Preview, off by default. 'true' leads Vera's comment with the spots to verify, each a tick box (ticking all of yours signs you off as engineer), with what else changed and what Vera cleared folded away. The understanding questions are left out."
+    required: false
+    default: "false"
   model:
     description: The Claude model to use.
     required: false
@@ -79,6 +83,7 @@ runs:
         SLACK_APP: ${{ inputs.slack-app }}
         PR_URL: ${{ github.event.pull_request.html_url }}
         MODEL: ${{ inputs.model }}
+        VERA_VERIFY: ${{ inputs.verify }}
       run: node --disable-warning=ExperimentalWarning packages/cli/src/main.ts review "$PR_URL" --comment --model "$MODEL" --out "$RUNNER_TEMP/vera-runs"
 
     - name: Update the sign-off check
