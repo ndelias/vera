@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import type Anthropic from "@anthropic-ai/sdk";
-import { hunksText, parseTriage, triageRequest } from "../src/triage.ts";
+import { clearedFor, hunksText, parseTriage, triageRequest, type Skip } from "../src/triage.ts";
 
 const reply = (text: string, stop: Anthropic.Message["stop_reason"] = "end_turn") =>
   ({ stop_reason: stop, content: [{ type: "text", text }] }) as unknown as Anthropic.Message;
@@ -41,4 +41,15 @@ test("the request caches the instructions and asks for the schema", () => {
   const r = triageRequest("claude-sonnet-5-5", "t", [{ id: 0, path: "a", text: "@@ -1 +1 @@" }]);
   assert.equal((r.system as { cache_control?: unknown }[])[0]?.cache_control !== undefined, true);
   assert.equal(r.output_config?.format?.type, "json_schema");
+});
+
+test("docs and wording are cleared for engineers only", () => {
+  const skips: Skip[] = [
+    { hunk: 0, reason: "docs", note: "" },
+    { hunk: 1, reason: "copy", note: "" },
+    { hunk: 2, reason: "lockfile", note: "" },
+  ];
+  assert.deepEqual(clearedFor(skips, "engineer").map((s) => s.hunk), [0, 1, 2]);
+  assert.deepEqual(clearedFor(skips, "docs").map((s) => s.hunk), [2]);
+  assert.deepEqual(clearedFor(skips, "any").map((s) => s.hunk), [2]);
 });

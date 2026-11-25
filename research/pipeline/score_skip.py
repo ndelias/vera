@@ -20,6 +20,7 @@ from db import ROOT, connect
 BATCHES = ROOT / "data" / "batches"
 OUT = ROOT / "studies" / "08-skip"
 SEED = 20261125
+ENGINEERS_ONLY = {"docs", "copy"}  # mirrors clearedFor() in packages/agents/src/triage.ts
 DRAWS = 2000
 
 LOCKFILES = {"package-lock.json", "yarn.lock", "pnpm-lock.yaml", "poetry.lock", "uv.lock", "cargo.lock",
@@ -109,15 +110,20 @@ def main() -> None:
     rules = {pr: {n for n, (path, _, text) in hs.items() if rule_skip(path, text)} for pr, hs in hunks.items()}
     results["rules"] = summary(per_pr(prs, hunks, spots, rules))
     for system in systems:
+        # PRs the system wasn't run on are left out (and counted); an unusable
+        # answer skips nothing, so a person reads all of it.
+        ran = [pr for pr in prs if (BATCHES / system / f"{cid(pr)}.json").exists()]
         skipped, failed = {}, 0
-        for pr in prs:
-            f = BATCHES / system / f"{cid(pr)}.json"
-            out = json.loads(f.read_text()) if f.exists() else None
+        for pr in ran:
+            out = json.loads((BATCHES / system / f"{cid(pr)}.json").read_text())
             if not out or not isinstance(out.get("skip"), list):
                 failed += 1
                 continue
-            skipped[pr] = {s["hunk"] for s in out["skip"] if isinstance(s.get("hunk"), int)}
-        results[system] = summary(per_pr(prs, hunks, spots, skipped)) | {"failed": failed}
+            # Scored for any reader (Nahuel's call, 25 Nov 2026): docs and wording are
+            # cleared for engineers only, and we can't tell which reviewer was which.
+            skipped[pr] = {s["hunk"] for s in out["skip"] if isinstance(s.get("hunk"), int) and s.get("reason") not in ENGINEERS_ONLY}
+        results[system] = summary(per_pr(ran, hunks, spots, skipped)) | {"failed": failed, "not_run": len(prs) - len(ran)}
+        results[f"rules on the same {len(ran)}"] = summary(per_pr(ran, hunks, spots, rules))
         reasons = {}
         for pr in prs:
             f = BATCHES / system / f"{cid(pr)}.json"

@@ -12,7 +12,8 @@ hunks and counts: no comment text, no reviewer names. Resumable.
 import random
 import re
 import sys
-from datetime import datetime, timezone
+import time
+from datetime import datetime, timedelta, timezone
 
 from collect_agent_prs import gh, ts
 from db import connect
@@ -23,6 +24,7 @@ SETS = {
     "test": (datetime(2026, 10, 1, tzinfo=timezone.utc), datetime(2026, 11, 16, tzinfo=timezone.utc), 35),
 }
 SEED = 20261125
+BUSY = {"PostHog/posthog"}  # a merge bot opens hundreds of PRs a day
 NEAR = 3  # lines either side of a comment that count as "that code"
 HUNK = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@")
 
@@ -31,8 +33,27 @@ def is_bot(user: dict) -> bool:
     return user.get("type") == "Bot" or (user.get("login") or "").endswith("[bot]")
 
 
+def merged_by_search(repo: str, start: datetime, end: datetime) -> list[int]:
+    """Merged PRs in the window, day by day through search (at most 1,000 a day)."""
+    out, day = [], start
+    while day < end:
+        d = day.date().isoformat()
+        for page in range(1, 11):
+            res = gh("search/issues", q=f"repo:{repo} is:pr is:merged merged:{d}..{d}", per_page=100, page=page)
+            time.sleep(2.1)  # search allows 30 requests a minute
+            items = res.get("items", [])
+            out += [it["number"] for it in items if not is_bot(it.get("user") or {})]
+            if len(items) < 100:
+                break
+        day += timedelta(days=1)
+    return sorted(set(out))
+
+
 def merged_in(repo: str, start: datetime, end: datetime) -> list[int]:
-    """Merged PRs in the window, from the closed list (newest created first)."""
+    """Merged PRs in the window, from the closed list (newest created first).
+    Repos whose bots open hundreds of PRs a day go through search instead."""
+    if repo in BUSY:
+        return merged_by_search(repo, start, end)
     out = []
     for page in range(1, 200):
         rows = gh(f"repos/{repo}/pulls", state="closed", sort="created", direction="desc", per_page=100, page=page) or []

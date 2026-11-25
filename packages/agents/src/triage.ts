@@ -24,6 +24,18 @@ export const SKIP_REASONS = [
 export type SkipReason = (typeof SKIP_REASONS)[number];
 export type Skip = { hunk: number; reason: SkipReason; note: string };
 
+/** Who a reason clears a hunk for (Nahuel's call, 25 Nov 2026: it depends on
+ * the reader). Docs and wording are what docs, product and design reviewers
+ * are there to read, so they're cleared for engineers only. Everything else
+ * is cleared for anyone. */
+const ENGINEERS_ONLY: ReadonlySet<SkipReason> = new Set(["docs", "copy"]);
+
+/** The skips that hold for this reader; "any" is the strictest view, for when
+ * the reader's role isn't known. */
+export function clearedFor(skips: Skip[], role: "engineer" | "design" | "product" | "security" | "docs" | "any"): Skip[] {
+  return role === "engineer" ? skips : skips.filter((s) => !ENGINEERS_ONLY.has(s.reason));
+}
+
 const INSTRUCTIONS = `You are Triage in Vera, a code review assistant. Reviewers have more code to read than time to read it. Your job is to say which parts of this change a person can safely skip, so they spend their time on the rest.
 
 The change is split into hunks, each marked [h<number>] with its file. Name the hunks a reviewer can skip, each with a reason and a note of at most 12 words saying what's there. Every hunk you don't name goes to a person to read.

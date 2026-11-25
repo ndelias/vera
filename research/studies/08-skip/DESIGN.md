@@ -86,3 +86,15 @@ Vera passes on the test set when all three hold:
 
 About $5 on Nahuel's personal Anthropic key, through the Batch API
 (Sonnet 5.5). Each run's estimate is shown before it starts.
+
+## Changes after data came in
+
+**25 Nov 2026, after Triage v1 on 20 Grafana train PRs: docs are scored as
+Verify.** Every spot both the rules and Triage wrongly cleared was a
+documentation page that Grafana's docs reviewers commented on. Nahuel's
+call: what Vera clears depends on the reader. Docs and wording (reasons
+`docs` and `copy`) are cleared for engineers only and stay Verify for docs,
+product and design reviewers. The study can't tell which reviewer left a
+comment, so it scores the strictest view: those two reasons don't count as
+cleared. The rules baseline keeps its docs rule as written, and the bar is
+unchanged. No test data had been pulled.
