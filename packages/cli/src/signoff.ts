@@ -9,6 +9,7 @@ import { dot } from "./dots.ts";
 import { people, type Brief, type Spot } from "./people.ts";
 import { describe, gradesMarker, type Grades, type Understanding } from "./understanding.ts";
 import { tickId } from "./verify.ts";
+import { verifiedMarker } from "./ticks.ts";
 
 export const CHECK = "Vera: sign-off";
 const PLAN = /<!-- vera-plan:([A-Za-z0-9+/=]*) -->/;
@@ -43,8 +44,9 @@ export function fromSlack(comments: Comment[], app: string | undefined): Comment
 
 /** Reviews and sign-off comments in the order they happened. Vera's own
  * comment is skipped (it explains the command). */
-export function events(reviews: PullReview[], comments: Comment[], marker: string): SignoffEvent[] {
+export function events(reviews: PullReview[], comments: Comment[], marker: string, more: (SignoffEvent & { at: string })[] = []): SignoffEvent[] {
   const timed: (SignoffEvent & { at: string })[] = [
+    ...more,
     ...reviews.map((r) => ({ kind: "review" as const, who: r.who, state: r.state, trusted: r.trusted, at: r.at })),
     ...comments.flatMap((c) => {
       const roles = c.body.includes(marker) ? null : parseSignoff(c.body);
@@ -81,8 +83,9 @@ export function toCheck(s: Signoff, u?: Understanding): Check {
   return { conclusion: s.done ? "success" : "neutral", title: title.length > 200 ? `${title.slice(0, 197)}...` : title, summary };
 }
 
-export const status = (asks: Ask[], author: string, reviews: PullReview[], comments: Comment[], marker: string) =>
-  signoff(asks, author, events(reviews, comments, marker));
+/** `ticks`: engineers who ticked all their spots (ticks.ts), as sign-offs. */
+export const status = (asks: Ask[], author: string, reviews: PullReview[], comments: Comment[], marker: string, ticks: (SignoffEvent & { at: string })[] = []) =>
+  signoff(asks, author, events(reviews, comments, marker, ticks));
 
 // Who signs off, one block per person (people.ts): their roles and where
 // each stands, what to look at, and their questions. It sits between these
@@ -102,8 +105,8 @@ const MAX_DOCS = 5;
 /** What the blocks show besides the sign-offs. Without it (a comment from
  * before v0.6.0) each block is just the person and their roles. */
 export type View = { brief: Brief; exam: { questions: string[]; why: string } | null;
-  /** With Verify: the boxes ticked so far, as "spot:handle" (see verify.ts). */
-  ticked?: Set<string> };
+  /** With Verify: the boxes ticked so far, as "spot:handle", and who has ticked all theirs, when (ticks.ts). */
+  ticked?: Set<string>; verified?: Record<string, string> };
 
 /** A spot as a tick box for one person (Verify): ticked once they've checked it. */
 export function spotTick(p: Spot, i: number, who: string, ticked: boolean): string {
@@ -153,7 +156,7 @@ export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: 
     ] : [];
     return ["", `#### ${p.who}`, "", ...roles, ...(ticks.length ? ["", ...ticks] : []), ...(rows.length ? ["", "| Look at | Why |", "|---|---|", ...rows] : []), ...exam];
   });
-  const kept = Object.keys(grades).length ? [gradesMarker(grades)] : [];
+  const kept = [...(Object.keys(grades).length ? [gradesMarker(grades)] : []), ...(view?.verified && Object.keys(view.verified).length ? [verifiedMarker(view.verified)] : [])];
   return [OPEN, ...kept, `###### WHO SIGNS OFF · ${heading.toUpperCase()}`, ...blocks.flat(), CLOSE].join("\n");
 }
 

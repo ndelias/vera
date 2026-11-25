@@ -19,6 +19,7 @@ import { people, readBrief } from "./people.ts";
 import { message, readSent, sendAll, withSent } from "./slack.ts";
 import { CHECK, fromSlack, readPlan, status, statusBlock, toCheck, withStatus } from "./signoff.ts";
 import { latestAnswers, open, readExam, readGrades, type Grades, type Understanding } from "./understanding.ts";
+import { applyEdit, boxes, complete, readVerified, tickEvents, ticked, update } from "./ticks.ts";
 import Anthropic from "@anthropic-ai/sdk";
 import { gradeRequest, parseJson, type Grade } from "@vera/agents/examiner";
 import { counts, parseSignoff, signoff, slackIds, type Signoff } from "@vera/rules";
@@ -124,6 +125,19 @@ async function understanding(body: string, s: Signoff, reviews: PullReview[], co
   return { u, grades };
 }
 
+/** The edit GitHub sent, when this run is for an edited comment: who made it and the comment before. */
+function editEvent(): { sender: string; commentId: number; before: string } | null {
+  const path = process.env.GITHUB_EVENT_PATH;
+  if (!path) return null;
+  try {
+    const e = JSON.parse(readFileSync(path, "utf8")) as { action?: string; sender?: { login?: string }; comment?: { id?: number }; changes?: { body?: { from?: unknown } } };
+    const before = e.changes?.body?.from;
+    return e.action === "edited" && e.comment?.id && e.sender?.login && typeof before === "string" ? { sender: e.sender.login, commentId: e.comment.id, before } : null;
+  } catch {
+    return null;
+  }
+}
+
 const args = process.argv.slice(2);
 const flag = (name: string, fallback: string) => {
   const i = args.indexOf(name);
@@ -148,14 +162,25 @@ if (args[0] === "sign-off") {
       process.exit(0);
     }
     const reviews = await gh.reviews(ref);
-    const s = status(asks, pull.author, reviews, comments, MARKER);
+    // A comment from before the blocks per person has no brief, and shows its questions elsewhere.
+    const brief = readBrief(vera.body);
+    // With Verify, an edit to Vera's comment is someone ticking their spots: keep their own
+    // ticks, put back any made for someone else, and note who has now ticked all of theirs.
+    let current = vera.body;
+    let verified = readVerified(vera.body);
+    const edit = editEvent();
+    if (brief?.verify && edit && edit.commentId === vera.id) {
+      const { body: kept, reverted } = applyEdit(edit.before, vera.body, edit.sender);
+      current = kept;
+      verified = update(verified, complete(brief, boxes(kept)), new Date().toISOString());
+      if (reverted) console.log(`Put back ${reverted} tick ${reverted === 1 ? "box" : "boxes"} that @${edit.sender} changed for someone else.`);
+    }
+    const s = status(asks, pull.author, reviews, comments, MARKER, tickEvents(verified));
     const { u, grades } = await understanding(vera.body, s, reviews, comments);
     await writeCheck(token, ref, pull.headSha, s, u);
     // The comment's status block too, so it doesn't say "waiting" after someone signed off.
-    // A comment from before the blocks per person has no brief, and shows its questions elsewhere.
-    const brief = readBrief(vera.body);
     const exam = brief && readExam(vera.body);
-    const body = withStatus(vera.body, statusBlock(s, asks, u, grades, brief ? { brief, exam: exam ? { questions: exam.questions, why: exam.why } : null } : undefined));
+    const body = withStatus(current, statusBlock(s, asks, u, grades, brief ? { brief, exam: exam ? { questions: exam.questions, why: exam.why } : null, ticked: ticked(boxes(current)), verified } : undefined));
     // Each person's Slack message too, when they were sent one.
     const sent = readSent(vera.body);
     const slackToken = optional("SLACK_BOT_TOKEN");
@@ -209,11 +234,14 @@ try {
     // If they can't be read, the review is still posted, showing everyone as waiting,
     // but the check is left as it was rather than reset; the next sign-off corrects both.
     const read = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref).then((c) => fromSlack(c, SLACK_APP))]).catch(() => null);
-    const s = read && status(r.plan.asks, r.pull.author, read[0], read[1], MARKER);
-    const prior = readSent(read?.[1].find((c) => c.body.includes(MARKER))?.body ?? "");
+    // Engineers who ticked all their spots before this push stay signed off, as approvals do.
+    const before = read?.[1].find((c) => c.body.includes(MARKER))?.body ?? "";
+    const verified = readVerified(before);
+    const s = read && status(r.plan.asks, r.pull.author, read[0], read[1], MARKER, tickEvents(verified));
+    const prior = readSent(before);
     // New questions mean earlier answers don't count; the engineer answers these ones.
     const u: Understanding | undefined = r.exam ? { questions: r.exam.questions.length, answered: 0, passed: 0, graded: false, reasons: [] } : undefined;
-    let body = toMarkdown(r, s ?? undefined, apiKey, u);
+    let body = toMarkdown(r, s ?? undefined, apiKey, u, verified);
     const slackToken = optional("SLACK_BOT_TOKEN");
     if (slackToken) {
       const brief = readBrief(body)!;

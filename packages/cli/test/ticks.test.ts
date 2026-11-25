@@ -1,0 +1,54 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import type { Ask } from "@vera/rules";
+import type { Brief } from "../src/people.ts";
+import { status, statusBlock } from "../src/signoff.ts";
+import { applyEdit, boxes, complete, readVerified, tickEvents, ticked, update } from "../src/ticks.ts";
+
+const spot = (file: string, who: string[]) => ({ file, label: file, lines: "1-2", url: null, what: "w", why: "y", risk: "high" as const, who });
+const brief: Brief = { spots: [spot("a.ts", ["@ana"]), spot("b.ts", ["@ana", "@ben"])], design: null, docs: [], verify: true };
+const asks: Ask[] = [
+  { who: "@ana", role: "engineer", action: "ask", why: "owns A" },
+  { who: "@ben", role: "engineer", action: "ask", why: "owns B" },
+];
+const draw = (t: Set<string> = new Set(), verified: Record<string, string> = {}) =>
+  statusBlock(status(asks, "cy", [], [], "<!-- vera-review -->", tickEvents(verified)), asks, undefined, {}, { brief, exam: null, ticked: t, verified });
+const tick = (body: string, spot: number, who: string) => body.replace(new RegExp(`- \\[ \\](.*<!-- vera-tick:${spot}:${who} -->)`), "- [x]$1");
+
+test("each engineer gets a box per spot of theirs", () => {
+  assert.deepEqual(boxes(draw()).map((b) => `${b.spot}:${b.who}:${b.ticked}`), ["0:ana:false", "1:ana:false", "1:ben:false"]);
+});
+
+test("your own ticks stay; a box ticked for someone else is put back", () => {
+  const before = draw();
+  const after = tick(tick(before, 0, "ana"), 1, "ben");
+  const { body, reverted } = applyEdit(before, after, "Ana");
+  assert.equal(reverted, 1);
+  assert.deepEqual([...ticked(boxes(body))], ["0:ana"]);
+});
+
+test("ticking all of your spots is your engineer sign-off; unticking one takes it back", () => {
+  let body = tick(tick(draw(), 0, "ana"), 1, "ana");
+  const done = complete(brief, boxes(body));
+  assert.deepEqual([...done], ["ana"]);
+  const verified = update({}, done, "2026-11-25T18:00:00Z");
+  const s = status(asks, "cy", [], [], "<!-- vera-review -->", tickEvents(verified));
+  assert.equal(s.roles[0]?.by, "@ana");
+
+  body = draw(ticked(boxes(body)), verified);
+  assert.deepEqual(readVerified(body), { ana: "2026-11-25T18:00:00Z" }, "kept hidden with the status block");
+  assert.match(body, /\*\*Engineer\*\* · signed off · owns A/);
+
+  const unticked = body.replace("- [x]", "- [ ]");
+  assert.deepEqual(update(verified, complete(brief, boxes(unticked)), "later"), {});
+});
+
+test("a later request for changes clears a tick sign-off, as it does an approval", () => {
+  const verified = { ana: "2026-11-25T18:00:00Z" };
+  const s = status(asks, "cy", [{ who: "ana", state: "CHANGES_REQUESTED", trusted: true, at: "2026-11-25T19:00:00Z" }], [], "<!-- vera-review -->", tickEvents(verified));
+  assert.equal(s.roles[0]?.by, undefined);
+});
+
+test("someone with no spots never counts as finished", () => {
+  assert.deepEqual([...complete({ ...brief, spots: [] }, [])], []);
+});

@@ -33,7 +33,8 @@ function linesLink(r: Review, file: string, lines: string): string | null {
 }
 
 /** `secret` seals what a good answer covers (see understanding.ts); without one, the questions aren't posted. */
-export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.author, []), secret?: string, u?: Understanding): string {
+/** `verified`: engineers who ticked all their spots before (ticks.ts), kept with the status block. */
+export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.author, []), secret?: string, u?: Understanding, verified: Record<string, string> = {}): string {
   const t = totals(r.trace);
   const add = r.pull.files.reduce((n, f) => n + f.additions, 0);
   const del = r.pull.files.reduce((n, f) => n + f.deletions, 0);
@@ -58,7 +59,7 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
   if (v) lines.push("", headline(v, brief.spots.length));
   if (r.ai.length) lines.push("", `> ${aiFlag()} ${plain(sentence(r.ai.join(", ")))}`);
 
-  const view = { brief, exam: exam ? { questions: exam.questions.map((q) => q.question), why: exam.why } : null };
+  const view = { brief, exam: exam ? { questions: exam.questions.map((q) => q.question), why: exam.why } : null, verified };
   lines.push("", statusBlock(s, r.plan.asks, u, {}, view), "");
   // With no engineer asked, the places have nobody's block to sit in.
   const unclaimed = brief.spots.filter((p) => !p.who.length);
