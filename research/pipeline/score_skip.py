@@ -102,7 +102,66 @@ def summary(table) -> dict:
     }
 
 
+NEAR = 3  # as in collect_skip_prs.py
+
+
+def changed_lines(text: str) -> list[int]:
+    """New-side line numbers of a hunk's changes; a deletion counts at the line it sits before."""
+    m = re.match(r"@@ -\d+(?:,\d+)? \+(\d+)", text)
+    n, out = int(m[1]) if m else 0, []
+    for line in text.split("\n")[1:]:
+        if line.startswith("+"):
+            out.append(n)
+            n += 1
+        elif line.startswith("-"):
+            out.append(n)
+        elif not line.startswith("\\"):
+            n += 1
+    return out
+
+
+def brief_scores(conn, split: str, system: str) -> dict:
+    """Verify: of the spots that mattered, the share inside the brief's places (± NEAR
+    lines, same file), and the share of changed lines inside those places."""
+    def span(lines: str):
+        nums = [int(x) for x in re.findall(r"\d+", lines or "")]
+        return (min(nums[0], nums[1 if len(nums) > 1 else 0]), max(nums[0], nums[1 if len(nums) > 1 else 0])) if nums else None
+    table, failed = [], 0
+    for (pr,) in conn.execute("SELECT id FROM sk_prs WHERE split = ? ORDER BY id", (split,)):
+        f = BATCHES / system / f"{cid(pr)}.json"
+        out = json.loads(f.read_text()) if f.exists() else None
+        if not f.exists():
+            continue
+        places = [(pl["file"], span(pl.get("lines", ""))) for pl in ((out or {}).get("places") or [])]
+        places = [(fi, sp) for fi, sp in places if sp]
+        failed += not out
+        hunks = {n: (path, text) for n, path, text in conn.execute("SELECT n, path, text FROM sk_hunks WHERE pr = ?", (pr,))}
+        total = inside = 0
+        for path, text in hunks.values():
+            for ln in changed_lines(text):
+                total += 1
+                inside += any(fi == path and sp[0] <= ln <= sp[1] for fi, sp in places)
+        spots = caught = 0
+        for path, side, first, last, hunk in conn.execute(
+                "SELECT path, side, first, last, hunk FROM sk_spots WHERE pr = ? AND mattered = 1 AND hunk IS NOT NULL", (pr,)):
+            if side != "RIGHT":
+                h = re.match(r"@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))?", hunks[hunk][1])
+                first, last = int(h[1]), int(h[1]) + max(int(h[2] or 1), 1) - 1
+            spots += 1
+            caught += any(fi == path and sp[0] <= last + NEAR and first - NEAR <= sp[1] for fi, sp in places)
+        table.append((total, inside, spots, caught))
+    sm = summary([(t, i, sp, c) for t, i, sp, c in table])
+    return {"prs": sm["prs"], "lines": sm["lines"], "lines_in_verify": sm["lines_skipped"], "verify_share": sm["saved"], "verify_share_ci": sm["saved_ci"],
+            "spots": sm["spots"], "spots_caught": sm["spots_skipped"], "caught": sm["missed"], "caught_ci": sm["missed_ci"], "failed": failed}
+
+
 def main() -> None:
+    if sys.argv[1] == "--brief":
+        split, system = sys.argv[2], sys.argv[3]
+        out = {"split": split, system: brief_scores(connect(), split, system)}
+        print(json.dumps(out, indent=2))
+        (OUT / f"scores-{split}-{system}.json").write_text(json.dumps(out, indent=2) + "\n")
+        return
     split, systems = sys.argv[1], sys.argv[2:]
     conn = connect()
     prs, hunks, spots = rows(conn, split)

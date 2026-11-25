@@ -90,6 +90,7 @@ const REASON: Record<SkipReason, string> = {
   formatting: "Formatting only",
   imports: "Imports only",
   "test-mirrors-code": "Test follows the code",
+  "test-setup": "Test setup",
   docs: "Docs",
   comments: "Code comments only",
   "config-value": "Config value",

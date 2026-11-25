@@ -63,15 +63,21 @@ async function requests(job: string, model: string, from?: string): Promise<Req[
     }
     return out;
   }
-  if (job === "skip-train" || job === "skip-test") {
-    const split = job.slice(5);
+  if (/^skip2?-(train|test)$/.test(job) || /^brief-skip-(train|test)$/.test(job)) {
+    // skip-*: Triage v1; skip2-*: Triage v2; brief-skip-*: the engineer's brief on the same diffs.
+    const split = job.endsWith("train") ? "train" : "test";
     const hunks = db.prepare("SELECT n, path, text FROM sk_hunks WHERE pr = ? ORDER BY n");
     const out: Req[] = [];
     for (const { id } of db.prepare("SELECT id FROM sk_prs WHERE split = ? ORDER BY id").all(split) as { id: string }[]) {
       const [repo, n] = id.split("#") as [string, string];
       const title = execFileSync("gh", ["api", `repos/${repo}/pulls/${n}`, "-q", ".title"], { encoding: "utf8" }).trim();
       const hs = (hunks.all(id) as { n: number; path: string; text: string }[]).map((h): Hunk => ({ id: h.n, path: h.path, text: h.text }));
-      out.push({ custom_id: cid(id), params: triageRequest(model, title, hs) });
+      if (job.startsWith("brief")) {
+        const byFile = new Map<string, string[]>();
+        for (const h of hs) byFile.set(h.path, [...(byFile.get(h.path) ?? []), h.text]);
+        const files = [...byFile].map(([path, parts]) => ({ path, diff: parts.join("\n"), generated: false, tooLarge: false }));
+        out.push({ custom_id: cid(id), params: briefRequest(model, { title, files }, "engineer", "v2") });
+      } else out.push({ custom_id: cid(id), params: triageRequest(model, title, hs, job.startsWith("skip2") ? "v2" : "v1") });
     }
     return out;
   }
@@ -158,7 +164,7 @@ async function collect(system: string) {
     const m = r.result.message, u = m.usage;
     const usd = costUsd(meta.model, { inputTokens: u.input_tokens, outputTokens: u.output_tokens, cacheReadTokens: u.cache_read_input_tokens ?? 0, cacheWriteTokens: u.cache_creation_input_tokens ?? 0 }, true);
     total += usd;
-    const out = meta.job === "brief" || meta.job === "brief2" ? parseBrief(m) : meta.job === "grade" ? parseJson<Grade>(m) : parseJson<unknown>(m);
+    const out = meta.job === "brief" || meta.job === "brief2" || meta.job.startsWith("brief-skip") ? parseBrief(m) : meta.job === "grade" ? parseJson<Grade>(m) : parseJson<unknown>(m);
     if (out) ok++;
     cost.run(system, r.custom_id, meta.model, u.input_tokens, u.output_tokens, u.cache_read_input_tokens ?? 0, u.cache_creation_input_tokens ?? 0, usd, out ? "ok" : "invalid");
     writeFileSync(join(dir, `${r.custom_id}.json`), JSON.stringify(out));

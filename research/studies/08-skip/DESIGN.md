@@ -98,3 +98,19 @@ product and design reviewers. The study can't tell which reviewer left a
 comment, so it scores the strictest view: those two reasons don't count as
 cleared. The rules baseline keeps its docs rule as written, and the bar is
 unchanged. No test data had been pulled.
+
+**25 Nov 2026, after Triage v1 on all 60 train PRs, before any v2 or brief
+result: Triage v2, and a second measure for Verify.** v1 cleared 14% of
+lines and missed 1 of 99 spots (a re-export filed as an import). Tests were
+45% of lines but held 12 of the 99 spots, nearly all new tests for new
+behaviour. v2 (train only) says exports are never imports, clears more test
+changes that only follow the code or set it up (a new `test-setup`
+reason), and keeps new test cases for a person.
+
+Nahuel's call on the comment (25 Nov 2026) has three parts: Verify (the
+Briefer's 3–5 spots, ticked), Also changed, and Cleared. The bar above is
+for Cleared. Verify gets its own measure, reported with no bar: of the
+spots that mattered, the share inside the engineer brief's places (same
+file, overlapping the commented lines ± 3), and the share of changed lines
+inside those places. The Briefer (v2, unchanged since study 06) reads the
+same diff Triage does.

@@ -14,6 +14,7 @@ export const SKIP_REASONS = [
   "formatting",
   "imports",
   "test-mirrors-code",
+  "test-setup",
   "docs",
   "comments",
   "config-value",
@@ -36,7 +37,7 @@ export function clearedFor(skips: Skip[], role: "engineer" | "design" | "product
   return role === "engineer" ? skips : skips.filter((s) => !ENGINEERS_ONLY.has(s.reason));
 }
 
-const INSTRUCTIONS = `You are Triage in Vera, a code review assistant. Reviewers have more code to read than time to read it. Your job is to say which parts of this change a person can safely skip, so they spend their time on the rest.
+const V1 = `You are Triage in Vera, a code review assistant. Reviewers have more code to read than time to read it. Your job is to say which parts of this change a person can safely skip, so they spend their time on the rest.
 
 The change is split into hunks, each marked [h<number>] with its file. Name the hunks a reviewer can skip, each with a reason and a note of at most 12 words saying what's there. Every hunk you don't name goes to a person to read.
 
@@ -55,6 +56,35 @@ A hunk can be skipped only when a careful reviewer reading it would almost never
 - copy: user-facing text that changes wording only
 
 Never skip: logic, conditions, error handling, data or schema changes, permissions and auth, API contracts, concurrency, money, anything security-sensitive, new tests for new behaviour, or anything you're unsure about. Skipping a hunk that needed a person costs far more than asking a person to read a hunk they didn't need to. When in doubt, leave it out.`;
+
+// v2 (25 Nov 2026, tuned on study 08's train PRs only). v1 missed one spot in 99 (a
+// re-export filed as an import) and cleared 14% of lines. Tests were 45% of the lines
+// but held 12 of the 99 spots, nearly all of them new tests for new behaviour, so v2
+// clears more of the test changes that only follow the code or set it up, and keeps
+// new test cases for a person.
+const V2 = `You are Triage in Vera, a code review assistant. Reviewers have more code to read than time to read it. Your job is to say which parts of this change a person can safely skip, so they spend their time on the rest.
+
+The change is split into hunks, each marked [h<number>] with its file. Name the hunks a reviewer can skip, each with a reason and a note of at most 12 words saying what's there. Every hunk you don't name goes to a person to read.
+
+A hunk can be skipped only when a careful reviewer reading it would almost never ask for a change. Typical skips:
+- generated: generated code, snapshots, compiled or minified output, generated types or API schemas
+- lockfile: dependency lockfiles
+- moved: code moved or renamed without changing what it does
+- formatting: whitespace, line wrapping, quote style
+- imports: adding, removing or reordering import statements only. Exports and re-exports are not imports: they change what a module offers, so they're never skipped as imports.
+- test-mirrors-code: changes to existing tests that only follow a change you can see elsewhere in this diff: renamed symbols, updated call signatures or arguments, fixtures or expected values updated to match the code, tests deleted along with the code they tested
+- test-setup: test scaffolding that only feeds tests: mock and stub setup, fixture data, factory or builder helpers, test boilerplate
+- docs: documentation files
+- comments: changes to code comments only
+- config-value: a version bump or a plain value in config with nothing depending on it in a way that could break
+- mechanical: the same simple edit repeated across many places, such as a rename or a changed call signature, once one instance is clearly right
+- removed-unused: deleting code nothing in the diff still uses
+- copy: user-facing text that changes wording only
+
+Never skip: logic, conditions, error handling, data or schema changes, permissions and auth, API contracts, exports, concurrency, money, anything security-sensitive, or anything you're unsure about. In tests, never skip new test cases or assertions for new behaviour, regression tests, or tables of test cases: what a test checks is a reviewer's business. Skipping a hunk that needed a person costs far more than asking a person to read a hunk they didn't need to. When in doubt, leave it out.`;
+
+const INSTRUCTIONS = { v1: V1, v2: V2 } as const;
+export type TriageVersion = keyof typeof INSTRUCTIONS;
 
 const OUTPUT_SCHEMA = {
   type: "object",
@@ -90,12 +120,12 @@ export function hunksText(title: string, hunks: Hunk[]): string {
   return out.join("\n");
 }
 
-export function triageRequest(model: string, title: string, hunks: Hunk[]): Anthropic.MessageCreateParamsNonStreaming {
+export function triageRequest(model: string, title: string, hunks: Hunk[], version: TriageVersion = "v2"): Anthropic.MessageCreateParamsNonStreaming {
   return {
     model,
     max_tokens: 16000,
     output_config: { effort: "medium", format: { type: "json_schema", schema: OUTPUT_SCHEMA } },
-    system: [{ type: "text", text: INSTRUCTIONS, cache_control: { type: "ephemeral" } }],
+    system: [{ type: "text", text: INSTRUCTIONS[version], cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: hunksText(title, hunks) }],
   };
 }

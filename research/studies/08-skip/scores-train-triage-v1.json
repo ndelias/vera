@@ -1,0 +1,70 @@
+{
+  "split": "train",
+  "rules": {
+    "prs": 60,
+    "lines": 19561,
+    "lines_skipped": 1379,
+    "spots": 99,
+    "spots_skipped": 9,
+    "saved": 0.0705,
+    "saved_ci": [
+      0.0114,
+      0.1559
+    ],
+    "missed": 0.0909,
+    "missed_ci": [
+      0.0194,
+      0.1845
+    ]
+  },
+  "triage-v1": {
+    "prs": 60,
+    "lines": 19561,
+    "lines_skipped": 2761,
+    "spots": 99,
+    "spots_skipped": 1,
+    "saved": 0.1411,
+    "saved_ci": [
+      0.0698,
+      0.2273
+    ],
+    "missed": 0.0101,
+    "missed_ci": [
+      0.0,
+      0.0341
+    ],
+    "failed": 0,
+    "not_run": 0,
+    "reasons": {
+      "imports": 125,
+      "test-mirrors-code": 108,
+      "generated": 76,
+      "docs": 18,
+      "comments": 14,
+      "mechanical": 13,
+      "lockfile": 4,
+      "removed-unused": 4,
+      "moved": 3,
+      "config-value": 2,
+      "copy": 2,
+      "formatting": 1
+    }
+  },
+  "rules on the same 60": {
+    "prs": 60,
+    "lines": 19561,
+    "lines_skipped": 1379,
+    "spots": 99,
+    "spots_skipped": 9,
+    "saved": 0.0705,
+    "saved_ci": [
+      0.0114,
+      0.1559
+    ],
+    "missed": 0.0909,
+    "missed_ci": [
+      0.0194,
+      0.1845
+    ]
+  }
+}
