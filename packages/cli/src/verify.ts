@@ -98,7 +98,7 @@ const REASON: Record<SkipReason, string> = {
   "removed-unused": "Removed, unused",
   copy: "Wording only",
 };
-const MAX_ROWS = 25;
+const MAX_ROWS = 15;
 const n = (x: number, one: string, many = `${one}s`) => `${x.toLocaleString("en-US")} ${x === 1 ? one : many}`;
 /** Model-written text as plain text on one line, safe in a table cell. */
 const cell = (s: string) => s.replace(/</g, "&lt;").replace(/\s*\n\s*/g, " ").replace(/\|/g, "\\|");
