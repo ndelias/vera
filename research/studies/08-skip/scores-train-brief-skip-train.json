@@ -1,0 +1,21 @@
+{
+  "split": "train",
+  "brief-skip-train": {
+    "prs": 60,
+    "lines": 19561,
+    "lines_in_verify": 5217,
+    "verify_share": 0.2667,
+    "verify_share_ci": [
+      0.2257,
+      0.3182
+    ],
+    "spots": 99,
+    "spots_caught": 69,
+    "caught": 0.697,
+    "caught_ci": [
+      0.6022,
+      0.7889
+    ],
+    "failed": 0
+  }
+}

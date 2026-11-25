@@ -1,0 +1,70 @@
+{
+  "split": "test",
+  "rules": {
+    "prs": 105,
+    "lines": 38250,
+    "lines_skipped": 1973,
+    "spots": 215,
+    "spots_skipped": 24,
+    "saved": 0.0516,
+    "saved_ci": [
+      0.0338,
+      0.0725
+    ],
+    "missed": 0.1116,
+    "missed_ci": [
+      0.0238,
+      0.2208
+    ]
+  },
+  "triage-v1-test": {
+    "prs": 105,
+    "lines": 38250,
+    "lines_skipped": 3709,
+    "spots": 215,
+    "spots_skipped": 5,
+    "saved": 0.097,
+    "saved_ci": [
+      0.0632,
+      0.136
+    ],
+    "missed": 0.0233,
+    "missed_ci": [
+      0.0049,
+      0.0446
+    ],
+    "failed": 0,
+    "not_run": 0,
+    "reasons": {
+      "imports": 310,
+      "test-mirrors-code": 172,
+      "generated": 128,
+      "docs": 65,
+      "mechanical": 63,
+      "config-value": 25,
+      "comments": 21,
+      "test-setup": 15,
+      "formatting": 6,
+      "moved": 5,
+      "removed-unused": 5,
+      "lockfile": 4
+    }
+  },
+  "rules on the same 105": {
+    "prs": 105,
+    "lines": 38250,
+    "lines_skipped": 1973,
+    "spots": 215,
+    "spots_skipped": 24,
+    "saved": 0.0516,
+    "saved_ci": [
+      0.0338,
+      0.0725
+    ],
+    "missed": 0.1116,
+    "missed_ci": [
+      0.0238,
+      0.2208
+    ]
+  }
+}

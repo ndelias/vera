@@ -97,6 +97,16 @@ on GitHub: Vera grades the answers, updates the check and the comment, and
 updates the Slack message. Their answers are visible on the pull request,
 as they would be in an approval.
 
+With the Action's `verify: true` (a preview), the message lists the
+person's spots to verify instead, each with three buttons. **Verified**
+posts ✓ in the spot's thread on the pull request. **Explain this** opens a
+box for a question; Vera answers in Slack and copies the question and its
+answer into the thread, asking the author there when only they can tell.
+**Needs a change** opens a box for what should change and, if they have
+it, the code, which goes in the thread as a suggestion the author can
+apply. ✓ on all of their spots signs them off as engineer. Nothing extra
+to set up: it uses the same app and the same Slack settings.
+
 Why an app: Vera only counts what GitHub vouches for. GitHub records who
 wrote each comment, and Vera counts a Slack sign-off only when the app
 wrote it, so nobody can paste one in. The server signs off only for the

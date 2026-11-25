@@ -25,6 +25,10 @@ inputs:
   slack-app:
     description: Optional. The name (slug) of your GitHub App for Vera's Slack server, e.g. vera-slack. With it, Slack messages get a Sign off button, and sign-offs that app posts from Slack count for the person who signed off. See apps/slack/README.md.
     required: false
+  verify:
+    description: "Preview, off by default. 'true' leads Vera's comment with the spots to verify, each posted as a thread on its lines: reviewers answer ✓, ask a question Vera answers, or suggest a change for the author, and ✓ on all of yours signs you off as engineer. What else changed and what Vera cleared are folded away. The understanding questions are left out. Add pull_request_review_comment to the workflow's triggers (see the README)."
+    required: false
+    default: "false"
   model:
     description: The Claude model to use.
     required: false
@@ -33,8 +37,8 @@ inputs:
 runs:
   using: composite
   steps:
-    # A new or updated PR gets a full review. An approval or a `/vera sign-off`
-    # comment only updates the sign-off check; its one model call grades
+    # A new or updated PR gets a full review. An approval, a `/vera sign-off`
+    # comment or a reply in one of Vera's threads only updates the sign-off check; its one model call grades
     # answers to the understanding check, when there are any.
     - name: Decide what to do
       id: mode
@@ -47,7 +51,7 @@ runs:
         mode=skip
         if [ -z "$PR_URL" ]; then
           echo "::notice::Vera works on pull requests; this run isn't for one, so there's nothing to do."
-        elif [ "$EVENT" = pull_request_review ] || [ "$EVENT" = issue_comment ]; then
+        elif [ "$EVENT" = pull_request_review ] || [ "$EVENT" = issue_comment ] || [ "$EVENT" = pull_request_review_comment ]; then
           mode=sign-off
         elif [ "$HAS_KEY" != true ]; then
           echo "::notice::No Anthropic API key, so Vera skipped this review. Pull requests from forks never get secrets; for your own branches, add ANTHROPIC_API_KEY as a repository secret."
@@ -79,6 +83,7 @@ runs:
         SLACK_APP: ${{ inputs.slack-app }}
         PR_URL: ${{ github.event.pull_request.html_url }}
         MODEL: ${{ inputs.model }}
+        VERA_VERIFY: ${{ inputs.verify }}
       run: node --disable-warning=ExperimentalWarning packages/cli/src/main.ts review "$PR_URL" --comment --model "$MODEL" --out "$RUNNER_TEMP/vera-runs"
 
     - name: Update the sign-off check

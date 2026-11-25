@@ -1,0 +1,67 @@
+{
+  "split": "train",
+  "rules": {
+    "prs": 32,
+    "lines": 10857,
+    "lines_skipped": 1259,
+    "spots": 53,
+    "spots_skipped": 8,
+    "saved": 0.116,
+    "saved_ci": [
+      0.0111,
+      0.2583
+    ],
+    "missed": 0.1509,
+    "missed_ci": [
+      0.02,
+      0.3051
+    ]
+  },
+  "triage-v1-grafana": {
+    "prs": 20,
+    "lines": 7342,
+    "lines_skipped": 924,
+    "spots": 31,
+    "spots_skipped": 0,
+    "saved": 0.1259,
+    "saved_ci": [
+      0.0515,
+      0.2293
+    ],
+    "missed": 0.0,
+    "missed_ci": [
+      0.0,
+      0.0
+    ],
+    "failed": 0,
+    "not_run": 12,
+    "reasons": {
+      "test-mirrors-code": 66,
+      "imports": 42,
+      "generated": 23,
+      "docs": 14,
+      "comments": 10,
+      "mechanical": 5,
+      "copy": 3,
+      "moved": 3,
+      "formatting": 2
+    }
+  },
+  "rules on the same 20": {
+    "prs": 20,
+    "lines": 7342,
+    "lines_skipped": 665,
+    "spots": 31,
+    "spots_skipped": 5,
+    "saved": 0.0906,
+    "saved_ci": [
+      0.0059,
+      0.2718
+    ],
+    "missed": 0.1613,
+    "missed_ci": [
+      0.0,
+      0.3793
+    ]
+  }
+}

@@ -13,6 +13,9 @@ import { aiFlag } from "./dots.ts";
 import { briefMarker, labels, type Brief } from "./people.ts";
 import { planMarker, spotRow, statusBlock } from "./signoff.ts";
 import { examMarker, type Understanding } from "./understanding.ts";
+import { headline, sections, verifyView } from "./verify.ts";
+import { answers } from "./threads.ts";
+import type { LineComment } from "@vera/tools/github";
 
 export const MARKER = "<!-- vera-review -->";
 
@@ -31,36 +34,59 @@ function linesLink(r: Review, file: string, lines: string): string | null {
   return `https://github.com/${owner}/${repo}/pull/${number}/files#diff-${createHash("sha256").update(file).digest("hex")}${first ? `R${first}` : ""}`;
 }
 
-/** `secret` seals what a good answer covers (see understanding.ts); without one, the questions aren't posted. */
-export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.author, []), secret?: string, u?: Understanding): string {
+/** With Verify: the comments on the code, and each spot's thread (by the brief's order). */
+export type Threads = { comments: LineComment[]; ids: (number | null)[]; app?: string };
+
+/** The brief the blocks per person are drawn from: each place goes to the engineers who check it. */
+export function briefOf(r: Review, threads?: Threads): Brief {
+  const label = labels(r.brief?.places.map((p) => p.file) ?? []);
+  return {
+    spots: (r.brief?.places ?? []).map((p, i) => {
+      const id = threads?.ids[i];
+      const url = id ? threads!.comments.find((c) => c.id === id)?.url : undefined;
+      return { ...p, label: label.get(p.file)!, url: linesLink(r, p.file, p.lines), who: checkerFor(r.ownership, r.plan.asks, p.file), ...(id ? { thread: id } : {}), ...(url ? { threadUrl: url } : {}) };
+    }),
+    design: r.design?.visible ? r.design.what : null,
+    docs: r.pull.files.map((f) => f.path).filter((f) => DOCS.test(f)),
+    ...(r.brief?.summary ? { summary: r.brief.summary } : {}),
+    ...(r.ai.length ? { ai: r.ai } : {}),
+    ...(r.triage ? { verify: true, ...(r.triage.about ? { about: r.triage.about } : {}) } : {}),
+  };
+}
+
+/** Vera's mark and name at the top of the comment, light and dark. */
+const HEADER = `<picture><source media="(prefers-color-scheme: dark)" srcset="https://vera-agent.vercel.app/brand/vera-lockup-on-dark.png"><img src="https://vera-agent.vercel.app/brand/vera-lockup.png" height="26" alt="Vera"></picture>`;
+
+/** `secret` seals what a good answer covers (see understanding.ts); without one, the questions aren't posted.
+ * `threads`: with Verify, the spots' threads on the code and the answers in them. */
+export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.author, []), secret?: string, u?: Understanding, threads?: Threads): string {
   const t = totals(r.trace);
   const add = r.pull.files.reduce((n, f) => n + f.additions, 0);
   const del = r.pull.files.reduce((n, f) => n + f.deletions, 0);
   const owners = r.ownership.source === "none" ? "nothing declared (no `.vera.yml` or CODEOWNERS)" : `\`${r.ownership.source}\``;
   const exam = r.exam && secret ? r.exam : null;
-  // Each place goes to the engineers who check it; the blocks per person are drawn from this.
-  const label = labels(r.brief?.places.map((p) => p.file) ?? []);
-  const brief: Brief = {
-    spots: (r.brief?.places ?? []).map((p) => ({ ...p, label: label.get(p.file)!, url: linesLink(r, p.file, p.lines), who: checkerFor(r.ownership, r.plan.asks, p.file) })),
-    design: r.design?.visible ? r.design.what : null,
-    docs: r.pull.files.map((f) => f.path).filter((f) => DOCS.test(f)),
-    ...(r.brief?.summary ? { summary: r.brief.summary } : {}),
-    ...(r.ai.length ? { ai: r.ai } : {}),
-  };
+  const brief = briefOf(r, threads);
+  const every = labels(r.pull.files.map((f) => f.path));
+  const v = r.triage ? verifyView(r.triage.hunks, r.triage.skips, brief.spots, (f) => every.get(f) ?? f, (f, line) => linesLink(r, f, String(line))) : null;
   const lines = [MARKER, planMarker(r.plan.asks), ...(exam ? [examMarker(exam.questions, exam.why, secret!)] : []), briefMarker(brief), ""];
 
+  if (v) lines.push(HEADER, "");
   if (!r.brief) lines.push("_The Briefer gave no answer this time._");
   else if (r.brief.summary) lines.push(`_${plain(r.brief.summary)}_`);
+  if (v) lines.push("", headline(v, brief.spots.length));
+  if (brief.about) lines.push("", `**What this change does:** ${plain(brief.about)}`);
   if (r.ai.length) lines.push("", `> ${aiFlag()} ${plain(sentence(r.ai.join(", ")))}`);
 
-  const view = { brief, exam: exam ? { questions: exam.questions.map((q) => q.question), why: exam.why } : null };
+  const view = { brief, exam: exam ? { questions: exam.questions.map((q) => q.question), why: exam.why } : null, ...(threads ? { status: answers(brief.spots, threads.comments, threads.app).status } : {}) };
   lines.push("", statusBlock(s, r.plan.asks, u, {}, view), "");
   // With no engineer asked, the places have nobody's block to sit in.
   const unclaimed = brief.spots.filter((p) => !p.who.length);
   if (unclaimed.length) lines.push("###### WHERE TO LOOK", "", "| Look at | Why |", "|---|---|", ...unclaimed.map(spotRow), "");
-  if (r.plan.asks.length) lines.push("<sub>Sign off by approving, or comment `/vera sign-off` (add a role, like `/vera sign-off design`, for just that one).</sub>");
+  if (v && r.plan.asks.some((a) => a.role === "engineer") && brief.spots.length) lines.push("<sub>Answer each spot in its thread on the code: ✓ when you've checked it, a question for Vera, or a suggested change for the author. ✓ on all of yours signs you off as engineer. Approving, or commenting `/vera sign-off`, still works.</sub>");
+  else if (r.plan.asks.length) lines.push("<sub>Sign off by approving, or comment `/vera sign-off` (add a role, like `/vera sign-off design`, for just that one).</sub>");
   else lines.push(...(r.plan.notes.length ? r.plan.notes : ["Vera couldn't name anyone for this change."]).map((n) => `> ${n}`));
 
+  if (v) lines.push("", ...sections(v).slice(0, -1));
   lines.push(
     "",
     "<details><summary>How Vera decided</summary>",

@@ -33,3 +33,37 @@ export function slackSigner(author: string, body: string, app: string): string |
   if (!app || author.toLowerCase() !== `${app.toLowerCase()}[bot]`) return null;
   return MARK.exec(body)?.[1] ?? null;
 }
+
+// Answering a spot from Slack (Nahuel's call, 25 Nov 2026): each spot in Vera's
+// Slack message has three buttons, and the server posts the answer in the spot's
+// thread on the pull request as the team's GitHub App, naming the person. The
+// Action counts it for them only when that app wrote it, as with sign-offs.
+
+export const SPOT_VERIFIED = "vera_spot_verified";
+export const SPOT_EXPLAIN = "vera_spot_explain";
+export const SPOT_CHANGE = "vera_spot_change";
+
+const ANSWER = /<!-- vera-slack-answer:([A-Za-z0-9-]+) -->/;
+const quote = (s: string) => s.trim().split("\n").map((l) => `> ${l}`).join("\n");
+
+/** The reply the server posts in a spot's thread. The line after the marker is what the
+ * Action reads: ✓ for verified, "Needs a change" or a suggestion for a change. */
+export function slackAnswer(
+  who: string,
+  kind: "verified" | "change" | "explain",
+  t: { what?: string; code?: string; question?: string; answer?: string } = {},
+): string {
+  const h = handle(who);
+  const head = `<!-- vera-slack-answer:${h} -->`;
+  if (kind === "verified") return `${head}\n✓ Verified by **${h}** in Slack.`;
+  if (kind === "change") {
+    return [head, `Needs a change, from **${h}** in Slack:`, "", quote(t.what ?? ""), ...(t.code?.trim() ? ["", "```suggestion", t.code.replace(/\n+$/, ""), "```"] : [])].join("\n");
+  }
+  return [head, `**${h}** asked in Slack:`, "", quote(t.question ?? ""), "", `**Vera:** ${t.answer ?? ""}`].join("\n");
+}
+
+/** Who a Slack answer is for: the handle in it, only when the GitHub App wrote it. */
+export function slackAnswerer(author: string, body: string, app: string): string | null {
+  if (!app || author.toLowerCase() !== `${app.toLowerCase()}[bot]`) return null;
+  return ANSWER.exec(body)?.[1] ?? null;
+}

@@ -87,6 +87,8 @@ on:
     types: [submitted, dismissed]
   issue_comment:
     types: [created]
+  pull_request_review_comment:
+    types: [created]
 permissions:
   contents: read
   pull-requests: write
@@ -99,7 +101,8 @@ jobs:
     if: >-
       (github.event_name == 'pull_request' && !github.event.pull_request.draft) ||
       github.event_name == 'pull_request_review' ||
-      (github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '/vera sign'))
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '/vera sign')) ||
+      github.event_name == 'pull_request_review_comment'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -128,6 +131,13 @@ Everyone Vera asks has to sign off, one way or the other:
   when you weren't asked for that role.
 - **Press Sign off in Vera's Slack message**, when your team has set that
   up. Vera posts your sign-off and answers on the pull request for you.
+- **Answer the spots on the code** (preview, with `verify: true`). Vera
+  posts each spot to verify as a thread on its lines. Reply ✓ when you've
+  checked it, ask a question and Vera answers (or asks the author), or
+  suggest the change with GitHub's suggestion button so the author can
+  apply it. ✓ on all of yours signs you off as engineer. What else changed
+  and what Vera cleared, with a reason each, are folded away in Vera's
+  comment.
 
 Requesting changes takes your sign-off back.
 

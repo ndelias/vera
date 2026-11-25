@@ -1,0 +1,21 @@
+{
+  "split": "test",
+  "brief-skip-test": {
+    "prs": 105,
+    "lines": 38250,
+    "lines_in_verify": 10609,
+    "verify_share": 0.2774,
+    "verify_share_ci": [
+      0.2407,
+      0.322
+    ],
+    "spots": 215,
+    "spots_caught": 162,
+    "caught": 0.7535,
+    "caught_ci": [
+      0.6769,
+      0.8293
+    ],
+    "failed": 0
+  }
+}

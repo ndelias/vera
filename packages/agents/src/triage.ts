@@ -1,0 +1,193 @@
+// Triage: which parts of a change a reviewer can skip (study 08, Nahuel's
+// call 25 Nov 2026: shrink what humans read). It reads the diff hunk by hunk
+// and names the hunks a person needn't read, each with a reason. Anything it
+// doesn't name is for a person to look at, so when it's unsure it says nothing.
+// It reads the change; it never runs or changes the code.
+
+import type Anthropic from "@anthropic-ai/sdk";
+
+export type Hunk = { id: number; path: string; text: string };
+export const SKIP_REASONS = [
+  "generated",
+  "lockfile",
+  "moved",
+  "formatting",
+  "imports",
+  "test-mirrors-code",
+  "test-setup",
+  "docs",
+  "comments",
+  "config-value",
+  "mechanical",
+  "removed-unused",
+  "copy",
+] as const;
+export type SkipReason = (typeof SKIP_REASONS)[number];
+export type Skip = { hunk: number; reason: SkipReason; note: string };
+
+/** Who a reason clears a hunk for (Nahuel's call, 25 Nov 2026: it depends on
+ * the reader). Docs and wording are what docs, product and design reviewers
+ * are there to read, so they're cleared for engineers only. Everything else
+ * is cleared for anyone. */
+const ENGINEERS_ONLY: ReadonlySet<SkipReason> = new Set(["docs", "copy"]);
+
+/** The skips that hold for this reader; "any" is the strictest view, for when
+ * the reader's role isn't known. */
+export function clearedFor(skips: Skip[], role: "engineer" | "design" | "product" | "security" | "docs" | "any"): Skip[] {
+  return role === "engineer" ? skips : skips.filter((s) => !ENGINEERS_ONLY.has(s.reason));
+}
+
+const V1 = `You are Triage in Vera, a code review assistant. Reviewers have more code to read than time to read it. Your job is to say which parts of this change a person can safely skip, so they spend their time on the rest.
+
+The change is split into hunks, each marked [h<number>] with its file. Name the hunks a reviewer can skip, each with a reason and a note of at most 12 words saying what's there. Every hunk you don't name goes to a person to read.
+
+A hunk can be skipped only when a careful reviewer reading it would almost never ask for a change. Typical skips:
+- generated: generated code, snapshots, compiled or minified output
+- lockfile: dependency lockfiles
+- moved: code moved or renamed without changing what it does
+- formatting: whitespace, line wrapping, quote style
+- imports: adding, removing or reordering imports only
+- test-mirrors-code: test changes that only follow a change you can see elsewhere in this diff (renamed symbols, updated fixtures, new expected values that match the code)
+- docs: documentation files
+- comments: changes to code comments only
+- config-value: a version bump or a plain value in config with nothing depending on it in a way that could break
+- mechanical: the same simple edit repeated across many places, such as a rename or a changed call signature, once one instance is clearly right
+- removed-unused: deleting code nothing in the diff still uses
+- copy: user-facing text that changes wording only
+
+Never skip: logic, conditions, error handling, data or schema changes, permissions and auth, API contracts, concurrency, money, anything security-sensitive, new tests for new behaviour, or anything you're unsure about. Skipping a hunk that needed a person costs far more than asking a person to read a hunk they didn't need to. When in doubt, leave it out.`;
+
+// v2 (25 Nov 2026, tuned on study 08's train PRs only). v1 missed one spot in 99 (a
+// re-export filed as an import) and cleared 14% of lines. Tests were 45% of the lines
+// but held 12 of the 99 spots, nearly all of them new tests for new behaviour, so v2
+// clears more of the test changes that only follow the code or set it up, and keeps
+// new test cases for a person.
+const V2 = `You are Triage in Vera, a code review assistant. Reviewers have more code to read than time to read it. Your job is to say which parts of this change a person can safely skip, so they spend their time on the rest.
+
+The change is split into hunks, each marked [h<number>] with its file. Name the hunks a reviewer can skip, each with a reason and a note of at most 12 words saying what's there. Every hunk you don't name goes to a person to read.
+
+A hunk can be skipped only when a careful reviewer reading it would almost never ask for a change. Typical skips:
+- generated: generated code, snapshots, compiled or minified output, generated types or API schemas
+- lockfile: dependency lockfiles
+- moved: code moved or renamed without changing what it does
+- formatting: whitespace, line wrapping, quote style
+- imports: adding, removing or reordering import statements only. Exports and re-exports are not imports: they change what a module offers, so they're never skipped as imports.
+- test-mirrors-code: changes to existing tests that only follow a change you can see elsewhere in this diff: renamed symbols, updated call signatures or arguments, fixtures or expected values updated to match the code, tests deleted along with the code they tested
+- test-setup: test scaffolding that only feeds tests: mock and stub setup, fixture data, factory or builder helpers, test boilerplate
+- docs: documentation files
+- comments: changes to code comments only
+- config-value: a version bump or a plain value in config with nothing depending on it in a way that could break
+- mechanical: the same simple edit repeated across many places, such as a rename or a changed call signature, once one instance is clearly right
+- removed-unused: deleting code nothing in the diff still uses
+- copy: user-facing text that changes wording only
+
+Never skip: logic, conditions, error handling, data or schema changes, permissions and auth, API contracts, exports, concurrency, money, anything security-sensitive, or anything you're unsure about. In tests, never skip new test cases or assertions for new behaviour, regression tests, or tables of test cases: what a test checks is a reviewer's business. Skipping a hunk that needed a person costs far more than asking a person to read a hunk they didn't need to. When in doubt, leave it out.`;
+
+const INSTRUCTIONS = { v1: V1, v2: V2 } as const;
+export type TriageVersion = keyof typeof INSTRUCTIONS;
+
+const OUTPUT_SCHEMA = {
+  type: "object",
+  properties: {
+    skip: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          hunk: { type: "integer" },
+          reason: { type: "string", enum: [...SKIP_REASONS] },
+          note: { type: "string" },
+        },
+        required: ["hunk", "reason", "note"],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ["skip"],
+  additionalProperties: false,
+} as const;
+
+export function hunksText(title: string, hunks: Hunk[]): string {
+  const out = [`Title: ${title || "(none)"}`, ""];
+  let file = "";
+  for (const h of hunks) {
+    if (h.path !== file) {
+      out.push(`=== ${h.path}`);
+      file = h.path;
+    }
+    out.push(`[h${h.id}]`, h.text, "");
+  }
+  return out.join("\n");
+}
+
+/** In the product, Triage also writes what the change does (`about`), for the top of Vera's
+ * comment; the study ran without it. v1 is the product's version: v2 did worse (study 08). */
+const ABOUT = `
+
+Also write "about": what this change does and why, in 3 to 4 plain sentences a reviewer can read before the code. Say what it changes for people using it or for the code around it, not file by file. Only claim what the diff shows.`;
+
+const WITH_ABOUT = {
+  ...OUTPUT_SCHEMA,
+  properties: { ...OUTPUT_SCHEMA.properties, about: { type: "string" } },
+  required: ["skip", "about"],
+} as const;
+
+export function triageRequest(model: string, title: string, hunks: Hunk[], version: TriageVersion = "v1", opts: { about?: boolean } = {}): Anthropic.MessageCreateParamsNonStreaming {
+  return {
+    model,
+    max_tokens: 16000,
+    output_config: { effort: "medium", format: { type: "json_schema", schema: opts.about ? WITH_ABOUT : OUTPUT_SCHEMA } },
+    system: [{ type: "text", text: INSTRUCTIONS[version] + (opts.about ? ABOUT : ""), cache_control: { type: "ephemeral" } }],
+    messages: [{ role: "user", content: hunksText(title, hunks) }],
+  };
+}
+
+/** What the change does, when it was asked for (`about`); null otherwise. */
+export function parseAbout(message: Anthropic.Message): string | null {
+  const text = message.content.find((b): b is Anthropic.TextBlock => b.type === "text")?.text;
+  try {
+    const out = text ? (JSON.parse(text) as { about?: unknown }) : null;
+    return typeof out?.about === "string" && out.about.trim() ? out.about.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The hunks to skip, keeping only ids that exist; null when the answer is unusable. */
+export function parseTriage(message: Anthropic.Message, ids: Set<number>): Skip[] | null {
+  if (message.stop_reason === "refusal" || message.stop_reason === "max_tokens") return null;
+  const text = message.content.find((b): b is Anthropic.TextBlock => b.type === "text")?.text;
+  if (!text) return null;
+  try {
+    const out = JSON.parse(text) as { skip?: Skip[] };
+    if (!Array.isArray(out.skip)) return null;
+    const seen = new Set<number>();
+    return out.skip.filter((s) => ids.has(s.hunk) && (SKIP_REASONS as readonly string[]).includes(s.reason) && !seen.has(s.hunk) && seen.add(s.hunk));
+  } catch {
+    return null;
+  }
+}
+
+/** A hunk with where it sits in the new file and how many lines it changes. */
+export type FileHunk = Hunk & { start: number; end: number; changed: number };
+const HEADER = /^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/;
+
+/** Each file's patch split into hunks, numbered across the whole change in diff order. */
+export function fileHunks(files: { path: string; patch: string | null }[]): FileHunk[] {
+  const out: FileHunk[] = [];
+  for (const f of files) {
+    let cur: FileHunk | null = null;
+    for (const line of (f.patch ?? "").split("\n")) {
+      const h = HEADER.exec(line);
+      if (h) {
+        const start = Number(h[1]);
+        cur = { id: out.length, path: f.path, text: line, start, end: start + Math.max(Number(h[2] ?? 1), 1) - 1, changed: 0 };
+        out.push(cur);
+      } else if (cur) {
+        cur.text += `\n${line}`;
+        if ((line.startsWith("+") || line.startsWith("-")) && !line.startsWith("+++") && !line.startsWith("---")) cur.changed++;
+      }
+    }
+  }
+  return out;
+}

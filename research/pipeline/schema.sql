@@ -309,3 +309,45 @@ CREATE TABLE IF NOT EXISTS br_files (
 CREATE TABLE IF NOT EXISTS br_seen (
   id TEXT PRIMARY KEY, kept INTEGER NOT NULL
 );
+
+-- Study 08, what reviewers can skip: public GitHub PRs at the first version
+-- reviewers commented on, its hunks, and the spots reviewers commented on.
+-- No comment text or reviewer names. Hunk text stays in this local database.
+CREATE TABLE IF NOT EXISTS sk_seen (
+  id   TEXT PRIMARY KEY,          -- owner/repo#number
+  kept INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS sk_prs (
+  id        TEXT PRIMARY KEY,
+  repo      TEXT NOT NULL,
+  split     TEXT NOT NULL,         -- train | test
+  reviewed  TEXT NOT NULL,         -- commit reviewers first commented on
+  head      TEXT NOT NULL,         -- last commit
+  files     INTEGER NOT NULL,
+  lines     INTEGER NOT NULL,      -- changed lines at the reviewed commit
+  merged_at INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS sk_hunks (
+  pr        TEXT NOT NULL REFERENCES sk_prs(id),
+  n         INTEGER NOT NULL,      -- 0-based, in diff order
+  path      TEXT NOT NULL,
+  old_start INTEGER NOT NULL,
+  old_len   INTEGER NOT NULL,
+  new_start INTEGER NOT NULL,
+  new_len   INTEGER NOT NULL,
+  added     INTEGER NOT NULL,
+  deleted   INTEGER NOT NULL,
+  text      TEXT NOT NULL,         -- the hunk, header included
+  PRIMARY KEY (pr, n)
+);
+CREATE TABLE IF NOT EXISTS sk_spots (
+  pr       TEXT NOT NULL REFERENCES sk_prs(id),
+  comment  INTEGER NOT NULL,       -- GitHub's comment id
+  path     TEXT NOT NULL,
+  side     TEXT NOT NULL,          -- RIGHT (new) | LEFT (old)
+  first    INTEGER NOT NULL,       -- first commented line
+  last     INTEGER NOT NULL,       -- last commented line
+  hunk     INTEGER,                -- sk_hunks.n holding it
+  mattered INTEGER NOT NULL,       -- changed afterwards in the same PR
+  PRIMARY KEY (pr, comment)
+);

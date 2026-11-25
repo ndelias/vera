@@ -8,6 +8,7 @@ import type { Check, Comment, PullReview } from "@vera/tools/github";
 import { dot } from "./dots.ts";
 import { people, type Brief, type Spot } from "./people.ts";
 import { describe, gradesMarker, type Grades, type Understanding } from "./understanding.ts";
+import type { SpotStatus } from "./threads.ts";
 
 export const CHECK = "Vera: sign-off";
 const PLAN = /<!-- vera-plan:([A-Za-z0-9+/=]*) -->/;
@@ -42,8 +43,9 @@ export function fromSlack(comments: Comment[], app: string | undefined): Comment
 
 /** Reviews and sign-off comments in the order they happened. Vera's own
  * comment is skipped (it explains the command). */
-export function events(reviews: PullReview[], comments: Comment[], marker: string): SignoffEvent[] {
+export function events(reviews: PullReview[], comments: Comment[], marker: string, more: (SignoffEvent & { at: string })[] = []): SignoffEvent[] {
   const timed: (SignoffEvent & { at: string })[] = [
+    ...more,
     ...reviews.map((r) => ({ kind: "review" as const, who: r.who, state: r.state, trusted: r.trusted, at: r.at })),
     ...comments.flatMap((c) => {
       const roles = c.body.includes(marker) ? null : parseSignoff(c.body);
@@ -80,8 +82,9 @@ export function toCheck(s: Signoff, u?: Understanding): Check {
   return { conclusion: s.done ? "success" : "neutral", title: title.length > 200 ? `${title.slice(0, 197)}...` : title, summary };
 }
 
-export const status = (asks: Ask[], author: string, reviews: PullReview[], comments: Comment[], marker: string) =>
-  signoff(asks, author, events(reviews, comments, marker));
+/** `ticks`: engineers who ticked all their spots (ticks.ts), as sign-offs. */
+export const status = (asks: Ask[], author: string, reviews: PullReview[], comments: Comment[], marker: string, ticks: (SignoffEvent & { at: string })[] = []) =>
+  signoff(asks, author, events(reviews, comments, marker, ticks));
 
 // Who signs off, one block per person (people.ts): their roles and where
 // each stands, what to look at, and their questions. It sits between these
@@ -100,7 +103,19 @@ const MAX_DOCS = 5;
 
 /** What the blocks show besides the sign-offs. Without it (a comment from
  * before v0.6.0) each block is just the person and their roles. */
-export type View = { brief: Brief; exam: { questions: string[]; why: string } | null };
+export type View = { brief: Brief; exam: { questions: string[]; why: string } | null;
+  /** With Verify: each spot's answers in its thread (threads.ts), in the brief's order. */
+  status?: SpotStatus[] };
+
+/** A spot to verify, for one person (Verify): a link to its thread and where they are with it. */
+export function spotLine(p: Spot, who: string, st?: SpotStatus): string {
+  const h = who.replace(/^@/, "").toLowerCase();
+  const at = p.lines.startsWith("L") ? p.lines : `L${p.lines}`;
+  const link = p.threadUrl ?? p.url;
+  const where = link ? `[\`${p.label}\` ${text(at)}](${link} "${p.file}")` : `\`${p.label}\` ${text(at)}`;
+  const state = st?.verified.includes(h) ? "✓ verified" : st?.change.includes(h) ? "change asked" : "to verify";
+  return `- ${dot(p.risk, RISK[p.risk])} ${where} · ${text(sentence(p.what))} **${state}**${st?.asked ? " · a question in the thread" : ""}`;
+}
 
 export function spotRow(p: Spot): string {
   const at = p.lines.startsWith("L") ? p.lines : `L${p.lines}`;
@@ -124,7 +139,14 @@ export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: 
       return `${mark} **${ROLE(a.role)}**${AS[a.action]} · ${state}${a.why ? ` · ${a.why.replace(/\.$/, "")}` : ""}`;
     });
     const docs = p.docs.slice(0, MAX_DOCS).map((f) => `\`${f}\``).join(", ") + (p.docs.length > MAX_DOCS ? ` and ${p.docs.length - MAX_DOCS} more` : "");
-    const rows = [
+    // With Verify, each part of a person's block has its own label, so engineering,
+    // design and docs don't read as one table: the spots link to their threads.
+    const parts = brief.verify ? [
+      ...(p.spots.length ? ["", "**Engineering · verify in each thread**", "", ...p.spots.map((x) => spotLine(x, p.who, view?.status?.[brief.spots.indexOf(x)]))] : []),
+      ...(p.design ? ["", "**Design · the design call**", "", `${text(sentence(p.design))} Vera can't see screens yet, so it can't point at places for design.`] : []),
+      ...(p.docs.length ? ["", "**Docs · what changed**", "", docs] : []),
+    ] : [];
+    const rows = brief.verify ? [] : [
       ...p.spots.map(spotRow),
       ...(p.design ? [`| **The design:** ${cell(sentence(p.design))} | Vera can't see screens yet, so it can't point at places for design. |`] : []),
       ...(p.docs.length ? [`| **The docs:** ${docs} | Documentation changed. |`] : []),
@@ -139,7 +161,7 @@ export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: 
       "",
       `<sub>Asked because ${view.exam.why}. Answer where you sign off, numbered: in your approval or under \`/vera sign-off\`. A sentence or two each; Vera shows the result next to your sign-off and never blocks the merge.</sub>`,
     ] : [];
-    return ["", `#### ${p.who}`, "", ...roles, ...(rows.length ? ["", "| Look at | Why |", "|---|---|", ...rows] : []), ...exam];
+    return ["", `#### ${p.who}`, "", ...roles, ...parts, ...(rows.length ? ["", "| Look at | Why |", "|---|---|", ...rows] : []), ...exam];
   });
   const kept = Object.keys(grades).length ? [gradesMarker(grades)] : [];
   return [OPEN, ...kept, `###### WHO SIGNS OFF · ${heading.toUpperCase()}`, ...blocks.flat(), CLOSE].join("\n");

@@ -17,6 +17,7 @@ import { client as github, parsePullUrl, type PullRef } from "../../../packages/
 import { answerRequest, answerText, context, type Turn } from "./answer.ts";
 import { appTokens, type AppCreds } from "./github-app.ts";
 import { FORM, pressed, sent, type Payload } from "./sign-off.ts";
+import { SPOT_BUTTONS, SPOT_FORM, spotPressed, spotSent } from "./spots.ts";
 import { api, type Api, type SlackMessage } from "./slack.ts";
 import { verify } from "./verify.ts";
 
@@ -31,7 +32,7 @@ export type Later = (work: Promise<unknown>) => void | Promise<unknown>;
 type Event = { type?: string; channel_type?: string; subtype?: string; bot_id?: string; user?: string; text?: string; channel?: string; ts?: string; thread_ts?: string };
 export type GitHub = ReturnType<typeof github>;
 /** `github` is GitHub for one repo: as the GitHub App when there is one, else with GITHUB_TOKEN (read-only). */
-export type Deps = { slack: Api; anthropic: Pick<Anthropic, "messages">; github: (ref: PullRef) => Promise<GitHub>; canPost: boolean };
+export type Deps = { slack: Api; anthropic: Pick<Anthropic, "messages">; github: (ref: PullRef) => Promise<GitHub>; canPost: boolean; model?: string };
 
 /** The settings from the host's environment, or the names of the ones missing. */
 export function envFrom(e: Record<string, string | undefined>): Env | string[] {
@@ -60,12 +61,15 @@ export async function handle(req: Request, env: Env | string[], later: Later, de
     anthropic: deps?.anthropic ?? new Anthropic({ apiKey: env.anthropicKey }),
     github: deps?.github ?? repoClient(env),
     canPost: deps?.canPost ?? !!env.app,
+    model: deps?.model ?? env.model,
   });
   // Button presses and forms come form-encoded, as one JSON "payload".
   if (raw.startsWith("payload=")) {
     const p = JSON.parse(new URLSearchParams(raw).get("payload") ?? "{}") as Payload;
+    if (p.type === "block_actions" && p.actions?.some((a) => SPOT_BUTTONS.includes(a.action_id))) return spotPressed(p, later, d());
     if (p.type === "block_actions") return pressed(p, later, d());
     if (p.type === "view_submission" && p.view?.callback_id === FORM) return sent(p, later, d());
+    if (p.type === "view_submission" && p.view?.callback_id === SPOT_FORM) return spotSent(p, later, d());
     return new Response(null, { status: 200 });
   }
   const body = JSON.parse(raw) as { type?: string; challenge?: string; event?: Event };
