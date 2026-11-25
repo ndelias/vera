@@ -18,6 +18,7 @@ export type Verdict = "verified" | "change" | "question" | null;
 export type SpotStatus = { verified: string[]; change: string[]; asked: boolean };
 
 const MARK = "<!-- vera-spot -->";
+// How far, in lines, an old thread can sit from a spot and still be reused for it.
 const NEAR = 3;
 const handle = (who: string) => who.replace(/^@/, "").toLowerCase();
 const isBot = (who: string) => who.endsWith("[bot]");
