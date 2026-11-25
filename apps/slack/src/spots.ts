@@ -10,8 +10,9 @@
 //   it. It goes in the thread for the author, as a suggestion they can apply.
 //
 // Everything is posted as the team's GitHub App, naming the person; the
-// Action counts it for them only because that app wrote it. Who pressed comes
-// from Slack (which message, in which direct message), as for signing off,
+// Action counts it for them only because that app wrote it, and only from the
+// conversation its signed record has for them (the answer names it). Who pressed
+// comes from Slack (which message, in which direct message), as for signing off,
 // and is checked again before anything is posted.
 
 import { SPOT_CHANGE, SPOT_EXPLAIN, SPOT_VERIFIED, slackAnswer } from "../../../packages/rules/src/slack-signoff.ts";
@@ -84,7 +85,7 @@ export async function spotPressed(p: Payload, later: Later, d: Deps): Promise<Re
         const ref = parsePullUrl(at.url);
         const c = await spotFor(d, ref, channel, ts, i);
         if ("problem" in c) return void await say(d, at, c.problem);
-        await (await d.github(ref)).reply(ref, c.spot.thread!, slackAnswer(c.who, "verified"));
+        await (await d.github(ref)).reply(ref, c.spot.thread!, slackAnswer(c.who, channel, "verified"));
         await say(d, at, `Verified ${where(c.spot)} on <${c.spot.threadUrl ?? at.url}|the pull request>. This message updates in a minute or so.`);
       } catch (e) {
         await say(d, at, `Sorry, I couldn't mark it verified: ${(e as Error).message.slice(0, 300)}. You can reply ✓ in the spot's thread on <${at.url}|the pull request>.`).catch(() => {});
@@ -134,7 +135,7 @@ export async function spotSent(p: Payload, later: Later, d: Deps): Promise<Respo
       if ("problem" in c) return void await say(d, m, c.problem);
       const gh = await d.github(ref);
       if (m.kind === "change") {
-        await gh.reply(ref, c.spot.thread!, slackAnswer(c.who, "change", { what: text, code }));
+        await gh.reply(ref, c.spot.thread!, slackAnswer(c.who, m.channel, "change", { what: text, code }));
         return void await say(d, m, `Sent to the author in <${c.spot.threadUrl ?? m.url}|the spot's thread>${code.trim() ? ", with your code as a suggestion they can apply" : ""}.`);
       }
       const [pull, lines] = await Promise.all([gh.pull(ref), gh.lineComments(ref)]);
@@ -146,7 +147,7 @@ export async function spotSent(p: Payload, later: Later, d: Deps): Promise<Respo
       const e = parseExplanation(msg);
       if (!e) return void await say(d, m, `I couldn't answer that one. Ask in <${c.spot.threadUrl ?? m.url}|the spot's thread> and the author can.`);
       const toAuthor = e.needsAuthor && pull.author.toLowerCase() !== c.who.replace(/^@/, "").toLowerCase() ? `\n\n@${pull.author}, can you fill in what Vera can't tell from the code?` : "";
-      await gh.reply(ref, c.spot.thread!, slackAnswer(c.who, "explain", { question: text, answer: e.answer }) + toAuthor);
+      await gh.reply(ref, c.spot.thread!, slackAnswer(c.who, m.channel, "explain", { question: text, answer: e.answer }) + toAuthor);
       await say(d, m, `*Vera:* ${e.answer}${toAuthor ? `\n\n_I've asked ${pull.author} in <${c.spot.threadUrl ?? m.url}|the spot's thread> for what only they can tell you._` : `\n\n_Copied to <${c.spot.threadUrl ?? m.url}|the spot's thread>._`}`);
     } catch (e) {
       await say(d, m, `Sorry, something went wrong: ${(e as Error).message.slice(0, 300)}. You can answer in the spot's thread on <${m.url}|the pull request>.`).catch(() => {});

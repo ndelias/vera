@@ -21,6 +21,7 @@ import { CHECK, fromSlack, readPlan, status, statusBlock, toCheck, withStatus } 
 import { latestAnswers, open, readExam, readGrades, type Grades, type Understanding } from "./understanding.ts";
 import { answers, newThreads, reuse, verdict, verifiedEvents } from "./threads.ts";
 import { explainRequest, parseExplanation } from "@vera/agents/explainer";
+import { refused, sealFor, type Seal } from "./sealed.ts";
 import Anthropic from "@anthropic-ai/sdk";
 import { gradeRequest, parseJson, type Grade } from "@vera/agents/examiner";
 import { counts, parseSignoff, signoff, slackIds, type Signoff } from "@vera/rules";
@@ -36,6 +37,8 @@ function optional(name: string): string | undefined {
     return undefined;
   }
 }
+
+const WARN = process.env.GITHUB_ACTIONS ? "::warning::" : "";
 
 /** The GitHub App that posts sign-offs from Slack (the `slack-app` input). Not a secret. */
 const SLACK_APP = process.env.SLACK_APP?.trim() || undefined;
@@ -89,20 +92,19 @@ async function writeCheck(token: string | undefined, ref: PullRef, sha: string, 
 }
 
 /** Grades the engineer's latest answers to the understanding check, each
- * answer once (grades are kept in Vera's comment). Without the repo's
- * Anthropic key the answers can't be read or graded, and it says so. */
-async function understanding(body: string, s: Signoff, reviews: PullReview[], comments: Comment[]): Promise<{ u?: Understanding; grades: Grades }> {
-  const exam = readExam(body);
-  const grades = readGrades(body);
+ * answer once (grades are kept in Vera's comment). The seal's secret is the
+ * repo's Anthropic key, which opens what a good answer covers and grades. */
+async function understanding(body: string, seal: Seal, s: Signoff, reviews: PullReview[], comments: Comment[]): Promise<{ u?: Understanding; grades: Grades }> {
+  const exam = readExam(body, seal);
+  const grades = readGrades(body, seal);
   if (!exam) return { grades };
   const u: Understanding = { questions: exam.questions.length, answered: 0, passed: 0, graded: false, reasons: [] };
   const signer = s.roles.find((r) => r.role === "engineer")?.by;
   const latest = signer ? latestAnswers(signer, exam.at, reviews, comments, MARKER) : null;
   if (!latest) return { u, grades };
-  const apiKey = optional("ANTHROPIC_API_KEY");
-  const keys = apiKey ? open(exam.keys, apiKey) : null;
+  const keys = open(exam.keys, seal.secret);
   const good = keys ? (JSON.parse(keys) as string[]) : null;
-  const anthropic = apiKey ? new Anthropic({ apiKey }) : null;
+  const anthropic = new Anthropic({ apiKey: seal.secret });
   let all = true;
   for (const [n, question] of exam.questions.entries()) {
     const answer = latest.answers.get(n + 1);
@@ -122,7 +124,7 @@ async function understanding(body: string, s: Signoff, reviews: PullReview[], co
     u.reasons.push(`${question} ${g ? `${g.pass ? "✓" : "✗"} ${g.reason}` : "_Not graded yet._"}`);
   }
   u.graded = all;
-  if (!all) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Some answers weren't graded: ${!apiKey ? "no ANTHROPIC_API_KEY" : !keys ? "the key differs from the one the questions were sealed with" : "the grader gave no answer"}.`);
+  if (!all) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Some answers weren't graded: ${!keys ? "what a good answer covers couldn't be opened" : "the grader gave no answer"}.`);
   return { u, grades };
 }
 
@@ -157,27 +159,43 @@ if (args[0] === "sign-off") {
     const ref = parsePullUrl(args[1]);
     const gh = github(token);
     const [pull, raw] = await Promise.all([gh.pull(ref), gh.comments(ref)]);
-    const comments = fromSlack(raw, SLACK_APP);
-    const vera = comments.find((c) => c.body.includes(MARKER));
-    const asks = vera && readPlan(vera.body);
-    if (!asks) {
-      console.log(vera ? "Vera's comment here predates sign-off; its next review adds the check." : "Vera hasn't reviewed this pull request yet, so there's no sign-off to update.");
+    const vera = raw.find((c) => c.body.includes(MARKER));
+    if (!vera) {
+      console.log("Vera hasn't reviewed this pull request yet, so there's no sign-off to update.");
       process.exit(0);
     }
+    // Anyone who can write to the repo can edit Vera's comment, so its hidden records are
+    // signed with the repo's Anthropic key (sealed.ts), and only signed ones are read.
+    const apiKey = optional("ANTHROPIC_API_KEY");
+    if (!apiKey) {
+      console.log(`${WARN}Without the repo's ANTHROPIC_API_KEY, Vera can't check the records in its comment, so the sign-off wasn't updated.`);
+      process.exit(0);
+    }
+    const seal = sealFor(apiKey, ref);
+    const bad = refused(vera.body, seal);
+    if (bad.length) console.log(`${WARN}Ignored ${bad.join(", ")} in Vera's comment: ${bad.length === 1 ? "it doesn't" : "they don't"} carry Vera's signature for this pull request. The comment was edited, was written by a Vera that didn't sign its records, or ANTHROPIC_API_KEY has changed since; the next push writes ${bad.length === 1 ? "it" : "them"} again.`);
+    const asks = readPlan(vera.body, seal);
+    if (!asks) {
+      console.log(bad.includes("vera-plan") ? "With no plan signed by Vera, there's no sign-off to update until the next push." : "Vera's comment here predates sign-off; its next review adds the check.");
+      process.exit(0);
+    }
+    // Which Slack message went to whom, as Vera signed it: a Slack sign-off or answer counts only from there.
+    const sent = readSent(vera.body, seal);
+    const { comments, refused: unmatched } = fromSlack(raw, SLACK_APP, sent);
+    if (unmatched) console.log(`${WARN}${unmatched} Slack ${unmatched === 1 ? "sign-off didn't" : "sign-offs didn't"} count: ${unmatched === 1 ? "it didn't come" : "they didn't come"} from the Slack conversation Vera has on record for that person. A Slack server deployed before this check doesn't say which conversation; redeploy it.`);
     const reviews = await gh.reviews(ref);
     // A comment from before the blocks per person has no brief, and shows its questions elsewhere.
-    const brief = readBrief(vera.body);
+    const brief = readBrief(vera.body, seal);
     // With Verify, each spot's answers are replies in its thread on the code, and GitHub says who wrote them.
     const lines = brief?.verify ? await gh.lineComments(ref).catch(() => null) : null;
-    const answered = brief && lines ? answers(brief.spots, lines, SLACK_APP) : null;
+    const answered = brief && lines ? answers(brief.spots, lines, SLACK_APP, sent) : null;
     const s = status(asks, pull.author, reviews, comments, MARKER, answered && lines ? verifiedEvents(answered.verified, lines) : []);
-    const { u, grades } = await understanding(vera.body, s, reviews, comments);
+    const { u, grades } = await understanding(vera.body, seal, s, reviews, comments);
     await writeCheck(token, ref, pull.headSha, s, u);
     // The comment's status block too, so it doesn't say "waiting" after someone signed off.
-    const exam = brief && readExam(vera.body);
-    const body = withStatus(vera.body, statusBlock(s, asks, u, grades, brief ? { brief, exam: exam ? { questions: exam.questions, why: exam.why } : null, ...(answered ? { status: answered.status } : {}) } : undefined));
+    const exam = brief && readExam(vera.body, seal);
+    const body = withStatus(vera.body, statusBlock(s, asks, seal, u, grades, brief ? { brief, exam: exam ? { questions: exam.questions, why: exam.why } : null, ...(answered ? { status: answered.status } : {}) } : undefined));
     // Each person's Slack message too, when they were sent one.
-    const sent = readSent(vera.body);
     const slackToken = optional("SLACK_BOT_TOKEN");
     if (slackToken && brief && Object.keys(sent).length) {
       const pr = { url: ref.url, repo: `${ref.owner}/${ref.repo}`, number: ref.number, title: pull.title, author: pull.author };
@@ -241,8 +259,11 @@ try {
     const gh = github(githubToken);
     // If they can't be read, the review is still posted, showing everyone as waiting,
     // but the check is left as it was rather than reset; the next sign-off corrects both.
-    const read = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref).then((c) => fromSlack(c, SLACK_APP))]).catch(() => null);
+    const read = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref)]).catch(() => null);
+    const seal = sealFor(apiKey, r.pull.ref);
     const before = read?.[1].find((c) => c.body.includes(MARKER))?.body ?? "";
+    // Which Slack message went to whom, as Vera signed it: a Slack answer counts only from there.
+    const prior = readSent(before, seal);
     // With Verify, each spot gets a thread on its lines: the one from before when the spot
     // is still there (so a push keeps the conversation), or a new one.
     let threads: Threads | undefined;
@@ -254,36 +275,35 @@ try {
         await gh.startThreads(r.pull.ref, r.pull.headSha, fresh).catch((e) => console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Vera's spots weren't posted on the code: ${(e as Error).message}`));
         lines = await gh.lineComments(r.pull.ref);
       }
-      threads = { comments: lines, ids: reuse(spots, lines), ...(SLACK_APP ? { app: SLACK_APP } : {}) };
+      threads = { comments: lines, ids: reuse(spots, lines), ...(SLACK_APP ? { app: SLACK_APP, sent: prior } : {}) };
     }
     // Engineers who already answered ✓ on all their spots stay signed off, as approvals do.
-    const done = threads ? verifiedEvents(answers(briefOf(r, threads).spots, threads.comments, SLACK_APP).verified, threads.comments) : [];
-    const s = read && status(r.plan.asks, r.pull.author, read[0], read[1], MARKER, done);
-    const prior = readSent(before);
+    const done = threads ? verifiedEvents(answers(briefOf(r, threads).spots, threads.comments, SLACK_APP, prior).verified, threads.comments) : [];
+    const s = read && status(r.plan.asks, r.pull.author, read[0], fromSlack(read[1], SLACK_APP, prior).comments, MARKER, done);
     // New questions mean earlier answers don't count; the engineer answers these ones.
     const u: Understanding | undefined = r.exam ? { questions: r.exam.questions.length, answered: 0, passed: 0, graded: false, reasons: [] } : undefined;
-    let body = toMarkdown(r, s ?? undefined, apiKey, u, threads);
+    let body = toMarkdown(r, seal, s ?? undefined, u, threads);
     const slackToken = optional("SLACK_BOT_TOKEN");
     if (slackToken) {
-      const brief = readBrief(body)!;
+      const brief = readBrief(body, seal)!;
       const everyone = people(r.plan.asks, brief, r.exam?.questions.map((q) => q.question) ?? []);
       const pr = { url: r.pull.ref.url, repo: `${r.pull.ref.owner}/${r.pull.ref.repo}`, number: r.pull.ref.number, title: r.pull.title, author: r.pull.author };
       const now = s ?? signoff(r.plan.asks, r.pull.author, []);
       const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(r.exam ? { why: r.exam.why } : {}), signOff: !!SLACK_APP,
-        ...(brief.verify && threads ? { verify: { spots: brief.spots, status: answers(brief.spots, threads.comments, SLACK_APP).status } } : {}) };
+        ...(brief.verify && threads ? { verify: { spots: brief.spots, status: answers(brief.spots, threads.comments, SLACK_APP, prior).status } } : {}) };
       const ids = slackIds(r.ownership);
       const { sent, problems } = await sendAll(slackToken, ids, everyone, (p) => message(p, pr, now, extra, u), prior);
-      body = withSent(body, sent);
+      body = withSent(body, sent, seal);
       // .vera.yml comes from the branch the PR merges into, so an ID added in this PR only counts once it's merged.
       const noId = everyone.filter((p) => !ids.has(p.who.toLowerCase())).length;
       console.log(`Slack: ${Object.keys(sent).length} of ${everyone.length} ${everyone.length === 1 ? "person" : "people"} messaged${noId ? ` (${noId} with no slack ID in .vera.yml on ${r.pull.baseRef}, the branch this merges into)` : ""}.`);
       for (const p of problems) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Slack message not sent to ${p}`);
-    } else body = withSent(body, prior);
+    } else body = withSent(body, prior, seal);
     console.log(`Posted: ${await gh.comment(r.pull.ref, body, MARKER)}`);
     if (s) await writeCheck(githubToken, r.pull.ref, r.pull.headSha, s, u);
     else console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Couldn't read the PR's reviews, so the ${CHECK} check wasn't updated.`);
   } else if (args.includes("--markdown")) {
-    console.log(toMarkdown(r, undefined, apiKey));
+    console.log(toMarkdown(r, sealFor(apiKey, r.pull.ref)));
   } else {
     print(r, path);
   }

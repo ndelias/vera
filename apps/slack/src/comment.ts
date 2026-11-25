@@ -3,13 +3,19 @@
 // Action writes these (packages/cli); they're read again here because the
 // server can only import files that import nothing from the workspace.
 // test/sign-off.test.ts checks these read what the Action writes.
+//
+// The Action signs these records with the repo's Anthropic key, which this
+// server doesn't have, so it reads them without checking. That's safe because
+// the Action has the last word: a sign-off posted here names the Slack
+// conversation it came from, and the Action counts it only if its own signed
+// record has that person's message there (packages/cli/src/signoff.ts).
 
 export type Ask = { who: string; role: string; action: string; why?: string };
 export type Sent = Record<string, { channel: string; ts: string }>;
 export type Exam = { questions: string[]; at: string };
 
 function marker<T>(name: string, body: string): T | null {
-  const m = new RegExp(`<!-- ${name}:([A-Za-z0-9+/=]*) -->`).exec(body);
+  const m = new RegExp(`<!-- ${name}:([A-Za-z0-9+/=]*)(?:\\.[A-Za-z0-9_-]+)? -->`).exec(body);
   if (!m) return null;
   try {
     return JSON.parse(Buffer.from(m[1]!, "base64").toString("utf8")) as T;

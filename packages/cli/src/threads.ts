@@ -11,6 +11,8 @@ import type { FileHunk } from "@vera/agents/triage";
 import type { LineComment, NewLineComment } from "@vera/tools/github";
 import type { Spot } from "./people.ts";
 import { span } from "./verify.ts";
+import { sentHere } from "./signoff.ts";
+import type { Sent } from "./slack.ts";
 
 export type Verdict = "verified" | "change" | "question" | null;
 export type SpotStatus = { verified: string[]; change: string[]; asked: boolean };
@@ -83,19 +85,23 @@ export function verdict(body: string): Verdict {
   return null;
 }
 
-/** Answers from Slack, posted by the team's GitHub App (`app`), as the person who gave them. */
-function fromSlack(comments: LineComment[], app?: string): LineComment[] {
+/** Answers from Slack, posted by the team's GitHub App (`app`), as the person who gave them:
+ * only from the Slack conversation Vera's signed record (`sent`) has for that person, since
+ * the server reads who a message went to from a comment anyone with write access can edit.
+ * Any other stays the app's own reply, which isn't anyone's answer. */
+function fromSlack(comments: LineComment[], app: string | undefined, sent: Sent): LineComment[] {
   if (!app) return comments;
   return comments.map((c) => {
-    const who = slackAnswerer(c.who, c.body, app);
-    return who ? { ...c, who, trusted: false } : c;
+    const a = slackAnswerer(c.who, c.body, app);
+    return a && sentHere(sent, a.who, a.channel) ? { ...c, who: a.who, trusted: false } : c;
   });
 }
 
 /** Each spot's answers so far, and who has verified all of theirs (handle → when).
- * `app`: the team's GitHub App for Slack (the `slack-app` input). */
-export function answers(spots: Spot[], all: LineComment[], app?: string): { status: SpotStatus[]; verified: Record<string, string> } {
-  const comments = fromSlack(all, app);
+ * `app`: the team's GitHub App for Slack (the `slack-app` input); `sent`: which Slack message
+ * went to whom, as Vera signed it (slack.ts). */
+export function answers(spots: Spot[], all: LineComment[], app?: string, sent: Sent = {}): { status: SpotStatus[]; verified: Record<string, string> } {
+  const comments = fromSlack(all, app, sent);
   const latest = new Map<string, { v: "verified" | "change"; at: string }>();
   const status = spots.map((s, i) => {
     const out: SpotStatus = { verified: [], change: [], asked: false };

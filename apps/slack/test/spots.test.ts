@@ -6,6 +6,7 @@ import { briefMarker, type Brief } from "../../../packages/cli/src/people.ts";
 import { planMarker } from "../../../packages/cli/src/signoff.ts";
 import { sentMarker } from "../../../packages/cli/src/slack.ts";
 import { answers, verdict } from "../../../packages/cli/src/threads.ts";
+import { sealFor } from "../../../packages/cli/src/sealed.ts";
 import { slackAnswerer, type Ask } from "../../../packages/rules/src/index.ts";
 import { readBrief } from "../src/comment.ts";
 import { handle, type Deps } from "../src/events.ts";
@@ -17,7 +18,9 @@ const URL_A = "https://github.com/acme/shop/pull/7";
 const asks: Ask[] = [{ who: "@ana", role: "engineer", action: "ask", why: "owns Checkout" }, { who: "@ben", role: "engineer", action: "ask", why: "owns Billing" }];
 const spot = (file: string, who: string[], thread?: number) => ({ file, label: file, lines: "10-12", url: null, what: "Applies the discount", why: "Totals can go negative", risk: "high" as const, who, ...(thread ? { thread, threadUrl: `${URL_A}#discussion_r${thread}` } : {}) });
 const brief: Brief = { spots: [spot("cart.ts", ["@ana"], 41), spot("bill.ts", ["@ben"], 42), spot("old.ts", ["@ana"])], design: null, docs: [], verify: true, about: "Adds coupons." };
-const body = [MARKER, planMarker(asks), sentMarker({ "@ana": { channel: "D1", ts: "100.1" }, "@ben": { channel: "D2", ts: "100.2" } }), briefMarker(brief)].join("\n");
+const SEAL = sealFor("sk-test", { owner: "acme", repo: "shop", number: 7 });
+const SENT = { "@ana": { channel: "D1", ts: "100.1" }, "@ben": { channel: "D2", ts: "100.2" } };
+const body = [MARKER, planMarker(asks, SEAL), sentMarker(SENT, SEAL), briefMarker(brief, SEAL)].join("\n");
 
 function form(payload: object): Request {
   const raw = `payload=${encodeURIComponent(JSON.stringify(payload))}`;
@@ -26,7 +29,7 @@ function form(payload: object): Request {
   return new Request("https://vera.test/api/events", { method: "POST", body: raw, headers: { "content-type": "application/x-www-form-urlencoded", "x-slack-request-timestamp": ts, "x-slack-signature": sig } });
 }
 
-function fakes(answer = { answer: "It stops totals going below zero.", needsAuthor: false }) {
+function fakes(answer = { answer: "It stops totals going below zero.", needsAuthor: false }, veraBody = body) {
   const views: { id: string; view: { blocks: unknown[]; private_metadata?: string } }[] = [];
   const posts: { thread_ts: string; text: string }[] = [];
   const replies: { to: number; body: string }[] = [];
@@ -40,7 +43,7 @@ function fakes(answer = { answer: "It stops totals going below zero.", needsAuth
     },
     anthropic: { messages: { create: async (p: unknown) => { asked.push(p); return { stop_reason: "end_turn", content: [{ type: "text", text: JSON.stringify(answer) }] }; } } } as unknown as Deps["anthropic"],
     github: async () => ({
-      comments: async () => [{ id: 1, who: "github-actions[bot]", body, trusted: false, at: "" }],
+      comments: async () => [{ id: 1, who: "github-actions[bot]", body: veraBody, trusted: false, at: "" }],
       reply: async (_ref: unknown, to: number, b: string) => { replies.push({ to, body: b }); },
       pull: async () => ({ title: "Coupons", author: "cy", files: [{ path: "cart.ts", patch: "@@ -1 +1 @@\n-a\n+b" }] }),
       lineComments: async () => [{ id: 41, who: "github-actions[bot]", body: "<!-- vera-spot -->", path: "cart.ts", line: 12, replyTo: null, trusted: false, at: "1", url: "" }],
@@ -71,11 +74,22 @@ test("Verified posts ✓ in the spot's thread as the app, and the Action counts 
   assert.equal(f.replies[0]!.to, 41);
   const reply = f.replies[0]!.body;
   assert.equal(verdict(reply), "verified");
-  assert.equal(slackAnswerer("vera-slack[bot]", reply, "vera-slack"), "ana");
+  assert.deepEqual(slackAnswerer("vera-slack[bot]", reply, "vera-slack"), { who: "ana", channel: "D1" });
   assert.equal(slackAnswerer("mallory", reply, "vera-slack"), null, "only the app's reply counts");
-  const a = answers(brief.spots.slice(0, 1), [{ id: 50, who: "vera-slack[bot]", body: reply, path: "cart.ts", line: 12, replyTo: 41, trusted: false, at: "2", url: "" }], "vera-slack");
+  const a = answers(brief.spots.slice(0, 1), [{ id: 50, who: "vera-slack[bot]", body: reply, path: "cart.ts", line: 12, replyTo: 41, trusted: false, at: "2", url: "" }], "vera-slack", SENT);
   assert.deepEqual(a.status[0]?.verified, ["ana"]);
   assert.match(f.posts[0]!.text, /Verified `cart\.ts` L10-12 on <https:\/\/github\.com\/acme\/shop\/pull\/7#discussion_r41\|the pull request>/);
+});
+
+test("a rewritten record can fool this server, but the Action doesn't count the ✓ it posts", async () => {
+  // Someone with write access remaps Ben's message to Ana's conversation, then Ana presses Verified on Ben's spot.
+  const forged = body.replace(/<!-- vera-slack:[^ ]* -->/, `<!-- vera-slack:${Buffer.from(JSON.stringify({ "@ben": { channel: "D1", ts: "100.1" } })).toString("base64")} -->`);
+  const f = fakes(undefined, forged);
+  await run(form(press("vera_spot_verified", 1)), f.deps);
+  assert.equal(f.replies.length, 1, "the server reads the record unchecked");
+  assert.deepEqual(slackAnswerer("vera-slack[bot]", f.replies[0]!.body, "vera-slack"), { who: "ben", channel: "D1" });
+  const a = answers(brief.spots.slice(0, 2), [{ id: 51, who: "vera-slack[bot]", body: f.replies[0]!.body, path: "bill.ts", line: 12, replyTo: 42, trusted: false, at: "2", url: "" }], "vera-slack", SENT);
+  assert.deepEqual([a.status[1]?.verified, a.verified], [[], {}], "Vera's signed record has Ben in D2, not D1");
 });
 
 test("a spot that's someone else's, or has no thread, can't be answered from this message", async () => {

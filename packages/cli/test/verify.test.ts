@@ -6,6 +6,9 @@ import { toMarkdown } from "../src/markdown.ts";
 import { readBrief } from "../src/people.ts";
 import type { Review } from "../src/review.ts";
 import { span, verifyView } from "../src/verify.ts";
+import { sealFor } from "../src/sealed.ts";
+
+const SEAL = sealFor("sk-test", { owner: "o", repo: "r", number: 1 });
 
 const files = [
   { path: "src/cart.ts", patch: "@@ -8,4 +8,6 @@\n a\n-b\n+c\n+d\n+e\n f\n@@ -60,2 +62,2 @@\n-x\n+y" },
@@ -52,13 +55,13 @@ test("spots are Verify, cleared hunks are Cleared, and the rest is Also changed"
 });
 
 test("when Triage gives no answer, nothing is cleared and the headline says so", () => {
-  const md = toMarkdown({ ...base, triage: { hunks, skips: null } });
+  const md = toMarkdown({ ...base, triage: { hunks, skips: null } }, SEAL);
   assert.match(md, /\*\*Verify 1 spot\*\* \(3 lines\) · Vera couldn't clear anything this time/);
   assert.ok(!md.includes("Cleared by Vera"));
 });
 
 test("the comment: Vera's header, the headline, what it does, the engineer's spots, then Also changed and Cleared", () => {
-  const md = toMarkdown({ ...base, triage: { hunks, skips, about: "Adds coupons to the cart. Totals can't go below zero." } });
+  const md = toMarkdown({ ...base, triage: { hunks, skips, about: "Adds coupons to the cart. Totals can't go below zero." } }, SEAL);
   assert.match(md, /^<picture>.*vera-lockup\.png" height="26" alt="Vera"><\/picture>$/m);
   assert.match(md, /^\*\*Verify 1 spot\*\* \(3 lines\) · 4 of 11 changed lines cleared by Vera$/m);
   assert.match(md, /^\*\*What this change does:\*\* Adds coupons to the cart\. Totals can't go below zero\.$/m);
@@ -69,7 +72,7 @@ test("the comment: Vera's header, the headline, what it does, the engineer's spo
   assert.ok(!order.includes(-1), String(order));
   assert.deepEqual(order, [...order].sort((a, b) => a - b));
   assert.match(md, /\| Docs \(for engineers\) · new coupons page \|/);
-  assert.equal(readBrief(md)?.verify, true);
+  assert.equal(readBrief(md, SEAL)?.verify, true);
 });
 
 test("with threads, each spot links to its thread and shows where its person is", () => {
@@ -77,14 +80,14 @@ test("with threads, each spot links to its thread and shows where its person is"
     { id: 7, who: "github-actions[bot]", body: "<!-- vera-spot -->", path: "src/cart.ts", line: 12, replyTo: null, trusted: false, at: "1", url: "https://github.com/o/r/pull/1#discussion_r7" },
     { id: 8, who: "ana", body: "✓", path: "src/cart.ts", line: 12, replyTo: 7, trusted: true, at: "2", url: "u8" },
   ];
-  const md = toMarkdown(base, undefined, undefined, undefined, { comments, ids: [7] });
+  const md = toMarkdown(base, SEAL, undefined, undefined, { comments, ids: [7] });
   assert.match(md, /\[`cart\.ts` L10-12\]\(https:\/\/github\.com\/o\/r\/pull\/1#discussion_r7 "src\/cart\.ts"\) · Applies the discount\. \*\*✓ verified\*\*$/m);
-  assert.equal(readBrief(md)?.spots[0]?.thread, 7);
+  assert.equal(readBrief(md, SEAL)?.spots[0]?.thread, 7);
 });
 
 test("without the switch, the comment is as before", () => {
   const { triage: _, ...off } = base;
-  const md = toMarkdown(off);
+  const md = toMarkdown(off, SEAL);
   assert.ok(md.includes("| Look at | Why |"));
   assert.ok(!md.includes("Verify 1 spot") && !md.includes("vera-lockup"));
 });

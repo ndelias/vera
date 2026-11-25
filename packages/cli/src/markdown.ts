@@ -13,8 +13,10 @@ import { aiFlag } from "./dots.ts";
 import { briefMarker, labels, type Brief } from "./people.ts";
 import { planMarker, spotRow, statusBlock } from "./signoff.ts";
 import { examMarker, type Understanding } from "./understanding.ts";
+import type { Seal } from "./sealed.ts";
 import { headline, sections, verifyView } from "./verify.ts";
 import { answers } from "./threads.ts";
+import type { Sent } from "./slack.ts";
 import type { LineComment } from "@vera/tools/github";
 
 export const MARKER = "<!-- vera-review -->";
@@ -35,7 +37,8 @@ function linesLink(r: Review, file: string, lines: string): string | null {
 }
 
 /** With Verify: the comments on the code, and each spot's thread (by the brief's order). */
-export type Threads = { comments: LineComment[]; ids: (number | null)[]; app?: string };
+/** `sent`: which Slack message went to whom (slack.ts), so an answer from Slack counts only from there. */
+export type Threads = { comments: LineComment[]; ids: (number | null)[]; app?: string; sent?: Sent };
 
 /** The brief the blocks per person are drawn from: each place goes to the engineers who check it. */
 export function briefOf(r: Review, threads?: Threads): Brief {
@@ -57,18 +60,18 @@ export function briefOf(r: Review, threads?: Threads): Brief {
 /** Vera's mark and name at the top of the comment, light and dark. */
 const HEADER = `<picture><source media="(prefers-color-scheme: dark)" srcset="https://vera-agent.vercel.app/brand/vera-lockup-on-dark.png"><img src="https://vera-agent.vercel.app/brand/vera-lockup.png" height="26" alt="Vera"></picture>`;
 
-/** `secret` seals what a good answer covers (see understanding.ts); without one, the questions aren't posted.
+/** `seal` signs the hidden records (sealed.ts) and seals what a good answer covers (understanding.ts).
  * `threads`: with Verify, the spots' threads on the code and the answers in them. */
-export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.author, []), secret?: string, u?: Understanding, threads?: Threads): string {
+export function toMarkdown(r: Review, seal: Seal, s: Signoff = signoff(r.plan.asks, r.pull.author, []), u?: Understanding, threads?: Threads): string {
   const t = totals(r.trace);
   const add = r.pull.files.reduce((n, f) => n + f.additions, 0);
   const del = r.pull.files.reduce((n, f) => n + f.deletions, 0);
   const owners = r.ownership.source === "none" ? "nothing declared (no `.vera.yml` or CODEOWNERS)" : `\`${r.ownership.source}\``;
-  const exam = r.exam && secret ? r.exam : null;
+  const exam = r.exam;
   const brief = briefOf(r, threads);
   const every = labels(r.pull.files.map((f) => f.path));
   const v = r.triage ? verifyView(r.triage.hunks, r.triage.skips, brief.spots, (f) => every.get(f) ?? f, (f, line) => linesLink(r, f, String(line))) : null;
-  const lines = [MARKER, planMarker(r.plan.asks), ...(exam ? [examMarker(exam.questions, exam.why, secret!)] : []), briefMarker(brief), ""];
+  const lines = [MARKER, planMarker(r.plan.asks, seal), ...(exam ? [examMarker(exam.questions, exam.why, seal)] : []), briefMarker(brief, seal), ""];
 
   if (v) lines.push(HEADER, "");
   if (!r.brief) lines.push("_The Briefer gave no answer this time._");
@@ -77,8 +80,8 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
   if (brief.about) lines.push("", `**What this change does:** ${plain(brief.about)}`);
   if (r.ai.length) lines.push("", `> ${aiFlag()} ${plain(sentence(r.ai.join(", ")))}`);
 
-  const view = { brief, exam: exam ? { questions: exam.questions.map((q) => q.question), why: exam.why } : null, ...(threads ? { status: answers(brief.spots, threads.comments, threads.app).status } : {}) };
-  lines.push("", statusBlock(s, r.plan.asks, u, {}, view), "");
+  const view = { brief, exam: exam ? { questions: exam.questions.map((q) => q.question), why: exam.why } : null, ...(threads ? { status: answers(brief.spots, threads.comments, threads.app, threads.sent).status } : {}) };
+  lines.push("", statusBlock(s, r.plan.asks, seal, u, {}, view), "");
   // With no engineer asked, the places have nobody's block to sit in.
   const unclaimed = brief.spots.filter((p) => !p.who.length);
   if (unclaimed.length) lines.push("###### WHERE TO LOOK", "", "| Look at | Why |", "|---|---|", ...unclaimed.map(spotRow), "");
