@@ -4,6 +4,9 @@ import type { Ask } from "@vera/rules";
 import type { Brief } from "../src/people.ts";
 import { status, statusBlock } from "../src/signoff.ts";
 import { applyEdit, boxes, complete, readVerified, tickEvents, ticked, update, verifiedMarker as verifiedMarkerFor } from "../src/ticks.ts";
+import { sealFor } from "../src/sealed.ts";
+
+const SEAL = sealFor("sk-test", { owner: "o", repo: "r", number: 1 });
 
 const spot = (file: string, who: string[]) => ({ file, label: file, lines: "1-2", url: null, what: "w", why: "y", risk: "high" as const, who });
 const brief: Brief = { spots: [spot("a.ts", ["@ana"]), spot("b.ts", ["@ana", "@ben"])], design: null, docs: [], verify: true };
@@ -12,7 +15,7 @@ const asks: Ask[] = [
   { who: "@ben", role: "engineer", action: "ask", why: "owns B" },
 ];
 const draw = (t: Set<string> = new Set(), verified: Record<string, string> = {}) =>
-  statusBlock(status(asks, "cy", [], [], "<!-- vera-review -->", tickEvents(verified)), asks, undefined, {}, { brief, exam: null, ticked: t, verified });
+  statusBlock(status(asks, "cy", [], [], "<!-- vera-review -->", tickEvents(verified)), asks, SEAL, undefined, {}, { brief, exam: null, ticked: t, verified });
 const tick = (body: string, spot: number, who: string) => body.replace(new RegExp(`- \\[ \\](.*<!-- vera-tick:${spot}:${who} -->)`), "- [x]$1");
 
 test("each engineer gets a box per spot of theirs", () => {
@@ -36,7 +39,7 @@ test("ticking all of your spots is your engineer sign-off; unticking one takes i
   assert.equal(s.roles[0]?.by, "@ana");
 
   body = draw(ticked(boxes(body)), verified);
-  assert.deepEqual(readVerified(body), { ana: "2026-11-25T18:00:00Z" }, "kept hidden with the status block");
+  assert.deepEqual(readVerified(body, SEAL), { ana: "2026-11-25T18:00:00Z" }, "kept hidden with the status block");
   assert.match(body, /\*\*Engineer\*\* · signed off · owns A/);
 
   const unticked = body.replace("- [x]", "- [ ]");
@@ -53,11 +56,16 @@ test("someone with no spots never counts as finished", () => {
   assert.deepEqual([...complete({ ...brief, spots: [] }, [])], []);
 });
 
-test("the finished record can't be forged by editing the comment: it's read from before the edit", () => {
-  const before = draw();
-  const forged = before.replace("<!-- /vera-status -->", "") + verifiedMarkerFor({ ben: "2026-11-25T18:00:00Z" });
-  // What the sign-off path does on an edit: boxes from the edit (own ticks only), record from before.
-  const { body } = applyEdit(before, forged, "ana");
-  assert.deepEqual(readVerified(forged), { ben: "2026-11-25T18:00:00Z" }, "the forged record is in the edited comment");
-  assert.deepEqual(update(readVerified(before), complete(brief, boxes(body)), "now"), {}, "but not in what counts");
+test("the finished record can't be forged by editing the comment, whether or not a run saw the edit", () => {
+  const before = draw(new Set(), { ana: "2026-11-25T18:00:00Z" });
+  const record = { ben: "2026-11-25T18:00:00Z" };
+  const unsigned = `<!-- vera-verified:${Buffer.from(JSON.stringify(record)).toString("base64")} -->`;
+  const otherKey = verifiedMarkerFor(record, sealFor("sk-guess", { owner: "o", repo: "r", number: 1 }));
+  const otherPr = verifiedMarkerFor(record, sealFor("sk-test", { owner: "o", repo: "r", number: 2 }));
+  for (const forged of [unsigned, otherKey, otherPr]) {
+    const edited = before.replace(/<!-- vera-verified:[^ ]* -->/, forged);
+    assert.ok(edited.includes(forged));
+    assert.deepEqual(readVerified(edited, SEAL), {}, "read as missing, not as ben");
+  }
+  assert.deepEqual(readVerified(before, SEAL), { ana: "2026-11-25T18:00:00Z" });
 });

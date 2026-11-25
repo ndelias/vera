@@ -8,6 +8,7 @@
 
 import { SIGN_OFF_ACTION, type Signoff } from "@vera/rules";
 import type { Person } from "./people.ts";
+import { pattern, record, readRecord, type Seal } from "./sealed.ts";
 import { describe, type Understanding } from "./understanding.ts";
 
 /** The message each person was sent, by lowercased handle. */
@@ -20,25 +21,16 @@ export type Message = { text: string; blocks: unknown[]; metadata?: { event_type
 export const PR_EVENT = "vera_pr";
 type Fetch = typeof fetch;
 
-const SENT = /<!-- vera-slack:([A-Za-z0-9+/=]*) -->/;
-export const sentMarker = (sent: Sent) => `<!-- vera-slack:${Buffer.from(JSON.stringify(sent)).toString("base64")} -->`;
-
-export function readSent(body: string): Sent {
-  const m = SENT.exec(body);
-  if (!m) return {};
-  try {
-    return JSON.parse(Buffer.from(m[1]!, "base64").toString("utf8")) as Sent;
-  } catch {
-    return {};
-  }
-}
+export const sentMarker = (sent: Sent, seal: Seal) => record("vera-slack", sent, seal);
+export const readSent = (body: string, seal: Seal): Sent => readRecord<Sent>("vera-slack", body, seal) ?? {};
 
 /** The comment with its record of Slack messages replaced, or added after the first line (Vera's marker). */
-export function withSent(body: string, sent: Sent): string {
+export function withSent(body: string, sent: Sent, seal: Seal): string {
+  const SENT = pattern("vera-slack");
   if (!Object.keys(sent).length) return body.replace(new RegExp(`${SENT.source}\\n?`), "");
-  if (SENT.test(body)) return body.replace(SENT, sentMarker(sent));
+  if (SENT.test(body)) return body.replace(SENT, sentMarker(sent, seal));
   const i = body.indexOf("\n");
-  return i < 0 ? `${body}\n${sentMarker(sent)}` : `${body.slice(0, i)}\n${sentMarker(sent)}${body.slice(i)}`;
+  return i < 0 ? `${body}\n${sentMarker(sent, seal)}` : `${body.slice(0, i)}\n${sentMarker(sent, seal)}${body.slice(i)}`;
 }
 
 const AS = { ask: "", "ask-lead": " (as lead)", suggest: " (possible owner)" } as const;

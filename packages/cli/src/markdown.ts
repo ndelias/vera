@@ -13,6 +13,7 @@ import { aiFlag } from "./dots.ts";
 import { briefMarker, labels, type Brief } from "./people.ts";
 import { planMarker, spotRow, statusBlock } from "./signoff.ts";
 import { examMarker, type Understanding } from "./understanding.ts";
+import type { Seal } from "./sealed.ts";
 import { headline, sections, verifyView } from "./verify.ts";
 
 export const MARKER = "<!-- vera-review -->";
@@ -32,14 +33,14 @@ function linesLink(r: Review, file: string, lines: string): string | null {
   return `https://github.com/${owner}/${repo}/pull/${number}/files#diff-${createHash("sha256").update(file).digest("hex")}${first ? `R${first}` : ""}`;
 }
 
-/** `secret` seals what a good answer covers (see understanding.ts); without one, the questions aren't posted. */
-/** `verified`: engineers who ticked all their spots before (ticks.ts), kept with the status block. */
-export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.author, []), secret?: string, u?: Understanding, verified: Record<string, string> = {}): string {
+/** `seal` signs the hidden records (sealed.ts) and seals what a good answer covers (understanding.ts).
+ * `verified`: engineers who ticked all their spots before (ticks.ts), kept with the status block. */
+export function toMarkdown(r: Review, seal: Seal, s: Signoff = signoff(r.plan.asks, r.pull.author, []), u?: Understanding, verified: Record<string, string> = {}): string {
   const t = totals(r.trace);
   const add = r.pull.files.reduce((n, f) => n + f.additions, 0);
   const del = r.pull.files.reduce((n, f) => n + f.deletions, 0);
   const owners = r.ownership.source === "none" ? "nothing declared (no `.vera.yml` or CODEOWNERS)" : `\`${r.ownership.source}\``;
-  const exam = r.exam && secret ? r.exam : null;
+  const exam = r.exam;
   // Each place goes to the engineers who check it; the blocks per person are drawn from this.
   const label = labels(r.brief?.places.map((p) => p.file) ?? []);
   const brief: Brief = {
@@ -52,7 +53,7 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
   };
   const every = labels(r.pull.files.map((f) => f.path));
   const v = r.triage ? verifyView(r.triage.hunks, r.triage.skips, brief.spots, (f) => every.get(f) ?? f, (f, line) => linesLink(r, f, String(line))) : null;
-  const lines = [MARKER, planMarker(r.plan.asks), ...(exam ? [examMarker(exam.questions, exam.why, secret!)] : []), briefMarker(brief), ""];
+  const lines = [MARKER, planMarker(r.plan.asks, seal), ...(exam ? [examMarker(exam.questions, exam.why, seal)] : []), briefMarker(brief, seal), ""];
 
   if (!r.brief) lines.push("_The Briefer gave no answer this time._");
   else if (r.brief.summary) lines.push(`_${plain(r.brief.summary)}_`);
@@ -60,7 +61,7 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
   if (r.ai.length) lines.push("", `> ${aiFlag()} ${plain(sentence(r.ai.join(", ")))}`);
 
   const view = { brief, exam: exam ? { questions: exam.questions.map((q) => q.question), why: exam.why } : null, verified };
-  lines.push("", statusBlock(s, r.plan.asks, u, {}, view), "");
+  lines.push("", statusBlock(s, r.plan.asks, seal, u, {}, view), "");
   // With no engineer asked, the places have nobody's block to sit in.
   const unclaimed = brief.spots.filter((p) => !p.who.length);
   if (unclaimed.length) lines.push("###### WHERE TO LOOK", "", "| Look at | Why |", "|---|---|", ...unclaimed.map(spotRow), "");

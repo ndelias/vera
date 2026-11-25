@@ -8,11 +8,11 @@
 
 import type { SignoffEvent } from "@vera/rules";
 import type { Brief } from "./people.ts";
+import { record, readRecord, type Seal } from "./sealed.ts";
 import { TICK } from "./verify.ts";
 
 export type Box = { spot: number; who: string; ticked: boolean };
 
-const VERIFIED = /<!-- vera-verified:([A-Za-z0-9+/=]*) -->/;
 const key = (b: { spot: number; who: string }) => `${b.spot}:${b.who.toLowerCase()}`;
 const handle = (who: string) => who.replace(/^@/, "").toLowerCase();
 
@@ -25,16 +25,8 @@ export function boxes(body: string): Box[] {
 export const ticked = (bs: Box[]) => new Set(bs.filter((b) => b.ticked).map(key));
 
 /** Who has ticked all their spots, and when: handle → ISO time. */
-export function readVerified(body: string): Record<string, string> {
-  const m = VERIFIED.exec(body);
-  if (!m) return {};
-  try {
-    return JSON.parse(Buffer.from(m[1]!, "base64").toString("utf8")) as Record<string, string>;
-  } catch {
-    return {};
-  }
-}
-export const verifiedMarker = (v: Record<string, string>) => `<!-- vera-verified:${Buffer.from(JSON.stringify(v)).toString("base64")} -->`;
+export const readVerified = (body: string, seal: Seal): Record<string, string> => readRecord<Record<string, string>>("vera-verified", body, seal) ?? {};
+export const verifiedMarker = (v: Record<string, string>, seal: Seal) => record("vera-verified", v, seal);
 
 /** The comment after someone's edit, with any box they changed that isn't theirs put back as it was. */
 export function applyEdit(before: string, after: string, sender: string): { body: string; reverted: number } {

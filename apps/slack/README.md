@@ -45,7 +45,11 @@ before (BUILD-PLAN, M6):
 
 People without a `slack` ID are skipped; the comment on the pull request
 still has everyone's part. Which message went to whom is kept hidden in
-that comment, so there's nothing else to store.
+that comment, so there's nothing else to store. The Action signs that
+record; this server can't check the signature, so each sign-off it posts
+says which conversation it came from, and the Action counts it only when
+its signed record has that person's message there. If you update the
+Action, redeploy the server too, or sign-offs from Slack won't count.
 
 ## Replies: the server
 

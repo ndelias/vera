@@ -5,6 +5,8 @@ import { MARKER } from "../../../packages/cli/src/markdown.ts";
 import { planMarker } from "../../../packages/cli/src/signoff.ts";
 import { sentMarker } from "../../../packages/cli/src/slack.ts";
 import { examMarker } from "../../../packages/cli/src/understanding.ts";
+import { fromSlack } from "../../../packages/cli/src/signoff.ts";
+import { sealFor } from "../../../packages/cli/src/sealed.ts";
 import { parseSignoff, slackSigner, type Ask } from "../../../packages/rules/src/index.ts";
 import { readExam, readPlan, readSent, recipient } from "../src/comment.ts";
 import { handle, type Deps } from "../src/events.ts";
@@ -20,8 +22,10 @@ const asks: Ask[] = [
   { who: "@dev", role: "docs", action: "ask", why: "docs" },
 ];
 const AT = "2026-11-06T10:00:00.000Z";
-const veraBody = (at = AT) => [MARKER, planMarker(asks), sentMarker({ "@ana": { channel: "D1", ts: "100.1" }, "@dev": { channel: "D2", ts: "100.2" } }),
-  examMarker([{ question: "What if two coupons apply?", good_answer: "Only the first.", cites: [] }, { question: "Who can refund?", good_answer: "Admins.", cites: [] }], "it's likely AI-written", "key", at)].join("\n");
+const SEAL = sealFor("sk-test", { owner: "acme", repo: "shop", number: 7 });
+const SENT = { "@ana": { channel: "D1", ts: "100.1" }, "@dev": { channel: "D2", ts: "100.2" } };
+const veraBody = (at = AT) => [MARKER, planMarker(asks, SEAL), sentMarker(SENT, SEAL),
+  examMarker([{ question: "What if two coupons apply?", good_answer: "Only the first.", cites: [] }, { question: "Who can refund?", good_answer: "Admins.", cites: [] }], "it's likely AI-written", SEAL, at)].join("\n");
 
 function form(payload: object): Request {
   const raw = `payload=${encodeURIComponent(JSON.stringify(payload))}`;
@@ -107,9 +111,21 @@ test("sending the form posts the sign-off as the GitHub App, which the Action co
   const c = f.comments[0]!;
   assert.deepEqual(parseSignoff(c), ["engineer"]);
   assert.match(c, /\n1\. Only the first one applies\.$/);
-  assert.equal(slackSigner("vera-slack[bot]", c, "vera-slack"), "ana");
+  assert.deepEqual(slackSigner("vera-slack[bot]", c, "vera-slack"), { who: "ana", channel: "D1" });
+  const counted = fromSlack([{ id: 9, who: "vera-slack[bot]", body: c, trusted: false, at: AT }], "vera-slack", SENT);
+  assert.deepEqual([counted.comments[0]!.who, counted.refused], ["ana", 0], "the Action matches it to Ana's conversation");
   assert.equal(f.posts[0]!.thread_ts, "100.1");
   assert.match(f.posts[0]!.text, /Signed off on <https:\/\/github\.com\/acme\/shop\/pull\/7#issuecomment-9\|the pull request> for Engineer\. Vera is grading your answers/);
+});
+
+test("a rewritten record can fool this server, but the Action doesn't count what it posts", async () => {
+  // Someone with write access remaps Dev's message to Ana's conversation, then Ana signs off as Dev.
+  const forged = veraBody().replace(/<!-- vera-slack:[^ ]* -->/, `<!-- vera-slack:${Buffer.from(JSON.stringify({ "@dev": { channel: "D1", ts: "100.1" } })).toString("base64")} -->`);
+  const f = fakes(forged);
+  await run(form(submit({}, { ...meta, who: "@dev", roles: ["docs"], at: null, questions: 0 })), f.deps);
+  assert.equal(f.comments.length, 1, "the server reads the record unchecked");
+  const { comments, refused } = fromSlack([{ id: 9, who: "vera-slack[bot]", body: f.comments[0]!, trusted: false, at: AT }], "vera-slack", SENT);
+  assert.deepEqual([comments[0]!.who, refused], ["vera-slack[bot]", 1], "Vera's signed record has Dev in D2, not D1");
 });
 
 test("no role picked: the form says so and nothing is posted", async () => {

@@ -6,6 +6,9 @@ import { toMarkdown } from "../src/markdown.ts";
 import { readBrief } from "../src/people.ts";
 import type { Review } from "../src/review.ts";
 import { span, TICK, verifyView } from "../src/verify.ts";
+import { sealFor } from "../src/sealed.ts";
+
+const SEAL = sealFor("sk-test", { owner: "o", repo: "r", number: 1 });
 
 const files = [
   { path: "src/cart.ts", patch: "@@ -8,4 +8,6 @@\n a\n-b\n+c\n+d\n+e\n f\n@@ -60,2 +62,2 @@\n-x\n+y" },
@@ -52,13 +55,13 @@ test("spots are Verify, cleared hunks are Cleared, and the rest is Also changed"
 });
 
 test("when Triage gives no answer, nothing is cleared and the headline says so", () => {
-  const md = toMarkdown({ ...base, triage: { hunks, skips: null } });
+  const md = toMarkdown({ ...base, triage: { hunks, skips: null } }, SEAL);
   assert.match(md, /\*\*Verify 1 spot\*\* \(3 lines\) · Vera couldn't clear anything this time/);
   assert.ok(!md.includes("Cleared by Vera"));
 });
 
 test("the comment: headline, the engineer's spots as tick boxes, then Also changed and Cleared folded away", () => {
-  const md = toMarkdown(base);
+  const md = toMarkdown(base, SEAL);
   assert.match(md, /^\*\*Verify 1 spot\*\* \(3 lines\) · 4 of 11 changed lines cleared by Vera$/m);
   assert.match(md, /^- \[ \] <picture>.*alt="High"><\/picture> \[`cart\.ts` L10-12\]\(.*\) · Applies the discount\. A negative total is possible\. <!-- vera-tick:0:ana -->$/m);
   assert.ok(!md.includes("| Look at | Why |"), "no table when the spots are tick boxes");
@@ -67,18 +70,18 @@ test("the comment: headline, the engineer's spots as tick boxes, then Also chang
   assert.ok(!order.includes(-1), String(order));
   assert.deepEqual(order, [...order].sort((a, b) => a - b));
   assert.match(md, /\| Docs \(for engineers\) · new coupons page \|/);
-  assert.equal(readBrief(md)?.verify, true);
+  assert.equal(readBrief(md, SEAL)?.verify, true);
 });
 
 test("tick boxes read back as spot and handle", () => {
-  const md = toMarkdown(base).replace("- [ ] ", "- [x] ");
+  const md = toMarkdown(base, SEAL).replace("- [ ] ", "- [x] ");
   const ticks = [...md.matchAll(TICK)].map((m) => [m[1], m[2], m[3]]);
   assert.deepEqual(ticks, [["x", "0", "ana"]]);
 });
 
 test("without the switch, the comment is as before", () => {
   const { triage: _, ...off } = base;
-  const md = toMarkdown(off);
+  const md = toMarkdown(off, SEAL);
   assert.ok(md.includes("| Look at | Why |"));
   assert.ok(!md.includes("Verify 1 spot") && !md.includes("vera-tick"));
 });

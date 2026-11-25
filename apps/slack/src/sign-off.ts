@@ -112,7 +112,7 @@ export async function sent(p: Payload, later: Later, d: Deps): Promise<Response>
       if (c.who !== m.who || roles.some((r) => !c.roles.includes(r))) return void await say("Who's asked for what changed since you opened the form. Press Sign off again.");
       const exam = c.roles.includes("engineer") ? readExam(c.body) : null;
       if ((exam?.at ?? null) !== m.at) return void await say("A new push changed the questions since you opened the form. Press Sign off again for the new ones.");
-      const url = await (await d.github(ref)).post(ref, slackSignoff(m.who, roles, answers));
+      const url = await (await d.github(ref)).post(ref, slackSignoff(m.who, m.channel, roles, answers));
       const graded = roles.includes("engineer") && answers.some((a) => a.trim());
       await say(`Signed off on <${url}|the pull request> for ${roles.map(ROLE).join(", ")}. ${graded ? "Vera is grading your answers; " : ""}this message updates in a minute or so.`);
     } catch (e) {

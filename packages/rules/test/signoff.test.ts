@@ -56,16 +56,17 @@ test("a team's part is signed off by anyone with write access but the author", (
 });
 
 test("a Slack sign-off is a /vera sign-off comment naming the person, with one line per answer", () => {
-  const body = slackSignoff("@ana", ["engineer"], ["It retries\nthree times.", "", "Only 2. admins"]);
-  assert.equal(body, "<!-- vera-slack-signoff:ana -->\n**ana** signed off in Slack.\n\n/vera sign-off engineer\n1. It retries three times.\n3. Only 2. admins");
+  const body = slackSignoff("@ana", "D1", ["engineer"], ["It retries\nthree times.", "", "Only 2. admins"]);
+  assert.equal(body, "<!-- vera-slack-signoff:ana:D1 -->\n**ana** signed off in Slack.\n\n/vera sign-off engineer\n1. It retries three times.\n3. Only 2. admins");
   assert.deepEqual(parseSignoff(body), ["engineer"]);
-  assert.equal(parseSignoff(slackSignoff("ana", "all", [])), "all");
+  assert.equal(parseSignoff(slackSignoff("ana", "D1", "all", [])), "all");
 });
 
 test("a Slack sign-off counts for the person only when the team's GitHub App wrote it", () => {
-  const body = slackSignoff("@ana", "all", []);
-  assert.equal(slackSigner("vera-slack[bot]", body, "vera-slack"), "ana");
-  assert.equal(slackSigner("Vera-Slack[bot]", body, "vera-slack"), "ana");
+  const body = slackSignoff("@ana", "D1", "all", []);
+  assert.deepEqual(slackSigner("vera-slack[bot]", body, "vera-slack"), { who: "ana", channel: "D1" });
+  assert.deepEqual(slackSigner("Vera-Slack[bot]", body, "vera-slack"), { who: "ana", channel: "D1" });
+  assert.deepEqual(slackSigner("vera-slack[bot]", "<!-- vera-slack-signoff:ana -->", "vera-slack"), { who: "ana", channel: null }, "from a server deployed before this check");
   assert.equal(slackSigner("mallory", body, "vera-slack"), null, "anyone can paste the marker");
   assert.equal(slackSigner("other-app[bot]", body, "vera-slack"), null);
   assert.equal(slackSigner("vera-slack[bot]", body, ""), null, "no app set up");

@@ -3,6 +3,9 @@ import assert from "node:assert/strict";
 import { signoff, type Ask } from "@vera/rules";
 import { people, type Brief } from "../src/people.ts";
 import { message, readSent, sendAll, withSent, type Sent } from "../src/slack.ts";
+import { sealFor } from "../src/sealed.ts";
+
+const SEAL = sealFor("sk-test", { owner: "o", repo: "r", number: 1 });
 
 const asks: Ask[] = [
   { who: "@ana", role: "engineer", action: "ask", why: "owns Checkout" },
@@ -85,9 +88,9 @@ test("someone no longer asked is told so; a deleted message is sent again; failu
 
 test("which message is whose rides in Vera's comment", () => {
   const sent: Sent = { "@ana": { channel: "D1", ts: "1.1" } };
-  const body = withSent("<!-- vera-review -->\nthe rest", sent);
-  assert.deepEqual(readSent(body), sent);
-  assert.equal(withSent(body, { "@ana": { channel: "D1", ts: "2.2" } }).match(/vera-slack/g)?.length, 1);
-  assert.equal(withSent(body, {}), "<!-- vera-review -->\nthe rest");
-  assert.equal(withSent("<!-- vera-review -->\n\n\nx", {}), "<!-- vera-review -->\n\n\nx");
+  const body = withSent("<!-- vera-review -->\nthe rest", sent, SEAL);
+  assert.deepEqual(readSent(body, SEAL), sent);
+  assert.equal(withSent(body, { "@ana": { channel: "D1", ts: "2.2" } }, SEAL).match(/vera-slack/g)?.length, 1);
+  assert.equal(withSent(body, {}, SEAL), "<!-- vera-review -->\nthe rest");
+  assert.equal(withSent("<!-- vera-review -->\n\n\nx", {}, SEAL), "<!-- vera-review -->\n\n\nx");
 });

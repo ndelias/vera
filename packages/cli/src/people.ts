@@ -5,6 +5,7 @@
 // hidden in the comment, so a sign-off redraws them without the agents.
 
 import type { Ask } from "@vera/rules";
+import { record, readRecord, type Seal } from "./sealed.ts";
 
 export type Risk = "high" | "medium" | "low";
 /** A place from the engineer's brief, with who checks it and its link. */
@@ -16,19 +17,11 @@ export type Brief = { spots: Spot[]; design: string | null; docs: string[]; summ
   verify?: boolean };
 export type Person = { who: string; asks: Ask[]; spots: Spot[]; design: string | null; docs: string[]; questions: string[] };
 
-const BRIEF = /<!-- vera-brief:([A-Za-z0-9+/=]*) -->/;
+export const briefMarker = (b: Brief, seal: Seal) => record("vera-brief", b, seal);
 
-export const briefMarker = (b: Brief) => `<!-- vera-brief:${Buffer.from(JSON.stringify(b)).toString("base64")} -->`;
-
-export function readBrief(body: string): Brief | null {
-  const m = BRIEF.exec(body);
-  if (!m) return null;
-  try {
-    const b = JSON.parse(Buffer.from(m[1]!, "base64").toString("utf8")) as Brief;
-    return Array.isArray(b.spots) && Array.isArray(b.docs) ? b : null;
-  } catch {
-    return null;
-  }
+export function readBrief(body: string, seal: Seal): Brief | null {
+  const b = readRecord<Brief>("vera-brief", body, seal);
+  return b && Array.isArray(b.spots) && Array.isArray(b.docs) ? b : null;
 }
 
 /** The shortest end of each path that tells it apart from the others:

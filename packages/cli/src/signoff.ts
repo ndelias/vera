@@ -10,36 +10,39 @@ import { people, type Brief, type Spot } from "./people.ts";
 import { describe, gradesMarker, type Grades, type Understanding } from "./understanding.ts";
 import { tickId } from "./verify.ts";
 import { verifiedMarker } from "./ticks.ts";
+import { record, readRecord, type Seal } from "./sealed.ts";
+import type { Sent } from "./slack.ts";
 
 export const CHECK = "Vera: sign-off";
-const PLAN = /<!-- vera-plan:([A-Za-z0-9+/=]*) -->/;
+export const planMarker = (asks: Ask[], seal: Seal) => record("vera-plan", asks, seal);
 
-/** Base64 keeps handles and reasons from ending the HTML comment early. */
-export const planMarker = (asks: Ask[]) => `<!-- vera-plan:${Buffer.from(JSON.stringify(asks)).toString("base64")} -->`;
-
-export function readPlan(body: string): Ask[] | null {
-  const m = PLAN.exec(body);
-  if (!m) return null;
-  try {
-    const asks = JSON.parse(Buffer.from(m[1]!, "base64").toString("utf8")) as unknown;
-    return Array.isArray(asks) ? (asks as Ask[]) : null;
-  } catch {
-    return null;
-  }
+/** Who Vera asked, when the record is Vera's own (sealed.ts). */
+export function readPlan(body: string, seal: Seal): Ask[] | null {
+  const asks = readRecord<unknown>("vera-plan", body, seal);
+  return Array.isArray(asks) ? (asks as Ask[]) : null;
 }
 
 /** Sign-offs posted from Slack by the team's GitHub App (its slug, the
  * `slack-app` input), as if the person had commented themselves. The server
  * only posts them for someone Vera messaged, for roles they're asked for.
- * `trusted` stays false: GitHub hasn't said this person can write to the
- * repo, so a Slack sign-off never counts for a team's part. Without the
- * input, or from anyone else, they're ordinary comments. */
-export function fromSlack(comments: Comment[], app: string | undefined): Comment[] {
-  if (!app) return comments;
-  return comments.map((c) => {
-    const who = slackSigner(c.who, c.body, app);
-    return who ? { ...c, who, trusted: false } : c;
+ * The server can't check Vera's signed records (it doesn't have the repo's
+ * key), so each sign-off names the Slack conversation it came from, and it
+ * counts only when Vera's own record (`sent`) has that person's message in
+ * that conversation. `trusted` stays false: GitHub hasn't said this person
+ * can write to the repo, so a Slack sign-off never counts for a team's
+ * part. Without the input, from anyone else, or not matching, they're
+ * ordinary comments; `refused` counts the ones that didn't match. */
+export function fromSlack(comments: Comment[], app: string | undefined, sent: Sent): { comments: Comment[]; refused: number } {
+  if (!app) return { comments, refused: 0 };
+  let refused = 0;
+  const out = comments.map((c) => {
+    const signer = slackSigner(c.who, c.body, app);
+    if (!signer) return c;
+    const ours = Object.entries(sent).some(([who, m]) => who.replace(/^@/, "").toLowerCase() === signer.who.toLowerCase() && !!signer.channel && m.channel === signer.channel);
+    if (!ours) refused++;
+    return ours ? { ...c, who: signer.who, trusted: false } : c;
   });
+  return { comments: out, refused };
 }
 
 /** Reviews and sign-off comments in the order they happened. Vera's own
@@ -121,7 +124,7 @@ export function spotRow(p: Spot): string {
   return `| ${dot(p.risk, RISK[p.risk])} ${where} · ${cell(sentence(p.what))} | ${cell(sentence(p.why))} |`;
 }
 
-export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: Grades = {}, view?: View): string {
+export function statusBlock(s: Signoff, asks: Ask[], seal: Seal, u?: Understanding, grades: Grades = {}, view?: View): string {
   const left = s.roles.filter((r) => !r.by).length;
   const heading = !s.roles.length ? "nobody to ask"
     : !left ? "done"
@@ -156,7 +159,7 @@ export function statusBlock(s: Signoff, asks: Ask[], u?: Understanding, grades: 
     ] : [];
     return ["", `#### ${p.who}`, "", ...roles, ...(ticks.length ? ["", ...ticks] : []), ...(rows.length ? ["", "| Look at | Why |", "|---|---|", ...rows] : []), ...exam];
   });
-  const kept = [...(Object.keys(grades).length ? [gradesMarker(grades)] : []), ...(view?.verified && Object.keys(view.verified).length ? [verifiedMarker(view.verified)] : [])];
+  const kept = [...(Object.keys(grades).length ? [gradesMarker(grades, seal)] : []), ...(view?.verified && Object.keys(view.verified).length ? [verifiedMarker(view.verified, seal)] : [])];
   return [OPEN, ...kept, `###### WHO SIGNS OFF · ${heading.toUpperCase()}`, ...blocks.flat(), CLOSE].join("\n");
 }
 

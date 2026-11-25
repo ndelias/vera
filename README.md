@@ -136,6 +136,14 @@ Everyone Vera asks has to sign off, one way or the other:
 
 Requesting changes takes your sign-off back.
 
+Who was asked, the questions, the grades and the other things Vera keeps
+between runs are hidden in its comment, and anyone with write access can
+edit that comment. So Vera signs each of them with a key derived from your
+`ANTHROPIC_API_KEY` and ignores any it didn't sign for that pull request.
+Changing the key resets sign-off on open pull requests until their next
+push. A sign-off from Slack counts only when it comes from the Slack
+conversation Vera messaged that person in.
+
 ### Understanding checks
 
 When a change is likely AI-written, or its brief marks a place high risk,

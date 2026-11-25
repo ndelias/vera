@@ -3,16 +3,19 @@ import assert from "node:assert/strict";
 import { signoff, type Ask } from "@vera/rules";
 import { MARKER } from "../src/markdown.ts";
 import { statusBlock, toCheck } from "../src/signoff.ts";
-import { describe, examMarker, latestAnswers, open, parseAnswers, readExam, readGrades, seal } from "../src/understanding.ts";
+import { describe, examMarker, latestAnswers, open, parseAnswers, readExam, readGrades, sealText } from "../src/understanding.ts";
+import { sealFor } from "../src/sealed.ts";
+
+const SEAL = sealFor("sk-a", { owner: "o", repo: "r", number: 1 });
 
 test("sealed answers open only with the same key", () => {
-  const sealed = seal("the job is marked failed", "sk-a");
+  const sealed = sealText("the job is marked failed", "sk-a");
   assert.equal(open(sealed, "sk-a"), "the job is marked failed");
   assert.equal(open(sealed, "sk-b"), null);
-  const body = examMarker([{ question: "Q?", good_answer: "secret answer", cites: [] }], "it's likely AI-written", "sk-a", "2026-10-28T10:00:00Z");
-  const exam = readExam(body)!;
+  const body = examMarker([{ question: "Q?", good_answer: "secret answer", cites: [] }], "it's likely AI-written", SEAL, "2026-10-28T10:00:00Z");
+  const exam = readExam(body, SEAL)!;
   assert.deepEqual(exam.questions, ["Q?"]);
-  assert.ok(!Buffer.from(body.slice(15, -4), "base64").toString().includes("secret answer"));
+  assert.ok(!Buffer.from(/vera-exam:([^.]*)/.exec(body)![1]!, "base64").toString().includes("secret answer"));
   assert.deepEqual(JSON.parse(open(exam.keys, "sk-a")!), ["secret answer"]);
 });
 
@@ -40,9 +43,9 @@ test("the sign-off list shows understanding next to the engineer's sign-off, and
   const asks: Ask[] = [{ who: "@ana", role: "engineer", action: "ask", why: "owns Checkout" }];
   const s = signoff(asks, "bo", [{ kind: "review", who: "ana", state: "APPROVED", trusted: true }]);
   const u = { questions: 2, answered: 2, passed: 1, graded: true, reasons: ["Q1 ✓ right", "Q2 ✗ missed the retry"] };
-  const block = statusBlock(s, asks, u, { "r8:0": { pass: true, reason: "right" } });
+  const block = statusBlock(s, asks, SEAL, u, { "r8:0": { pass: true, reason: "right" } });
   assert.match(block, /\*\*Engineer\*\* · signed off · understood 1 of 2 · owns Checkout$/m);
-  assert.deepEqual(readGrades(block), { "r8:0": { pass: true, reason: "right" } });
+  assert.deepEqual(readGrades(block, SEAL), { "r8:0": { pass: true, reason: "right" } });
   assert.match(toCheck(s, u).summary, /2\. Q2 ✗ missed the retry/);
   assert.equal(describe({ ...u, answered: 0 }), "questions not answered");
 });

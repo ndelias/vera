@@ -13,23 +13,14 @@ import { createCipheriv, createDecipheriv, createHash, randomBytes } from "node:
 import type { Question } from "@vera/agents/examiner";
 import { parseSignoff } from "@vera/rules";
 import type { Comment, PullReview } from "@vera/tools/github";
+import { record, readRecord, type Seal } from "./sealed.ts";
 
 export type StoredExam = { questions: string[]; at: string; why: string; keys: string };
 export type Understanding = { questions: number; answered: number; passed: number; graded: boolean; reasons: string[] };
 
-const EXAM = /<!-- vera-exam:([A-Za-z0-9+/=]*) -->/;
-const GRADES = /<!-- vera-grades:([A-Za-z0-9+/=]*) -->/;
-const b64 = (v: unknown) => Buffer.from(JSON.stringify(v)).toString("base64");
-const unb64 = <T>(s: string): T | null => {
-  try {
-    return JSON.parse(Buffer.from(s, "base64").toString("utf8")) as T;
-  } catch {
-    return null;
-  }
-};
 const keyFrom = (secret: string) => createHash("sha256").update(`vera-exam:${secret}`).digest();
 
-export function seal(text: string, secret: string): string {
+export function sealText(text: string, secret: string): string {
   const iv = randomBytes(12);
   const c = createCipheriv("aes-256-gcm", keyFrom(secret), iv);
   const body = Buffer.concat([c.update(text, "utf8"), c.final()]);
@@ -48,22 +39,17 @@ export function open(sealed: string, secret: string): string | null {
   }
 }
 
-export function examMarker(questions: Question[], why: string, secret: string, at = new Date().toISOString()): string {
-  const stored: StoredExam = { questions: questions.map((q) => q.question), at, why, keys: seal(JSON.stringify(questions.map((q) => q.good_answer)), secret) };
-  return `<!-- vera-exam:${b64(stored)} -->`;
+/** The questions, and what a good answer covers sealed with `seal.secret`; the whole record signed (sealed.ts). */
+export function examMarker(questions: Question[], why: string, seal: Seal, at = new Date().toISOString()): string {
+  const stored: StoredExam = { questions: questions.map((q) => q.question), at, why, keys: sealText(JSON.stringify(questions.map((q) => q.good_answer)), seal.secret) };
+  return record("vera-exam", stored, seal);
 }
 
-export function readExam(body: string): StoredExam | null {
-  const m = EXAM.exec(body);
-  return m ? unb64<StoredExam>(m[1]!) : null;
-}
+export const readExam = (body: string, s: Seal): StoredExam | null => readRecord<StoredExam>("vera-exam", body, s);
 
 export type Grades = Record<string, { pass: boolean; reason: string }>;
-export const gradesMarker = (grades: Grades) => `<!-- vera-grades:${b64(grades)} -->`;
-export const readGrades = (body: string): Grades => {
-  const m = GRADES.exec(body);
-  return (m && unb64<Grades>(m[1]!)) || {};
-};
+export const gradesMarker = (grades: Grades, s: Seal) => record("vera-grades", grades, s);
+export const readGrades = (body: string, s: Seal): Grades => readRecord<Grades>("vera-grades", body, s) ?? {};
 
 /** Numbered answers ("1. ...", "2) ..."), each running until the next number. */
 export function parseAnswers(body: string): Map<number, string> {
