@@ -35,7 +35,7 @@ function linesLink(r: Review, file: string, lines: string): string | null {
 }
 
 /** With Verify: the comments on the code, and each spot's thread (by the brief's order). */
-export type Threads = { comments: LineComment[]; ids: (number | null)[] };
+export type Threads = { comments: LineComment[]; ids: (number | null)[]; app?: string };
 
 /** The brief the blocks per person are drawn from: each place goes to the engineers who check it. */
 export function briefOf(r: Review, threads?: Threads): Brief {
@@ -77,7 +77,7 @@ export function toMarkdown(r: Review, s: Signoff = signoff(r.plan.asks, r.pull.a
   if (brief.about) lines.push("", `**What this change does:** ${plain(brief.about)}`);
   if (r.ai.length) lines.push("", `> ${aiFlag()} ${plain(sentence(r.ai.join(", ")))}`);
 
-  const view = { brief, exam: exam ? { questions: exam.questions.map((q) => q.question), why: exam.why } : null, ...(threads ? { status: answers(brief.spots, threads.comments).status } : {}) };
+  const view = { brief, exam: exam ? { questions: exam.questions.map((q) => q.question), why: exam.why } : null, ...(threads ? { status: answers(brief.spots, threads.comments, threads.app).status } : {}) };
   lines.push("", statusBlock(s, r.plan.asks, u, {}, view), "");
   // With no engineer asked, the places have nobody's block to sit in.
   const unclaimed = brief.spots.filter((p) => !p.who.length);

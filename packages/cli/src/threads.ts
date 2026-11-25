@@ -6,7 +6,7 @@
 // The answers are GitHub's own replies, so GitHub says who wrote each one:
 // nothing Vera keeps hidden decides who verified what.
 
-import type { SignoffEvent } from "@vera/rules";
+import { slackAnswerer, type SignoffEvent } from "@vera/rules";
 import type { FileHunk } from "@vera/agents/triage";
 import type { LineComment, NewLineComment } from "@vera/tools/github";
 import type { Spot } from "./people.ts";
@@ -74,17 +74,28 @@ export function newThreads(spots: Spot[], hunks: FileHunk[], ids: (number | null
 
 /** What a reply says: ✓ (verified), a suggested change, a question, or nothing Vera acts on. */
 export function verdict(body: string): Verdict {
-  const text = body.split("\n").filter((l) => !l.trimStart().startsWith(">")).join("\n").trim();
+  const text = body.split("\n").filter((l) => !l.trimStart().startsWith(">") && !/^\s*<!--.*-->\s*$/.test(l)).join("\n").trim();
   if (/```suggestion/.test(text)) return "change";
   const first = text.split("\n")[0]!.trim().toLowerCase();
   if (/^(✓|✔|✅|👍|\+1\b|verified\b|lgtm\b|looks good\b|looks right\b|ok\b|okay\b)/u.test(first) && !text.includes("?")) return "verified";
   if (/^(needs a change|please change|change (this|it|to)\b|should be\b)/.test(first)) return "change";
-  if (text.includes("?") || /^(explain|why|what|how|can you|could you)\b/.test(first)) return "question";
+  if (text.includes("?") || /^(explain|why|what|how|can you|could you)\b/.test(first) || /^\*\*[\w-]+\*\* asked in slack:/.test(first)) return "question";
   return null;
 }
 
-/** Each spot's answers so far, and who has verified all of theirs (handle → when). */
-export function answers(spots: Spot[], comments: LineComment[]): { status: SpotStatus[]; verified: Record<string, string> } {
+/** Answers from Slack, posted by the team's GitHub App (`app`), as the person who gave them. */
+function fromSlack(comments: LineComment[], app?: string): LineComment[] {
+  if (!app) return comments;
+  return comments.map((c) => {
+    const who = slackAnswerer(c.who, c.body, app);
+    return who ? { ...c, who, trusted: false } : c;
+  });
+}
+
+/** Each spot's answers so far, and who has verified all of theirs (handle → when).
+ * `app`: the team's GitHub App for Slack (the `slack-app` input). */
+export function answers(spots: Spot[], all: LineComment[], app?: string): { status: SpotStatus[]; verified: Record<string, string> } {
+  const comments = fromSlack(all, app);
   const latest = new Map<string, { v: "verified" | "change"; at: string }>();
   const status = spots.map((s, i) => {
     const out: SpotStatus = { verified: [], change: [], asked: false };

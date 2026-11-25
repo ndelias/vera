@@ -169,7 +169,7 @@ if (args[0] === "sign-off") {
     const brief = readBrief(vera.body);
     // With Verify, each spot's answers are replies in its thread on the code, and GitHub says who wrote them.
     const lines = brief?.verify ? await gh.lineComments(ref).catch(() => null) : null;
-    const answered = brief && lines ? answers(brief.spots, lines) : null;
+    const answered = brief && lines ? answers(brief.spots, lines, SLACK_APP) : null;
     const s = status(asks, pull.author, reviews, comments, MARKER, answered && lines ? verifiedEvents(answered.verified, lines) : []);
     const { u, grades } = await understanding(vera.body, s, reviews, comments);
     await writeCheck(token, ref, pull.headSha, s, u);
@@ -181,7 +181,8 @@ if (args[0] === "sign-off") {
     const slackToken = optional("SLACK_BOT_TOKEN");
     if (slackToken && brief && Object.keys(sent).length) {
       const pr = { url: ref.url, repo: `${ref.owner}/${ref.repo}`, number: ref.number, title: pull.title, author: pull.author };
-      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(exam ? { why: exam.why } : {}), signOff: !!SLACK_APP };
+      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(exam ? { why: exam.why } : {}), signOff: !!SLACK_APP,
+        ...(brief.verify ? { verify: { spots: brief.spots, ...(answered ? { status: answered.status } : {}) } } : {}) };
       const { problems } = await sendAll(slackToken, new Map(), people(asks, brief, exam?.questions ?? []), (p) => message(p, pr, s, extra, u), sent);
       for (const p of problems) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Slack message not updated for ${p}`);
     }
@@ -253,10 +254,10 @@ try {
         await gh.startThreads(r.pull.ref, r.pull.headSha, fresh).catch((e) => console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Vera's spots weren't posted on the code: ${(e as Error).message}`));
         lines = await gh.lineComments(r.pull.ref);
       }
-      threads = { comments: lines, ids: reuse(spots, lines) };
+      threads = { comments: lines, ids: reuse(spots, lines), ...(SLACK_APP ? { app: SLACK_APP } : {}) };
     }
     // Engineers who already answered ✓ on all their spots stay signed off, as approvals do.
-    const done = threads ? verifiedEvents(answers(briefOf(r, threads).spots, threads.comments).verified, threads.comments) : [];
+    const done = threads ? verifiedEvents(answers(briefOf(r, threads).spots, threads.comments, SLACK_APP).verified, threads.comments) : [];
     const s = read && status(r.plan.asks, r.pull.author, read[0], read[1], MARKER, done);
     const prior = readSent(before);
     // New questions mean earlier answers don't count; the engineer answers these ones.
@@ -268,7 +269,8 @@ try {
       const everyone = people(r.plan.asks, brief, r.exam?.questions.map((q) => q.question) ?? []);
       const pr = { url: r.pull.ref.url, repo: `${r.pull.ref.owner}/${r.pull.ref.repo}`, number: r.pull.ref.number, title: r.pull.title, author: r.pull.author };
       const now = s ?? signoff(r.plan.asks, r.pull.author, []);
-      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(r.exam ? { why: r.exam.why } : {}), signOff: !!SLACK_APP };
+      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(r.exam ? { why: r.exam.why } : {}), signOff: !!SLACK_APP,
+        ...(brief.verify && threads ? { verify: { spots: brief.spots, status: answers(brief.spots, threads.comments, SLACK_APP).status } } : {}) };
       const ids = slackIds(r.ownership);
       const { sent, problems } = await sendAll(slackToken, ids, everyone, (p) => message(p, pr, now, extra, u), prior);
       body = withSent(body, sent);
