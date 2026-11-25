@@ -316,9 +316,13 @@ to whom. No new dependencies: the app's token is signed with node:crypto.
 didn't answer the understanding questions: on Vera's own two repos, 39
 pull requests had questions and almost none were answered. AI review bots
 already serve authors, so Vera runs the human review instead: each
-comment leads with **Verify** (the Briefer's 3–5 spots, a tick box each;
-ticking all of yours is your engineer sign-off), then **Also changed**,
-then **Cleared** (what Triage says a person needn't read, with a reason).
+comment leads with **Verify** (the Briefer's 3–5 spots), then **Also
+changed**, then **Cleared** (what Triage says a person needn't read, with a
+reason). A tick per spot wasn't enough: nothing went back to the author. So
+each spot is a thread on its lines, and the reviewer answers there: ✓,
+a question Vera answers (or passes to the author), or a suggested change
+the author can apply. ✓ on all of yours is your engineer sign-off, and
+since GitHub says who wrote each reply, nothing hidden decides it.
 Docs and wording are cleared for engineers only. Study 08 measured it on
 105 unseen pull requests: Verify covers 28% of the lines and holds 75% of
 what reviewers caught; Cleared is safe (2.3% misses) but small (9.7% of

@@ -9,7 +9,8 @@
     "./visibility": "./src/visibility.ts",
     "./briefer": "./src/briefer.ts",
     "./examiner": "./src/examiner.ts",
-    "./triage": "./src/triage.ts"
+    "./triage": "./src/triage.ts",
+    "./explainer": "./src/explainer.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.132.0",

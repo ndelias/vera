@@ -6,7 +6,9 @@
 // `slack-app` input), the message also has a Sign off button; without
 // them, it says to answer and sign off on the pull request.
 
-import { SIGN_OFF_ACTION, type Signoff } from "@vera/rules";
+import { SIGN_OFF_ACTION, SPOT_CHANGE, SPOT_EXPLAIN, SPOT_VERIFIED, type Signoff } from "@vera/rules";
+import type { Spot } from "./people.ts";
+import type { SpotStatus } from "./threads.ts";
 import type { Person } from "./people.ts";
 import { pattern, record, readRecord, type Seal } from "./sealed.ts";
 import { describe, type Understanding } from "./understanding.ts";
@@ -43,15 +45,38 @@ const section = (text: string) => ({ type: "section", text: { type: "mrkdwn", te
 const context = (text: string) => ({ type: "context", elements: [{ type: "mrkdwn", text: text.slice(0, 3000) }] });
 
 /** One person's message: the same block as in the comment, in Slack's layout. */
-export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string; ai?: string[]; why?: string; signOff?: boolean }, u?: Understanding): Message {
+/** With Verify: every spot in the brief's order (a button names one by its place there),
+ * and the answers in each spot's thread. */
+export type VerifyExtra = { spots: Spot[]; status?: SpotStatus[] };
+
+/** A spot to verify with its three answers (Nahuel's call, 25 Nov 2026). The buttons only
+ * appear when the team's GitHub App is set up, since that's what posts the answers. */
+function spotBlocks(x: Spot, who: string, pr: Pr, v: VerifyExtra, buttons: boolean): object[] {
+  const i = v.spots.indexOf(x);
+  const st = v.status?.[i];
+  const h = who.replace(/^@/, "").toLowerCase();
+  const at = x.lines.startsWith("L") ? x.lines : `L${x.lines}`;
+  const link = x.threadUrl ?? x.url;
+  const where = link ? `<${link}|\`${x.label}\` ${esc(at)}>` : `\`${x.label}\` ${esc(at)}`;
+  const state = st?.verified.includes(h) ? "✓ verified" : st?.change.includes(h) ? "change asked" : null;
+  const head = section(`*Verify ${i + 1} of ${v.spots.length}* · ${RISK[x.risk]} · ${where}${state ? ` · *${state}*` : ""}\n${esc(sentence(x.what))} ${esc(sentence(x.why))}`);
+  if (!buttons || st?.verified.includes(h) || !x.thread) return [head];
+  const value = JSON.stringify({ url: pr.url, spot: i });
+  const button = (text: string, action_id: string, primary = false) => ({ type: "button", text: { type: "plain_text", text }, action_id, value, ...(primary ? { style: "primary" } : {}) });
+  return [head, { type: "actions", elements: [button("Verified", SPOT_VERIFIED, true), button("Explain this", SPOT_EXPLAIN), button("Needs a change", SPOT_CHANGE)] }];
+}
+
+export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string; ai?: string[]; why?: string; signOff?: boolean; verify?: VerifyExtra }, u?: Understanding): Message {
   const roles = p.asks.map((a) => {
     const r = s.roles.find((x) => x.role === a.role);
     const someoneElse = r?.by && r.by.toLowerCase() !== p.who.toLowerCase();
     const state = r?.by ? `signed off${someoneElse ? ` by ${r.by}` : ""}${u && a.role === "engineer" ? ` · ${describe(u)}` : ""}` : "waiting";
     return `${r?.by ? "✓" : "○"} *${ROLE(a.role)}*${AS[a.action]} · ${state}${a.why ? ` · ${esc(a.why.replace(/\.$/, ""))}` : ""}`;
   });
+  const v = extra.verify;
   const look = [
-    ...p.spots.map((x) => {
+    ...(v ? p.spots.flatMap((x) => spotBlocks(x, p.who, pr, v, !!extra.signOff)) : []),
+    ...(v ? [] : p.spots).map((x) => {
       const at = x.lines.startsWith("L") ? x.lines : `L${x.lines}`;
       const where = x.url ? `<${x.url}|\`${x.label}\` ${esc(at)}>` : `\`${x.label}\` ${esc(at)}`;
       return section(`*${RISK[x.risk]}* · ${where} · ${esc(sentence(x.what))}\n${esc(sentence(x.why))}`);
@@ -82,7 +107,10 @@ export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string
       section(`<${pr.url}|${pr.repo}#${pr.number}> by ${esc(pr.author)}${extra.summary ? `\n_${esc(extra.summary)}_` : ""}`),
       ...(extra.ai?.length ? [context(`*Likely AI-written:* ${esc(sentence(extra.ai.join(", ")))}`)] : []),
       section(roles.join("\n")),
-      ...(look.length ? [{ type: "divider" }, section("*Where to look*"), ...look] : []),
+      ...(look.length ? [{ type: "divider" }, section(v && p.spots.length ? "*Verify these spots*" : "*Where to look*"), ...look] : []),
+      ...(v && p.spots.length ? [context(extra.signOff
+        ? "Verified when you've checked a spot, Explain this to ask Vera, Needs a change to tell the author. Each answer goes in the spot's thread on the pull request. Verified on all of yours signs you off as engineer."
+        : "Answer each spot in its thread on the pull request: ✓ when you've checked it, a question for Vera, or a suggested change. ✓ on all of yours signs you off as engineer.")] : []),
       ...questions,
       ...button,
       context(`Vera reads and suggests: it never approves, blocks or changes the code. <${pr.url}|Open the pull request>`),

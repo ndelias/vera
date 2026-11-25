@@ -46,10 +46,11 @@ before (BUILD-PLAN, M6):
 People without a `slack` ID are skipped; the comment on the pull request
 still has everyone's part. Which message went to whom is kept hidden in
 that comment, so there's nothing else to store. The Action signs that
-record; this server can't check the signature, so each sign-off it posts
-says which conversation it came from, and the Action counts it only when
-its signed record has that person's message there. If you update the
-Action, redeploy the server too, or sign-offs from Slack won't count.
+record; this server can't check the signature, so each sign-off and spot
+answer it posts says which conversation it came from, and the Action counts
+it only when its signed record has that person's message there. If you
+update the Action, redeploy the server too, or sign-offs and ✓ from Slack
+won't count.
 
 ## Replies: the server
 
@@ -100,6 +101,16 @@ answers, as the team's GitHub App. From there it's the same as signing off
 on GitHub: Vera grades the answers, updates the check and the comment, and
 updates the Slack message. Their answers are visible on the pull request,
 as they would be in an approval.
+
+With the Action's `verify: true` (a preview), the message lists the
+person's spots to verify instead, each with three buttons. **Verified**
+posts ✓ in the spot's thread on the pull request. **Explain this** opens a
+box for a question; Vera answers in Slack and copies the question and its
+answer into the thread, asking the author there when only they can tell.
+**Needs a change** opens a box for what should change and, if they have
+it, the code, which goes in the thread as a suggestion the author can
+apply. ✓ on all of their spots signs them off as engineer. Nothing extra
+to set up: it uses the same app and the same Slack settings.
 
 Why an app: Vera only counts what GitHub vouches for. GitHub records who
 wrote each comment, and Vera counts a Slack sign-off only when the app

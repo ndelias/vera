@@ -9,7 +9,7 @@ import { mapperRequest, parseMapper, type Change, type Directory, type MapperOut
 import { parseVisibility, visibilityRequest, type Visibility } from "@vera/agents/visibility";
 import { briefRequest, parseBrief, type Brief } from "@vera/agents/briefer";
 import { examRequest, parseJson, type Exam, type Question } from "@vera/agents/examiner";
-import { fileHunks, parseTriage, triageRequest, type FileHunk, type Skip } from "@vera/agents/triage";
+import { fileHunks, parseAbout, parseTriage, triageRequest, type FileHunk, type Skip } from "@vera/agents/triage";
 import { areasFor, ConfigError, fromCodeowners, fromVeraYml, matches, route, type Ownership, type Plan } from "@vera/rules";
 import { client as github, parsePullUrl, type Pull } from "@vera/tools/github";
 
@@ -28,7 +28,7 @@ export type Review = {
   /** Verify, Also changed and Cleared (Nahuel's calls, 25 Nov 2026), with the
    * `verify` switch only: the change's hunks and the ones Triage cleared.
    * Undefined when the switch is off; skips null when Triage gave no answer. */
-  triage?: { hunks: FileHunk[]; skips: Skip[] | null };
+  triage?: { hunks: FileHunk[]; skips: Skip[] | null; about?: string };
   ai: string[];
   plan: Plan;
   trace: Trace;
@@ -133,7 +133,11 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
       call("visibility", "does this change make a design decision?", visibilityRequest(opts.model, change, "v2"), parseVisibility),
       call("briefer", "where an engineer should look first", briefRequest(opts.model, change, "engineer", "v2"), parseBrief),
       opts.verify && hunks.length
-        ? call("triage", "which parts a reviewer can skip", triageRequest(opts.model, pull.title, hunks), (m) => parseTriage(m, ids))
+        ? call("triage", "which parts a reviewer can skip, and what the change does", triageRequest(opts.model, pull.title, hunks, "v1", { about: true }), (m) => {
+            const skips = parseTriage(m, ids);
+            const about = parseAbout(m);
+            return skips ? { skips, ...(about ? { about } : {}) } : null;
+          })
         : Promise.resolve(null),
     ]);
 
@@ -155,7 +159,7 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
       : null;
     const exam = asked?.questions?.length ? { questions: asked.questions.slice(0, 3), why } : null;
     record(trace, { at: Date.now(), type: "run.end", status: "ok" });
-    return { pull, ownership, ...(ownershipError ? { ownershipError } : {}), areas, design, brief, exam, ...(opts.verify ? { triage: { hunks, skips } } : {}), ai, plan, trace };
+    return { pull, ownership, ...(ownershipError ? { ownershipError } : {}), areas, design, brief, exam, ...(opts.verify ? { triage: { hunks, skips: skips?.skips ?? null, ...(skips?.about ? { about: skips.about } : {}) } } : {}), ai, plan, trace };
   } catch (e) {
     record(trace, { at: Date.now(), type: "run.end", status: "error", error: (e as Error).message });
     throw Object.assign(e as Error, { trace });

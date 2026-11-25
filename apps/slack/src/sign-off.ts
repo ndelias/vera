@@ -125,7 +125,7 @@ export async function sent(p: Payload, later: Later, d: Deps): Promise<Response>
 }
 
 /** Who this direct message's Vera message went to, and what they're asked for on the pull request. */
-async function asked(d: Deps, ref: PullRef, channel: string, ts: string): Promise<{ who: string; roles: string[]; body: string } | { problem: string }> {
+export async function asked(d: Deps, ref: PullRef, channel: string, ts: string): Promise<{ who: string; roles: string[]; body: string } | { problem: string }> {
   const comments = await (await d.github(ref)).comments(ref);
   const body = comments.find((c) => c.body.includes(VERA_COMMENT))?.body;
   if (!body) return { problem: `Vera's review isn't on <${ref.url}|${name(ref)}> anymore, so there's nothing to sign off.` };

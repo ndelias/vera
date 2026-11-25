@@ -1,7 +1,7 @@
 // Vera's hidden records, signed (Nahuel's call, 25 Nov 2026). Between runs
 // Vera keeps what it needs in its own comment on the pull request, as base64
-// inside HTML comments: who it asked, the brief, the questions, the grades,
-// which Slack message went to whom, and who ticked all their spots. Anyone who
+// inside HTML comments: who it asked, the brief (with each spot's thread), the
+// questions, the grades, and which Slack message went to whom. Anyone who
 // can write to the repo can edit that comment, so each record carries an HMAC
 // keyed from the repo's Anthropic key, which only the Action has, and tied to
 // the pull request and the record's name. A record that doesn't verify is read
@@ -11,7 +11,9 @@
 //
 // What it can't stop: someone pasting back a record Vera itself wrote earlier
 // on the same pull request (GitHub keeps a comment's edit history). That can
-// bring back an older plan or tick record, never one Vera didn't write.
+// bring back an older plan or brief, never one Vera didn't write. Who verified
+// a spot isn't kept here at all: it's the replies in the spot's thread, and
+// GitHub says who wrote those (threads.ts).
 
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 
@@ -22,7 +24,7 @@ export const sealFor = (secret: string, ref: { owner: string; repo: string; numb
   ({ secret, pr: `${ref.owner}/${ref.repo}#${ref.number}`.toLowerCase() });
 
 /** The records Vera signs, as named in the comment. */
-export const RECORDS = ["vera-plan", "vera-brief", "vera-exam", "vera-grades", "vera-slack", "vera-verified"] as const;
+export const RECORDS = ["vera-plan", "vera-brief", "vera-exam", "vera-grades", "vera-slack"] as const;
 export type RecordName = (typeof RECORDS)[number];
 
 // Its own key, so a signature is never also a valid exam seal (understanding.ts).

@@ -14,17 +14,18 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { secret, toJsonl, totals } from "@vera/core";
 import { review, type Review } from "./review.ts";
-import { MARKER, toMarkdown } from "./markdown.ts";
+import { briefOf, MARKER, toMarkdown, type Threads } from "./markdown.ts";
 import { people, readBrief } from "./people.ts";
 import { message, readSent, sendAll, withSent } from "./slack.ts";
 import { CHECK, fromSlack, readPlan, status, statusBlock, toCheck, withStatus } from "./signoff.ts";
 import { latestAnswers, open, readExam, readGrades, type Grades, type Understanding } from "./understanding.ts";
-import { applyEdit, boxes, complete, readVerified, tickEvents, ticked, update } from "./ticks.ts";
+import { answers, newThreads, reuse, verdict, verifiedEvents } from "./threads.ts";
+import { explainRequest, parseExplanation } from "@vera/agents/explainer";
 import { refused, sealFor, type Seal } from "./sealed.ts";
 import Anthropic from "@anthropic-ai/sdk";
 import { gradeRequest, parseJson, type Grade } from "@vera/agents/examiner";
 import { counts, parseSignoff, signoff, slackIds, type Signoff } from "@vera/rules";
-import { client as github, parsePullUrl, type Comment, type PullRef, type PullReview } from "@vera/tools/github";
+import { client as github, parsePullUrl, type Comment, type LineComment, type PullRef, type PullReview } from "@vera/tools/github";
 
 const USAGE = `Usage: vera review <GitHub pull request URL> [--config .vera.yml] [--markdown | --comment] [--model claude-sonnet-5-5] [--out .vera/runs]
        vera sign-off <GitHub pull request URL> [--comment-id <id>] [--model claude-sonnet-5-5]`;
@@ -127,17 +128,19 @@ async function understanding(body: string, seal: Seal, s: Signoff, reviews: Pull
   return { u, grades };
 }
 
-/** The edit GitHub sent, when this run is for an edited comment: who made it and the comment before. */
-function editEvent(): { sender: string; commentId: number; before: string } | null {
-  const path = process.env.GITHUB_EVENT_PATH;
-  if (!path) return null;
-  try {
-    const e = JSON.parse(readFileSync(path, "utf8")) as { action?: string; sender?: { login?: string }; comment?: { id?: number }; changes?: { body?: { from?: unknown } } };
-    const before = e.changes?.body?.from;
-    return e.action === "edited" && e.comment?.id && e.sender?.login && typeof before === "string" ? { sender: e.sender.login, commentId: e.comment.id, before } : null;
-  } catch {
-    return null;
-  }
+/** Vera answers a question asked in a spot's thread, and asks the author when only they can tell. */
+async function explain(gh: ReturnType<typeof github>, ref: PullRef, pull: Awaited<ReturnType<ReturnType<typeof github>["pull"]>>, brief: NonNullable<ReturnType<typeof readBrief>>, at: number, lines: LineComment[], asker: string): Promise<void> {
+  const apiKey = optional("ANTHROPIC_API_KEY");
+  const spot = brief.spots[at]!;
+  if (!apiKey || !spot.thread) return;
+  const thread = lines.filter((c) => c.id === spot.thread || c.replyTo === spot.thread).sort((a, b) => a.at.localeCompare(b.at)).map((c) => ({ who: c.who, body: c.body }));
+  const diff = pull.files.find((f) => f.path === spot.file)?.patch ?? "";
+  const m = await new Anthropic({ apiKey }).messages.create(explainRequest(flag("--model", "claude-sonnet-5-5"), { title: pull.title, about: brief.about ?? null, spot, diff, thread }));
+  const e = parseExplanation(m);
+  if (!e) return console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Vera had no answer for the question in the thread on ${spot.file}.`);
+  const author = e.needsAuthor && asker.toLowerCase() !== pull.author.toLowerCase() ? [`@${pull.author}, can you fill in what Vera can't tell from the code?`] : [];
+  await gh.reply(ref, spot.thread, [e.answer, "", ...author, ...(author.length ? [""] : []), "<sub>Vera explains from the diff and the thread; whether it's right is your call.</sub>"].join("\n"))
+    .catch((err) => console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Vera's answer wasn't posted: ${(err as Error).message}`));
 }
 
 const args = process.argv.slice(2);
@@ -176,42 +179,46 @@ if (args[0] === "sign-off") {
       console.log(bad.includes("vera-plan") ? "With no plan signed by Vera, there's no sign-off to update until the next push." : "Vera's comment here predates sign-off; its next review adds the check.");
       process.exit(0);
     }
-    const { comments, refused: unmatched } = fromSlack(raw, SLACK_APP, readSent(vera.body, seal));
+    // Which Slack message went to whom, as Vera signed it: a Slack sign-off or answer counts only from there.
+    const sent = readSent(vera.body, seal);
+    const { comments, refused: unmatched } = fromSlack(raw, SLACK_APP, sent);
     if (unmatched) console.log(`${WARN}${unmatched} Slack ${unmatched === 1 ? "sign-off didn't" : "sign-offs didn't"} count: ${unmatched === 1 ? "it didn't come" : "they didn't come"} from the Slack conversation Vera has on record for that person. A Slack server deployed before this check doesn't say which conversation; redeploy it.`);
     const reviews = await gh.reviews(ref);
     // A comment from before the blocks per person has no brief, and shows its questions elsewhere.
     const brief = readBrief(vera.body, seal);
-    // With Verify, an edit to Vera's comment is someone ticking their spots: keep their own
-    // ticks, put back any made for someone else, and note who has now ticked all of theirs.
-    let current = vera.body;
-    let verified = readVerified(vera.body, seal);
-    const edit = editEvent();
-    if (brief?.verify && edit && edit.commentId === vera.id) {
-      const { body: kept, reverted } = applyEdit(edit.before, vera.body, edit.sender);
-      current = kept;
-      // Who had finished comes from the comment as it was before this edit (the record is
-      // signed, so an edit can't change it, only break it).
-      verified = update(readVerified(edit.before, seal), complete(brief, boxes(kept)), new Date().toISOString());
-      if (reverted) console.log(`Put back ${reverted} tick ${reverted === 1 ? "box" : "boxes"} that @${edit.sender} changed for someone else.`);
-    }
-    const s = status(asks, pull.author, reviews, comments, MARKER, tickEvents(verified));
+    // With Verify, each spot's answers are replies in its thread on the code, and GitHub says who wrote them.
+    const lines = brief?.verify ? await gh.lineComments(ref).catch(() => null) : null;
+    const answered = brief && lines ? answers(brief.spots, lines, SLACK_APP, sent) : null;
+    const s = status(asks, pull.author, reviews, comments, MARKER, answered && lines ? verifiedEvents(answered.verified, lines) : []);
     const { u, grades } = await understanding(vera.body, seal, s, reviews, comments);
     await writeCheck(token, ref, pull.headSha, s, u);
     // The comment's status block too, so it doesn't say "waiting" after someone signed off.
     const exam = brief && readExam(vera.body, seal);
-    const body = withStatus(current, statusBlock(s, asks, seal, u, grades, brief ? { brief, exam: exam ? { questions: exam.questions, why: exam.why } : null, ticked: ticked(boxes(current)), verified } : undefined));
+    const body = withStatus(vera.body, statusBlock(s, asks, seal, u, grades, brief ? { brief, exam: exam ? { questions: exam.questions, why: exam.why } : null, ...(answered ? { status: answered.status } : {}) } : undefined));
     // Each person's Slack message too, when they were sent one.
-    const sent = readSent(vera.body, seal);
     const slackToken = optional("SLACK_BOT_TOKEN");
     if (slackToken && brief && Object.keys(sent).length) {
       const pr = { url: ref.url, repo: `${ref.owner}/${ref.repo}`, number: ref.number, title: pull.title, author: pull.author };
-      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(exam ? { why: exam.why } : {}), signOff: !!SLACK_APP };
+      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(exam ? { why: exam.why } : {}), signOff: !!SLACK_APP,
+        ...(brief.verify ? { verify: { spots: brief.spots, ...(answered ? { status: answered.status } : {}) } } : {}) };
       const { problems } = await sendAll(slackToken, new Map(), people(asks, brief, exam?.questions ?? []), (p) => message(p, pr, s, extra, u), sent);
       for (const p of problems) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Slack message not updated for ${p}`);
     }
     if (body && body !== vera.body) await gh.comment(ref, body, MARKER).catch((e) => console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Vera's comment wasn't updated: ${(e as Error).message}`));
-    // A thumbs-up tells the person their sign-off counted; a confused face, that it didn't.
+    // A reply in a spot's thread: 👍 when it's a ✓ that counts, 👀 on a change for the author,
+    // and an answer for a question.
     const id = Number(flag("--comment-id", ""));
+    const said = lines?.find((x) => x.id === id);
+    const at = said && brief ? brief.spots.findIndex((x) => x.thread !== undefined && x.thread === said.replyTo) : -1;
+    if (said && brief && at >= 0 && !said.who.endsWith("[bot]")) {
+      const spot = brief.spots[at]!;
+      const v = verdict(said.body);
+      const asked = spot.who.some((w) => w.replace(/^@/, "").toLowerCase() === said.who.toLowerCase());
+      if (v === "verified" && asked) await gh.reactLine(ref, said.id, "+1").catch(() => {});
+      if (v === "change") await gh.reactLine(ref, said.id, "eyes").catch(() => {});
+      if (v === "question") await explain(gh, ref, pull, brief, at, lines!, said.who);
+    }
+    // A thumbs-up tells the person their sign-off counted; a confused face, that it didn't.
     const c = comments.find((x) => x.id === id);
     const roles = c && parseSignoff(c.body);
     if (c && roles) await gh.react(ref, c.id, counts(asks, pull.author, c.who, c.trusted, roles) ? "+1" : "confused").catch(() => {});
@@ -254,21 +261,36 @@ try {
     // but the check is left as it was rather than reset; the next sign-off corrects both.
     const read = await Promise.all([gh.reviews(r.pull.ref), gh.comments(r.pull.ref)]).catch(() => null);
     const seal = sealFor(apiKey, r.pull.ref);
-    // Engineers who ticked all their spots before this push stay signed off, as approvals do.
     const before = read?.[1].find((c) => c.body.includes(MARKER))?.body ?? "";
-    const verified = readVerified(before, seal);
+    // Which Slack message went to whom, as Vera signed it: a Slack answer counts only from there.
     const prior = readSent(before, seal);
-    const s = read && status(r.plan.asks, r.pull.author, read[0], fromSlack(read[1], SLACK_APP, prior).comments, MARKER, tickEvents(verified));
+    // With Verify, each spot gets a thread on its lines: the one from before when the spot
+    // is still there (so a push keeps the conversation), or a new one.
+    let threads: Threads | undefined;
+    if (r.triage) {
+      const spots = briefOf(r).spots;
+      let lines = await gh.lineComments(r.pull.ref);
+      const fresh = newThreads(spots, r.triage.hunks, reuse(spots, lines));
+      if (fresh.length) {
+        await gh.startThreads(r.pull.ref, r.pull.headSha, fresh).catch((e) => console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Vera's spots weren't posted on the code: ${(e as Error).message}`));
+        lines = await gh.lineComments(r.pull.ref);
+      }
+      threads = { comments: lines, ids: reuse(spots, lines), ...(SLACK_APP ? { app: SLACK_APP, sent: prior } : {}) };
+    }
+    // Engineers who already answered ✓ on all their spots stay signed off, as approvals do.
+    const done = threads ? verifiedEvents(answers(briefOf(r, threads).spots, threads.comments, SLACK_APP, prior).verified, threads.comments) : [];
+    const s = read && status(r.plan.asks, r.pull.author, read[0], fromSlack(read[1], SLACK_APP, prior).comments, MARKER, done);
     // New questions mean earlier answers don't count; the engineer answers these ones.
     const u: Understanding | undefined = r.exam ? { questions: r.exam.questions.length, answered: 0, passed: 0, graded: false, reasons: [] } : undefined;
-    let body = toMarkdown(r, seal, s ?? undefined, u, verified);
+    let body = toMarkdown(r, seal, s ?? undefined, u, threads);
     const slackToken = optional("SLACK_BOT_TOKEN");
     if (slackToken) {
       const brief = readBrief(body, seal)!;
       const everyone = people(r.plan.asks, brief, r.exam?.questions.map((q) => q.question) ?? []);
       const pr = { url: r.pull.ref.url, repo: `${r.pull.ref.owner}/${r.pull.ref.repo}`, number: r.pull.ref.number, title: r.pull.title, author: r.pull.author };
       const now = s ?? signoff(r.plan.asks, r.pull.author, []);
-      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(r.exam ? { why: r.exam.why } : {}), signOff: !!SLACK_APP };
+      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(r.exam ? { why: r.exam.why } : {}), signOff: !!SLACK_APP,
+        ...(brief.verify && threads ? { verify: { spots: brief.spots, status: answers(brief.spots, threads.comments, SLACK_APP, prior).status } } : {}) };
       const ids = slackIds(r.ownership);
       const { sent, problems } = await sendAll(slackToken, ids, everyone, (p) => message(p, pr, now, extra, u), prior);
       body = withSent(body, sent, seal);

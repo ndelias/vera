@@ -38,3 +38,11 @@ export const readExam = (body: string): Exam | null => {
 export function recipient(sent: Sent, channel: string, ts: string): string | null {
   return Object.entries(sent).find(([, m]) => m.channel === channel && m.ts === ts)?.[0] ?? null;
 }
+
+/** A spot to verify, as the Action keeps it in Vera's comment (packages/cli/src/people.ts). */
+export type BriefSpot = { file: string; lines: string; what: string; why: string; risk: string; who: string[]; thread?: number; threadUrl?: string };
+export type Brief = { spots: BriefSpot[]; about?: string; verify?: boolean };
+export const readBrief = (body: string): Brief | null => {
+  const v = marker<Brief>("vera-brief", body);
+  return v && Array.isArray(v.spots) ? v : null;
+};

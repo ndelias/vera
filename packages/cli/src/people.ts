@@ -9,12 +9,16 @@ import { record, readRecord, type Seal } from "./sealed.ts";
 
 export type Risk = "high" | "medium" | "low";
 /** A place from the engineer's brief, with who checks it and its link. */
-export type Spot = { file: string; label: string; lines: string; url: string | null; what: string; why: string; risk: Risk; who: string[] };
+export type Spot = { file: string; label: string; lines: string; url: string | null; what: string; why: string; risk: Risk; who: string[];
+  /** With Verify: the thread Vera started on the spot's lines, and its link. */
+  thread?: number; threadUrl?: string };
 /** Everything the blocks show besides the sign-offs. `design` is the design call's description when there is one;
  * `summary` and `ai` are the change in a sentence and the likely-AI signals, for Slack. */
 export type Brief = { spots: Spot[]; design: string | null; docs: string[]; summary?: string; ai?: string[];
-  /** With the `verify` switch: each engineer ticks their spots, and ticking all of them is their sign-off. */
-  verify?: boolean };
+  /** With the `verify` switch: each spot is a thread on its lines, and ✓ on all of yours is your sign-off. */
+  verify?: boolean;
+  /** With Verify: what the change does, in a few plain sentences. */
+  about?: string };
 export type Person = { who: string; asks: Ask[]; spots: Spot[]; design: string | null; docs: string[]; questions: string[] };
 
 export const briefMarker = (b: Brief, seal: Seal) => record("vera-brief", b, seal);

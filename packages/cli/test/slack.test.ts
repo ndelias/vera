@@ -94,3 +94,22 @@ test("which message is whose rides in Vera's comment", () => {
   assert.equal(withSent(body, {}, SEAL), "<!-- vera-review -->\nthe rest");
   assert.equal(withSent("<!-- vera-review -->\n\n\nx", {}, SEAL), "<!-- vera-review -->\n\n\nx");
 });
+
+test("with Verify, each of your spots has Verified, Explain this and Needs a change, until you've verified it", () => {
+  const vbrief: Brief = { ...brief, verify: true, spots: brief.spots.map((s, i) => ({ ...s, thread: 40 + i, threadUrl: `${pr.url}#discussion_r${40 + i}` })) };
+  const ana = people(asks, vbrief, [])[0]!;
+  const status = vbrief.spots.map(() => ({ verified: [] as string[], change: [] as string[], asked: false }));
+  let m = text(message(ana, pr, signoff(asks, "bo", []), { signOff: true, verify: { spots: vbrief.spots, status } }));
+  assert.match(m, /\*Verify these spots\*/);
+  assert.match(m, /\*Verify 1 of \d+\* · High · <https:\/\/github\.com\/o\/r\/pull\/7#discussion_r40\|/);
+  for (const id of ["vera_spot_verified", "vera_spot_explain", "vera_spot_change"]) assert.ok(m.includes(id), id);
+  assert.ok(m.includes(JSON.stringify(JSON.stringify({ url: pr.url, spot: 0 })).slice(1, -1)), "the button names the pull request and the spot");
+
+  status[0]!.verified.push("ana");
+  m = text(message(ana, pr, signoff(asks, "bo", []), { signOff: true, verify: { spots: vbrief.spots, status } }));
+  assert.match(m, /\*Verify 1 of \d+\*[^"]*\*✓ verified\*/);
+
+  const noApp = text(message(ana, pr, signoff(asks, "bo", []), { verify: { spots: vbrief.spots, status } }));
+  assert.ok(!noApp.includes("vera_spot_verified"), "no app, no buttons: answer in the thread");
+  assert.match(noApp, /Answer each spot in its thread/);
+});
