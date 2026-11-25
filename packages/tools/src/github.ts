@@ -23,7 +23,9 @@ export type PullReview = { id: number; who: string; state: string; body: string;
 export type Comment = { id: number; who: string; body: string; trusted: boolean; at: string };
 export type Check = { conclusion: "success" | "neutral" | "failure"; title: string; summary: string };
 /** A comment on a pull request's code. `line` is null once a push has moved the code it was on. */
-export type LineComment = { id: number; who: string; body: string; path: string; line: number | null; replyTo: number | null; trusted: boolean; at: string; url: string };
+export type LineComment = { id: number; who: string; body: string; path: string; line: number | null; replyTo: number | null; trusted: boolean; at: string; url: string;
+  /** The first line, when the comment covers more than one. */
+  start?: number | null };
 /** A new comment on lines of the latest version of a file (`start` for more than one line). */
 export type NewLineComment = { path: string; line: number; start?: number; body: string };
 
@@ -145,9 +147,9 @@ export function client(token: string | undefined, onCall: OnCall = () => {}) {
 
     /** Comments on the code, oldest first: threads and their replies. */
     async lineComments(ref: PullRef): Promise<LineComment[]> {
-      const raw = await all<{ id: number; user: { login: string } | null; body: string | null; path: string; line: number | null; in_reply_to_id?: number; author_association: string; created_at: string; html_url: string }>(
+      const raw = await all<{ id: number; user: { login: string } | null; body: string | null; path: string; line: number | null; start_line?: number | null; in_reply_to_id?: number; author_association: string; created_at: string; html_url: string }>(
         "github.line-comments", `/repos/${ref.owner}/${ref.repo}/pulls/${ref.number}/comments`);
-      return raw.map((c) => ({ id: c.id, who: c.user?.login ?? "ghost", body: c.body ?? "", path: c.path, line: c.line, replyTo: c.in_reply_to_id ?? null, trusted: TRUSTED.has(c.author_association), at: c.created_at, url: c.html_url }));
+      return raw.map((c) => ({ id: c.id, who: c.user?.login ?? "ghost", body: c.body ?? "", path: c.path, line: c.line, start: c.start_line ?? null, replyTo: c.in_reply_to_id ?? null, trusted: TRUSTED.has(c.author_association), at: c.created_at, url: c.html_url }));
     },
 
     /** Starts threads on lines of the given commit, as one review that only comments. */

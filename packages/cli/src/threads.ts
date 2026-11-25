@@ -77,8 +77,10 @@ export function newThreads(spots: Spot[], hunks: FileHunk[], ids: (number | null
 /** What a reply says: ✓ (verified), a suggested change, a question, or nothing Vera acts on. */
 export function verdict(body: string): Verdict {
   const text = body.split("\n").filter((l) => !l.trimStart().startsWith(">") && !/^\s*<!--.*-->\s*$/.test(l)).join("\n").trim();
-  if (/```suggestion/.test(text)) return "change";
   const first = text.split("\n")[0]!.trim().toLowerCase();
+  // A question asked in Slack, copied here with Vera's answer: a question, whatever the answer quotes.
+  if (/^\*\*[\w-]+\*\* asked in slack:/.test(first)) return "question";
+  if (/```suggestion/.test(text)) return "change";
   if (/^(✓|✔|✅|👍|\+1\b|verified\b|lgtm\b|looks good\b|looks right\b|ok\b|okay\b)/u.test(first) && !text.includes("?")) return "verified";
   if (/^(needs a change|please change|change (this|it|to)\b|should be\b)/.test(first)) return "change";
   if (text.includes("?") || /^(explain|why|what|how|can you|could you)\b/.test(first) || /^\*\*[\w-]+\*\* asked in slack:/.test(first)) return "question";

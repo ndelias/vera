@@ -41,6 +41,7 @@ test("replies read as ✓, a change, a question, or nothing", () => {
   assert.equal(verdict("Needs a change: clamp at zero"), "change");
   for (const b of ["Why does this skip the cache?", "explain the retry", "ok but what about admins?"]) assert.equal(verdict(b), "question", b);
   assert.equal(verdict("> ✓\nnice refactor"), null, "quoted text doesn't count");
+  assert.equal(verdict("<!-- vera-slack-answer:ana:D1 -->\n**ana** asked in Slack:\n\n> what could break?\n\n**Vera:** a ```suggestion block still returns change."), "question", "a question from Slack, whatever Vera's answer quotes");
 });
 
 test("someone is signed off once their latest answer on every spot of theirs is ✓", () => {

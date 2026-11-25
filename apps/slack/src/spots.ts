@@ -15,6 +15,7 @@
 // comes from Slack (which message, in which direct message), as for signing off,
 // and is checked again before anything is posted.
 
+import { createHash } from "node:crypto";
 import { SPOT_CHANGE, SPOT_EXPLAIN, SPOT_VERIFIED, slackAnswer } from "../../../packages/rules/src/slack-signoff.ts";
 import { explainRequest, parseExplanation } from "../../../packages/agents/src/explainer.ts";
 import { parsePullUrl, type PullRef } from "../../../packages/tools/src/github.ts";
@@ -28,7 +29,34 @@ const PR_EVENT = "vera_pr";
 
 type Kind = "explain" | "change";
 /** What a box carries between opening and sending; all of it is checked again on sending. */
-type Meta = { url: string; spot: number; user: string; channel: string; ts: string; kind: Kind };
+type Meta = { url: string; spot: number; user: string; channel: string; ts: string; kind: Kind;
+  /** For a change: the lines the suggestion replaces, as a hash (to tell an untouched box), and
+   * their first line's indent (Slack can drop the leading spaces of what's sent). */
+  same?: string; indent?: string };
+
+/** The lines a thread covers, from the file's patch as it is now (the new side). */
+export function currentLines(patch: string, start: number, end: number): string | null {
+  const out = new Map<number, string>();
+  let n = 0;
+  for (const line of patch.split("\n")) {
+    const h = /^@@ -\d+(?:,\d+)? \+(\d+)/.exec(line);
+    if (h) {
+      n = Number(h[1]);
+      continue;
+    }
+    if (line.startsWith("-") || line.startsWith("\\")) continue;
+    out.set(n, line.slice(1));
+    n++;
+  }
+  const lines: string[] = [];
+  for (let i = start; i <= end; i++) {
+    if (!out.has(i)) return null;
+    lines.push(out.get(i)!);
+  }
+  return lines.join("\n");
+}
+
+const digest = (s: string) => createHash("sha256").update(s.trim()).digest("hex").slice(0, 16);
 
 const plain = (text: string) => ({ type: "plain_text", text });
 const section = (text: string) => ({ type: "section", text: { type: "mrkdwn", text: text.slice(0, 3000) } });
@@ -50,14 +78,17 @@ async function spotFor(d: Deps, ref: PullRef, channel: string, ts: string, i: nu
   return { who: c.who, spot, body: c.body };
 }
 
-export function boxView(m: Meta, spot: BriefSpot): object {
+export function boxView(m: Meta, spot: BriefSpot, current: string | null = null): object {
+  const now = current !== null && current.length <= 3000 ? current : null;
   const head = section(`*${where(spot)}*\n${esc(spot.what)}. ${esc(spot.why)}`);
   const blocks = m.kind === "explain"
     ? [head, { type: "input", block_id: "q", label: plain("What do you want to know?"), element: { type: "plain_text_input", action_id: "v", multiline: true, max_length: 1500 } },
        note("Vera answers here, from the change, and copies your question and its answer into the spot's thread so the author sees them.")]
     : [head,
        { type: "input", block_id: "what", label: plain("What should change, and why?"), element: { type: "plain_text_input", action_id: "v", multiline: true, max_length: 1500 } },
-       { type: "input", block_id: "code", optional: true, label: plain("The code it should be (optional)"), hint: plain("It replaces the spot's lines as a suggestion the author can apply in one click."), element: { type: "plain_text_input", action_id: "v", multiline: true, max_length: 3000 } },
+       { type: "input", block_id: "code", optional: true, label: plain("The code it should be (optional)"),
+         hint: plain(now !== null ? "These are the spot's lines now. Edit them, and they go to the author as a suggestion they can apply in one click. Left as they are, no code is sent." : "It replaces the spot's lines as a suggestion the author can apply in one click."),
+         element: { type: "plain_text_input", action_id: "v", multiline: true, max_length: 3000, ...(now !== null ? { initial_value: now } : {}) } },
        note("Vera posts this in the spot's thread on the pull request, from the team's GitHub App, for the author.")];
   return { ...shell(m.kind, blocks), submit: plain(m.kind === "explain" ? "Ask" : "Send to the author"), close: plain("Cancel"), private_metadata: JSON.stringify(m) };
 }
@@ -103,7 +134,20 @@ export async function spotPressed(p: Payload, later: Later, d: Deps): Promise<Re
     try {
       const c = await spotFor(d, parsePullUrl(at.url), channel, ts, i);
       if ("problem" in c) return await d.slack.updateView(id, shell(kind, [section(c.problem)]));
-      await d.slack.updateView(id, boxView({ url: at.url, spot: i, user: p.user!.id, channel, ts, kind }, c.spot));
+      let current: string | null = null;
+      if (kind === "change") {
+        // The box starts with the spot's lines as they are, so nobody has to work out which lines a suggestion replaces.
+        const ref = parsePullUrl(at.url);
+        const gh = await d.github(ref);
+        const [pull, lines] = await Promise.all([gh.pull(ref), gh.lineComments(ref)]);
+        const root = lines.find((x) => x.id === c.spot.thread);
+        const patch = pull.files.find((f) => f.path === c.spot.file)?.patch;
+        if (root?.line && patch) current = currentLines(patch, root.start ?? root.line, root.line);
+      }
+      const first = current?.split("\n")[0] ?? "";
+      const meta: Meta = { url: at.url, spot: i, user: p.user!.id, channel, ts, kind,
+        ...(current !== null ? { same: digest(current), indent: /^\s*/.exec(first)![0] } : {}) };
+      await d.slack.updateView(id, boxView(meta, c.spot, current));
     } catch (e) {
       await d.slack.updateView(id, shell(kind, [section(`Sorry, I couldn't open this: ${(e as Error).message.slice(0, 300)}`)])).catch(() => {});
       throw e;
@@ -124,7 +168,12 @@ export async function spotSent(p: Payload, later: Later, d: Deps): Promise<Respo
   if (!p.user || p.user.id !== m.user) return new Response(null, { status: 200 });
   const values = p.view?.state?.values ?? {};
   const text = (values[m.kind === "explain" ? "q" : "what"]?.v?.value ?? "").trim();
-  const code = m.kind === "change" ? values.code?.v?.value ?? "" : "";
+  let code = m.kind === "change" ? values.code?.v?.value ?? "" : "";
+  // The box was left as it opened: no code to suggest.
+  if (m.same && digest(code) === m.same) code = "";
+  // Slack can drop the first line's leading spaces: when the spot's first line was indented
+  // and what came back isn't, give it the same indent.
+  if (code && m.indent && !/^\s/.test(code)) code = m.indent + code;
   if (!text) return Response.json({ response_action: "errors", errors: { [m.kind === "explain" ? "q" : "what"]: "Write something first." } });
 
   const go = async () => {

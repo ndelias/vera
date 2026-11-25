@@ -10,6 +10,7 @@ import { sealFor } from "../../../packages/cli/src/sealed.ts";
 import { slackAnswerer, type Ask } from "../../../packages/rules/src/index.ts";
 import { readBrief } from "../src/comment.ts";
 import { handle, type Deps } from "../src/events.ts";
+import { currentLines } from "../src/spots.ts";
 
 const SECRET = "shh";
 const NOW = 1_800_000_000_000;
@@ -45,8 +46,8 @@ function fakes(answer = { answer: "It stops totals going below zero.", needsAuth
     github: async () => ({
       comments: async () => [{ id: 1, who: "github-actions[bot]", body: veraBody, trusted: false, at: "" }],
       reply: async (_ref: unknown, to: number, b: string) => { replies.push({ to, body: b }); },
-      pull: async () => ({ title: "Coupons", author: "cy", files: [{ path: "cart.ts", patch: "@@ -1 +1 @@\n-a\n+b" }] }),
-      lineComments: async () => [{ id: 41, who: "github-actions[bot]", body: "<!-- vera-spot -->", path: "cart.ts", line: 12, replyTo: null, trusted: false, at: "1", url: "" }],
+      pull: async () => ({ title: "Coupons", author: "cy", files: [{ path: "cart.ts", patch: "@@ -10,3 +10,3 @@\n-  total = total - off\n+  total = max(total - off, 1)\n   return total\n }" }] }),
+      lineComments: async () => [{ id: 41, who: "github-actions[bot]", body: "<!-- vera-spot -->", path: "cart.ts", line: 12, start: 10, replyTo: null, trusted: false, at: "1", url: "" }],
     }) as unknown as Awaited<ReturnType<Deps["github"]>>,
     canPost: true,
   };
@@ -138,4 +139,28 @@ test("an empty box says so and posts nothing", async () => {
   const res = await run(form(submit("change", { what: { v: { value: "  " } } })), f.deps);
   assert.deepEqual(await res.json(), { response_action: "errors", errors: { what: "Write something first." } });
   assert.equal(f.replies.length, 0);
+});
+
+const NOW_LINES = "  total = max(total - off, 1)\n  return total\n}";
+
+test("the change box opens with the spot's lines as they are now", async () => {
+  assert.equal(currentLines("@@ -10,3 +10,3 @@\n-  total = total - off\n+  total = max(total - off, 1)\n   return total\n }", 10, 12), NOW_LINES);
+  assert.equal(currentLines("@@ -10,1 +10,1 @@\n-a\n+b", 10, 12), null, "lines the patch doesn't show: no pre-fill");
+  const f = fakes();
+  await run(form(press("vera_spot_change", 0)), f.deps);
+  const view = f.views[1]!.view as { blocks: { block_id?: string; element?: { initial_value?: string } }[]; private_metadata?: string };
+  assert.equal(view.blocks.find((b) => b.block_id === "code")?.element?.initial_value, NOW_LINES);
+  const m = JSON.parse(view.private_metadata!);
+  assert.equal(m.indent, "  ");
+});
+
+test("a change box sent as it opened sends no code; a first line that lost its indent gets it back", async () => {
+  const f = fakes();
+  await run(form(press("vera_spot_change", 0)), f.deps);
+  const meta = JSON.parse((f.views[1]!.view as { private_metadata: string }).private_metadata);
+  const send = (code: string) => ({ ...submit("change", { what: { v: { value: "Clamp at zero." } }, code: { v: { value: code } } }), view: { id: "V1", callback_id: "vera_spot_form", private_metadata: JSON.stringify(meta), state: { values: { what: { v: { value: "Clamp at zero." } }, code: { v: { value: code } } } } } });
+  await run(form(send(NOW_LINES)), f.deps);
+  assert.ok(!f.replies.at(-1)!.body.includes("```suggestion"), "untouched: no suggestion");
+  await run(form(send("total = max(total - off, 0)\n  return total\n}")), f.deps);
+  assert.match(f.replies.at(-1)!.body, /```suggestion\n  total = max\(total - off, 0\)\n  return total\n\}\n```$/);
 });
