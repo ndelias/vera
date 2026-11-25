@@ -5,7 +5,7 @@ import { fileHunks } from "@vera/agents/triage";
 import { toMarkdown } from "../src/markdown.ts";
 import { readBrief } from "../src/people.ts";
 import type { Review } from "../src/review.ts";
-import { span, TICK, verifyView } from "../src/verify.ts";
+import { span, verifyView } from "../src/verify.ts";
 
 const files = [
   { path: "src/cart.ts", patch: "@@ -8,4 +8,6 @@\n a\n-b\n+c\n+d\n+e\n f\n@@ -60,2 +62,2 @@\n-x\n+y" },
@@ -57,12 +57,14 @@ test("when Triage gives no answer, nothing is cleared and the headline says so",
   assert.ok(!md.includes("Cleared by Vera"));
 });
 
-test("the comment: headline, the engineer's spots as tick boxes, then Also changed and Cleared folded away", () => {
-  const md = toMarkdown(base);
+test("the comment: Vera's header, the headline, what it does, the engineer's spots, then Also changed and Cleared", () => {
+  const md = toMarkdown({ ...base, triage: { hunks, skips, about: "Adds coupons to the cart. Totals can't go below zero." } });
+  assert.match(md, /^<picture>.*vera-lockup\.png" height="26" alt="Vera"><\/picture>$/m);
   assert.match(md, /^\*\*Verify 1 spot\*\* \(3 lines\) · 4 of 11 changed lines cleared by Vera$/m);
-  assert.match(md, /^- \[ \] <picture>.*alt="High"><\/picture> \[`cart\.ts` L10-12\]\(.*\) · Applies the discount\. A negative total is possible\. <!-- vera-tick:0:ana -->$/m);
-  assert.ok(!md.includes("| Look at | Why |"), "no table when the spots are tick boxes");
-  assert.match(md, /ticking all of them signs you off as engineer/);
+  assert.match(md, /^\*\*What this change does:\*\* Adds coupons to the cart\. Totals can't go below zero\.$/m);
+  assert.match(md, /\*\*Engineering · verify in each thread\*\*\n\n- <picture>.*alt="High"><\/picture> \[`cart\.ts` L10-12\]\(.*\) · Applies the discount\. \*\*to verify\*\*$/m);
+  assert.ok(!md.includes("| Look at | Why |"), "no table when the spots are threads");
+  assert.match(md, /✓ on all of yours signs you off as engineer/);
   const order = ["#### @ana", "<summary><b>Also changed</b> · 3 lines in 2 files", "<summary><b>Cleared by Vera</b> · 4 lines in 2 files", "How Vera decided"].map((x) => md.indexOf(x));
   assert.ok(!order.includes(-1), String(order));
   assert.deepEqual(order, [...order].sort((a, b) => a - b));
@@ -70,15 +72,19 @@ test("the comment: headline, the engineer's spots as tick boxes, then Also chang
   assert.equal(readBrief(md)?.verify, true);
 });
 
-test("tick boxes read back as spot and handle", () => {
-  const md = toMarkdown(base).replace("- [ ] ", "- [x] ");
-  const ticks = [...md.matchAll(TICK)].map((m) => [m[1], m[2], m[3]]);
-  assert.deepEqual(ticks, [["x", "0", "ana"]]);
+test("with threads, each spot links to its thread and shows where its person is", () => {
+  const comments = [
+    { id: 7, who: "github-actions[bot]", body: "<!-- vera-spot -->", path: "src/cart.ts", line: 12, replyTo: null, trusted: false, at: "1", url: "https://github.com/o/r/pull/1#discussion_r7" },
+    { id: 8, who: "ana", body: "✓", path: "src/cart.ts", line: 12, replyTo: 7, trusted: true, at: "2", url: "u8" },
+  ];
+  const md = toMarkdown(base, undefined, undefined, undefined, { comments, ids: [7] });
+  assert.match(md, /\[`cart\.ts` L10-12\]\(https:\/\/github\.com\/o\/r\/pull\/1#discussion_r7 "src\/cart\.ts"\) · Applies the discount\. \*\*✓ verified\*\*$/m);
+  assert.equal(readBrief(md)?.spots[0]?.thread, 7);
 });
 
 test("without the switch, the comment is as before", () => {
   const { triage: _, ...off } = base;
   const md = toMarkdown(off);
   assert.ok(md.includes("| Look at | Why |"));
-  assert.ok(!md.includes("Verify 1 spot") && !md.includes("vera-tick"));
+  assert.ok(!md.includes("Verify 1 spot") && !md.includes("vera-lockup"));
 });

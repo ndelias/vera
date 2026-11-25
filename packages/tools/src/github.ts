@@ -22,6 +22,10 @@ export type Pull = {
 export type PullReview = { id: number; who: string; state: string; body: string; trusted: boolean; at: string };
 export type Comment = { id: number; who: string; body: string; trusted: boolean; at: string };
 export type Check = { conclusion: "success" | "neutral" | "failure"; title: string; summary: string };
+/** A comment on a pull request's code. `line` is null once a push has moved the code it was on. */
+export type LineComment = { id: number; who: string; body: string; path: string; line: number | null; replyTo: number | null; trusted: boolean; at: string; url: string };
+/** A new comment on lines of the latest version of a file (`start` for more than one line). */
+export type NewLineComment = { path: string; line: number; start?: number; body: string };
 
 export class GitHubError extends Error {}
 
@@ -137,6 +141,30 @@ export function client(token: string | undefined, onCall: OnCall = () => {}) {
         ? await send("github.check.update", "PATCH", `${base}/check-runs/${runs[0].id}`, body, `Updating the ${name} check`)
         : await send("github.check.create", "POST", `${base}/check-runs`, { ...body, head_sha: sha }, `Creating the ${name} check`);
       return (done as { html_url: string }).html_url;
+    },
+
+    /** Comments on the code, oldest first: threads and their replies. */
+    async lineComments(ref: PullRef): Promise<LineComment[]> {
+      const raw = await all<{ id: number; user: { login: string } | null; body: string | null; path: string; line: number | null; in_reply_to_id?: number; author_association: string; created_at: string; html_url: string }>(
+        "github.line-comments", `/repos/${ref.owner}/${ref.repo}/pulls/${ref.number}/comments`);
+      return raw.map((c) => ({ id: c.id, who: c.user?.login ?? "ghost", body: c.body ?? "", path: c.path, line: c.line, replyTo: c.in_reply_to_id ?? null, trusted: TRUSTED.has(c.author_association), at: c.created_at, url: c.html_url }));
+    },
+
+    /** Starts threads on lines of the given commit, as one review that only comments. */
+    async startThreads(ref: PullRef, sha: string, threads: NewLineComment[]): Promise<void> {
+      if (!threads.length) return;
+      const comments = threads.map((t) => ({ path: t.path, line: t.line, side: "RIGHT", body: t.body, ...(t.start && t.start < t.line ? { start_line: t.start, start_side: "RIGHT" } : {}) }));
+      await send("github.review.create", "POST", `/repos/${ref.owner}/${ref.repo}/pulls/${ref.number}/reviews`, { commit_id: sha, event: "COMMENT", body: "", comments }, "Posting Vera's spots on the code");
+    },
+
+    /** Replies in a thread on the code. */
+    async reply(ref: PullRef, commentId: number, body: string): Promise<void> {
+      await send("github.reply", "POST", `/repos/${ref.owner}/${ref.repo}/pulls/${ref.number}/comments/${commentId}/replies`, { body }, "Replying in the thread");
+    },
+
+    /** Reacts to a comment on the code. */
+    async reactLine(ref: PullRef, commentId: number, content: "+1" | "eyes" | "confused"): Promise<void> {
+      await send("github.react", "POST", `/repos/${ref.owner}/${ref.repo}/pulls/comments/${commentId}/reactions`, { content }, "Reacting to the reply");
     },
 
     /** Reacts to a comment, so the person who wrote it sees Vera read it. */

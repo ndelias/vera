@@ -105,11 +105,6 @@ const cell = (s: string) => s.replace(/</g, "&lt;").replace(/\s*\n\s*/g, " ").re
 const where = (r: Range) => (r.url ? `[\`${r.label}\`](${r.url} "${r.file}") ${r.ranges}` : `\`${r.label}\` ${r.ranges}`);
 const more = (rows: unknown[]) => (rows.length > MAX_ROWS ? [`- and ${n(rows.length - MAX_ROWS, "more file")}`] : []);
 
-/** The hidden id on a spot's tick box: which spot, and whose box it is, so an edit to the
- * comment can be read back as "this person verified this spot". */
-export const tickId = (spot: number, who: string) => `<!-- vera-tick:${spot}:${who.replace(/^@/, "")} -->`;
-export const TICK = /^- \[( |x|X)\] .*<!-- vera-tick:(\d+):([A-Za-z0-9-]+) -->/gm;
-
 /** The line under the summary: what to verify, and how much Vera cleared. */
 export function headline(v: VerifyView, spots: number): string {
   const verify = spots ? `**Verify ${n(spots, "spot")}** (${n(v.spotLines, "line")})` : "**Nothing flagged to verify**";

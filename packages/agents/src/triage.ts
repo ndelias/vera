@@ -120,14 +120,37 @@ export function hunksText(title: string, hunks: Hunk[]): string {
   return out.join("\n");
 }
 
-export function triageRequest(model: string, title: string, hunks: Hunk[], version: TriageVersion = "v2"): Anthropic.MessageCreateParamsNonStreaming {
+/** In the product, Triage also writes what the change does (`about`), for the top of Vera's
+ * comment; the study ran without it. v1 is the product's version: v2 did worse (study 08). */
+const ABOUT = `
+
+Also write "about": what this change does and why, in 3 to 4 plain sentences a reviewer can read before the code. Say what it changes for people using it or for the code around it, not file by file. Only claim what the diff shows.`;
+
+const WITH_ABOUT = {
+  ...OUTPUT_SCHEMA,
+  properties: { ...OUTPUT_SCHEMA.properties, about: { type: "string" } },
+  required: ["skip", "about"],
+} as const;
+
+export function triageRequest(model: string, title: string, hunks: Hunk[], version: TriageVersion = "v1", opts: { about?: boolean } = {}): Anthropic.MessageCreateParamsNonStreaming {
   return {
     model,
     max_tokens: 16000,
-    output_config: { effort: "medium", format: { type: "json_schema", schema: OUTPUT_SCHEMA } },
-    system: [{ type: "text", text: INSTRUCTIONS[version], cache_control: { type: "ephemeral" } }],
+    output_config: { effort: "medium", format: { type: "json_schema", schema: opts.about ? WITH_ABOUT : OUTPUT_SCHEMA } },
+    system: [{ type: "text", text: INSTRUCTIONS[version] + (opts.about ? ABOUT : ""), cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: hunksText(title, hunks) }],
   };
+}
+
+/** What the change does, when it was asked for (`about`); null otherwise. */
+export function parseAbout(message: Anthropic.Message): string | null {
+  const text = message.content.find((b): b is Anthropic.TextBlock => b.type === "text")?.text;
+  try {
+    const out = text ? (JSON.parse(text) as { about?: unknown }) : null;
+    return typeof out?.about === "string" && out.about.trim() ? out.about.trim() : null;
+  } catch {
+    return null;
+  }
 }
 
 /** The hunks to skip, keeping only ids that exist; null when the answer is unusable. */
