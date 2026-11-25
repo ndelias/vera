@@ -10,7 +10,8 @@
 // (design questions on the examiner20 sample), exam-eng (engineer questions
 // on the 12 GitHub PRs in studies/06-agents/examiner-eng-sample.json), answers (good / vague / wrong
 // answers to each question, from an exam system), grade (the grader on those
-// answers, from an answers system).
+// answers, from an answers system), skip-train and skip-test (Triage on study
+// 08's pull requests, sk_prs, at the first version reviewers commented on).
 
 import Anthropic from "@anthropic-ai/sdk";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -23,6 +24,8 @@ import { client as github } from "@vera/tools/github";
 import { briefRequest, parseBrief } from "../briefer.ts";
 import { answersRequest, examRequest, gradeRequest, parseJson, type Exam, type Grade, type Question } from "../examiner.ts";
 import { files as gitlabFiles } from "./gitlab.ts";
+import { triageRequest, type Hunk } from "../triage.ts";
+import { execFileSync } from "node:child_process";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../../../..");
 const DATA = join(ROOT, "research/data");
@@ -57,6 +60,18 @@ async function requests(job: string, model: string, from?: string): Promise<Req[
       const pull = await gh.pull({ owner, repo: name, number: Number(n), url: `https://github.com/${repo}/pull/${n}` });
       const files = pull.files.map((f) => ({ path: f.path, diff: f.patch ?? "", generated: false, tooLarge: !f.patch && f.additions + f.deletions > 0 }));
       out.push({ custom_id: cid(id), params: briefRequest(model, { title: pull.title, files }, "engineer", job === "brief2" ? "v2" : "v1") });
+    }
+    return out;
+  }
+  if (job === "skip-train" || job === "skip-test") {
+    const split = job.slice(5);
+    const hunks = db.prepare("SELECT n, path, text FROM sk_hunks WHERE pr = ? ORDER BY n");
+    const out: Req[] = [];
+    for (const { id } of db.prepare("SELECT id FROM sk_prs WHERE split = ? ORDER BY id").all(split) as { id: string }[]) {
+      const [repo, n] = id.split("#") as [string, string];
+      const title = execFileSync("gh", ["api", `repos/${repo}/pulls/${n}`, "-q", ".title"], { encoding: "utf8" }).trim();
+      const hs = (hunks.all(id) as { n: number; path: string; text: string }[]).map((h): Hunk => ({ id: h.n, path: h.path, text: h.text }));
+      out.push({ custom_id: cid(id), params: triageRequest(model, title, hs) });
     }
     return out;
   }
