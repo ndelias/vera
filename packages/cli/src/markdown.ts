@@ -14,7 +14,7 @@ import { briefMarker, labels, type Brief } from "./people.ts";
 import { planMarker, spotRow, statusBlock } from "./signoff.ts";
 import { examMarker, type Understanding } from "./understanding.ts";
 import type { Seal } from "./sealed.ts";
-import { headline, sections, verifyView } from "./verify.ts";
+import { headline, sections, verifyView, walkthrough, walkthroughSection } from "./verify.ts";
 import { answers } from "./threads.ts";
 import type { Sent } from "./slack.ts";
 import type { LineComment } from "@vera/tools/github";
@@ -71,6 +71,11 @@ export function toMarkdown(r: Review, seal: Seal, s: Signoff = signoff(r.plan.as
   const brief = briefOf(r, threads);
   const every = labels(r.pull.files.map((f) => f.path));
   const v = r.triage ? verifyView(r.triage.hunks, r.triage.skips, brief.spots, (f) => every.get(f) ?? f, (f, line) => linesLink(r, f, String(line))) : null;
+  const walk = r.triage?.steps ? walkthrough(r.triage.hunks, r.triage.skips, r.triage.steps, brief.spots, (f) => every.get(f) ?? f, (f, line) => linesLink(r, f, String(line))) : null;
+  if (walk?.length) {
+    const c = (l: string) => walk.filter((s) => s.level === l).length;
+    brief.walk = { steps: walk.length, verify: c("verify"), skim: c("skim"), cleared: c("cleared") };
+  }
   const lines = [MARKER, planMarker(r.plan.asks, seal), ...(exam ? [examMarker(exam.questions, exam.why, seal)] : []), briefMarker(brief, seal), ""];
 
   if (v) lines.push(HEADER, "");
@@ -89,7 +94,9 @@ export function toMarkdown(r: Review, seal: Seal, s: Signoff = signoff(r.plan.as
   else if (r.plan.asks.length) lines.push("<sub>Sign off by approving, or comment `/vera sign-off` (add a role, like `/vera sign-off design`, for just that one).</sub>");
   else lines.push(...(r.plan.notes.length ? r.plan.notes : ["Vera couldn't name anyone for this change."]).map((n) => `> ${n}`));
 
-  if (v) lines.push("", ...sections(v).slice(0, -1));
+  // The walkthrough replaces Also changed and Cleared; without it (the Guide gave no answer), they're back.
+  if (walk?.length) lines.push("", ...walkthroughSection(walk, brief.spots).slice(0, -1));
+  else if (v) lines.push("", ...sections(v).slice(0, -1));
   lines.push(
     "",
     "<details><summary>How Vera decided</summary>",

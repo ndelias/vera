@@ -199,7 +199,7 @@ if (args[0] === "sign-off") {
     const slackToken = optional("SLACK_BOT_TOKEN");
     if (slackToken && brief && Object.keys(sent).length) {
       const pr = { url: ref.url, repo: `${ref.owner}/${ref.repo}`, number: ref.number, title: pull.title, author: pull.author };
-      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(exam ? { why: exam.why } : {}), signOff: !!SLACK_APP,
+      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(brief.walk ? { walk: brief.walk } : {}), ...(exam ? { why: exam.why } : {}), signOff: !!SLACK_APP,
         ...(brief.verify ? { verify: { spots: brief.spots, ...(answered ? { status: answered.status } : {}) } } : {}) };
       const { problems } = await sendAll(slackToken, new Map(), people(asks, brief, exam?.questions ?? []), (p) => message(p, pr, s, extra, u), sent);
       for (const p of problems) console.log(`${process.env.GITHUB_ACTIONS ? "::warning::" : ""}Slack message not updated for ${p}`);
@@ -289,7 +289,7 @@ try {
       const everyone = people(r.plan.asks, brief, r.exam?.questions.map((q) => q.question) ?? []);
       const pr = { url: r.pull.ref.url, repo: `${r.pull.ref.owner}/${r.pull.ref.repo}`, number: r.pull.ref.number, title: r.pull.title, author: r.pull.author };
       const now = s ?? signoff(r.plan.asks, r.pull.author, []);
-      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(r.exam ? { why: r.exam.why } : {}), signOff: !!SLACK_APP,
+      const extra = { ...(brief.summary ? { summary: brief.summary } : {}), ...(brief.ai ? { ai: brief.ai } : {}), ...(brief.walk ? { walk: brief.walk } : {}), ...(r.exam ? { why: r.exam.why } : {}), signOff: !!SLACK_APP,
         ...(brief.verify && threads ? { verify: { spots: brief.spots, status: answers(brief.spots, threads.comments, SLACK_APP, prior).status } } : {}) };
       const ids = slackIds(r.ownership);
       const { sent, problems } = await sendAll(slackToken, ids, everyone, (p) => message(p, pr, now, extra, u), prior);

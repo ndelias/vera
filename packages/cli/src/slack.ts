@@ -66,7 +66,7 @@ function spotBlocks(x: Spot, who: string, pr: Pr, v: VerifyExtra, buttons: boole
   return [head, { type: "actions", elements: [button("Verified", SPOT_VERIFIED, true), button("Explain this", SPOT_EXPLAIN), button("Needs a change", SPOT_CHANGE)] }];
 }
 
-export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string; ai?: string[]; why?: string; signOff?: boolean; verify?: VerifyExtra }, u?: Understanding): Message {
+export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string; ai?: string[]; why?: string; signOff?: boolean; verify?: VerifyExtra; walk?: { steps: number; verify: number; skim: number; cleared: number } }, u?: Understanding): Message {
   const roles = p.asks.map((a) => {
     const r = s.roles.find((x) => x.role === a.role);
     const someoneElse = r?.by && r.by.toLowerCase() !== p.who.toLowerCase();
@@ -108,6 +108,9 @@ export function message(p: Person, pr: Pr, s: Signoff, extra: { summary?: string
       ...(extra.ai?.length ? [context(`*Likely AI-written:* ${esc(sentence(extra.ai.join(", ")))}`)] : []),
       section(roles.join("\n")),
       ...(look.length ? [{ type: "divider" }, section(v && p.spots.length ? "*Verify these spots*" : "*Where to look*"), ...look] : []),
+      ...(extra.walk ? [context(`*The whole change in ${extra.walk.steps} ${extra.walk.steps === 1 ? "step" : "steps"}* (${[
+        ...(extra.walk.verify ? [`${extra.walk.verify} to verify`] : []), ...(extra.walk.skim ? [`${extra.walk.skim} to skim`] : []), ...(extra.walk.cleared ? [`${extra.walk.cleared} cleared`] : []),
+      ].join(", ")}): the walkthrough is in <${pr.url}|Vera's comment on the pull request>.`)] : []),
       ...(v && p.spots.length ? [context(extra.signOff
         ? "Verified when you've checked a spot, Explain this to ask Vera, Needs a change to tell the author. Each answer goes in the spot's thread on the pull request. Verified on all of yours signs you off as engineer."
         : "Answer each spot in its thread on the pull request: ✓ when you've checked it, a question for Vera, or a suggested change. ✓ on all of yours signs you off as engineer.")] : []),

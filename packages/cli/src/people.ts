@@ -18,7 +18,9 @@ export type Brief = { spots: Spot[]; design: string | null; docs: string[]; summ
   /** With the `verify` switch: each spot is a thread on its lines, and ✓ on all of yours is your sign-off. */
   verify?: boolean;
   /** With Verify: what the change does, in a few plain sentences. */
-  about?: string };
+  about?: string;
+  /** With Verify: the walkthrough's steps, counted by how much care they need (for Slack). */
+  walk?: { steps: number; verify: number; skim: number; cleared: number } };
 export type Person = { who: string; asks: Ask[]; spots: Spot[]; design: string | null; docs: string[]; questions: string[] };
 
 export const briefMarker = (b: Brief, seal: Seal) => record("vera-brief", b, seal);

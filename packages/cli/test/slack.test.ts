@@ -113,3 +113,8 @@ test("with Verify, each of your spots has Verified, Explain this and Needs a cha
   assert.ok(!noApp.includes("vera_spot_verified"), "no app, no buttons: answer in the thread");
   assert.match(noApp, /Answer each spot in its thread/);
 });
+
+test("the Slack message points to the walkthrough, with its steps counted", () => {
+  const m = text(message(everyone[0]!, pr, signoff(asks, "bo", []), { walk: { steps: 4, verify: 1, skim: 2, cleared: 1 } }));
+  assert.match(m, /\*The whole change in 4 steps\* \(1 to verify, 2 to skim, 1 cleared\): the walkthrough is in <https:\/\/github\.com\/o\/r\/pull\/7\|Vera's comment on the pull request>\./);
+});
