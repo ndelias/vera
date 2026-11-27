@@ -69,7 +69,8 @@ const OUTPUT_SCHEMA = {
   additionalProperties: false,
 } as const;
 
-export function guideRequest(model: string, title: string, hunks: Hunk[], version: GuideVersion = "v1"): Anthropic.MessageCreateParamsNonStreaming {
+/** v2 is the product's (study 09: accurate 54 of 54 checked by a model, clear 47 of 54 rated by Nahuel); v1 stays for the study's record. */
+export function guideRequest(model: string, title: string, hunks: Hunk[], version: GuideVersion = "v2"): Anthropic.MessageCreateParamsNonStreaming {
   return {
     model,
     max_tokens: 16000,

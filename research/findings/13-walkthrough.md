@@ -1,50 +1,75 @@
 # Study 09: is the walkthrough right, and does it help?
 
-Design and every change to it, written before the ratings:
-`studies/09-walkthrough/DESIGN.md`. The Guide (Sonnet 5.5, PR #53) wrote
-walkthroughs for all 105 of study 08's test PRs ($1.30). Nahuel rated the 64
-steps of 15 sampled PRs for accuracy and clarity, and the 53 spots that
-mattered outside the Briefer's places for "points there". Answers and notes
-in `studies/09-walkthrough/ratings.json`.
+Design and every change to it, written before each result:
+`studies/09-walkthrough/DESIGN.md`. The Guide (Sonnet 5.5) wrote
+walkthroughs for study 08's test PRs; two rounds were rated against the
+same bar: **at least 9 in 10 steps accurate, at least 8 in 10 clear**.
+Ratings and notes in `ratings.json` (round 1) and `ratings-b.json`
+(round 2); the accuracy checker's verdicts, claim by claim, in
+`checker.json`. Total model cost: about $3.
 
-**How the ratings were made: by Nahuel with AI assistance** (his account,
-27 Nov 2026). This is not a pure human rating. A model reading alongside
-tends to catch fine-print slips a busy reviewer wouldn't, so accuracy and
-clarity may read strict, and "points there" may read generous.
+## Result: Guide v2 passes both bars, and is now the product's Guide
 
-## Results
-
-| | Result | Bar | |
+| | Guide v1 (round 1, 64 steps) | **Guide v2 (round 2, 54 steps)** | Bar |
 |---|---|---|---|
-| **Accurate** | 52 of 64 steps, **81%** (72–91%) | 9 in 10 | **Fails** |
-| **Clear** | 51 of 64, **79.7%** (70–89%) | 8 in 10 | **Fails by one step** |
-| **Points there** | 45 of 53, **85%** | none: the baseline | |
+| **Accurate, checked by Claude Opus 5.5** | 56 of 64 (88%) | **54 of 54** (none failed; very likely above 94%) | 9 in 10: **passes** |
+| **Clear, rated by Nahuel alone** | | **47 of 54 (87%)** | 8 in 10: **passes** |
+| Round 1's ratings (Nahuel with AI assistance) | accurate 52 of 64 (81%), clear 51 of 64 (79.7%) | | both missed |
+| Claims per step / contradicted by the code | 4.4 / 8 | 5.2 / **0** | |
+| Words per explanation (median) | 30 | 41 | |
 
-By level: Verify steps 31 of 40 accurate and 29 of 40 clear; Skim 19 of 20
-and 19 of 20; Cleared 2 of 4 and 3 of 4. 40 of the 64 steps came out Verify:
-one Briefer place makes its whole step Verify.
+**Who rated what, plainly.** Nahuel isn't trained to read code, so he
+rated what a non-engineer reader can judge: whether each step's
+explanation is clear (round 2, on his own, no AI). Whether an explanation
+is true of the code was checked by a model, which lists each claim and
+checks it against the step's code; it's reported as model-checked, not as a
+human rating. On round 1, the checker agreed with Nahuel's AI-assisted
+ratings on 58 of 64 steps, flagging 8 problems where they flagged 12.
 
-**Together with study 08:** the Verify spots hold 162 of the 215 spots that
-mattered (75%), and the walkthrough's explanation points toward 45 of the
-other 53. So Vera flags or points toward about **96%** (207 of 215) of what
-reviewers caught, with the rating caveat above.
+v2 isn't accurate by saying less: its explanations are longer and make more
+claims per step, and none of them is contradicted by the code.
 
-## What went wrong (from the notes)
+## Does it help where the Verify spots miss?
 
-- **Claims broader than the code:** "only", "every", "unless one already
-  exists", "non-kiosk" where the code checks one kiosk mode.
-- **The wrong verb for what happens:** "ignores" where it refuses,
-  "clamps" where it filters out, "persists" where nothing saves.
-- **Too short for big steps:** explanations stop at 40 words (median 30).
-  Most "not clear" notes ask for consequences: what fails, what changes for
-  callers, what a push or upgrade does. Verify steps, the biggest and
-  riskiest, suffered most.
-- **Where "points there" missed:** steps marked Cleared or Skim gave no
-  reason to look (test fakes with shared state, a doc table with a typo),
-  and explanations that called formatter churn "minor cleanups".
+Round 1 asked it of every spot that mattered outside the Briefer's places,
+across all 105 test PRs: would the walkthrough's explanation have led you
+to look there? **45 of 53 (85%)**, rated by Nahuel with AI assistance, on
+Guide v1. With study 08's Verify spots (162 of 215), Vera flags or points
+toward about **96%** of what reviewers caught (207 of 215).
 
-## Next
+## What changed from v1 to v2 (tuned on round 1's PRs only)
 
-A Guide v2 tuned on these 15: no claim wider than the code shows, the exact
-verb, and room in Verify steps for what the change does to callers and what
-can fail. Then a fresh sample, rated the same way, against the same bar.
+Round 1's notes showed three kinds of mistake, and v2's instructions
+answer each: claims wider than the code ("only", "every", "unless"), the
+wrong verb for what happens ("ignores" where it refuses, "clamps" where it
+filters out), and too little room on big steps. v2 names the specific case,
+uses the verb for what the code does, and gives steps that change logic,
+data, permissions or anything other code calls up to 70 words, with what
+changes for callers and what can fail.
+
+## What still reads unclear (round 2's notes)
+
+- Test steps that list test names instead of saying what should happen.
+- Jargon without a plain version ("upserts", "atomic block", status codes
+  without saying what they mean for a person).
+- A missing why: a speed fix that never says it's for speed, a new
+  endpoint the explanation never names.
+- "Other changes": the step that gathers what the Guide left ungrouped
+  explained nothing, and in one PR it held a lot.
+
+## Other findings
+
+- **40 of round 1's 64 steps came out Verify** (37 of round 2's 54): one
+  Briefer place makes its whole step Verify. Worth a finer label, such as
+  "Verify 1 spot", once seen on more real pull requests.
+- Verify steps were the hardest to explain well in round 1 (31 of 40 rated
+  accurate, against 19 of 20 Skim steps).
+
+## Limits
+
+- 15 PRs per round, from three large open-source repos.
+- One rater for clarity, who reads as a non-engineer: a good test of
+  plain language, not of whether an engineer finds it enough.
+- Accuracy is a model's judgment. It agrees with careful reading most of
+  the time on round 1, but it can share blind spots with the model that
+  wrote the explanation.

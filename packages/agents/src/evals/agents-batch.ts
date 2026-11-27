@@ -100,7 +100,7 @@ async function requests(job: string, model: string, from?: string): Promise<Req[
       const [repo, n] = id.split("#") as [string, string];
       const title = execFileSync("gh", ["api", `repos/${repo}/pulls/${n}`, "-q", ".title"], { encoding: "utf8" }).trim();
       const hs = (hunks.all(id) as { n: number; path: string; text: string }[]).map((h): Hunk => ({ id: h.n, path: h.path, text: h.text }));
-      out.push({ custom_id: cid(id), params: guideRequest(model, title, hs) });
+      out.push({ custom_id: cid(id), params: guideRequest(model, title, hs, "v1") });
     }
     return out;
   }
