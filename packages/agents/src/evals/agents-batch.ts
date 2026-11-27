@@ -25,6 +25,8 @@ import { briefRequest, parseBrief } from "../briefer.ts";
 import { answersRequest, examRequest, gradeRequest, parseJson, type Exam, type Grade, type Question } from "../examiner.ts";
 import { files as gitlabFiles } from "./gitlab.ts";
 import { triageRequest, type Hunk } from "../triage.ts";
+import { guideRequest } from "../guide.ts";
+import { judgeRequest, type Line } from "./judge-walk.ts";
 import { execFileSync } from "node:child_process";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../../../..");
@@ -60,6 +62,45 @@ async function requests(job: string, model: string, from?: string): Promise<Req[
       const pull = await gh.pull({ owner, repo: name, number: Number(n), url: `https://github.com/${repo}/pull/${n}` });
       const files = pull.files.map((f) => ({ path: f.path, diff: f.patch ?? "", generated: false, tooLarge: !f.patch && f.additions + f.deletions > 0 }));
       out.push({ custom_id: cid(id), params: briefRequest(model, { title: pull.title, files }, "engineer", job === "brief2" ? "v2" : "v1") });
+    }
+    return out;
+  }
+  if (job === "judge09") {
+    // Study 09: the accuracy checker on every rated step of both rounds (Guide v1 and v2).
+    const out: Req[] = [];
+    for (const round of ["round1", "round2"]) {
+      const prs = JSON.parse(readFileSync(join(DATA, "walk09", `${round}.json`), "utf8")) as { rate: boolean; steps: { key: string; title: string; explain: string; hunks: { path: string; lines: Line[] }[] }[] }[];
+      for (const p of prs) if (p.rate) for (const st of p.steps) out.push({ custom_id: cid(st.key), params: judgeRequest(model, st) });
+    }
+    return out;
+  }
+  if (job === "walk09b") {
+    // Study 09, round 2: Guide v2 on a fresh 15 from the test PRs Nahuel has seen nothing of.
+    const sample = JSON.parse(readFileSync(join(ROOT, "research/studies/09-walkthrough/sample-b.json"), "utf8")) as string[];
+    const hunks = db.prepare("SELECT n, path, text FROM sk_hunks WHERE pr = ? ORDER BY n");
+    const out: Req[] = [];
+    for (const id of sample) {
+      const [repo, n] = id.split("#") as [string, string];
+      const title = execFileSync("gh", ["api", `repos/${repo}/pulls/${n}`, "-q", ".title"], { encoding: "utf8" }).trim();
+      const hs = (hunks.all(id) as { n: number; path: string; text: string }[]).map((h): Hunk => ({ id: h.n, path: h.path, text: h.text }));
+      out.push({ custom_id: cid(id), params: guideRequest(model, title, hs, "v2") });
+    }
+    return out;
+  }
+  if (job === "walk09" || job === "walk09-rest") {
+    // Study 09: the Guide's walkthrough, on the same diffs as study 08: the 15 sampled test PRs
+    // (walk09), or the other 90 test PRs (walk09-rest), whose spots outside the Briefer's places
+    // are rated for "points there" only.
+    const picked = JSON.parse(readFileSync(join(ROOT, "research/studies/09-walkthrough/sample.json"), "utf8")) as string[];
+    const sample = job === "walk09" ? picked
+      : (db.prepare("SELECT id FROM sk_prs WHERE split = 'test' ORDER BY id").all() as { id: string }[]).map((r) => r.id).filter((id) => !picked.includes(id));
+    const hunks = db.prepare("SELECT n, path, text FROM sk_hunks WHERE pr = ? ORDER BY n");
+    const out: Req[] = [];
+    for (const id of sample) {
+      const [repo, n] = id.split("#") as [string, string];
+      const title = execFileSync("gh", ["api", `repos/${repo}/pulls/${n}`, "-q", ".title"], { encoding: "utf8" }).trim();
+      const hs = (hunks.all(id) as { n: number; path: string; text: string }[]).map((h): Hunk => ({ id: h.n, path: h.path, text: h.text }));
+      out.push({ custom_id: cid(id), params: guideRequest(model, title, hs, "v1") });
     }
     return out;
   }

@@ -143,7 +143,7 @@ export async function review(url: string, opts: { apiKey: string; githubToken?: 
           })
         : Promise.resolve(null),
       opts.verify && hunks.length
-        ? call("guide", "the walkthrough: every change in steps, in reading order", guideRequest(opts.model, pull.title, hunks), (m) => parseGuide(m, hunks.map((h) => h.id)))
+        ? call("guide", "the walkthrough: every change in steps, in reading order", guideRequest(opts.model, pull.title, hunks, "v2"), (m) => parseGuide(m, hunks.map((h) => h.id)))
         : Promise.resolve(null),
     ]);
 

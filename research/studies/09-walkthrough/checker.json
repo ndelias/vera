@@ -1,0 +1,3633 @@
+{
+ "g135227-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The sandbox page is retitled",
+    "holds": "yes",
+    "why": "The title and H1 change from 'Isolate plugin code with the Plugin Frontend Sandbox' to 'Improve security with the Plugins Frontend Sandbox', and a menuTitle is added."
+   },
+   {
+    "claim": "The page now carries a deprecation warning stating removal in Grafana 13.4",
+    "holds": "yes",
+    "why": "The caution admonition now says the public preview 'has been deprecated and will be removed in Grafana 13.4'."
+   },
+   {
+    "claim": "The page drops the strong isolation claims",
+    "holds": "yes",
+    "why": "The 'separate JavaScript context' text and the bullet list of protections are removed. A softer 'helps keep a plugin's frontend code focused' statement replaces them."
+   },
+   {
+    "claim": "The page drops the recommendations",
+    "holds": "yes",
+    "why": "The 'When to use' section is removed, including 'We strongly recommend enabling...' and its list of example plugins."
+   },
+   {
+    "claim": "The page adds a warning to only install trusted plugins",
+    "holds": "yes",
+    "why": "A new warning admonition is added: 'Never install plugins from sources you do not trust.'"
+   }
+  ]
+ },
+ "g135227-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The sandbox bullet in the overview list is renamed to the new title (Plugins Frontend Sandbox).",
+    "holds": "yes",
+    "why": "Line 31 changes from 'Plugin Frontend Sandbox' with isolation wording to 'Improve security with the Plugins Frontend Sandbox.'"
+   },
+   {
+    "claim": "The sandbox section heading is renamed to the new title.",
+    "holds": "yes",
+    "why": "The heading changes from 'Isolate plugin code with the Frontend Sandbox' to 'Improve security with the Plugins Frontend Sandbox'."
+   },
+   {
+    "claim": "The list of isolation benefits is replaced with a note that the sandbox is an additional layer alongside standard trust and review practices.",
+    "holds": "yes",
+    "why": "The four-bullet benefits list and its intro are removed. In their place is a sentence describing the sandbox as an additional layer alongside standard plugin trust and review practices."
+   }
+  ]
+ },
+ "g135315-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "ListModifiedSince now compares the effective RV's age against a max event store age",
+    "holds": "yes",
+    "why": "Line 2325 computes useDataStore as time.Since(effectiveRvTime) > k.maxEventStoreAge(), where effectiveRvTime is derived from effectiveRv's snowflake timestamp."
+   },
+   {
+    "claim": "The max event store age is the lesser of an hour or retention minus a margin",
+    "holds": "yes",
+    "why": "maxEventStoreAge returns min(time.Hour, k.eventRetentionPeriod-eventStoreRetentionMargin), with the margin defined as 2 minutes."
+   },
+   {
+    "claim": "Older RVs read the data store",
+    "holds": "yes",
+    "why": "When useDataStore is true and there are events newer than effectiveRv, listModifiedSinceDataStore is used (line 2355-2357). If the latest event is at or below effectiveRv, the function returns early with nothing to return."
+   },
+   {
+    "claim": "It handles an empty event store without skipping pruned changes",
+    "holds": "yes",
+    "why": "On ErrNotFound, it no longer returns nothing unconditionally. If useDataStore is true and the caller was not called recently, it reads the data store from effectiveRv (line 2339)."
+   }
+  ]
+ },
+ "g135315-s2": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "New tests cover choosing the data store or event store based on the age of the RV (sinceRV).",
+    "holds": "yes",
+    "why": "Subtests 'reads the data store when sinceRV is older than the retention period' and 'reads the event store when sinceRV is within the retention period' exercise both branches."
+   },
+   {
+    "claim": "A test covers an emptied event store keeping the checkpoint.",
+    "holds": "yes",
+    "why": "The 'pruning emptied the event store' subtest asserts the returned latestRV equals oldRV, with the comment that the checkpoint stays."
+   },
+   {
+    "claim": "A test covers skipping the data store after a recent call.",
+    "holds": "yes",
+    "why": "The 'skips the data store after a recent call...' subtest passes a calledAt one minute ago and expects an empty result."
+   },
+   {
+    "claim": "A test covers the rescan after a slow scan.",
+    "holds": "yes",
+    "why": "The 'rescans the data store when the event store scan outlives the retention period' subtest sleeps mid-iteration and expects 'slow' twice."
+   },
+   {
+    "claim": "A test covers the one-hour cap.",
+    "holds": "yes",
+    "why": "With a 24h retention, a sinceRV 2h old still reads the data store, as the subtest 'reads the data store past an hour even with a longer retention period' checks."
+   }
+  ]
+ },
+ "g136831-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": false,
+  "claims": [
+   {
+    "claim": "TimePickerTooltip now captures the current time once via useState(Date.now) instead of calling Date.now() on every render",
+    "holds": "yes",
+    "why": "Line 307 replaces `const now = Date.now()` in the component body with `const [now] = useState(Date.now)`."
+   },
+   {
+    "claim": "TimePickerFooter now captures the current time once via useState(Date.now) instead of calling it on every render",
+    "holds": "yes",
+    "why": "The destructuring default `timestamp = Date.now()` is replaced with `useState(Date.now)` plus `props.timestamp ?? now`."
+   },
+   {
+    "claim": "TimeZonePicker's useTimeZones previously called Date.now() on every render and now captures it once via useState(Date.now)",
+    "holds": "no",
+    "why": "The old Date.now() call was inside the useMemo callback, so it ran only when includeInternal changed, not on every render. The change moves it out of the memo into useState."
+   },
+   {
+    "claim": "The table date filter (DateRangeFilter) captures the current time once via useState(Date.now) instead of calling it on every render",
+    "holds": "yes",
+    "why": "`const [now] = useState(Date.now)` is added, and the inline Date.now() fallbacks for from/to are replaced with `now`."
+   },
+   {
+    "claim": "TimeZonePicker adds the frozen value to its memo dependencies",
+    "holds": "yes",
+    "why": "The useMemo dependency array changes from [includeInternal] to [includeInternal, now]."
+   }
+  ]
+ },
+ "g136831-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Math.random state initializers are changed to lazy initializer functions so they run only once",
+    "holds": "yes",
+    "why": "In ParamsEditor, AlertGroupFilter, RulesFilter.v1 and RuleDetailsMatchingInstances, the eager Math.random expression is wrapped in an arrow function passed to useState, which React calls only on the first render."
+   },
+   {
+    "claim": "ReceiverForm stores its default id in state",
+    "holds": "yes",
+    "why": "A new line `const [defaultId] = useState(Math.random);` was added, and `__id` now uses `String(defaultId)` instead of `String(Math.random())`."
+   },
+   {
+    "claim": "ReceiverForm swaps its React namespace import for named imports",
+    "holds": "yes",
+    "why": "`import * as React from 'react'` became `import { type ComponentProps, useState } from 'react'`, and `React.ComponentProps` became `ComponentProps`."
+   }
+  ]
+ },
+ "g136831-s3": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Calls like useMemo(getX, []) are replaced with useState(getX)",
+    "holds": "yes",
+    "why": "CloudRules, RuleListStateView, RuleList.v1, PanelVizTypePicker and OptionsPaneOptions all change useMemo(getX, []) to const [x] = useState(getX)."
+   },
+   {
+    "claim": "useState(getX) acts as a stable, once-only initializer",
+    "holds": "yes",
+    "why": "Passing a function to useState makes it a lazy initializer that React calls only on the first render, and the result stays stable after that."
+   },
+   {
+    "claim": "The ruleAbilities hook gets a wrapper arrow function instead of being converted to useState",
+    "holds": "yes",
+    "why": "useGlobalRuleAbilities changes from useMemo(getGlobalRuleAbilities, []) to useMemo(() => getGlobalRuleAbilities(), []) and remains a useMemo."
+   }
+  ]
+ },
+ "g136831-s4": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "TimeRegionEditor's timestamp is now captured once in state",
+    "holds": "yes",
+    "why": "`const timestamp = Date.now()` was replaced with `const [timestamp] = useState(Date.now)`, which is evaluated only on the first render."
+   },
+   {
+    "claim": "The canvas connection SVGs (ConnectionSVG and ConnectionSVG2) capture their timestamp once in state",
+    "holds": "yes",
+    "why": "Both files add `const [now] = useState(Date.now)` and use `now` in `headId` instead of calling `Date.now()` on each render."
+   },
+   {
+    "claim": "JoinByLabels drops its Date.now key",
+    "holds": "yes",
+    "why": "`key: Date.now()` was removed from the object returned by the useMemo."
+   },
+   {
+    "claim": "The removed JoinByLabels key was unused",
+    "holds": "not shown",
+    "why": "No consumer of the memoized object appears in the diff, so whether `key` was read elsewhere can't be confirmed."
+   },
+   {
+    "claim": "RenderInfoViewer gets an explicit lint-disable",
+    "holds": "yes",
+    "why": "`// eslint-disable-next-line react-hooks/purity` was added above `useRef(Date.now())`."
+   }
+  ]
+ },
+ "g136831-s5": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The change removes an empty slot (stray comma) from a hook dependency array",
+    "holds": "yes",
+    "why": "Line 247 changes `[direction, handlePressedKeys, , measurementProp, usePixels]` to the same array without the empty slot."
+   },
+   {
+    "claim": "The dependency array belongs to the onKeyDown callback",
+    "holds": "not shown",
+    "why": "The callback's name is outside the lines shown; only the following `onKeyUp` declaration is visible, which is consistent with but does not confirm onKeyDown."
+   },
+   {
+    "claim": "The removal cleared a lint warning",
+    "holds": "not shown",
+    "why": "No lint output or config is shown; that a warning existed and was cleared cannot be verified from the diff."
+   }
+  ]
+ },
+ "g136831-s6": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The step removes eslint-suppressions.json entries",
+    "holds": "yes",
+    "why": "Many entries are deleted, both whole file blocks (e.g. TimePickerFooter.tsx, CloudRules.tsx) and individual rules (e.g. purity in TimeRangePicker.tsx)."
+   },
+   {
+    "claim": "The step reduces some suppression counts rather than removing them",
+    "holds": "yes",
+    "why": "ruleAbilities.ts use-memo goes from 2 to 1, and RenderInfoViewer.tsx purity goes from 2 to 1."
+   },
+   {
+    "claim": "The affected entries are for react-hooks/purity, use-memo and related rules",
+    "holds": "yes",
+    "why": "Most removals are purity or use-memo. The others (refs in LogLineDetailsDisplayedFields, preserve-manual-memoization in RuleList.v1) are related react-hooks rules."
+   },
+   {
+    "claim": "The pruned suppressions correspond to violations fixed elsewhere in this PR",
+    "holds": "not shown",
+    "why": "Only the suppressions file is shown; the source fixes are not."
+   }
+  ]
+ },
+ "g137321-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": false,
+  "claims": [
+   {
+    "claim": "A new DashboardEditHistoryControls component renders Undo and Redo buttons",
+    "holds": "yes",
+    "why": "The component returns a ButtonGroup containing UndoButton and RedoButton."
+   },
+   {
+    "claim": "The buttons are shown only when the undo/redo flag is on, new layouts are enabled, the dashboard is in full edit mode, and no panel is being edited",
+    "holds": "yes",
+    "why": "isVisible requires dashboardUndoRedo, isDashboardNewLayoutsEnabled(), isFullDashboardEditing(...), and !dashboardState.editPanel."
+   },
+   {
+    "claim": "The buttons are shown only in non-kiosk mode",
+    "holds": "no",
+    "why": "The check is kioskMode !== KioskMode.Full, so the buttons are hidden only in full kiosk mode. Other kiosk modes still show them."
+   },
+   {
+    "claim": "Tooltips name the pending undo/redo action",
+    "holds": "yes",
+    "why": "When a description exists, the tooltip is 'Undo: {{action}}' or 'Redo: {{action}}'. Otherwise it falls back to the plain label."
+   },
+   {
+    "claim": "Clicks call the sidebar's undo/redo",
+    "holds": "yes",
+    "why": "onClick calls sidebar.undoAction() and sidebar.redoAction()."
+   }
+  ]
+ },
+ "g137321-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "DashboardControls imports the new component (DashboardEditHistoryControls)",
+    "holds": "yes",
+    "why": "Line 52 adds the import from './new-toolbar/actions/DashboardEditHistoryControls'."
+   },
+   {
+    "claim": "The component is rendered right before the Save button",
+    "holds": "yes",
+    "why": "Line 377 renders <DashboardEditHistoryControls> immediately before the SaveDashboard line."
+   },
+   {
+    "claim": "This rendering happens in the control actions section",
+    "holds": "yes",
+    "why": "It sits in the returned fragment with the Share, Save, Edit and MakeEditable action buttons."
+   }
+  ]
+ },
+ "g137321-s3": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The sidebar no longer reads the undo/redo flag",
+    "holds": "yes",
+    "why": "The useFlagDashboardUndoRedo import and the dashboardUndoRedo call are both removed."
+   },
+   {
+    "claim": "The sidebar no longer renders its own Undo/Redo buttons and divider",
+    "holds": "yes",
+    "why": "The conditional block that rendered Sidebar.Divider, UndoButton and RedoButton is removed."
+   },
+   {
+    "claim": "The UndoButton and RedoButton components are deleted",
+    "holds": "yes",
+    "why": "Both function components are removed from the file."
+   },
+   {
+    "claim": "Unused imports are deleted",
+    "holds": "yes",
+    "why": "The imports of useFlagDashboardUndoRedo, usePendingChangesHistoryState and ToolbarActionProps are removed, and all three were only used by the deleted code."
+   }
+  ]
+ },
+ "g137321-s4": {
+  "round": "round1",
+  "level": "cleared",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The undo and redo strings are moved from one section to another (removed in one place, added in another).",
+    "holds": "yes",
+    "why": "\"redo\": \"Redo\" and \"undo\": \"Undo\" are removed near lines 6700/6717 and re-added with the same values near lines 6923/6943."
+   },
+   {
+    "claim": "The section they are moved from is the sidebar section.",
+    "holds": "not shown",
+    "why": "The parent key name of the source section is not visible in the diff. Its siblings (row, variable, source) don't establish that it is the sidebar."
+   },
+   {
+    "claim": "The section they are moved to is the toolbar section.",
+    "holds": "not shown",
+    "why": "The destination section's key name is not shown. Its siblings (playlist-next, star-added, unlink-library-panel) suggest a toolbar, but the name isn't visible."
+   },
+   {
+    "claim": "Adds 'Undo: {{action}}' and 'Redo: {{action}}' strings.",
+    "holds": "yes",
+    "why": "\"redo-action\": \"Redo: {{action}}\" and \"undo-action\": \"Undo: {{action}}\" are added."
+   },
+   {
+    "claim": "The new strings are tooltip strings.",
+    "holds": "not shown",
+    "why": "How these strings are used is not visible in this locale-file diff."
+   }
+  ]
+ },
+ "g137321-s5": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds unit tests for placement of the undo/redo controls",
+    "holds": "yes",
+    "why": "Test 'renders undo and redo directly before the save button while editing' checks DOM order."
+   },
+   {
+    "claim": "Adds unit tests for disabled state",
+    "holds": "yes",
+    "why": "Test 'disables both buttons when there is nothing to undo or redo'."
+   },
+   {
+    "claim": "Adds unit tests for tooltips and click handling",
+    "holds": "yes",
+    "why": "Test checks hover tooltips 'Undo: Move panel'/'Redo: Remove panel' and that clicks call undoAction/redoAction."
+   },
+   {
+    "claim": "Adds tests for hiding when not editing, flag off, kiosk mode, or panel edit",
+    "holds": "yes",
+    "why": "Four tests cover isEditing false, flag false, KioskMode.Full, and panel edit."
+   },
+   {
+    "claim": "The e2e Toolbar page object drops its Undo and Redo button names",
+    "holds": "yes",
+    "why": "ButtonNames union removes 'Undo' | 'Redo'."
+   }
+  ]
+ },
+ "g137465-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Replaces the KV-backed route credential with an encrypted value stored in Secrets Manager",
+    "holds": "yes",
+    "why": "The kv.KV store and Batch/Get calls are removed. They are replaced by EncryptionManager.Encrypt and EncryptedValueStorage.Create/Get."
+   },
+   {
+    "claim": "Reads decrypt the stored credential",
+    "holds": "yes",
+    "why": "routeCredentialStore.read fetches the stored value and calls c.encryption.Decrypt on its payload."
+   },
+   {
+    "claim": "Undecryptable values are reported",
+    "holds": "yes",
+    "why": "Decryption failures and empty plaintext both return errRouteCredentialUndecryptable. loadRouteCredentials passes that error back to its caller because it is not the not-found error."
+   },
+   {
+    "claim": "Undecryptable values are never overwritten",
+    "holds": "yes",
+    "why": "The create path runs only on ErrEncryptedValueNotFound, and it uses Create rather than Update. An undecryptable value therefore causes an early return and is never replaced."
+   },
+   {
+    "claim": "First-time creation stays race-safe",
+    "holds": "yes",
+    "why": "It uses Create, keyed on namespace, name and version, and re-reads the stored value if the create fails. Concurrent creators therefore adopt the winner's value."
+   },
+   {
+    "claim": "A shared not-found error supports this",
+    "holds": "yes",
+    "why": "contracts.ErrEncryptedValueNotFound is added, the storage package's variable now aliases it, and loadRouteCredentials checks against it."
+   },
+   {
+    "claim": "A migrated marker type supports this",
+    "holds": "not shown",
+    "why": "The SecretDBMigrated struct is added, but its wiring and use as a dependency are not in the code shown."
+   }
+  ]
+ },
+ "g137465-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": false,
+  "claims": [
+   {
+    "claim": "ProvideServer takes the encryption manager, encrypted value store and migrated marker",
+    "holds": "yes",
+    "why": "ProvideServer's new signature adds encryption contracts.EncryptionManager, encryptedValues contracts.EncryptedValueStorage and secretsMigrated *contracts.SecretDBMigrated."
+   },
+   {
+    "claim": "newServer takes the encryption manager, encrypted value store and migrated marker",
+    "holds": "no",
+    "why": "newServer takes a single routeCredentialStore. That store wraps the encryption manager and value store but not the migrated marker, which never reaches newServer."
+   },
+   {
+    "claim": "The server warns once on an undecryptable credential",
+    "holds": "yes",
+    "why": "In the retry loop, warnRouteAuthWait is called for an undecryptable error only when routeAuthUndecryptable was not already set; repeat failures log at Debug instead."
+   },
+   {
+    "claim": "The server keeps a placeholder credential while retrying",
+    "holds": "yes",
+    "why": "When loadRouteAuth fails at startup, a random routePlaceholder is set and the code retries until the credential loads."
+   }
+  ]
+ },
+ "g137465-s3": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The database migration is split out of RegisterDependencies into a new function ProvideDatabaseMigrated",
+    "holds": "yes",
+    "why": "The migration logic now sits in ProvideDatabaseMigrated(cfg, secretDBMigrator). RegisterDependencies only registers access control roles and takes a *contracts.SecretDBMigrated marker instead."
+   },
+   {
+    "claim": "The NATS server can now depend on the migration result",
+    "holds": "yes",
+    "why": "In the generated code, nats.ProvideServer now receives secretDBMigrated, which is produced by secret.ProvideDatabaseMigrated."
+   },
+   {
+    "claim": "The split avoids an access-control dependency cycle",
+    "holds": "yes",
+    "why": "The new doc comment says RegisterDependencies' access control dependency would create a cycle for services that encrypt while the graph is built, such as the embedded NATS server. NATS now gets the migration result without going through acimplService."
+   },
+   {
+    "claim": "The generated wire code is reordered to match",
+    "holds": "yes",
+    "why": "wire_gen.go moves the database, encryption storage, cipher and encryption manager construction plus the migration ahead of nats.ProvideServer. It also renumbers import aliases and updates the RegisterDependencies calls, consistent with regenerating to match the new graph."
+   }
+  ]
+ },
+ "g137465-s4": {
+  "round": "round1",
+  "level": "cleared",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Module mode's call to ProvideServer passes nil for the new arguments",
+    "holds": "yes",
+    "why": "module_server.go now calls nats.ProvideServer(s.cfg, nil, nil, nil, nil, s.registerer), adding three nil arguments."
+   },
+   {
+    "claim": "Other callers with no SQL store (the test helpers and integration tests) also pass nil for the new arguments",
+    "holds": "yes",
+    "why": "Every updated test call already passed nil for the SQL store and now passes three extra nils before the registry."
+   },
+   {
+    "claim": "Discovery and the route credential are not used in these callers' paths, which is why nil is acceptable",
+    "holds": "not shown",
+    "why": "Whether ProvideServer uses the new arguments depends on its implementation, which is not in this diff. Module mode rejects embedded NATS, which is consistent with the claim. Some tests do configure a cluster port or TLS, but nothing shown proves the new arguments are used there."
+   }
+  ]
+ },
+ "g137465-s5": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds a fake envelope encryption for internal tests",
+    "holds": "yes",
+    "why": "fakeEncryption in encryption_helpers_test.go (package nats) uses per-namespace data keys encrypted under a KEK."
+   },
+   {
+    "claim": "Adds a KV-backed encrypted value store for internal tests",
+    "holds": "yes",
+    "why": "kvEncryptedValues implements Create/Get backed by a kv.KV store in the internal test package."
+   },
+   {
+    "claim": "Integration tests cover real Secrets Manager",
+    "holds": "yes",
+    "why": "TestIntegrationRouteCredentialSecretsManager wires the real encryption manager and encrypted value storage on a test DB."
+   },
+   {
+    "claim": "Integration tests cover a mismatched key",
+    "holds": "yes",
+    "why": "An instance built with \"another-secret-key\" starts with a nil route credential but stays healthy."
+   },
+   {
+    "claim": "Integration tests cover surviving provider rotation",
+    "holds": "yes",
+    "why": "TestIntegrationRouteCredentialSurvivesProviderRotation switches providers, consolidates, retires the old provider and checks the credential is unchanged."
+   },
+   {
+    "claim": "Exported helpers support the integration tests",
+    "holds": "yes",
+    "why": "helpers_test.go adds NewEmbeddedTestCfg, StartService, RequireDelivery, RouteCredentialName/Version and RouteCredential, which the nats_test package uses."
+   }
+  ]
+ },
+ "g137465-s6": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Existing tests are updated to the new newServer/loadRouteCredentials signatures that take a credential store",
+    "holds": "yes",
+    "why": "Every newServer call gains a testCredentials(t, store) argument, and loadRouteCredentials calls now take testCredentials(...) instead of the raw KV."
+   },
+   {
+    "claim": "A new case covers the credential being stored encrypted",
+    "holds": "yes",
+    "why": "The new subtest 'the credential is stored as a secrets manager encrypted value' checks the ciphertext doesn't contain the password and decrypts back to it."
+   },
+   {
+    "claim": "New cases cover undecryptable credentials being kept rather than replaced",
+    "holds": "yes",
+    "why": "The table-driven subtest expects errRouteCredentialUndecryptable and asserts the stored payload is unchanged across four failure modes."
+   },
+   {
+    "claim": "A new case covers placeholder behaviour until the credential row is deleted",
+    "holds": "yes",
+    "why": "The new subtest keeps routePlaceholder set through several retries, then calls store.delete() and checks a new credential is created."
+   },
+   {
+    "claim": "A new case covers an instance with a different encryption key",
+    "holds": "yes",
+    "why": "The new subtest 'an instance with another encryption key cannot use the stored credential and stays out' uses otherKeyCredentials for server b."
+   }
+  ]
+ },
+ "p109422-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Bulk delete now separates config version 2 flags from the others",
+    "holds": "yes",
+    "why": "Flags whose detect_config_format(...).kind == \"v2\" go into v2_flags and are skipped (continue) in the normal deletion path."
+   },
+   {
+    "claim": "v2 flags are soft-deleted via the facade's update_flag",
+    "holds": "yes",
+    "why": "update_flag is imported from facade.api and called with {\"deleted\": True, ...} for each v2 flag."
+   },
+   {
+    "claim": "The row version bumps like a single delete",
+    "holds": "not shown",
+    "why": "The call passes the current version, but whether update_flag bumps the version depends on update_flag's implementation, which isn't shown."
+   },
+   {
+    "claim": "Failures are reported per flag in errors",
+    "holds": "yes",
+    "why": "Each update_flag call is wrapped in try/except APIException, and failures append an {id, key, reason} entry to errors. Other exception types are not caught, but API errors are the failures meant here."
+   },
+   {
+    "claim": "A new helper extracts the first DRF error message",
+    "holds": "yes",
+    "why": "_first_error_message is added. It walks nested dicts and lists to the first leaf and stringifies it, and it is used for the reason."
+   }
+  ]
+ },
+ "p109422-s2": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "A new test checks that bulk delete disables and bumps the version of v2 flags",
+    "holds": "yes",
+    "why": "test_bulk_delete_disables_and_bumps_the_version_like_a_single_delete asserts (deleted, active, version) == (True, False, 4) and that the activity log shows active True\u2192False and version 3\u21924."
+   },
+   {
+    "claim": "The new tests check that bulk delete leaves v1 behaviour unchanged",
+    "holds": "yes",
+    "why": "The same test asserts the v1 flag ends as (True, True, 5): it is deleted but not disabled and its version is not bumped. Its activity entry has empty changes."
+   },
+   {
+    "claim": "A new test checks that bulk delete reports rows the single delete refuses, using an approval policy",
+    "holds": "yes",
+    "why": "test_bulk_delete_reports_a_row_the_single_delete_refuses creates an ApprovalPolicy and asserts that deleted is empty and errors contains the approval-policy reason. It also asserts the flag is unchanged."
+   },
+   {
+    "claim": "A new test checks that bulk delete still soft-deletes flags in an unsupported format",
+    "holds": "yes",
+    "why": "test_bulk_delete_still_soft_deletes_a_row_in_an_unsupported_format uses version 99 filters and asserts the flag is deleted, with active and version unchanged."
+   },
+   {
+    "claim": "The echo test is reworded for the file-system trash case",
+    "holds": "yes",
+    "why": "The test was renamed from ..._concurrent_bulk_delete to ..._soft_delete_that_kept_the_version. Its comment changed to 'as the file-system trash does'."
+   }
+  ]
+ },
+ "p109422-s3": {
+  "round": "round1",
+  "level": "cleared",
+  "accurate": false,
+  "claims": [
+   {
+    "claim": "The serializer comment now says that only the file-system trash soft-deletes without bumping the version",
+    "holds": "no",
+    "why": "The new comment says 'a soft delete from outside this serializer (the file-system trash) does not bump version'. It names the trash as the outside source but never says it is the only path that soft-deletes without a bump, so the 'only' overstates it."
+   },
+   {
+    "claim": "The facade comments now say clear_feature_enrollment handles config version 1 flags only",
+    "holds": "yes",
+    "why": "The module docstring now says 'stored config version 1 filters'. The function docstring adds that other formats raise and that no caller reaches them, because early access features only link v1 flags."
+   },
+   {
+    "claim": "The comments say other config formats raise ConfigFormatError before any write",
+    "holds": "yes",
+    "why": "The added docstring says 'Another config format raises ConfigFormatError from set_feature_enrollment before either write.'"
+   }
+  ]
+ },
+ "p109422-s4": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds a test of the facade function clear_feature_enrollment (imported into test_facade.py)",
+    "holds": "yes",
+    "why": "Import added and new test class in test_facade.py calls clear_feature_enrollment."
+   },
+   {
+    "claim": "The test confirms clear_feature_enrollment raises ConfigFormatError for unsupported documents",
+    "holds": "yes",
+    "why": "Parameterized over UNSUPPORTED_DOCUMENTS with pytest.raises(ConfigFormatError)."
+   },
+   {
+    "claim": "The test confirms the flag's filters and version are left untouched",
+    "holds": "yes",
+    "why": "After refresh_from_db, asserts (filters, version) == (filters, 2), the original values."
+   }
+  ]
+ },
+ "p114732-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Action lookup, context preparation, the access check, the ownership check and intent validation were moved inside the try block",
+    "holds": "yes",
+    "why": "The diff re-indents get_action, RequestContext/base_context, prepare_context, _assert_requester_still_has_access, the owner_kind check and validate_intent under a new `try:` that also wraps the transaction.atomic block."
+   },
+   {
+    "claim": "Any failure before applying is now caught by the same handlers as the apply phase",
+    "holds": "not shown",
+    "why": "The except clauses are not in the shown code, so which exception types they catch cannot be checked. The code does show the pre-apply steps now sit in the same try as the apply."
+   },
+   {
+    "claim": "Those handlers mark the request as failed",
+    "holds": "not shown",
+    "why": "The handler bodies are not shown. Only the ownership and validation paths visibly set state to FAILED themselves."
+   }
+  ]
+ },
+ "p114732-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": false,
+  "claims": [
+   {
+    "claim": "The exception handlers skip resetting a request that is already marked failed",
+    "holds": "yes",
+    "why": "Both handlers now wrap the assignment and save in `if change_request.state != ChangeRequestState.FAILED`."
+   },
+   {
+    "claim": "They save only state, apply_error and updated_at",
+    "holds": "yes",
+    "why": "Both calls use `save(update_fields=[\"state\", \"apply_error\", \"updated_at\"])`."
+   },
+   {
+    "claim": "This keeps earlier error messages",
+    "holds": "yes",
+    "why": "When the state is already FAILED, apply_error is not reassigned, so the earlier message is preserved."
+   },
+   {
+    "claim": "This makes the failed state persist",
+    "holds": "no",
+    "why": "The old code already set and saved FAILED unconditionally, so this change does not make failure persist. If the request is already FAILED, the new code skips the save entirely. The change prevents overwriting; it does not add persistence."
+   }
+  ]
+ },
+ "p114732-s3": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The docstring now says a failed apply caused by lost access is terminal.",
+    "holds": "yes",
+    "why": "Added line 108 says 'the failed apply is terminal', and the surrounding docstring is about lost edit access."
+   },
+   {
+    "claim": "Periodic validation only checks pending and approved requests.",
+    "holds": "not shown",
+    "why": "The new docstring states this, but the periodic validation task's code isn't in the diff."
+   },
+   {
+    "claim": "The requester must submit a new request (restoring access does not retry the failed request).",
+    "holds": "not shown",
+    "why": "The docstring says so. Whether this is the actual behaviour depends on the validation task and request-state code, which aren't shown."
+   }
+  ]
+ },
+ "p114732-s4": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Tests verify that pre-apply failures leave the request in the failed state and bump updated_at",
+    "holds": "yes",
+    "why": "The parametrized ownership test now asserts state == FAILED and updated_at > old_updated_at. The decrypt-failure test asserts the updated_at bump but does not check state."
+   },
+   {
+    "claim": "A new test covers approval when the requester has lost access",
+    "holds": "yes",
+    "why": "test_approve_commits_failed_state_when_requester_loses_access calls _revoke_flag_access() and then approve()."
+   },
+   {
+    "claim": "In that case approval returns failed status",
+    "holds": "yes",
+    "why": "The test asserts result.status == \"failed\"."
+   },
+   {
+    "claim": "Approval commits the failed state",
+    "holds": "yes",
+    "why": "After refresh_from_db the test asserts state == ChangeRequestState.FAILED, so the state is persisted."
+   }
+  ]
+ },
+ "p125271-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Introduces a helper that retries the billing report call (workspace.billing.report) on ResourceExhaustedError",
+    "holds": "yes",
+    "why": "_report_with_rate_limit_retry wraps workspace.billing.report and catches ResourceExhaustedError, then loops."
+   },
+   {
+    "claim": "Sleeps 2s, 4s, 6s between retries",
+    "holds": "yes",
+    "why": "The sleep is min(2*attempt, 30) for attempts 1, 2 and 3. On attempt 4 it re-raises before sleeping."
+   },
+   {
+    "claim": "Backoff is capped at 30s",
+    "holds": "yes",
+    "why": "min(2 * attempt, 30) caps the sleep. With 4 attempts the cap is never actually reached, but the code does contain it."
+   },
+   {
+    "claim": "Re-raises after 4 attempts",
+    "holds": "yes",
+    "why": "The fourth failure sets attempt to 4, which meets MAX_REPORT_RETRY_ATTEMPTS, so it raises. That is 4 total calls."
+   },
+   {
+    "claim": "Needs new time import and new exception/type imports",
+    "holds": "yes",
+    "why": "The diff adds import time, adds ResourceExhaustedError from modal.exception, and adds BillingReportItem from modal.types."
+   }
+  ]
+ },
+ "p125271-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The row generator now calls the retry helper instead of calling workspace.billing.report directly",
+    "holds": "yes",
+    "why": "The diff replaces workspace.billing.report(...) with _report_with_rate_limit_retry(workspace, ...) using the same arguments inside the window loop."
+   },
+   {
+    "claim": "This happens for each window",
+    "holds": "yes",
+    "why": "The call sits inside the `while start < end` loop that computes window_end, so it runs once per window."
+   },
+   {
+    "claim": "The helper rides out transient rate limits before the activity fails",
+    "holds": "not shown",
+    "why": "The body of _report_with_rate_limit_retry is not in the diff. Its name suggests rate-limit retries, but the actual retry behavior is not shown."
+   }
+  ]
+ },
+ "p125271-s3": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds a test that two rate-limit errors are retried and then succeed",
+    "holds": "yes",
+    "why": "test_rides_out_rate_limit_on_report sets side_effect to two ResourceExhaustedError then rows, asserts call_count 3 and result contains the row."
+   },
+   {
+    "claim": "The retries use growing sleeps",
+    "holds": "yes",
+    "why": "Asserts sleep calls are [call(2), call(4)]."
+   },
+   {
+    "claim": "Adds a test that persistent rate limiting re-raises after the max attempts",
+    "holds": "yes",
+    "why": "test_persistent_rate_limit_is_reraised_for_temporal_to_retry expects ResourceExhaustedError and asserts call_count == MAX_REPORT_RETRY_ATTEMPTS."
+   },
+   {
+    "claim": "The persistent rate-limit test checks that state is not saved",
+    "holds": "yes",
+    "why": "manager.save_state.assert_not_called() is asserted."
+   }
+  ]
+ },
+ "p125704-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "View deletion logic is moved out of the presentation lifecycle module into a data_modeling logic module",
+    "holds": "yes",
+    "why": "delete_saved_query is removed from lifecycle.py and re-added nearly verbatim in products/data_modeling/backend/logic/saved_query_deletion.py."
+   },
+   {
+    "claim": "The new logic function also writes the 'deleted' activity log",
+    "holds": "yes",
+    "why": "delete_saved_query_by_id calls delete_saved_query and then log_activity with activity=DELETED_ACTIVITY (\"deleted\")."
+   },
+   {
+    "claim": "The function accepts an optional trigger",
+    "holds": "yes",
+    "why": "Its signature has `trigger: Trigger | None = None`, which is passed into Detail(name=name, trigger=trigger)."
+   },
+   {
+    "claim": "The function is exported via the facade",
+    "holds": "yes",
+    "why": "facade/api.py adds \"delete_saved_query_by_id\": \"logic.saved_query_deletion\" to its lazy export map."
+   },
+   {
+    "claim": "The viewset delete now calls it",
+    "holds": "yes",
+    "why": "viewset.py replaces lifecycle.delete_saved_query(instance) with delete_saved_query_by_id(...) and removes its inline log_activity call."
+   },
+   {
+    "claim": "The folder delete now calls it",
+    "holds": "yes",
+    "why": "folders.py's _delete_in_dependency_order now calls delete_saved_query_by_id(self.team_id, saved_query.id, user=..., was_impersonated=...) instead of lifecycle.delete_saved_query."
+   }
+  ]
+ },
+ "p125704-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds a delete_view option",
+    "holds": "yes",
+    "why": "`delete_view: bool | None = None` is added to the options contract, and `DELETE_VIEW_FIELD = \"delete_view\"` is defined in accept.py."
+   },
+   {
+    "claim": "Adds a DeletionAsset contract",
+    "holds": "yes",
+    "why": "A new frozen `DeletionAsset` class with `saved_query_id` and `stopped_materialization` is added and included in the `CreatedAsset` union."
+   },
+   {
+    "claim": "A new DeprecateAcceptor deletes the view",
+    "holds": "yes",
+    "why": "When `delete_view` is set, `DeprecateAcceptor.accept` calls `delete_saved_query_by_id` and returns a `DeletionAsset`. It is wired in as the acceptor for DEPRECATE."
+   },
+   {
+    "claim": "It refuses if the view feeds syncs",
+    "holds": "yes",
+    "why": "If the subject appears in `saved_queries_feeding_consumers`, it raises `SuggestionOutdatedError(SYNCS_READ_IT)` before deleting."
+   },
+   {
+    "claim": "It refuses if the view has dependents",
+    "holds": "yes",
+    "why": "`HasDependentsError` from the delete call is caught and re-raised as `SuggestionOutdatedError(OTHER_VIEWS_READ_IT)`."
+   },
+   {
+    "claim": "Otherwise it defers to normal deprecation",
+    "holds": "yes",
+    "why": "When `delete_view` is not set, it returns `super().accept(...)`, i.e. the normal CertificationAcceptor deprecation path."
+   },
+   {
+    "claim": "Materialize ignores the delete_view option",
+    "holds": "yes",
+    "why": "`MaterializeAcceptor.option_fields` now subtracts `DELETE_VIEW_FIELD`, so the materialize kind does not accept or use the option."
+   }
+  ]
+ },
+ "p125704-s3": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The deprecate candidate no longer requires materialization",
+    "holds": "yes",
+    "why": "The `saved_query.materializes` condition was removed from the unread filter."
+   },
+   {
+    "claim": "Records whether the view is materialized",
+    "holds": "yes",
+    "why": "`materialized=saved_query.materializes` was added to the draft payload."
+   },
+   {
+    "claim": "Skips views already deprecated and unmaterialized",
+    "holds": "yes",
+    "why": "`not _is_done(...)` was added to the filter. `_is_done` returns true when the view is certified DEPRECATED and does not materialize."
+   },
+   {
+    "claim": "Lowers the required data window to 27 days",
+    "holds": "yes",
+    "why": "`min_days_with_data` changed from 30 to 27 in rules.py."
+   },
+   {
+    "claim": "Asset outcome is LIVE when the view is gone",
+    "holds": "yes",
+    "why": "The new check returns LIVE when `subject.id` is not in `context.inventory.saved_queries`."
+   }
+  ]
+ },
+ "p125704-s4": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The serializers document the new materialized payload field",
+    "holds": "yes",
+    "why": "serializers.py adds a help_text entry for \"materialized\" in the deprecate payload extra_kwargs."
+   },
+   {
+    "claim": "The serializers document the new delete_view accept option",
+    "holds": "yes",
+    "why": "serializers.py adds a delete_view entry with allow_null False and a help_text in the accept serializer kwargs."
+   },
+   {
+    "claim": "These are mirrored in generated frontend schemas",
+    "holds": "yes",
+    "why": "frontend api.schemas.ts adds both materialized and delete_view. api.zod.ts adds delete_view."
+   },
+   {
+    "claim": "These are mirrored in generated MCP schemas",
+    "holds": "yes",
+    "why": "services/mcp/src/api/generated.ts adds both fields. The MCP zod api.ts adds delete_view."
+   },
+   {
+    "claim": "These are mirrored in the MCP tool definitions",
+    "holds": "yes",
+    "why": "Both tool-definition JSON files update the accept prepare/execute descriptions to cover delete_view and plain views."
+   },
+   {
+    "claim": "These are mirrored in the MCP tool wiring",
+    "holds": "yes",
+    "why": "warehouse_suggestions.ts forwards params.delete_view into the request body and mentions delete_view in the confirmation message."
+   }
+  ]
+ },
+ "p125704-s5": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The modal gains a choice between marking deprecated and deleting",
+    "holds": "yes",
+    "why": "ACTION_CHOICES with 'deprecate'/'delete' options are rendered in a LemonRadio bound to deleteView."
+   },
+   {
+    "claim": "The modal hides refresh messaging for plain (non-materialized) views",
+    "holds": "yes",
+    "why": "When materialized is false, the refreshCostLabel is omitted and the materialization fieldset is not rendered."
+   },
+   {
+    "claim": "The modal uses a danger confirm button (for delete)",
+    "holds": "yes",
+    "why": "The confirm LemonButton gets status='danger' when deleteView is true."
+   },
+   {
+    "claim": "The logic stores deleteView",
+    "holds": "yes",
+    "why": "A deleteView reducer is added, set by setDeleteView and reset on openAcceptConfirm and closeAcceptConfirm."
+   },
+   {
+    "claim": "The logic sends delete_view when deleting",
+    "holds": "yes",
+    "why": "deprecateOptions returns { delete_view: true } when deleteView is set, and confirmAccept passes this to acceptSuggestion."
+   },
+   {
+    "claim": "The logic shows a 'Deleted' toast",
+    "holds": "yes",
+    "why": "The deprecate success message returns `Deleted ${subject_name}.` when created_asset.saved_query_id is present. How the message is displayed and what the backend returns are not shown, but the 'Deleted' message is added."
+   },
+   {
+    "claim": "Suggestion rows hide refresh cost for plain views",
+    "holds": "yes",
+    "why": "In CertificationSuggestionRow, the cost span renders only when refreshes is true (payload.materialized !== false), and falsy entries are filtered out."
+   }
+  ]
+ },
+ "p125704-s6": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Backend tests cover accepting a deprecate suggestion with delete",
+    "holds": "yes",
+    "why": "test_accept.py adds test_accepting_a_deprecate_suggestion_can_delete_the_view, which posts delete_view: True and covers success and 409 cases."
+   },
+   {
+    "claim": "Backend tests cover plain-view deprecate candidates",
+    "holds": "yes",
+    "why": "test_candidates.py adds test_an_unread_plain_view, which uses a non-materialized view and checks score and materialized=False."
+   },
+   {
+    "claim": "Backend tests cover the new read-data window",
+    "holds": "yes",
+    "why": "test_waits_for_most_of_a_window_of_read_data checks that 29 days passes and 26 days is skipped with 'needs 27 days'."
+   },
+   {
+    "claim": "Backend tests cover the job output",
+    "holds": "yes",
+    "why": "test_job.py now expects an extra DEPRECATE suggestion for reads_feeds_another."
+   },
+   {
+    "claim": "Frontend logic tests and storybook stories cover the delete dialog and plain-view rows",
+    "holds": "yes",
+    "why": "The logic test adds a 'deletes it when asked' case using setDeleteView. The stories add a DeleteDialog story and a plain-view row with materialized: false."
+   },
+   {
+    "claim": "Snapshots are updated",
+    "holds": "yes",
+    "why": "snapshots.yml adds delete-dialog hashes and changes the deprecate-dialog and review-dialog hashes."
+   }
+  ]
+ },
+ "p125704-s7": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Marks the accept tool destructive",
+    "holds": "yes",
+    "why": "In the accept tool's annotations (title 'Accept a warehouse suggestion'), `destructive` changes from false to true."
+   },
+   {
+    "claim": "Documents delete_view in the tool description",
+    "holds": "yes",
+    "why": "The tool description adds 'Pass delete_view=true on a deprecate suggestion to delete the view...', and the confirmation message mentions delete_view."
+   },
+   {
+    "claim": "Documents delete_view in the reviewing skill guide",
+    "holds": "yes",
+    "why": "SKILL.md adds 'To delete the view instead, pass `delete_view: true`. Ask the user first...'."
+   },
+   {
+    "claim": "Documents plain-view deprecate suggestions in the tool description and skill guide",
+    "holds": "yes",
+    "why": "The tool description adds 'A deprecate suggestion can be about a plain view too, with no refresh cost.' SKILL.md adds the `materialized` false case for a plain view."
+   },
+   {
+    "claim": "Documents 409 handling in the tool description and skill guide",
+    "holds": "yes",
+    "why": "Both add a 409 explanation for delete_view (another view, sync, destination or workflow now reads from it). The skill guide also says to explain the reason and not retry."
+   }
+  ]
+ },
+ "p133282-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "It is a new module that points a lazy join's events subquery at flag_evaluations",
+    "holds": "yes",
+    "why": "The file is entirely added, and read_flag_calls_in_lazy_join replaces join_to_add.table with the result of swap_flag_calls on the subquery that scans events."
+   },
+   {
+    "claim": "It pushes an outer event pin into the subquery when safe",
+    "holds": "yes",
+    "why": "When node's WHERE/PREWHERE pins the join's event, the join type is predicate-safe and the subquery passes rows through, it ANDs `scan.alias.event = FLAG_CALLED_EVENT` into the subquery's WHERE."
+   },
+   {
+    "claim": "It raises when the join can't take the pin",
+    "holds": "yes",
+    "why": "It raises flag_calls_only_in_flag_evaluations_error when the outer query compares event with flag calls but the pin can't be applied. This covers an unpinned outer WHERE, an unsafe join type, and a subquery that doesn't pass rows through."
+   },
+   {
+    "claim": "The raising behavior applies under 'mode 2'",
+    "holds": "not shown",
+    "why": "The code gates on context.flag_calls_only_in_flag_evaluations(). Whether that corresponds to a 'mode 2' setting is defined elsewhere and not shown."
+   },
+   {
+    "claim": "It refuses joins resolved inside wrapper subqueries",
+    "holds": "yes",
+    "why": "refuse_flag_calls_in_wrapped_lazy_join raises for a join resolved inside a wrapper subquery. It does so when node compares the join's event with flag calls and the subquery scans events without pinning flag calls itself."
+   }
+  ]
+ },
+ "p133282-s2": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The view_name argument is replaced by a FlagCallScope parameter",
+    "holds": "yes",
+    "why": "swap_flag_calls, _resolve_with_swaps, _without_unreadable_inline_cohort_scans, flag_calls_only_in_flag_evaluations_error and require_union_readable all swap `view_name: str | None` for `scope: FlagCallScope | None`."
+   },
+   {
+    "claim": "FlagCallScope names a view or a join in errors",
+    "holds": "yes",
+    "why": "FlagCallScope.view and FlagCallScope.join build the subject and part, and flag_calls_only_in_flag_evaluations_error uses them in the error message."
+   },
+   {
+    "claim": "Previously private helpers Resolve, swap_database, pins_flag_calls and is_flag_called become public",
+    "holds": "yes",
+    "why": "_Resolve, _swap_database, _pins_flag_calls and _is_flag_called are renamed without the leading underscore."
+   },
+   {
+    "claim": "The helpers are made public for use by a new module",
+    "holds": "not shown",
+    "why": "No new module appears in this diff. The docstring mentions read_flag_calls_in_lazy_join, but its location isn't shown."
+   }
+  ]
+ },
+ "p133282-s3": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The lazy-table transform runs the new hook (read_flag_calls_in_lazy_join) on each lazy join before it is added",
+    "holds": "yes",
+    "why": "The hook is called inside the per-join loop, after the overrides are applied and before the join is cloned and built for adding."
+   },
+   {
+    "claim": "The hook is given a resolver that keeps join sources",
+    "holds": "yes",
+    "why": "It receives partial(self._resolve_join_subquery, select_type), and that method forwards join_sources to resolve_types."
+   },
+   {
+    "claim": "It refuses flag-call joins that fall inside wrapped subqueries",
+    "holds": "yes",
+    "why": "For each join in joins_in_wrappers (joins whose hops reach a wrapped table), refuse_flag_calls_in_wrapped_lazy_join is called before wrapping."
+   }
+  ]
+ },
+ "p133282-s4": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The resolver now passes FlagCallScope.view(view_name) to swap_flag_calls instead of a bare view name.",
+    "holds": "yes",
+    "why": "Line 1523 replaces `view_name=view_name` with `scope=FlagCallScope.view(view_name)`, and the import is updated to bring in FlagCallScope."
+   },
+   {
+    "claim": "View error messages are kept unchanged.",
+    "holds": "not shown",
+    "why": "The error messages are built inside swap_flag_calls and FlagCallScope in the transforms module, which is not shown. Nothing in the resolver diff contradicts the claim."
+   }
+  ]
+ },
+ "p133282-s5": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds test helpers",
+    "holds": "yes",
+    "why": "New module-level helpers (_lazy_join_cases, _with_union, _join_refusal) and methods (_create_lazy_join_sources, _join_persons_to_events, _database_with_join_type) are added, and _query_events gains union and database parameters."
+   },
+   {
+    "claim": "Adds a broad test suite covering when lazy joins read flag_evaluations",
+    "holds": "yes",
+    "why": "Several new tests check that lazy joins read flag_evaluations, e.g. test_lazy_join_reads_flag_calls_from_flag_evaluations_once_events_gets_no_flag_calls and test_lazy_join_pushes_an_outer_pin_into_the_join."
+   },
+   {
+    "claim": "The suite covers when lazy joins raise",
+    "holds": "yes",
+    "why": "test_lazy_join_raises_when_flag_evaluations_cannot_answer, test_lazy_join_raises_when_a_join_condition_reads_it and test_lazy_join_raises_when_its_subquery_does_not_pass_rows_through assert that a QueryError is raised."
+   },
+   {
+    "claim": "The suite covers parity with events SQL",
+    "holds": "yes",
+    "why": "test_lazy_join_sql_matches_events_baseline asserts the swapped ClickHouse SQL equals the events baseline."
+   },
+   {
+    "claim": "Updates the existing view-chain test to the new scope argument",
+    "holds": "yes",
+    "why": "The assertion at line 1410 changes from call.kwargs[\"view_name\"] to call.kwargs[\"scope\"].subject."
+   }
+  ]
+ },
+ "g126551-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": false,
+  "claims": [
+   {
+    "claim": "The onboarding page's content area becomes an inline-size query container.",
+    "holds": "yes",
+    "why": "The new content `Stack` sets `containerType=\"inline-size\"`."
+   },
+   {
+    "claim": "The styled header wrapper is replaced by a layout primitive with equivalent props.",
+    "holds": "yes",
+    "why": "`Header` (a styled Grid) becomes a `Grid` with the same padding, sticky position, top 0, min-height 60px, center alignment, and z-index 100 via `style`."
+   },
+   {
+    "claim": "The styled container wrapper is replaced by a layout primitive with equivalent props, including footer-dependent padding and margin.",
+    "holds": "yes",
+    "why": "`OnboardingContainer` becomes a `Stack` with the same flex, position, overflow, background, width, margin and padding. Bottom padding is FOOTER_HEIGHT or 60 and bottom margin is FOOTER_HEIGHT or undefined, which matches the old behaviour."
+   },
+   {
+    "claim": "The styled logo wrapper is replaced with equivalent props.",
+    "holds": "no",
+    "why": "`LogoSvg` set both height 24px and `color: content.primary`. The replacement `<LogoSentry height=\"24px\">` drops the color, and LogoSentry is a logo component, not a layout primitive."
+   },
+   {
+    "claim": "The styled step wrapper is replaced by a layout primitive with equivalent props.",
+    "holds": "yes",
+    "why": "`OnboardingStep` is now `motion.create(Stack)` with `flexGrow={1}` and `justify=\"center\"`. This matches the old flex column with flex-grow 1 and justify-content center."
+   }
+  ]
+ },
+ "g126551-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "GridFooter now renders into document.body via a portal",
+    "holds": "yes",
+    "why": "The return value is now createPortal(<Container\u2026>, document.body)."
+   },
+   {
+    "claim": "Portaling keeps the footer's fixed position relative to the viewport instead of being affected by the page's query container",
+    "holds": "yes",
+    "why": "The new code comment says this is the purpose. Containment on an ancestor would re-anchor position: fixed, and portaling to body avoids that ancestor."
+   },
+   {
+    "claim": "It keeps its own inline-size container",
+    "holds": "yes",
+    "why": "The Container still has containerType=\"inline-size\", unchanged by the diff."
+   },
+   {
+    "claim": "The inline-size container is for its responsive slots",
+    "holds": "yes",
+    "why": "The comment says it needs its own query container for its responsive slots."
+   }
+  ]
+ },
+ "g126551-s3": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "SCM steps (scmConnect, scmMessaging, scmPlatformFeatures) no longer declare their own query containers",
+    "holds": "yes",
+    "why": "All three files drop `containerType=\"inline-size\"` from the root Stack, along with the comment explaining it."
+   },
+   {
+    "claim": "The page now provides a query container for these steps",
+    "holds": "not shown",
+    "why": "No page-level container is added in the diff. The removed comments described the old state, where no page-level container existed, so they don't contradict this."
+   },
+   {
+    "claim": "The welcome product grid switches from screen breakpoints to container-based ones (zero, xl)",
+    "holds": "yes",
+    "why": "The columns keys change from `'screen:xs'`/`'screen:sm'` to unprefixed `zero`/`xl`. Dropping the `screen:` prefix is consistent with container-based breakpoints."
+   }
+  ]
+ },
+ "g126551-s4": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds an assertion that a button (View Sample Error) is not contained within the main element",
+    "holds": "yes",
+    "why": "Lines 1120-1124 assert that getByRole('main').contains(the 'View Sample Error' button) is false."
+   },
+   {
+    "claim": "The button checked belongs to the fixed footer",
+    "holds": "yes",
+    "why": "The added comment on line 1119 says the fixed footer must sit outside the query container, and the assertion checks the 'View Sample Error' button."
+   },
+   {
+    "claim": "A portal is what places the footer outside the page's query container",
+    "holds": "not shown",
+    "why": "The test only checks containment. Whether a portal is used depends on component code that isn't shown."
+   },
+   {
+    "claim": "The main element is the page's query container",
+    "holds": "yes",
+    "why": "The added comment ties the assertion against the main element to the page's query container."
+   }
+  ]
+ },
+ "g126643-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The root .craft.yml now defines sentry and static/packages/scraps workspaces",
+    "holds": "yes",
+    "why": "Lines 2-3 and 31 of the new root .craft.yml define these workspaces."
+   },
+   {
+    "claim": "Scraps gets auto versioning",
+    "holds": "yes",
+    "why": "Line 55 sets versioning policy: auto, where the old package config used manual."
+   },
+   {
+    "claim": "Scraps gets an npm version pre-release command",
+    "holds": "yes",
+    "why": "Lines 32-33 set a preReleaseCommand that runs npm version."
+   },
+   {
+    "claim": "Scraps gets a scraps@ tag prefix",
+    "holds": "yes",
+    "why": "Line 51 sets tagPrefix: scraps@, where it was previously scraps-v."
+   },
+   {
+    "claim": "Scraps gets a changelog path",
+    "holds": "yes",
+    "why": "Line 36 sets filePath: static/packages/scraps/CHANGELOG.md."
+   },
+   {
+    "claim": "The separate package-level config is deleted",
+    "holds": "yes",
+    "why": "Every line of static/packages/scraps/.craft.yml is removed."
+   }
+  ]
+ },
+ "g126643-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": false,
+  "claims": [
+   {
+    "claim": "Both release workflows pin Craft v2.33.1",
+    "holds": "yes",
+    "why": "Both release.yml and scraps-release.yml change the craft action to commit 7fe1421\u2026 tagged # v2.33.1."
+   },
+   {
+    "claim": "Both release workflows select a workspace instead of a path",
+    "holds": "no",
+    "why": "Only scraps-release.yml replaces `path:` with `workspace:`. release.yml had no `path` input; it just adds `workspace: sentry`."
+   },
+   {
+    "claim": "The Scraps workflow's version input becomes optional",
+    "holds": "yes",
+    "why": "`required: true` changes to `required: false`."
+   },
+   {
+    "claim": "The Scraps workflow's version input defaults to auto",
+    "holds": "yes",
+    "why": "`default: auto` is added to the input."
+   },
+   {
+    "claim": "The package CI now also runs when .craft.yml changes",
+    "holds": "yes",
+    "why": "'.craft.yml' is added to the pull_request paths filter in scraps-package.yml."
+   }
+  ]
+ },
+ "g126643-s3": {
+  "round": "round1",
+  "level": "cleared",
+  "accurate": false,
+  "claims": [
+   {
+    "claim": "The README now tells reviewers to run the Prepare Scraps release workflow",
+    "holds": "no",
+    "why": "The README instruction is addressed to whoever prepares a release, not reviewers. Nothing in the section mentions reviewers."
+   },
+   {
+    "claim": "The workflow is run with the default `auto` version",
+    "holds": "yes",
+    "why": "Line 59 says to run the workflow with the default `auto` version."
+   },
+   {
+    "claim": "The auto version uses conventional commits",
+    "holds": "yes",
+    "why": "Line 60 says Craft uses conventional commits to choose the next version."
+   },
+   {
+    "claim": "It explains how to override with an exact version or a bump type",
+    "holds": "yes",
+    "why": "Lines 61-62 say to enter an exact version or `major`, `minor`, or `patch` to override."
+   }
+  ]
+ },
+ "g126895-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The workflow runs `lint:js --prune` on master",
+    "holds": "yes",
+    "why": "The job is gated on `github.ref == 'refs/heads/master'`, checks out `ref: master`, and runs `pnpm run lint:js --prune`."
+   },
+   {
+    "claim": "If oxlint-suppressions.json changed, it commits the file to a bot branch",
+    "holds": "yes",
+    "why": "`git diff --quiet` exits early when there are no changes. Otherwise the step switches to `bot/prune-oxlint-suppressions`, adds and commits the file, and force-pushes the branch."
+   },
+   {
+    "claim": "It opens a cleanup PR unless one already exists",
+    "holds": "yes",
+    "why": "`gh pr list` looks for an open PR from that branch, and `gh pr create` runs only when none is found."
+   },
+   {
+    "claim": "It can be called by other workflows or run manually",
+    "holds": "yes",
+    "why": "The triggers are `workflow_call` and `workflow_dispatch`."
+   }
+  ]
+ },
+ "g126895-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The oxlint job now exposes a budgets output",
+    "holds": "yes",
+    "why": "Lines 75-76 add an outputs block with budgets set from steps.ratchet.outputs.budgets."
+   },
+   {
+    "claim": "A new job calls the prune workflow",
+    "holds": "yes",
+    "why": "The prune-oxlint-suppressions job uses ./.github/workflows/prune-oxlint-suppressions.yml as a reusable workflow."
+   },
+   {
+    "claim": "The new job runs only on pushes to master when the oxlint budgets output is 'stale'",
+    "holds": "yes",
+    "why": "The if condition checks for event_name == 'push', ref == 'refs/heads/master' and needs.oxlint.outputs.budgets == 'stale'."
+   },
+   {
+    "claim": "The new job passes along the bot app key secret",
+    "holds": "yes",
+    "why": "It forwards secrets.SENTRY_INTERNAL_APP_PRIVATE_KEY to the called workflow. That is an internal app private key, so calling it the bot app key is fair."
+   }
+  ]
+ },
+ "g126895-s3": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "CODEOWNERS now lists the prune workflow under design-engineering",
+    "holds": "yes",
+    "why": "Line 193 adds /.github/workflows/prune-oxlint-suppressions.yml owned by @getsentry/design-engineering."
+   },
+   {
+    "claim": "This matches ownership of oxlint-suppressions.json",
+    "holds": "yes",
+    "why": "Line 192 shows oxlint-suppressions.json owned by @getsentry/design-engineering."
+   }
+  ]
+ },
+ "g130051-s1": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Build details, install page, install details and quota alert now use useQuery with apiOptions",
+    "holds": "yes",
+    "why": "buildDetails.tsx, installPage.tsx, installDetailsContent.tsx and preprodQuotaAlert.tsx all replace useApiQuery/getApiUrl with useQuery and apiOptions.as<...>()."
+   },
+   {
+    "claim": "Retry callbacks use RequestError instanceof checks",
+    "holds": "yes",
+    "why": "The appSize retry and the install details retry both check `apiError instanceof RequestError && apiError.status === 404`."
+   },
+   {
+    "claim": "Error checks use RequestError instanceof",
+    "holds": "yes",
+    "why": "The build details error message, the appSizeError message in main content and the install details 404 check all add `instanceof RequestError` guards."
+   },
+   {
+    "claim": "Child component props take UseQueryResult",
+    "holds": "yes",
+    "why": "BuildDetailsHeaderContentProps, BuildDetailsMainContentProps and BuildInstallHeaderProps change from UseApiQueryResult to UseQueryResult."
+   },
+   {
+    "claim": "The appSize refetch effect now depends on the refetch function instead of the whole query object",
+    "holds": "yes",
+    "why": "`refetch` is destructured as refetchAppSize, and the deps change from [isPendingOrProcessing, appSizeQuery] to [isPendingOrProcessing, refetchAppSize]."
+   },
+   {
+    "claim": "The refetch function is stable",
+    "holds": "not shown",
+    "why": "Whether refetch keeps the same identity across renders depends on TanStack Query internals, which aren't shown."
+   }
+  ]
+ },
+ "g130051-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Size comparison, build comparison and snapshot pages move from useApiQuery to apiOptions",
+    "holds": "yes",
+    "why": "buildComparison.tsx, sizeCompareMainContent.tsx and snapshots.tsx all replace useApiQuery with useQuery spread over apiOptions.as<...>()(...)."
+   },
+   {
+    "claim": "The rerun invalidation now uses the compare options query key",
+    "holds": "yes",
+    "why": "invalidateQueries changes from {queryKey: [compareUrl]} to {queryKey: compareOptions.queryKey}, and compareOptions is built with apiOptions for the compare endpoint."
+   },
+   {
+    "claim": "Error handling narrows to RequestError",
+    "holds": "yes",
+    "why": "Both error-message branches in sizeCompareMainContent now check `error instanceof RequestError` before calling parseApiError; RequestError is now a value import."
+   },
+   {
+    "claim": "Retry handling narrows to RequestError",
+    "holds": "yes",
+    "why": "The snapshots retry callback now skips retries only when `err instanceof RequestError` and the status is below 500."
+   }
+  ]
+ },
+ "g130051-s3": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Usage stats and team insight widgets replace useApiQuery with useQuery and apiOptions",
+    "holds": "yes",
+    "why": "Every file shown swaps useApiQuery/getApiUrl imports and calls for useQuery from @tanstack/react-query plus apiOptions.as<T>()."
+   },
+   {
+    "claim": "The same endpoints are kept",
+    "holds": "yes",
+    "why": "Each new apiOptions call uses the same URL template and path params as the removed getApiUrl call."
+   },
+   {
+    "claim": "The same query params are kept",
+    "holds": "yes",
+    "why": "Each query object (limit 7, normalized datetime, statuses, environment, statsPeriod '7d', commonQuery, endpointQuery, orgStatsQuery, etc.) is carried over unchanged."
+   },
+   {
+    "claim": "The same stale times are kept",
+    "holds": "yes",
+    "why": "staleTime values (5000, 0, Infinity) move into the apiOptions options with the same values in every call."
+   },
+   {
+    "claim": "The orgStats prop type becomes UseQueryResult",
+    "holds": "yes",
+    "why": "In usageStatsOrg.tsx, orgStats changes from UseApiQueryResult<UsageSeries | undefined, RequestError> to UseQueryResult<UsageSeries | undefined>."
+   }
+  ]
+ },
+ "g130051-s4": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Project transfer acceptance query switches to apiOptions",
+    "holds": "yes",
+    "why": "acceptProjectTransfer now uses useQuery(apiOptions.as<TransferDetails>()('/accept-transfer/', ...))."
+   },
+   {
+    "claim": "Organization auth settings queries switch to apiOptions",
+    "holds": "yes",
+    "why": "Both auth-providers and auth-provider queries now use useQuery with apiOptions."
+   },
+   {
+    "claim": "gsAdmin permission views switch to apiOptions",
+    "holds": "yes",
+    "why": "userPermissionsModal's two queries now use useQuery with apiOptions."
+   },
+   {
+    "claim": "gsAdmin relocation views switch to apiOptions",
+    "holds": "yes",
+    "why": "relocationArtifactDetails and relocationDetails both now use useQuery with apiOptions."
+   },
+   {
+    "claim": "The transfer error message now checks instanceof RequestError before reading the response",
+    "holds": "yes",
+    "why": "Line 161 adds `error instanceof RequestError &&` before accessing error.responseJSON?.detail."
+   }
+  ]
+ },
+ "g131112-s1": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The box-zoom hook gains an onSelectionStart callback",
+    "holds": "yes",
+    "why": "An optional onSelectionStart prop is added, stored in a ref, and invoked when a drag begins."
+   },
+   {
+    "claim": "The hook passes the drag's pixel rectangle to onZoom",
+    "holds": "yes",
+    "why": "onZoom's signature now takes a BoxZoomPixelBox second argument, and the hook calls it with left/top/width/height computed from start and end."
+   },
+   {
+    "claim": "The pixel rectangle is relative to the chart",
+    "holds": "yes",
+    "why": "left and top subtract origin.x and origin.y, where origin comes from getChartOrigin(dom); the doc comment says the box is relative to the chart's top-left corner."
+   },
+   {
+    "claim": "This lets callers draw and anchor a persistent selection",
+    "holds": "not shown",
+    "why": "This is the intended downstream use; no caller code is shown."
+   }
+  ]
+ },
+ "g131112-s2": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The heat map can draw percentile step lines (overlay lines) on hover",
+    "holds": "yes",
+    "why": "On mousemove inside the grid, `createOverlayLineElement` draws each overlay line as per-bucket steps. Percentiles are given as an example use."
+   },
+   {
+    "claim": "It can show crosshair cursor lines",
+    "holds": "yes",
+    "why": "With `showCursor`, both the time and value axes get `CURSOR_AXIS_POINTER`, a solid line pointer, giving vertical and horizontal lines that follow the cursor."
+   },
+   {
+    "claim": "Line values are listed in the tooltip",
+    "holds": "yes",
+    "why": "`renderOverlayLineValues` adds each line's name and its value at the hovered bucket to the tooltip, emphasizing the nearest line."
+   },
+   {
+    "claim": "A drag selection is kept with a caller-rendered menu instead of zooming immediately",
+    "holds": "yes",
+    "why": "When `renderSelectionMenu` is provided, `handleZoom` stores the selection state and returns without calling `onZoom`. The overlay and the caller's menu are then rendered."
+   }
+  ]
+ },
+ "g131112-s3": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The spans heat map fetches p99/p75/p50 overlay lines",
+    "holds": "yes",
+    "why": "PERCENTILES = ['p99','p75','p50'] are fetched via useFetchSpanTimeSeries and mapped into overlayLines passed to the visualization."
+   },
+   {
+    "claim": "It renders a menu offering zoom in, compare attribute breakdowns, or clear selection",
+    "holds": "yes",
+    "why": "renderSelectionMenu renders FloatingTriggerMenu with onZoomIn, onCompareAttributeBreakdowns and onClearSelection."
+   },
+   {
+    "claim": "Zoom applies value and time bounds to the query",
+    "holds": "yes",
+    "why": "handleZoom writes value bounds into the query string via setExploreAttributeBounds and sets start/end from the selected timestamps. Strictly, the time bounds go to the start/end URL params rather than the query string, but in substance zoom constrains both."
+   },
+   {
+    "claim": "Compare writes the selection, with its Y range, to the URL",
+    "holds": "yes",
+    "why": "handleCompareAttributeBreakdowns calls setSelectionParams with chartSelection including yRange: [valueMin, valueMax]. The serializer now includes yRange."
+   }
+  ]
+ },
+ "g131112-s4": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The selection's Y range is passed from the breakdown content component into CohortComparison and then into the comparison hook",
+    "holds": "yes",
+    "why": "content.tsx passes yRange={chartSelection.yRange} (and yAttribute) to CohortComparison, which forwards both to useAttributeBreakdownComparison."
+   },
+   {
+    "claim": "The Y range comes from a heat map selection",
+    "holds": "not shown",
+    "why": "The hook doc comment and the use of getSpansHeatMapYAxis point to heat maps, but where chartSelection.yRange gets set isn't in the diff."
+   },
+   {
+    "claim": "The comparison hook adds attribute bound filters to the selected-region query",
+    "holds": "yes",
+    "why": "When yAttribute and yRange are both set, the hook adds `>=yRange[0]` and `<yRange[1]` filters on yAttribute to selectedRegionQuery."
+   },
+   {
+    "claim": "The hint text also describes the value range",
+    "holds": "yes",
+    "why": "When yAttribute and yRange are present, the SelectionHint text adds 'where %s is between %s - %s' using the attribute and the formatted durations."
+   }
+  ]
+ },
+ "g131112-s5": {
+  "round": "round1",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "A new hook estimates a p99.9 bound from recent data",
+    "holds": "yes",
+    "why": "useSpansHeatMapOutlierBound queries min/p95/p99/max/count over the most recent hour and extrapolates p99.9 with a log-normal fit through p95 and p99."
+   },
+   {
+    "claim": "A chip toggle in the chart title hides or shows outliers",
+    "holds": "yes",
+    "why": "A Chip is added to TitleBadges. Its onClick flips outlierToggle, which drives areHeatMapOutliersHidden."
+   },
+   {
+    "claim": "Hiding outliers works by clamping the Y bounds",
+    "holds": "yes",
+    "why": "When outliers are hidden, heatMapYBounds ({yMin: p0, yMax: p999}) is passed as yBounds to SpansHeatMap; otherwise it is undefined."
+   },
+   {
+    "claim": "The heat map waits for those bounds before fetching",
+    "holds": "not shown",
+    "why": "isYBoundsPending is passed to SpansHeatMap, but only while outliers are hidden and the bound query is pending. How SpansHeatMap uses it to gate its fetch isn't in the code shown."
+   }
+  ]
+ },
+ "g131112-s6": {
+  "round": "round1",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Transformations are disabled for heat maps (the add-transformation button is disabled)",
+    "holds": "yes",
+    "why": "AddTransformationButton receives disabled={isHeatMap}, and CompactSelect uses disabled || transformations.length >= KIND_OPTIONS.length."
+   },
+   {
+    "claim": "An explanatory tooltip is shown for heat maps",
+    "holds": "yes",
+    "why": "The button is wrapped in a Tooltip with the title 'Heatmaps do not support transformations.' and disabled={!isHeatMap}."
+   },
+   {
+    "claim": "The transformation rows are hidden for heat maps",
+    "holds": "yes",
+    "why": "The VisualizeTransformationRows block now requires !isHeatMap."
+   },
+   {
+    "claim": "Dev-feature users get a taller chart",
+    "holds": "not shown",
+    "why": "The diff only adds DEV_CHART_HEIGHT = 400 in settings.tsx. The code that uses it, and any dev-feature gating, is not shown."
+   }
+  ]
+ },
+ "b-g132824-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds PDF header and PDF footer sections to the report settings page",
+    "holds": "yes",
+    "why": "Lines 70 and 94 add '### PDF header' and '### PDF footer' to report-settings/index.md."
+   },
+   {
+    "claim": "The sections cover the header switches",
+    "holds": "yes",
+    "why": "Lines 79-92 describe Show header, Show dashboard title, Show data time range."
+   },
+   {
+    "claim": "The sections cover footer item types",
+    "holds": "yes",
+    "why": "The table at lines 123-129 lists Page number, Date, Fixed text, Logo, Flex spacer."
+   },
+   {
+    "claim": "The sections cover text styling",
+    "holds": "yes",
+    "why": "The 'Text styling options' subsection at lines 136-148 covers this."
+   },
+   {
+    "claim": "The sections include a customization procedure",
+    "holds": "yes",
+    "why": "The 'Customize the PDF footer' steps are at lines 150-179."
+   },
+   {
+    "claim": "The sections cover feature toggles for self-managed Grafana",
+    "holds": "yes",
+    "why": "The admonitions at lines 75 and 99 mention the reportingHeaderSettings and reportingFooterSettings toggles."
+   },
+   {
+    "claim": "Adds search keywords",
+    "holds": "yes",
+    "why": "Lines 6-8 add pdf, header and footer to keywords."
+   },
+   {
+    "claim": "Adds the link references the new text uses",
+    "holds": "yes",
+    "why": "Lines 23-32 add the feature-toggles and grafana-enterprise refs, which are used at lines 73, 75, 97 and 99."
+   }
+  ]
+ },
+ "b-g132824-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Replaces the public-preview note with text saying the redesigned reporting experience is generally available in Grafana Cloud",
+    "holds": "yes",
+    "why": "Line 34 (public preview text) is removed and line 46 adds GA in Grafana Cloud text."
+   },
+   {
+    "claim": "The new note says the toggle is needed in self-managed Grafana",
+    "holds": "yes",
+    "why": "Line 48 says to enable newShareReportDrawer in self-managed Grafana."
+   },
+   {
+    "claim": "Changes the stated maximum logo size from 16 MB to 3 MB",
+    "holds": "yes",
+    "why": "Both the PDF and email Company logo entries change from 16 MB to 3 MB."
+   },
+   {
+    "claim": "Rewrites the email footer option description",
+    "holds": "yes",
+    "why": "Line 70 replaced by line 194 with new wording about Sent by/None."
+   }
+  ]
+ },
+ "b-g132824-s3": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The create-reports page gets the same availability note (as elsewhere in the PR)",
+    "holds": "not shown",
+    "why": "The note is rewritten to say GA in Grafana Cloud and to enable the newShareReportDrawer toggle in self-managed Grafana. Whether it matches a note on another page depends on files not shown."
+   },
+   {
+    "claim": "Link references are added for feature toggles and report settings",
+    "holds": "yes",
+    "why": "New `feature-toggles` and `report-settings` refs are added to the front matter."
+   },
+   {
+    "claim": "Report settings menu items now link to the settings page",
+    "holds": "yes",
+    "why": "Both **Report settings** menu entries are changed to `[Report settings](ref:report-settings)`, which points to the report-settings page."
+   },
+   {
+    "claim": "A short paragraph distinguishes per-report PDF options from organization-wide header and footer settings",
+    "holds": "yes",
+    "why": "The added lines say these options apply to one report, and point to Reporting settings for org-wide PDF header and footer items."
+   }
+  ]
+ },
+ "b-g134380-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "shouldResync now measures the sync interval from the later of Finished and LastChecked.",
+    "holds": "yes",
+    "why": "The new `checkAge` uses `max(Finished, LastChecked)`, and the final interval comparison now uses `checkAge` instead of `syncAge`."
+   },
+   {
+    "claim": "When a due interval check runs on a healthy, sync-enabled repository, a /status/sync/lastChecked patch with the current time is added.",
+    "holds": "yes",
+    "why": "`determineSyncStatusOps` appends an add op for /status/sync/lastChecked with `time.Now().UnixMilli()` when `shouldResync`, `Spec.Sync.Enabled` and `healthStatus.Healthy` are all true. The call site passes `shouldResync` through."
+   },
+   {
+    "claim": "An unchanged ref therefore no longer leaves polling overdue.",
+    "holds": "yes",
+    "why": "lastChecked is set on every due check, whatever the sync strategy decides. `checkAge` then resets, so the repo isn't immediately due again."
+   },
+   {
+    "claim": "If the patch fails, the old timestamp remains and the check is retried.",
+    "holds": "not shown",
+    "why": "How the patch is applied, and what happens on failure, is outside the shown code."
+   }
+  ]
+ },
+ "b-g134380-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The sync worker copies the repository's existing LastChecked into the sync status on the normal completion path.",
+    "holds": "yes",
+    "why": "Line 185 sets syncStatus.LastChecked = cfg.Status.Sync.LastChecked after ToSyncStatus in the main sync path."
+   },
+   {
+    "claim": "The same copy is done on the failed-sync path.",
+    "holds": "yes",
+    "why": "Line 276 in completeFailedSync adds the same assignment."
+   },
+   {
+    "claim": "This keeps a finished job from clearing the timestamp.",
+    "holds": "not shown",
+    "why": "This assumes ToSyncStatus leaves LastChecked zero and that the status gets written back with it. Neither ToSyncStatus nor the write-back is shown, though the change is consistent with that intent."
+   }
+  ]
+ },
+ "b-g134380-s3": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds an optional lastChecked field to the repository CUE kind",
+    "holds": "yes",
+    "why": "repository.cue adds `lastChecked?: int`."
+   },
+   {
+    "claim": "Adds a LastChecked field to the Go SyncStatus type",
+    "holds": "yes",
+    "why": "types.go adds `LastChecked int64` with json tag lastChecked,omitempty."
+   },
+   {
+    "claim": "The field is in Unix milliseconds",
+    "holds": "yes",
+    "why": "The comments in every file say Unix milliseconds."
+   },
+   {
+    "claim": "The generated OpenAPI Go file is updated to match",
+    "holds": "yes",
+    "why": "zz_generated.openapi.go adds a lastChecked schema with type integer and format int64."
+   },
+   {
+    "claim": "The apply-configuration is updated to match",
+    "holds": "yes",
+    "why": "syncstatus.go adds a LastChecked *int64 field and a WithLastChecked builder."
+   },
+   {
+    "claim": "The TypeScript client is updated to match",
+    "holds": "yes",
+    "why": "endpoints.gen.ts adds `lastChecked?: number`."
+   },
+   {
+    "claim": "The OpenAPI JSON files and snapshots are updated to match",
+    "holds": "yes",
+    "why": "Both grafana-openapi JSON files (v0alpha1, v1beta1) and both openapi_snapshots (v0alpha1, v1beta1) add lastChecked."
+   }
+  ]
+ },
+ "b-g134380-s4": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Tests check that an unchanged-ref interval check patches only lastChecked among sync status fields",
+    "holds": "yes",
+    "why": "TestRepositoryController_process_IntervalNoop requires a lastChecked 'add' op and asserts that every /status/sync op targets only /status/sync/lastChecked."
+   },
+   {
+    "claim": "Tests check that the cached object is left unmodified",
+    "holds": "yes",
+    "why": "Both IntervalNoop and IntervalNoopPatchFailure assert `original` equals `obj` after process."
+   },
+   {
+    "claim": "Tests check that a failed patch stays retryable",
+    "holds": "yes",
+    "why": "IntervalNoopPatchFailure sets patcher.err and asserts shouldResync is still true, with message 'a failed patch must leave the interval eligible for retry'."
+   },
+   {
+    "claim": "Tests cover shouldResync cases",
+    "holds": "yes",
+    "why": "TestRepositoryController_shouldResync_LastChecked and TestRepositoryController_shouldResync_MissingJobUsesFinished exercise many shouldResync scenarios."
+   },
+   {
+    "claim": "Tests cover job creation and its failure",
+    "holds": "yes",
+    "why": "IntervalSyncJob checks Insert and pending state; IntervalSyncJobCreationFailure makes Insert fail once, then succeed on retry."
+   },
+   {
+    "claim": "Tests cover which paths skip the timestamp update",
+    "holds": "yes",
+    "why": "determineSyncStrategy_SkippedInterval asserts there is no lastChecked op for disabled/blocked/unhealthy/not-due cases. FullSyncIntervalCheck asserts the op appears only when the interval is due."
+   },
+   {
+    "claim": "One call site gains the new argument",
+    "holds": "yes",
+    "why": "Line 1031 changes the determineSyncStatusOps call to pass an extra `false` argument; it is the only modified existing call in the diff."
+   }
+  ]
+ },
+ "b-g134380-s5": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Worker unit and integration tests check that the written sync status keeps the repository's LastChecked",
+    "holds": "yes",
+    "why": "Both test files set LastChecked on repoConfig and assert that the written syncStatus.LastChecked equals repoConfig.Status.Sync.LastChecked."
+   },
+   {
+    "claim": "The tests check that Finished and State in the written sync status come from the job result",
+    "holds": "yes",
+    "why": "The unit test captures the /status/sync patch value and asserts that Finished and State equal tt.jobStatus.Finished and tt.jobStatus.State."
+   },
+   {
+    "claim": "LastChecked preservation is also checked on early setup failure",
+    "holds": "yes",
+    "why": "The integration test exercises a 'create repository resources client: boom' failure and now asserts that LastChecked is preserved, alongside its existing State Error and non-zero Finished assertions."
+   }
+  ]
+ },
+ "b-g134380-s6": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "There are two integration tests, and both age the sync status of a real Git sync repository.",
+    "holds": "yes",
+    "why": "Both tests create a sync-enabled Git repo and patch status.sync.finished to an hour ago; the changed-ref test also patches lastChecked."
+   },
+   {
+    "claim": "The no-op test checks that an unchanged ref advances lastChecked.",
+    "holds": "yes",
+    "why": "Line 65 asserts LastChecked >= before, with the message \"an unchanged ref must reset the sync interval\"."
+   },
+   {
+    "claim": "The no-op test checks that the previous job status is preserved.",
+    "holds": "yes",
+    "why": "Line 79 requires the refreshed status to equal the original, differing only in the patched Finished and the new LastChecked."
+   },
+   {
+    "claim": "The no-op test checks that no job is created.",
+    "holds": "yes",
+    "why": "Line 96 requires the active job list to be empty, and line 101 requires the job history to be unchanged."
+   },
+   {
+    "claim": "The changed-ref test checks that a changed ref triggers a sync.",
+    "holds": "yes",
+    "why": "It pushes a new commit, then asserts State is Success, LastRef equals the new HEAD, and the repo has 2 dashboards."
+   },
+   {
+    "claim": "The changed-ref test checks that lastChecked is no later than Finished.",
+    "holds": "yes",
+    "why": "Line 137 asserts Finished >= LastChecked."
+   }
+  ]
+ },
+ "b-g134715-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Display is split into a plain Display and a new CurrentUserInfo type",
+    "holds": "yes",
+    "why": "Role, AuthenticatedBy and Email move out of Display into a new CurrentUserInfo struct, which embeds Display inline."
+   },
+   {
+    "claim": "CurrentUserInfo adds namespace, role, email, authenticatedBy and permissions",
+    "holds": "yes",
+    "why": "The new struct declares Namespace, Role, AuthenticatedBy, Email and Permissions fields."
+   },
+   {
+    "claim": "handleSelf now builds the response from auth info",
+    "holds": "yes",
+    "why": "rsp is built from authInfo's identity type, identifier, name, namespace, email and authenticatedBy, plus the org role when authInfo is a Requester."
+   },
+   {
+    "claim": "handleSelf enriches the response from resolvers only when a resolver row matches the caller's identity",
+    "holds": "yes",
+    "why": "The resolver loop skips any item whose Identity differs from rsp.Identity and copies DisplayName, AvatarURL and InternalID only on a match."
+   },
+   {
+    "claim": "handleSelf optionally adds permissions",
+    "holds": "yes",
+    "why": "Permissions are fetched only when the query has permissions=true, a client is set and the namespace is non-empty."
+   },
+   {
+    "claim": "An unresolved caller now gets 401 instead of 404",
+    "holds": "yes",
+    "why": "The old NotFound error is replaced by w.WriteHeader(http.StatusUnauthorized), and empty identities also get NewUnauthorized."
+   }
+  ]
+ },
+ "b-g134715-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The changes in this step are smaller changes that were not grouped with the other walkthrough steps.",
+    "holds": "not shown",
+    "why": "Whether these changes were grouped elsewhere depends on the rest of the walkthrough, which isn't shown. The code doesn't contradict it, although the diff includes substantive changes: a new whoami endpoint, a new authorizer, and schema changes."
+   }
+  ]
+ },
+ "b-g136199-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The predicate call, app config lookup and preload logic move from useLoadAppPlugins into a new loadDependentAppPlugins function",
+    "holds": "yes",
+    "why": "The removed lines in the hook (predicate call, getAppPluginConfigs, preloadPlugins) reappear in the new function."
+   },
+   {
+    "claim": "The hook now calls loadDependentAppPlugins",
+    "holds": "yes",
+    "why": "The useAsync callback now just awaits loadDependentAppPlugins(pluginId, predicate)."
+   },
+   {
+    "claim": "Behaviour of the hook is unchanged",
+    "holds": "yes",
+    "why": "The logic is the same, with the same early returns. The deps array is unchanged, and the Predicate type is only renamed to PluginDependencyPredicate with the same signature."
+   },
+   {
+    "claim": "The comment says the function is in a separate file to avoid a circular import with utils",
+    "holds": "yes",
+    "why": "The doc comment says it is deliberately kept out of utils.tsx because pulling preloadPlugins in would create a circular import."
+   }
+  ]
+ },
+ "b-g136199-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "getObservablePluginExtensions now loads the plugins that contribute to the extension point",
+    "holds": "yes",
+    "why": "Inside defer it calls loadDependentAppPlugins(extensionPointId, getExtensionPointPluginDependencies). The doc comment describes these as the dependent app plugins for the extension point."
+   },
+   {
+    "claim": "It waits for plugin loading and the registries before reading the registries",
+    "holds": "yes",
+    "why": "forkJoin([from(getPluginExtensionRegistries()), pluginsLoaded]) only emits once both complete. switchMap then reads the registries."
+   },
+   {
+    "claim": "Nothing runs until subscription, because of defer",
+    "holds": "yes",
+    "why": "Both the registry fetch and the plugin loading are created inside the defer() factory, which runs only on subscribe."
+   },
+   {
+    "claim": "A loading error is logged and swallowed, so the observable still emits",
+    "holds": "yes",
+    "why": "catchError calls log.error and returns of(undefined), so forkJoin still completes and the downstream switchMap proceeds."
+   }
+  ]
+ },
+ "b-g136199-s3": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The tests mock loadDependentAppPlugins",
+    "holds": "yes",
+    "why": "jest.mock('./loadDependentAppPlugins') with a resolved-value jest.fn at lines 50-52."
+   },
+   {
+    "claim": "A test checks it is called with the extension point id and the dependency function",
+    "holds": "yes",
+    "why": "Line 630 asserts toHaveBeenCalledWith(extensionPointId, getExtensionPointPluginDependencies)."
+   },
+   {
+    "claim": "A test checks that emission waits for plugin loading",
+    "holds": "yes",
+    "why": "Lines 633-658 hold the loading promise unresolved, assert there is no emission yet, then resolve it and await the emission."
+   },
+   {
+    "claim": "A test checks that nothing happens before subscribing",
+    "holds": "yes",
+    "why": "Lines 660-667 create the observable without subscribing and assert the mock was not called."
+   },
+   {
+    "claim": "A test checks that a rejection is logged while extensions still emit",
+    "holds": "yes",
+    "why": "Lines 669-681 reject the mock, then assert that 2 extensions are emitted and that log.error is called."
+   },
+   {
+    "claim": "The tests cover observable extensions (getObservablePluginExtensions)",
+    "holds": "yes",
+    "why": "All the new tests call getObservablePluginExtensions."
+   }
+  ]
+ },
+ "b-g136199-s4": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Tests that plugins resolved by the predicate are preloaded",
+    "holds": "yes",
+    "why": "The first test expects preloadPlugins to be called with [app1], the plugin the predicate resolved."
+   },
+   {
+    "claim": "Tests that preloadPlugins is not called when the predicate returns no ids",
+    "holds": "yes",
+    "why": "The second test has the predicate resolve [] and expects preloadPluginsMock not to have been called."
+   },
+   {
+    "claim": "Tests that preloadPlugins is not called when the ids match no known app plugin",
+    "holds": "yes",
+    "why": "The third test resolves ['unknown-app-id'] against empty metas and expects no call."
+   }
+  ]
+ },
+ "b-g137406-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The trendline's y field is now named \"<source display name> predicted\" instead of reusing the source's display name",
+    "holds": "yes",
+    "why": "The name changed from `${getFieldDisplayName(...)}` to `${yDisplayName} predicted`, where yDisplayName is the same getFieldDisplayName call."
+   },
+   {
+    "claim": "The trendline field's displayNameFromDS is set to \"<frame name> <source display name>\"",
+    "holds": "yes",
+    "why": "The config is now `{ displayNameFromDS: `${frameName} ${yDisplayName}` }`."
+   },
+   {
+    "claim": "The legend label stays the same as before",
+    "holds": "not shown",
+    "why": "This depends on how getFieldDisplayName previously combined the frame name and field name. That logic isn't in the diff."
+   },
+   {
+    "claim": "Name matchers should now match only the source series",
+    "holds": "yes",
+    "why": "Per the added comment, matchers compare raw names. The trendline's raw name and display name now both differ from the source's display name, so it no longer collides."
+   },
+   {
+    "claim": "Hiding the trendline in the legend should now work",
+    "holds": "not shown",
+    "why": "The legend hide behaviour depends on override and legend code that isn't shown. The diff only removes the name collision."
+   }
+  ]
+ },
+ "b-g137406-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Expected trendline fields now use the 'value predicted' name",
+    "holds": "yes",
+    "why": "Both expected outputs change the field name from 'value' to 'value predicted'."
+   },
+   {
+    "claim": "Expected trendline fields now carry a displayNameFromDS config",
+    "holds": "yes",
+    "why": "The expected configs are now { displayNameFromDS: 'Linear regression value' }."
+   },
+   {
+    "claim": "The equality helper now keeps field config",
+    "holds": "yes",
+    "why": "toEquableDataFrame used to reset each field's config to {}; it now returns toDataFrame(source) unchanged."
+   },
+   {
+    "claim": "A new test checks that a names matcher hits the unnamed source series but not the trendline",
+    "holds": "yes",
+    "why": "The byNames matcher for ['value'] is expected to be true on the source field and false on the trendline field."
+   },
+   {
+    "claim": "A new test checks that the trendline display name is 'Linear regression value'",
+    "holds": "yes",
+    "why": "getFieldDisplayName on result[1].fields[1] is expected to be 'Linear regression value'."
+   }
+  ]
+ },
+ "b-p108097-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "RawOptions::validate reads the four expected keys (cookieless_mode, disable_skew_correction, process_person_profile, product_tour_id)",
+    "holds": "yes",
+    "why": "`ExpectedOption` lists exactly these four, and `validate` calls `read_option` for each."
+   },
+   {
+    "claim": "Boolean options accept wider forms: yes/no/on/off, t/f, numeric strings, floats",
+    "holds": "yes",
+    "why": "`parse_bool_str` accepts true/t/yes/y/on and false/f/no/n/off, plus finite f64-parsed strings; numbers use `as_f64() != 0.0`."
+   },
+   {
+    "claim": "null or blank values are treated as unset",
+    "holds": "yes",
+    "why": "`Value::Null` maps to Unset; a blank trimmed string maps to Unset in both `parse_bool_str` and `coerce_product_tour_id`."
+   },
+   {
+    "claim": "Unreadable values yield an OptionsError naming the failed keys",
+    "holds": "yes",
+    "why": "Invalid values are inserted into `OptionKeys`, returned as `OptionsError(invalid)` and exposed via `failed_keys()`/`names()`."
+   },
+   {
+    "claim": "Batch-level historical_migration no longer fails on bad values; it becomes false",
+    "holds": "yes",
+    "why": "`deserialize_lenient_flag_or_false` maps Invalid or Unset to None, then calls `unwrap_or(false)`."
+   },
+   {
+    "claim": "Batch-level capture_internal no longer fails on bad values; it becomes unset",
+    "holds": "yes",
+    "why": "`deserialize_lenient_flag` returns None for Invalid."
+   },
+   {
+    "claim": "product_tour_id accepts non-empty strings or integers",
+    "holds": "yes",
+    "why": "Non-blank strings are kept as-is, and i64/u64 numbers become decimal strings; blank strings are unset, and other values are invalid."
+   }
+  ]
+ },
+ "b-p108097-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Dropped events (from options validation) now carry the detail tag from the validation error rather than a fixed DETAIL_INVALID_OPTIONS tag",
+    "holds": "yes",
+    "why": "`details: Some(DETAIL_INVALID_OPTIONS)` was replaced with `details: Some(err.detail())` in the `Err(err)` branch of `event.options.validate()`."
+   },
+   {
+    "claim": "The drop warning groups events by warning type",
+    "holds": "yes",
+    "why": "Events are grouped in `HashMap<WarningType, DropGroup>` keyed by the warning type taken from `ev.details`."
+   },
+   {
+    "claim": "The drop warning adds an invalidOptions detail listing the union of failed option keys",
+    "holds": "yes",
+    "why": "`failed_options` is unioned across each group's events, and an `invalidOptions` entry with the key names is inserted when the set is non-empty."
+   },
+   {
+    "claim": "The malformed-events WARN log gets extra fields",
+    "holds": "yes",
+    "why": "The `ctx_log!` call now includes `batch_size`, `capture_internal`, `historical_migration` and `failed_options`."
+   },
+   {
+    "claim": "The malformed-events WARN is limited to one line per second per process",
+    "holds": "yes",
+    "why": "A process-wide static `LogGate` with a 1000ms interval returns early unless `try_pass` succeeds, and the compare_exchange lets only one caller through per interval."
+   },
+   {
+    "claim": "The metric still counts every drop",
+    "holds": "yes",
+    "why": "The metric `.increment(*count)` runs before the gate check, so only the log line is rate-limited."
+   }
+  ]
+ },
+ "b-p108097-s3": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Unit tests cover the boolean coercion matrix",
+    "holds": "yes",
+    "why": "READABLE_BOOLS and UNREADABLE_BOOLS tables are run against all three boolean option keys in raw_options_bool_coercion_valid and raw_options_bool_uncoercible."
+   },
+   {
+    "claim": "Unit tests cover the product_tour_id matrix",
+    "holds": "yes",
+    "why": "raw_options_product_tour_id_coercion_valid and raw_options_product_tour_id_uncoercible have expanded rstest cases (padded, u64::MAX, null, empty, blank, integral float, etc.)."
+   },
+   {
+    "claim": "Unit tests cover key ordering and deduplication",
+    "holds": "yes",
+    "why": "option_keys_union_is_deduplicated_and_ordered and raw_options_invalid_keys_reported_once_in_check_order assert ordered, deduplicated key names."
+   },
+   {
+    "claim": "Unit tests cover lenient batch flags",
+    "holds": "yes",
+    "why": "parse_batch_flags_are_lenient checks capture_internal and historical_migration parsing across the readable and unreadable tables."
+   },
+   {
+    "claim": "Unit tests cover injection of parsed booleans at serialization",
+    "holds": "yes",
+    "why": "serialize_injects_lenient_options_as_booleans asserts lenient raw values serialize as JSON booleans in the corresponding properties."
+   },
+   {
+    "claim": "Process tests check per-event drops",
+    "holds": "yes",
+    "why": "validate_events_option_rules_drop_only_the_offending_event and option_drops_report_their_reason_and_share_one_warning assert only the offending events are dropped."
+   },
+   {
+    "claim": "Process tests check the shared warning with its invalidOptions detail",
+    "holds": "yes",
+    "why": "The test asserts exactly one InvalidOptions warning with count 3 and extra_details invalidOptions = [cookieless_mode, product_tour_id]."
+   },
+   {
+    "claim": "Process tests check import mode with lenient flags",
+    "holds": "yes",
+    "why": "The import-mode tests are parameterized with lenient historical_migration values such as \"yes\", 1, \"no\" and \"maybe\" via batch_with_historical_flag."
+   },
+   {
+    "claim": "Process tests check the log gate timing",
+    "holds": "yes",
+    "why": "log_gate_lets_one_call_through_per_interval in process.rs checks which calls pass at the given timestamps."
+   }
+  ]
+ },
+ "b-p108097-s4": {
+  "round": "round2",
+  "level": "cleared",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Documents the new invalid_options warning type in the skill docs",
+    "holds": "yes",
+    "why": "SKILL.md adds an `invalid_options` row to the event validation table, and the process-person-profile reference mentions it."
+   },
+   {
+    "claim": "Documents lenient parsing in the skill and design docs",
+    "holds": "yes",
+    "why": "The skill docs note that common forms like \"false\", \"no\" and 0 are accepted. DESIGN.md adds a section on what `RawOptions::validate` accepts."
+   },
+   {
+    "claim": "Corrects field names in a diagram",
+    "holds": "yes",
+    "why": "The diagram's `disable_skew_adjust` becomes `disable_skew_correction` and the truncated `process_person_prof` becomes `process_person_profile`."
+   },
+   {
+    "claim": "Notes v1 reads only disable_skew_correction",
+    "holds": "yes",
+    "why": "The table note changes from mentioning the alias `disable_skew_adjustment` to \"v1 reads only `disable_skew_correction`\"."
+   },
+   {
+    "claim": "Rewords the capture_internal description",
+    "holds": "yes",
+    "why": "The IP redaction text changes from \"PostHog's own telemetry\" to \"events the Django app sends on behalf of a customer team\"."
+   },
+   {
+    "claim": "The constant doc comment is reworded only",
+    "holds": "yes",
+    "why": "In constants.rs only the `///` comment on DETAIL_INVALID_OPTIONS changes; the constant's value is unchanged."
+   }
+  ]
+ },
+ "b-p113953-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "When the request's Accept header includes application/json, the authorize view returns 200 with sorted restricted event and person property names.",
+    "holds": "yes",
+    "why": "The view checks for \"application/json\" in Accept. It then returns Response(payload), which defaults to 200, with the event and person lists built by sorted(...)."
+   },
+   {
+    "claim": "Other requests still get 204, as before.",
+    "holds": "yes",
+    "why": "If application/json is not in Accept, the view returns Response(status=204, ...), the same response it returned before the change. This applies to requests that pass the permission check; unchanged permission failures still raise."
+   },
+   {
+    "claim": "Restricted properties come from get_restricted_properties_with_group_type_index_for_team, which is defined outside this diff.",
+    "holds": "yes",
+    "why": "The function is imported from products.access_control.backend.property_access_control and called with user and team. Its definition is not in the diff."
+   }
+  ]
+ },
+ "b-p113953-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "CheckAccess now returns a *PropertyRestrictions plus an error",
+    "holds": "yes",
+    "why": "The signature changed from `error` to `(*PropertyRestrictions, error)`."
+   },
+   {
+    "claim": "CheckAccess sends Accept: application/json",
+    "holds": "yes",
+    "why": "Line 75 sets the Accept header to application/json on the request."
+   },
+   {
+    "claim": "A 204 response gives nil restrictions",
+    "holds": "yes",
+    "why": "The StatusNoContent case returns `nil, nil`."
+   },
+   {
+    "claim": "An empty restriction list gives nil restrictions",
+    "holds": "yes",
+    "why": "In the 200 case, if both decoded lists are empty, the function returns `nil, nil`."
+   },
+   {
+    "claim": "A 200 with an unreadable body gives 503",
+    "holds": "yes",
+    "why": "A JSON decode error in the StatusOK case returns a StatusServiceUnavailable error."
+   },
+   {
+    "claim": "A redirect gives 503",
+    "holds": "not shown",
+    "why": "The default branch returns 503 for any 3xx status that reaches the switch. Whether redirects reach it, rather than being followed, depends on how authorizationClient is configured, and that part isn't shown."
+   },
+   {
+    "claim": "A 5xx gives 503",
+    "holds": "yes",
+    "why": "The default branch returns StatusServiceUnavailable for any unlisted status."
+   },
+   {
+    "claim": "A 401 or 403 gives 401",
+    "holds": "yes",
+    "why": "The StatusUnauthorized and StatusForbidden case returns an echo error with StatusUnauthorized."
+   }
+  ]
+ },
+ "b-p113953-s3": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Subscriptions carry an atomic restrictions pointer",
+    "holds": "yes",
+    "why": "A `Restrictions *atomic.Pointer[auth.PropertyRestrictions]` field is added to Subscription and read through `Load()`."
+   },
+   {
+    "claim": "Conversion drops restricted event properties",
+    "holds": "yes",
+    "why": "convertToResponsePostHogEvent filters every property through visibleProperty, which returns false for keys where RestrictsEventProperty is true. The $virt_* pass-through also checks the restriction."
+   },
+   {
+    "claim": "Conversion drops restricted keys inside $set/$set_once",
+    "holds": "yes",
+    "why": "When person restrictions exist, visibleProperty rebuilds the $set/$set_once maps without any keys where RestrictsPersonProperty is true."
+   },
+   {
+    "claim": "Conversion drops the cleaned pathname when $pathname is restricted",
+    "holds": "yes",
+    "why": "$virt_cleaned_pathname is only injected when `!restrictions.RestrictsEventProperty(\"$pathname\")`."
+   },
+   {
+    "claim": "Delivery skips subscriptions whose filters touch a restricted key",
+    "holds": "yes",
+    "why": "The delivery loop `continue`s when RestrictedFilterKey returns a non-empty key. That covers restricted event keys, and also $set/$set_once filters when person restrictions exist."
+   },
+   {
+    "claim": "StripRestricted reapplies rules to queued events",
+    "holds": "not shown",
+    "why": "StripRestricted does re-strip an already built response, and its comment says the handler calls it at write time for queued events. The handler call site is not shown."
+   }
+  ]
+ },
+ "b-p113953-s4": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The stream handler rejects property filters that reference restricted properties with a 400 error",
+    "holds": "yes",
+    "why": "After parsing propertyFilters, RestrictedFilterKey is checked, and a non-empty key returns restrictedFilterError, which is an echo HTTPError with http.StatusBadRequest."
+   },
+   {
+    "claim": "The restrictions are stored on the subscription",
+    "holds": "yes",
+    "why": "An atomic.Pointer holding the restrictions is created and assigned to the subscription's Restrictions field."
+   },
+   {
+    "claim": "Each event is stripped of restricted properties at write time",
+    "holds": "yes",
+    "why": "In the EventChan case, ResponsePostHogEvent payloads have StripRestricted applied with the current restrictions before json.Marshal. Payloads of other types are not stripped, but those appear to be the event payloads."
+   },
+   {
+    "claim": "Periodic re-checks update the stored restrictions",
+    "holds": "yes",
+    "why": "periodicAccessChecks passes the fresh restrictions to apply, and the stream handler's apply calls currentRestrictions.Store(fresh)."
+   },
+   {
+    "claim": "Periodic re-checks end the stream with that 400 error if a filtered key becomes restricted",
+    "holds": "yes",
+    "why": "apply returns restrictedFilterError (400) when a filter key is now restricted, and that error is sent on accessErrors. The added comment says an error from apply ends the stream the same way a denied check does. The body of the accessErrors case itself is not shown."
+   },
+   {
+    "claim": "The stats and notifications handlers ignore the restrictions",
+    "holds": "yes",
+    "why": "The other handlers discard the restrictions returned by CheckAccess (`_, err :=`), and one passes nil as apply to periodicAccessChecks. The handlers' names aren't visible in the shown lines, but nothing contradicts their being stats and notifications."
+   }
+  ]
+ },
+ "b-p113953-s5": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Django tests check that the endpoint returns 200 with empty restriction lists for JSON-requesting clients",
+    "holds": "yes",
+    "why": "The test sends HTTP_ACCEPT=application/json, asserts 200, and asserts the body is two empty lists."
+   },
+   {
+    "claim": "Django tests check that the endpoint returns 204 for clients not asking for JSON",
+    "holds": "yes",
+    "why": "The `legacy` request is sent without an Accept header and is asserted to return 204."
+   },
+   {
+    "claim": "Django tests check that the endpoint lists the hidden property names",
+    "holds": "yes",
+    "why": "test_lists_the_properties_hidden_from_the_user expects ['$ip'] and ['email'] and excludes the READ-level '$browser'."
+   },
+   {
+    "claim": "Go tests check restriction parsing",
+    "holds": "yes",
+    "why": "The 'restrictions are parsed' case asserts the returned PropertyRestrictions maps."
+   },
+   {
+    "claim": "Go tests check fail-closed behaviour for bad or error responses",
+    "holds": "yes",
+    "why": "The malformed JSON, redirect and server error cases each expect 503 and nil restrictions."
+   }
+  ]
+ },
+ "b-p113953-s6": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Tests check hiding of restricted properties, including nested values inside $set",
+    "holds": "yes",
+    "why": "TestConvertToResponsePostHogEventHidesRestrictedProperties expects $ip and $pathname to be removed and email to be removed from inside $set and $set_once."
+   },
+   {
+    "claim": "Tests check that the shared event data is left unchanged",
+    "holds": "yes",
+    "why": "After the subtests, the test asserts that the original properties map still holds $ip and $set.email."
+   },
+   {
+    "claim": "Tests check that subscriptions filtering on restricted keys are skipped",
+    "holds": "yes",
+    "why": "TestDeliverEventSkipsSubscriptionFilteringOnRestrictedProperty expects no delivery while email is restricted, and one delivery after the restrictions are cleared."
+   },
+   {
+    "claim": "Tests check StripRestricted",
+    "holds": "yes",
+    "why": "TestStripRestrictedReappliesNewerRules calls StripRestricted with nil and then with rules, and checks the resulting properties."
+   },
+   {
+    "claim": "Handler tests check a 400 response for a filter on a restricted property",
+    "holds": "yes",
+    "why": "The 'refuses a filter on a restricted property' subtest asserts an echo.HTTPError with http.StatusBadRequest."
+   },
+   {
+    "claim": "Handler tests check that the stream ends after a re-check restricts a filtered property",
+    "holds": "yes",
+    "why": "TestStreamEventsHandlerEndsStreamWhenRecheckRestrictsFilteredProperty returns no restrictions on the first call and restricts email on the second. It sleeps 30s and expects the handler to return."
+   },
+   {
+    "claim": "Other hunks only add the new nil argument",
+    "holds": "yes",
+    "why": "The remaining hunks add a trailing nil to convertToResponsePostHogEvent calls. The only other changes are the import additions that the new tests need."
+   }
+  ]
+ },
+ "b-p119786-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds institutions, payments, mandates and mandate_debits to the endpoint list",
+    "holds": "yes",
+    "why": "ENDPOINTS gains exactly these four keys (lines 9-12)."
+   },
+   {
+    "claim": "The four new tables get primary keys",
+    "holds": "yes",
+    "why": "PRIMARY_KEYS adds entries for all four (lines 18-21)."
+   },
+   {
+    "claim": "Bank coverage and Direct Debit URLs are absolute v3 URLs",
+    "holds": "yes",
+    "why": "institutions, mandates and mandate_debits use f\"{BASE_URL}/v3/...\". Payments stays relative, and the comment on line 4 confirms that only bank coverage and Direct Debit use v3."
+   },
+   {
+    "claim": "payments and mandate_debits get incremental fields created_at and date respectively",
+    "holds": "yes",
+    "why": "INCREMENTAL_FIELDS adds payments with created_at and mandate_debits with date (lines 32-47)."
+   },
+   {
+    "claim": "payments and mandate_debits get date-filter formats",
+    "holds": "yes",
+    "why": "DATE_FILTERS defines params and formats for payments (%d-%m-%Y) and mandate_debits (%Y-%m-%d)."
+   },
+   {
+    "claim": "payments and mandate_debits get a page size of 100",
+    "holds": "not shown",
+    "why": "PAGE_SIZE = 100 is added as a module-level constant. The code using it isn't shown, so it's unclear which endpoints it applies to."
+   },
+   {
+    "claim": "payments and mandate_debits are merge-only in the schema list",
+    "holds": "yes",
+    "why": "The merge_only set in source.py now includes payments and mandate_debits alongside transactions."
+   }
+  ]
+ },
+ "b-p119786-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Generalizes the transactions-only date and watermark logic to any endpoint with a date filter",
+    "holds": "yes",
+    "why": "The watermark parsing moved into `incremental_start`, which runs for every endpoint. Date params are built for any endpoint in `DATE_FILTERS`, not just transactions."
+   },
+   {
+    "claim": "institutions and mandate_debits use a single page",
+    "holds": "yes",
+    "why": "`endpoint_paginator` returns \"single_page\" for these two endpoints."
+   },
+   {
+    "claim": "payments use a metadata-based page count",
+    "holds": "yes",
+    "why": "Payments get `PageNumberPaginator(base_page=1, total_path=\"meta.paging.pages\")`."
+   },
+   {
+    "claim": "mandates paginate until the first empty page",
+    "holds": "yes",
+    "why": "Mandates get `PageNumberPaginator(base_page=1)` with no `total_path`, and the comment says it stops at the first empty page."
+   },
+   {
+    "claim": "Payments read rows from data.payments",
+    "holds": "yes",
+    "why": "`data_selector` is \"data.payments\" when the endpoint is payments, otherwise \"data\"."
+   },
+   {
+    "claim": "An invalid watermark error now names the endpoint",
+    "holds": "yes",
+    "why": "The `ValueError` message interpolates `{endpoint}`, replacing the hardcoded \"transaction\" wording."
+   },
+   {
+    "claim": "Resumed syncs reuse the saved date window",
+    "holds": "yes",
+    "why": "When `resume` is not None, start and end are taken from `resume.start` and `resume.end` and used as the date params."
+   }
+  ]
+ },
+ "b-p119786-s3": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds canonical descriptions for institutions, payments, mandates and mandate_debits",
+    "holds": "yes",
+    "why": "Each of the four new entries has a 'description' key."
+   },
+   {
+    "claim": "Adds docs links for these tables",
+    "holds": "yes",
+    "why": "Each entry has a 'docs_url' pointing to Mono docs."
+   },
+   {
+    "claim": "Adds column descriptions for these tables",
+    "holds": "yes",
+    "why": "Each entry has a 'columns' dict mapping column names to descriptions."
+   },
+   {
+    "claim": "These are new tables",
+    "holds": "not shown",
+    "why": "Whether the tables are new to the source depends on code outside this file. Nothing shown contradicts it."
+   }
+  ]
+ },
+ "b-p119786-s4": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds parametrized tests checking request paths, query parameters, pagination and returned ids",
+    "holds": "yes",
+    "why": "test_payment_and_coverage_tables_request_the_right_version_filters_and_pages is parametrized and asserts result.paths, result.queries (including page/limit across multiple pages) and returned ids."
+   },
+   {
+    "claim": "The parametrized tests cover the new tables (institutions, mandates, payments, mandate_debits)",
+    "holds": "not shown",
+    "why": "The test covers these endpoints, but whether they are newly added tables depends on source code not shown."
+   },
+   {
+    "claim": "The parametrized tests include incremental date windows",
+    "holds": "yes",
+    "why": "Incremental cases for payments and mandate_debits expect start/end and start_date/end_date query parameters derived from the watermark."
+   },
+   {
+    "claim": "Another test checks that resumed payments keep the saved date window",
+    "holds": "yes",
+    "why": "test_resumed_payments_keep_the_saved_date_window resumes from MonoResumeConfig with start/end. It travels to 2026-06-16 but still expects the saved start/end (ending 15-06-2026) in the query."
+   },
+   {
+    "claim": "The watermark error assertion is updated to the new message wording",
+    "holds": "yes",
+    "why": "The assertion changes from 'invalid transaction watermark' to 'invalid transactions watermark'."
+   }
+  ]
+ },
+ "b-p119786-s5": {
+  "round": "round2",
+  "level": "cleared",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The step ticks the bank coverage item in the coverage gaps appendix",
+    "holds": "yes",
+    "why": "Line 8188 changes `[ ]` to `[x]` for Bank Coverage (GET /v3/institutions)."
+   },
+   {
+    "claim": "The step ticks the payments item",
+    "holds": "yes",
+    "why": "Line 8189 changes Fetch all Payments to `[x]`."
+   },
+   {
+    "claim": "The step ticks the mandates item",
+    "holds": "yes",
+    "why": "Line 8190 changes Get all Mandates to `[x]`."
+   },
+   {
+    "claim": "The step ticks the debits item",
+    "holds": "yes",
+    "why": "Line 8191 changes Retrieve All Debits to `[x]`."
+   },
+   {
+    "claim": "Exactly four gaps are marked as covered",
+    "holds": "yes",
+    "why": "Only lines 8188\u20138191 change. The payout and disbursement items stay unchecked."
+   }
+  ]
+ },
+ "b-p120917-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds a helper _url_without_query that removes the query and fragment from a URL",
+    "holds": "yes",
+    "why": "New function at lines 1704-1708 uses urlsplit and urlunsplit with query and fragment set to empty strings."
+   },
+   {
+    "claim": "The function containing this code is validate_credentials",
+    "holds": "not shown",
+    "why": "The enclosing function's name is outside the shown hunks."
+   },
+   {
+    "claim": "display_url is built from _url_without_query(url)",
+    "holds": "yes",
+    "why": "Line 1206: display_url = _url_without_query(url)."
+   },
+   {
+    "claim": "display_url is used in the timeout, unreachable and 401/403 error messages",
+    "holds": "yes",
+    "why": "Lines 1228, 1234 and 1247 replace {url} with {display_url} in those three messages."
+   },
+   {
+    "claim": "The real request URL is unchanged",
+    "holds": "yes",
+    "why": "url is not reassigned. display_url is a separate variable, and the diff does not change any request call."
+   },
+   {
+    "claim": "Other messages are not touched in this diff",
+    "holds": "yes",
+    "why": "The diff changes only those three message lines plus the import and the helper."
+   }
+  ]
+ },
+ "b-p120917-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds a test with a path containing an access_token query param",
+    "holds": "yes",
+    "why": "Line 1201 sets the path to /users?status=active&access_token=inline-secret-123."
+   },
+   {
+    "claim": "The test uses a scripted 403 response",
+    "holds": "yes",
+    "why": "Line 1204 uses ScriptedResponse(status=403)."
+   },
+   {
+    "claim": "The test checks that the error shows the bare URL",
+    "holds": "yes",
+    "why": "Line 1207 asserts that the error contains 'https://api.example.com/users ', the URL with no query string."
+   },
+   {
+    "claim": "The test checks that the error does not contain the inline secret",
+    "holds": "yes",
+    "why": "Line 1208 asserts that 'inline-secret-123' is not in the error."
+   }
+  ]
+ },
+ "b-p121510-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The claim path runs only when the cohort is static, has a query, has no CSV, and is not being deleted",
+    "holds": "yes",
+    "why": "`populate_from_query` is `not deleted_state and cohort.is_static and parsed_csv is None and bool(validated_data.get(\"query\"))`."
+   },
+   {
+    "claim": "update() atomically sets is_calculating from False to True",
+    "holds": "yes",
+    "why": "Inside `transaction.atomic()`, a conditional `filter(..., is_calculating=False).update(is_calculating=True)` performs the transition."
+   },
+   {
+    "claim": "If another run already holds the cohort, a 400 ValidationError keyed on \"query\" is raised",
+    "holds": "yes",
+    "why": "When the update affects zero rows, `_claim_static_population` raises `ValidationError({\"query\": [...]})`, which DRF returns as a 400."
+   },
+   {
+    "claim": "If queuing the task fails, the claim is released",
+    "holds": "yes",
+    "why": "The except block runs `update(is_calculating=False)` on the row and also resets the in-memory value."
+   },
+   {
+    "claim": "If queuing fails, the exception is captured and a 400 is returned",
+    "holds": "yes",
+    "why": "The except block calls `capture_exception(e, ...)` and then raises a `ValidationError` on \"query\"."
+   },
+   {
+    "claim": "Whether the task clears the flag later is outside this diff",
+    "holds": "yes",
+    "why": "The task code is not shown; only a comment asserts that the task clears the flag."
+   }
+  ]
+ },
+ "b-p121510-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "One test checks that a second identical PATCH returns 400 with attr \"query\"",
+    "holds": "yes",
+    "why": "Lines 682-683 assert the second response is 400 and that attr == \"query\"."
+   },
+   {
+    "claim": "That test checks the task is queued only once",
+    "holds": "yes",
+    "why": "Line 684 asserts mock_delay.assert_called_once_with(cohort.pk, self.team.id)."
+   },
+   {
+    "claim": "The other test checks that after a failed enqueue, a retry returns 200",
+    "holds": "yes",
+    "why": "Line 690 makes the first delay call raise ConnectionError, and line 696 asserts the retried response is 200."
+   },
+   {
+    "claim": "The second test checks the task is attempted twice",
+    "holds": "yes",
+    "why": "Line 697 asserts mock_delay.call_count == 2."
+   }
+  ]
+ },
+ "b-g125868-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The new rule reports a named function (function declaration or variable-assigned function) declared inside a React scope",
+    "holds": "yes",
+    "why": "FunctionDeclaration and VariableDeclarator visitors call reportIfNestedJsxFunction, which requires isNestedInReactScope to be true."
+   },
+   {
+    "claim": "A React scope is a function named like a component or hook, or one containing JSX",
+    "holds": "yes",
+    "why": "isReactScope checks /^[A-Z]/ or /^use[A-Z]/ on the name, or containsJsx on the body."
+   },
+   {
+    "claim": "The function is reported only when it returns JSX or null on every return path",
+    "holds": "yes",
+    "why": "returnsOnlyJsxOrNull requires at least one return statement, and every return argument must satisfy isJsxOrNullExpression; concise arrow bodies must also satisfy it."
+   },
+   {
+    "claim": "The function must be called directly by name to be reported",
+    "holds": "yes",
+    "why": "isDirectlyInvoked checks whether any reference to the binding is the callee of a CallExpression."
+   },
+   {
+    "claim": "Functions only passed as props are not reported",
+    "holds": "yes",
+    "why": "If no reference is a call callee, isDirectlyInvoked returns false and nothing is reported."
+   },
+   {
+    "claim": "Functions in non-React scopes are not reported",
+    "holds": "yes",
+    "why": "isNestedInReactScope must be true; otherwise reportIfNestedJsxFunction returns early."
+   }
+  ]
+ },
+ "b-g125868-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The rule is registered in the Sentry plugin.",
+    "holds": "yes",
+    "why": "index.ts imports preferReactComponent and adds 'prefer-react-component' to the exported rules map."
+   },
+   {
+    "claim": "The rule is turned on as an error in the oxlint config.",
+    "holds": "yes",
+    "why": "oxlint.config.ts adds '@sentry/prefer-react-component': 'error'."
+   },
+   {
+    "claim": "The rule is switched off in the override that also disables no-loss-of-precision.",
+    "holds": "yes",
+    "why": "'@sentry/prefer-react-component': 'off' is added in the same rules block as 'no-loss-of-precision': 'off'."
+   },
+   {
+    "claim": "The config comment indicates that this override covers tests.",
+    "holds": "yes",
+    "why": "The comment in that block reads 'Tests sometimes contain intentionally unusual hard-coded numbers.', which describes the override as applying to tests."
+   }
+  ]
+ },
+ "b-g125868-s3": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Rule tester valid cases cover top-level components (function and arrow returning JSX)",
+    "holds": "yes",
+    "why": "Lines 16-23 test top-level function and arrow returning JSX as valid."
+   },
+   {
+    "claim": "Valid cases cover non-JSX returns",
+    "holds": "yes",
+    "why": "Lines 24-31 cover nested functions returning data or a mixed non-JSX branch."
+   },
+   {
+    "claim": "Valid cases cover class render",
+    "holds": "yes",
+    "why": "Lines 36-39 test a class render method."
+   },
+   {
+    "claim": "Valid cases cover props (JSX-returning function passed as a prop)",
+    "holds": "yes",
+    "why": "Lines 40-48 test renderHeader passed as a prop."
+   },
+   {
+    "claim": "Invalid cases check nested JSX helpers",
+    "holds": "yes",
+    "why": "All invalid cases are nested JSX-returning functions inside components or hooks, expecting the useComponent error."
+   },
+   {
+    "claim": "Unit tests check that isJsxOrNullExpression sees through parentheses",
+    "holds": "yes",
+    "why": "Lines 118-128 test parenthesized JSX and null."
+   },
+   {
+    "claim": "Unit tests check that isJsxOrNullExpression sees through conditional branches",
+    "holds": "yes",
+    "why": "Lines 130-141 test a ConditionalExpression with parenthesized branches."
+   }
+  ]
+ },
+ "b-g126723-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The change is in the Slack metric alert handler on the path that sends through the notification platform",
+    "holds": "yes",
+    "why": "The edit is in slack_metric_alert_handler.py, which goes on to build an IntegrationNotificationTarget with NotificationProviderKey.SLACK."
+   },
+   {
+    "claim": "The handler adds the project id and sets show_investigation_button to True when its conditions hold",
+    "holds": "yes",
+    "why": "Line 87 copies data with project_id=group.project_id and show_investigation_button=True."
+   },
+   {
+    "claim": "The button is enabled only if the group exists, the status is not CLOSED, and both organizations:investigations and organizations:investigations-slack are enabled",
+    "holds": "yes",
+    "why": "The if-condition on lines 81-86 requires exactly these four conditions together."
+   },
+   {
+    "claim": "Resolved alerts and unflagged orgs get no button",
+    "holds": "yes",
+    "why": "show_investigation_button defaults to False in the template data. It is only set to True when the status is not CLOSED (resolved) and both flags are on."
+   }
+  ]
+ },
+ "b-g126723-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The Slack renderer appends an actions block with the button when show_investigation_button is set and project_id is not None",
+    "holds": "yes",
+    "why": "Lines 50-54 check both conditions and append {'type': 'actions', 'elements': [button]}."
+   },
+   {
+    "claim": "The button is labeled 'Investigate with Seer'",
+    "holds": "yes",
+    "why": "Line 84 sets label='Investigate with Seer'."
+   },
+   {
+    "claim": "The button carries an encoded action id for SEER_INVESTIGATION_START",
+    "holds": "yes",
+    "why": "Lines 88-92 call encode_action_id with action=SlackAction.SEER_INVESTIGATION_START."
+   },
+   {
+    "claim": "The button value is JSON containing the group id and open period id",
+    "holds": "yes",
+    "why": "Lines 85-87 orjson-dump {'groupId': data.group_id, 'openPeriodId': data.open_period_context.id}."
+   }
+  ]
+ },
+ "b-g126723-s3": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds a SEER_INVESTIGATION_START Slack action",
+    "holds": "yes",
+    "why": "types.py line 35 adds SEER_INVESTIGATION_START = \"seer_investigation_start\" to the action enum."
+   },
+   {
+    "claim": "Registers the organizations:investigations-slack flag",
+    "holds": "yes",
+    "why": "temporary.py line 120 adds this flag with manager.add."
+   },
+   {
+    "claim": "The flag uses the flagpole strategy and isn't exposed via API",
+    "holds": "yes",
+    "why": "It is registered with FeatureHandlerStrategy.FLAGPOLE and api_expose=False."
+   },
+   {
+    "claim": "The webhook returns a plain response for this action id",
+    "holds": "yes",
+    "why": "action.py adds the action id to the set whose branch returns self.respond()."
+   },
+   {
+    "claim": "Clicking the button does not start anything yet in this diff",
+    "holds": "yes",
+    "why": "The only handling added is to return self.respond() early, and no investigation-start logic appears."
+   }
+  ]
+ },
+ "b-g126723-s4": {
+  "round": "round2",
+  "level": "skim",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "With both flags on, a test checks the button's text",
+    "holds": "yes",
+    "why": "test_send_alert_with_investigation_button, decorated with both features, asserts button text is \"Investigate with Seer\"."
+   },
+   {
+    "claim": "With both flags on, a test checks the decoded action routing",
+    "holds": "yes",
+    "why": "It decodes action_id and asserts the action, organization_id and project_id."
+   },
+   {
+    "claim": "With both flags on, a test checks the button's value payload",
+    "holds": "yes",
+    "why": "It asserts orjson.loads(button[\"value\"]) equals groupId and openPeriodId."
+   },
+   {
+    "claim": "A test checks that no button appears for a resolved alert",
+    "holds": "yes",
+    "why": "With both flags on, the test sets the status to CLOSED and the trigger to RESOLVED, then asserts the blocks are only [\"section\"]."
+   },
+   {
+    "claim": "A test checks that no button appears with no flags",
+    "holds": "yes",
+    "why": "test_send_alert_without_flags_has_no_investigation_button has no investigation feature decorators and asserts only a section block."
+   },
+   {
+    "claim": "Tests check that no button appears with only one of the two flags",
+    "holds": "yes",
+    "why": "Two tests each enable just one flag (investigations or investigations-slack) and assert only a section block."
+   }
+  ]
+ },
+ "b-g127759-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "PRIMARY_HEADER_HEIGHT changes from 53 to 49",
+    "holds": "yes",
+    "why": "Line 11 (53) is removed and line 10 adds the value 49."
+   },
+   {
+    "claim": "NAVIGATION_MOBILE_CONTENT_HEIGHT (48) is removed from the constants",
+    "holds": "yes",
+    "why": "The line `export const NAVIGATION_MOBILE_CONTENT_HEIGHT = 48;` is deleted."
+   },
+   {
+    "claim": "The header is now one fixed height instead of a mobile/desktop pair",
+    "holds": "not shown",
+    "why": "The diff only shows the constants file. Nothing in it shows that NAVIGATION_MOBILE_CONTENT_HEIGHT was the mobile counterpart of the header height, or that consumers now use a single height."
+   },
+   {
+    "claim": "Every consumer of PRIMARY_HEADER_HEIGHT gets a different size",
+    "holds": "yes",
+    "why": "The exported value changes from 53 to 49, so anything that imports it gets the new value."
+   }
+  ]
+ },
+ "b-g127759-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The mobile header now uses PRIMARY_HEADER_HEIGHT instead of a mobile-specific height",
+    "holds": "yes",
+    "why": "MobileNavigationHeader height changed from NAVIGATION_MOBILE_CONTENT_HEIGHT to PRIMARY_HEADER_HEIGHT."
+   },
+   {
+    "claim": "The primary sidebar header uses PRIMARY_HEADER_HEIGHT without mobile/desktop branching",
+    "holds": "yes",
+    "why": "The layout-conditional minHeight and height were replaced with height={`${PRIMARY_HEADER_HEIGHT}px`}, and the usePrimaryNavigation layout lookup was removed."
+   },
+   {
+    "claim": "The secondary header uses PRIMARY_HEADER_HEIGHT without mobile/desktop branching",
+    "holds": "yes",
+    "why": "The isMobile ternary on height was replaced with PRIMARY_HEADER_HEIGHT. Padding still branches, but the claim is about height."
+   },
+   {
+    "claim": "The top bar uses PRIMARY_HEADER_HEIGHT without branching, as a fixed height",
+    "holds": "yes",
+    "why": "The responsive minHeight object was replaced with height={`${PRIMARY_HEADER_HEIGHT}px`}."
+   },
+   {
+    "claim": "The top bar has zero vertical padding",
+    "holds": "yes",
+    "why": "Padding changed to {'screen:sm': '0 lg', 'screen:md': '0 xl'}, so vertical padding is 0 at both breakpoints."
+   },
+   {
+    "claim": "The secondary header's buttons become size sm",
+    "holds": "yes",
+    "why": "Both the mobile and desktop Buttons changed from size=\"xs\" to size=\"sm\"."
+   },
+   {
+    "claim": "The secondary header's title wrapper div is removed",
+    "holds": "yes",
+    "why": "The <div> around the Text title was removed."
+   },
+   {
+    "claim": "Primary list icons are now 24px at all layouts",
+    "holds": "yes",
+    "why": "IconDefaultsProvider now always gets legacySize=\"24px\" in place of the layout-based 16px/21px."
+   },
+   {
+    "claim": "The search icon uses its default size",
+    "holds": "yes",
+    "why": "size=\"xs\" was removed from IconSearch."
+   }
+  ]
+ },
+ "b-g127759-s3": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "useTopOffset no longer checks a media query",
+    "holds": "yes",
+    "why": "useMedia, useTheme and the isMobile calculation are removed."
+   },
+   {
+    "claim": "useTopOffset always uses PRIMARY_HEADER_HEIGHT for the header height",
+    "holds": "yes",
+    "why": "headerHeight = PRIMARY_HEADER_HEIGHT unconditionally."
+   },
+   {
+    "claim": "The Seer Explorer sidebar header uses the same constant",
+    "holds": "yes",
+    "why": "height is now `${PRIMARY_HEADER_HEIGHT}px` in seerExplorerContent.tsx."
+   },
+   {
+    "claim": "The event drawer uses the same constant",
+    "holds": "yes",
+    "why": "--event-drawer-header-height is set to PRIMARY_HEADER_HEIGHT."
+   },
+   {
+    "claim": "The drawer's responsive media-query override is removed",
+    "holds": "yes",
+    "why": "The @media (min-width: md) block is deleted from EventDrawerContainer."
+   }
+  ]
+ },
+ "b-g127759-s4": {
+  "round": "round2",
+  "level": "cleared",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The spec now uses PRIMARY_HEADER_HEIGHT as the expected header height",
+    "holds": "yes",
+    "why": "HEADER_HEIGHT is now assigned PRIMARY_HEADER_HEIGHT, which replaces NAVIGATION_MOBILE_CONTENT_HEIGHT in the import."
+   },
+   {
+    "claim": "The comment about jsdom and the mobile media query is removed",
+    "holds": "yes",
+    "why": "Line 16, the jsdom/desktop media query comment, is deleted."
+   }
+  ]
+ },
+ "b-g129974-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The change is in the close_open_period method",
+    "holds": "not shown",
+    "why": "The method name isn't visible in the hunk, though the code is clearly a method that closes an open period."
+   },
+   {
+    "claim": "If the resolution time is earlier than date_started, it logs a warning",
+    "holds": "yes",
+    "why": "Lines 119-128 check resolution_time < self.date_started and call logger.warning."
+   },
+   {
+    "claim": "In that case it uses date_started as the end date instead",
+    "holds": "yes",
+    "why": "Line 130 sets resolution_time = self.date_started before self.update(date_ended=resolution_time)."
+   },
+   {
+    "claim": "This avoids a DataError when a delayed failure opens a period after the recovery time",
+    "holds": "not shown",
+    "why": "The DB constraint that would raise a DataError, and the delayed-failure scenario, are outside the code shown."
+   },
+   {
+    "claim": "The period ends up zero-length",
+    "holds": "yes",
+    "why": "date_ended is set equal to date_started, so the duration is zero."
+   }
+  ]
+ },
+ "b-g129974-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "The status change consumer now passes the payload's update_date through parse_timestamp instead of using the raw value.",
+    "holds": "yes",
+    "why": "Line 219 removed the raw payload.get; line 220 wraps it in parse_timestamp."
+   },
+   {
+    "claim": "Callers receive a parsed value, not the payload's original form.",
+    "holds": "yes",
+    "why": "The data dict's update_date is now the result of parse_timestamp rather than the raw payload value."
+   },
+   {
+    "claim": "parse_timestamp is imported from sentry.utils.dates.",
+    "holds": "yes",
+    "why": "Line 28 adds 'from sentry.utils.dates import parse_timestamp'."
+   },
+   {
+    "claim": "What parse_timestamp returns for a missing or invalid value is defined outside this diff.",
+    "holds": "yes",
+    "why": "parse_timestamp is imported from sentry.utils.dates, and its body is not shown in the diff."
+   }
+  ]
+ },
+ "b-g129974-s3": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds a monitor test where a second failure is processed after its recovering OK check-in's time",
+    "holds": "yes",
+    "why": "second_failure_processed_at is second_failed_at + 10s while second_recovered_at is second_failed_at + 5s, and mark_failed runs frozen at the processing time."
+   },
+   {
+    "claim": "The test checks the group ends up resolved",
+    "holds": "yes",
+    "why": "Line 383 asserts group.status == GroupStatus.RESOLVED."
+   },
+   {
+    "claim": "The test checks the second open period starts and ends at the same processing time",
+    "holds": "yes",
+    "why": "Line 387 expects (second_failure_processed_at, second_failure_processed_at) for the second open period."
+   }
+  ]
+ },
+ "b-g130001-s1": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "set_commits now upserts every commit before opening the atomic block",
+    "holds": "yes",
+    "why": "Line 95 builds `commits` via upsert_commit for each item in commit_list before the atomic_transaction on line 97."
+   },
+   {
+    "claim": "set_commits passes the resulting commits into set_commits_on_release",
+    "holds": "yes",
+    "why": "Line 99 calls set_commits_on_release(release, commit_list, commits)."
+   },
+   {
+    "claim": "The commit upsert helper is renamed upsert_commit",
+    "holds": "yes",
+    "why": "`def set_commit(...)` is replaced by `def upsert_commit(...)`."
+   },
+   {
+    "claim": "upsert_commit no longer takes an index",
+    "holds": "yes",
+    "why": "The `idx: int` parameter was removed from the signature."
+   },
+   {
+    "claim": "upsert_commit no longer creates ReleaseCommit rows",
+    "holds": "yes",
+    "why": "The ReleaseCommit.objects.create block with its IntegrityError handling was removed."
+   },
+   {
+    "claim": "A changed existing commit is updated in its own small transaction",
+    "holds": "yes",
+    "why": "When the commit is not new and its data differs, commit.update now runs inside its own atomic_transaction (lines 203-204)."
+   },
+   {
+    "claim": "Receiver side effects (issue links) commit together with the commit update",
+    "holds": "not shown",
+    "why": "The code comment states this intent, but the receiver that creates issue links is not in the diff."
+   }
+  ]
+ },
+ "b-g130001-s2": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "set_commits_on_release now takes a list of commits (pre-upserted) as a parameter",
+    "holds": "not shown",
+    "why": "The new `commits: list[Commit]` parameter is visible, but that callers upsert the commits beforehand happens outside this code."
+   },
+   {
+    "claim": "It deletes old ReleaseCommit rows for the release",
+    "holds": "yes",
+    "why": "`ReleaseCommit.objects.filter(release=release).delete()` is still called."
+   },
+   {
+    "claim": "It builds new ReleaseCommit rows with their order",
+    "holds": "yes",
+    "why": "The loop appends `ReleaseCommit(..., order=idx)` for each commit."
+   },
+   {
+    "claim": "The rows are inserted with one bulk_create call using ignore_conflicts and batch size 100",
+    "holds": "yes",
+    "why": "Line 159: `bulk_create(release_commits, ignore_conflicts=True, batch_size=100)`."
+   },
+   {
+    "claim": "This replaces a per-commit create with IntegrityError handling",
+    "holds": "not shown",
+    "why": "The removed `set_commit(idx, data, release)` call is visible, but its body (per-commit create, IntegrityError handling) isn't shown."
+   },
+   {
+    "claim": "last_commit_id is computed before release.update",
+    "holds": "yes",
+    "why": "`last_commit_id` is set from `latest_commit` (lines 161-164) before `release.update` on line 166."
+   },
+   {
+    "claim": "This happens in the swap transaction",
+    "holds": "not shown",
+    "why": "No transaction context is visible in this code."
+   }
+  ]
+ },
+ "b-g130001-s3": {
+  "round": "round2",
+  "level": "cleared",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Removes the in_test_hide_transaction_boundary import from set_commits.py",
+    "holds": "yes",
+    "why": "The diff shows exactly this import line being removed from src/sentry/models/releases/set_commits.py."
+   },
+   {
+    "claim": "The wrapper is no longer used in the swap block",
+    "holds": "not shown",
+    "why": "The swap block isn't in the diff for this step, so whether the wrapper was removed there can't be confirmed from what's shown."
+   },
+   {
+    "claim": "This step is an import removal only",
+    "holds": "yes",
+    "why": "The only change shown is the single removed import line."
+   }
+  ]
+ },
+ "b-g130001-s4": {
+  "round": "round2",
+  "level": "verify",
+  "accurate": true,
+  "claims": [
+   {
+    "claim": "Adds imports",
+    "holds": "yes",
+    "why": "Adds `connection`, `CaptureQueriesContext`, and `TransactionTestCase` imports."
+   },
+   {
+    "claim": "Adds two tests in a TransactionTestCase",
+    "holds": "yes",
+    "why": "`SetCommitsTransactionTest(TransactionTestCase)` defines two test methods."
+   },
+   {
+    "claim": "One test checks the swap transaction in the captured SQL contains no savepoints or sentry_commit inserts",
+    "holds": "yes",
+    "why": "Queries are captured with `CaptureQueriesContext`, sliced between BEGIN and COMMIT around the DELETE, and the test asserts there are no SAVEPOINT statements and no `INSERT INTO \"sentry_commit\"` statements."
+   },
+   {
+    "claim": "That test checks that 70 order values are stored",
+    "holds": "yes",
+    "why": "It asserts `sorted(orders) == list(range(70))`."
+   },
+   {
+    "claim": "The other test checks that a commit update and its issue link roll back together after a simulated kill",
+    "holds": "yes",
+    "why": "It patches `GroupLink.objects.create` to raise `WorkerKilled`, then asserts the commit message is still \"placeholder\" and no GroupLink exists."
+   },
+   {
+    "claim": "Then the commit update and issue link succeed on retry",
+    "holds": "yes",
+    "why": "It calls `set_commits` again and asserts the message is updated and the GroupLink exists."
+   }
+  ]
+ }
+}

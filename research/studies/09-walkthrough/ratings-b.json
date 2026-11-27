@@ -1,0 +1,380 @@
+[
+ {
+  "key": "b-g132824-s1",
+  "pr": "grafana/grafana#132824",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Pretty easy to follow. It adds two new sections on the PDF header and footer, explains what they cover, and lists the feature toggles you need if you self-host. I didn't really know what the \"link references\" part meant, but it didn't matter for getting the main idea."
+ },
+ {
+  "key": "b-g132824-s2",
+  "pr": "grafana/grafana#132824",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah, each change is laid out one by one. The preview note now says it's GA in Cloud, the logo limit goes from 16 MB to 3 MB, and the email footer text gets reworded. You don't need to know any code for this one."
+ },
+ {
+  "key": "b-g132824-s3",
+  "pr": "grafana/grafana#132824",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "I got it. The overview page gets the same availability note, the Report settings menu items now link to their docs, and there's a new paragraph on per-report PDF options vs the org-wide header and footer. Only thing I'd question is \"link references\", not sure everyone knows that term."
+ },
+ {
+  "key": "b-g134380-s1",
+  "pr": "grafana/grafana#134380",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Mostly got it. The timer now resets after every scheduled check, not just after a real sync, so a repo with no new commits doesn't keep looking overdue. I had to think a bit about why it was overdue before though, since it doesn't say. And \"ref\" might lose some people."
+ },
+ {
+  "key": "b-g134380-s2",
+  "pr": "grafana/grafana#134380",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah this one's simple. When a sync job finishes (or fails) it keeps the existing lastChecked value instead of wiping it. I'm guessing the job overwrites the whole sync status and that's why this is needed, but it doesn't actually say that."
+ },
+ {
+  "key": "b-g134380-s3",
+  "pr": "grafana/grafana#134380",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "Makes sense. It's a new optional timestamp field on the sync status, and then a bunch of generated files get updated to match. I don't know what CUE or apply-configuration are, but I didn't need to."
+ },
+ {
+  "key": "b-g134380-s4",
+  "pr": "grafana/grafana#134380",
+  "level": "skim",
+  "clear": false,
+  "clear_note": "Not really. It feels like a list of test names more than an explanation. Things like \"cached object unmodified\" and \"shouldResync cases\" don't tell me what's supposed to happen. It also mentions \"the new argument\" like I should know what that is, and nothing before this explains it."
+ },
+ {
+  "key": "b-g134380-s5",
+  "pr": "grafana/grafana#134380",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "I followed it. The tests make sure the worker keeps the old lastChecked value and takes the finish time and state from the job. \"Early setup failure\" is a little vague, but I assumed it meant a sync that breaks before it really starts."
+ },
+ {
+  "key": "b-g134380-s6",
+  "pr": "grafana/grafana#134380",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "Yeah. Two end-to-end tests with a real Git repo. If there are no new commits it just updates lastChecked and doesn't start a job, and if there's a new commit it syncs like normal. \"Age the status\" threw me for a sec (I think it means backdating the timestamps), and the \"no later than Finished\" bit took a reread."
+ },
+ {
+  "key": "b-g134715-s1",
+  "pr": "grafana/grafana#134715",
+  "level": "verify",
+  "clear": false,
+  "clear_note": "Not really. I can tell the user info type got split in two and the new one has more fields, but it never actually says there's a new whoami endpoint, which is the whole point of the PR going by the title. Words like handleSelf, resolvers and \"enriches\" lost me, and I'm not sure why 401 vs 404 matters."
+ },
+ {
+  "key": "b-g134715-s2",
+  "pr": "grafana/grafana#134715",
+  "level": "verify",
+  "clear": false,
+  "clear_note": "No, it doesn't explain anything. It just says these are other changes. And there's a lot in here: the frontend client, a new authorizer for whoami, a bunch of tests, OpenAPI files, even an unrelated accessibility tweak to a panel editor component. I'd have no idea what any of it does from this."
+ },
+ {
+  "key": "b-g136199-s1",
+  "pr": "grafana/grafana#136199",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah, this is just moving code around. The loading logic that lived inside the hook gets pulled out into its own function so something else can reuse it, and the hook works the same as before. I didn't totally follow the circular import part, but it's clearly just the reason it got its own file."
+ },
+ {
+  "key": "b-g136199-s2",
+  "pr": "grafana/grafana#136199",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "I got the main idea. Before it hands back the extensions, it now loads the plugins that add to that spot first, and if loading fails it just logs it and keeps going. The subscription and defer bit is pretty technical, and it never says what was broken before, but you can guess those plugins' extensions were missing."
+ },
+ {
+  "key": "b-g136199-s3",
+  "pr": "grafana/grafana#136199",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "Yep. The tests check the new loading gets called with the right stuff, that results don't come back until loading's done, that nothing kicks off until someone actually subscribes, and that a failed load gets logged without breaking things. Lines up with step 2."
+ },
+ {
+  "key": "b-g136199-s4",
+  "pr": "grafana/grafana#136199",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "Simple enough. It checks the helper loads whatever plugins the lookup returns, and skips loading when the lookup comes back empty or with ids that don't match any app plugin. \"Predicate\" is a bit of a nerdy word, but it's clear from context it's the lookup."
+ },
+ {
+  "key": "b-g137406-s1",
+  "pr": "grafana/grafana#137406",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah, I get it. The trendline was secretly using the same name as the series it's based on, so hiding one in the legend hid both. Now it gets its own name behind the scenes but still shows the same label. \"Matchers\" and displayNameFromDS are a little jargony, but the problem and the fix both come through."
+ },
+ {
+  "key": "b-g137406-s2",
+  "pr": "grafana/grafana#137406",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Mostly. The old tests get updated for the new trendline name, and the new ones check that hiding by name catches the original series but not the trendline. \"Unnamed source\" confused me for a second, since the series is clearly called \"value\". I think it means the frame has no name. The equality helper bit I'd just skip."
+ },
+ {
+  "key": "b-p108097-s1",
+  "pr": "PostHog/posthog#108097",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah. It's basically \"accept more ways of saying true or false\", like yes/no, on/off, t/f, numbers, and treat empty as not set. Bad values on the batch flags just fall back instead of breaking the whole batch. It talks about \"the four expected keys\" without naming them, and it doesn't say an event with a bad option gets dropped, but I got the idea."
+ },
+ {
+  "key": "b-p108097-s2",
+  "pr": "PostHog/posthog#108097",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Mostly. When events get dropped for bad options, the warning now lists which options were the problem, and the log line is capped at once a second so it doesn't flood, while the count still includes everything. The first sentence about the detail tag didn't mean much to me, and \"union of failed keys\" is a mouthful."
+ },
+ {
+  "key": "b-p108097-s3",
+  "pr": "PostHog/posthog#108097",
+  "level": "skim",
+  "clear": false,
+  "clear_note": "Not really. It's a pile of test areas without saying what any of them should do. \"Boolean matrices\", \"injection of parsed booleans at serialization\", \"import mode\" and \"log gate timing\" would all need explaining for me to know what's being checked. If you hadn't read steps 1 and 2 carefully you'd be lost."
+ },
+ {
+  "key": "b-p108097-s4",
+  "pr": "PostHog/posthog#108097",
+  "level": "cleared",
+  "clear": true,
+  "clear_note": "Yep, this is just docs. The new warning and the looser parsing get written up, a diagram gets the right field names, and a couple of descriptions get reworded. I wasn't sure what \"the skill\" doc is, but it doesn't matter much here."
+ },
+ {
+  "key": "b-p113953-s1",
+  "pr": "PostHog/posthog#113953",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah. If the caller asks for JSON, the authorize endpoint now sends back the list of event and person properties this user isn't allowed to see. Anyone else still gets the old empty 204. It doesn't say why it keeps the 204 around (older versions of the service), but I could guess it's for backwards compatibility."
+ },
+ {
+  "key": "b-p113953-s2",
+  "pr": "PostHog/posthog#113953",
+  "level": "verify",
+  "clear": false,
+  "clear_note": "Not really. It's basically a list of status codes and what each turns into, which doesn't mean much unless you already know what 503 vs 401 means here. I also wouldn't know \"nil restrictions\" means \"nothing hidden\". The plain version, that it now reads the hidden list and refuses when anything looks off, never gets said."
+ },
+ {
+  "key": "b-p113953-s3",
+  "pr": "PostHog/posthog#113953",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "I mostly got it. Hidden properties get pulled out of events before they're sent, including ones tucked inside $set, and if your filter uses a hidden property you just get nothing. The first sentence about an \"atomic restrictions pointer\" went over my head, and it doesn't say the filter thing is there so people can't guess hidden values."
+ },
+ {
+  "key": "b-p113953-s4",
+  "pr": "PostHog/posthog#113953",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yep, this one reads well. Filtering on a hidden property gets rejected up front, every event gets cleaned right before it goes out, and the regular access re-check can update the rules or cut the stream if your filter becomes off limits. I wondered why stats and notifications skip the restrictions, but I understood what it does."
+ },
+ {
+  "key": "b-p113953-s5",
+  "pr": "PostHog/posthog#113953",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "Yeah. The Django tests check the empty list, the old 204 for clients not asking for JSON, and that the hidden property names come back. The Go tests check the list gets read right and that bad or error responses get refused. \"Closed failures\" is a bit of a weird phrase, but it's clear enough."
+ },
+ {
+  "key": "b-p113953-s6",
+  "pr": "PostHog/posthog#113953",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "Mostly. The tests check hidden properties get removed (even inside $set), that one person's view doesn't change the original event for everyone else, that hidden filters get nothing, and that the stream gets a 400 or ends when rules tighten. I had to guess at \"unchanged shared event data\", and \"other hunks\" is pretty insider."
+ },
+ {
+  "key": "b-p119786-s1",
+  "pr": "PostHog/posthog#119786",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah, I got the main point: four new tables you can pull from Mono, and payments and debits can sync just the new rows by date. \"Absolute v3 URLs\" and \"merge-only\" are pretty jargony though, and it says \"bank coverage\" like I'd know that's the institutions table. I had to connect that myself."
+ },
+ {
+  "key": "b-p119786-s2",
+  "pr": "PostHog/posthog#119786",
+  "level": "verify",
+  "clear": false,
+  "clear_note": "Not really. It assumes you already know what the \"transactions-only date and watermark logic\" is, and then goes straight into how each endpoint pages through results. It reads like a changelog for someone who wrote the code. I can't tell what actually changes for someone syncing these tables, beyond each one fetching its pages a bit differently."
+ },
+ {
+  "key": "b-p119786-s3",
+  "pr": "PostHog/posthog#119786",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "Yep, easy. Each new table gets a short description, a link to Mono's docs and descriptions for its columns. Nothing else to it."
+ },
+ {
+  "key": "b-p119786-s4",
+  "pr": "PostHog/posthog#119786",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "Yeah. The tests make sure each new table hits the right URL with the right filters and paging and gets the right rows back, and that a payments sync picking up where it left off keeps the same date range. The error message tweak is tiny. \"Parametrized\" is a bit techy, but it doesn't get in the way."
+ },
+ {
+  "key": "b-p119786-s5",
+  "pr": "PostHog/posthog#119786",
+  "level": "cleared",
+  "clear": true,
+  "clear_note": "Simple. There's a checklist of Mono features they don't support yet, and these four get ticked off now that they exist."
+ },
+ {
+  "key": "b-p120917-s1",
+  "pr": "PostHog/posthog#120917",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah. When the connection check fails, the error message now shows the URL without the ?... part on the end, but the real request still goes out with it. What it never says is why, which is that the query string can have a secret like an access token in it. I only got that from the next step."
+ },
+ {
+  "key": "b-p120917-s2",
+  "pr": "PostHog/posthog#120917",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yep, clear. They fake a URL with an access token in it, make the server say no, and check the error shows the plain URL and not the token. This step is actually what made the point of the PR click for me."
+ },
+ {
+  "key": "b-p121510-s1",
+  "pr": "PostHog/posthog#121510",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah, I followed it. Only one fill-up job can run on a static cohort at a time, so a second update while one is going gets told no, and if the job fails to even start, the lock gets let go so you can retry. The is_calculating and \"atomically\" bits are code-speak, and it never says these jobs can take hours, which is the reason for all this."
+ },
+ {
+  "key": "b-p121510-s2",
+  "pr": "PostHog/posthog#121510",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yep. One test sends the same update twice and checks the second gets rejected and the job only starts once. The other makes the first start fail and checks a retry goes through. Short and easy to picture."
+ },
+ {
+  "key": "b-g125868-s1",
+  "pr": "getsentry/sentry#125868",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah. It's a new lint rule that flags little helper functions inside a component that only ever return JSX (or null) and get called directly, and it's nice that it spells out what counts as \"React scope\". It doesn't say what you're supposed to do instead or why it matters, but the title kind of covers that: make it a component."
+ },
+ {
+  "key": "b-g125868-s2",
+  "pr": "getsentry/sentry#125868",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yep. The rule gets added to Sentry's plugin and turned on as an error, but switched off for tests. Saying \"the override that also disables no-loss-of-precision\" is a roundabout way to say \"tests\", but it gets there."
+ },
+ {
+  "key": "b-g125868-s3",
+  "pr": "getsentry/sentry#125868",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "Mostly. There are examples of code that should pass and code that should get flagged, plus a few small checks that the helper sees through parentheses and if/else-style returns. \"Class render, props\" is a bit terse, but I could tell what kinds of cases they mean."
+ },
+ {
+  "key": "b-g126723-s1",
+  "pr": "getsentry/sentry#126723",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah, clear. The Slack metric alert only gets the new button if there's an issue behind it, the alert isn't resolved, and the org has both feature flags turned on. The last sentence sums it up nicely: resolved alerts and orgs without the flags don't see it."
+ },
+ {
+  "key": "b-g126723-s2",
+  "pr": "getsentry/sentry#126723",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Mostly. When the flag from step 1 is set, the Slack message gets an \"Investigate with Seer\" button tacked on, and the button carries which issue and alert period it's about. The \"encoded action id for SEER_INVESTIGATION_START\" part is code talk, but I got that it's just how Slack knows what the click means."
+ },
+ {
+  "key": "b-g126723-s3",
+  "pr": "getsentry/sentry#126723",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yep, and I liked that it says straight up that clicking the button doesn't actually do anything yet in this PR. That saved me some confusion. \"Flagpole\" means nothing to me, but I can tell it's their feature flag system."
+ },
+ {
+  "key": "b-g126723-s4",
+  "pr": "getsentry/sentry#126723",
+  "level": "skim",
+  "clear": true,
+  "clear_note": "Yeah. With both flags on, the button shows up with the right text and data. With a resolved alert, no flags, or only one of the two, it doesn't. Easy to follow."
+ },
+ {
+  "key": "b-g127759-s1",
+  "pr": "getsentry/sentry#127759",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah. There used to be one header height for desktop (53) and one for mobile (48), and now it's just one, 49, everywhere. \"Every consumer gets a different size\" took me a sec, since it means different from before, not from each other, but the point's clear."
+ },
+ {
+  "key": "b-g127759-s2",
+  "pr": "getsentry/sentry#127759",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Mostly. All the nav headers now use that one height instead of switching between mobile and desktop, and then there's a list of small visual tweaks: bigger buttons, 24px icons, no top and bottom padding on the top bar. It reads like a checklist, and it would help to say icons on mobile actually get a lot bigger (16 to 24)."
+ },
+ {
+  "key": "b-g127759-s3",
+  "pr": "getsentry/sentry#127759",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "I got it. The last few spots that still had separate mobile and desktop heights, like the page offset, the Seer sidebar header and the event drawer, now use the one height too. \"useTopOffset\" and \"media query\" are dev words, but you can tell what's going on."
+ },
+ {
+  "key": "b-g127759-s4",
+  "pr": "getsentry/sentry#127759",
+  "level": "cleared",
+  "clear": true,
+  "clear_note": "Yep, tiny one. The test now expects the single header height, and an old comment about the mobile height goes away."
+ },
+ {
+  "key": "b-g129974-s1",
+  "pr": "getsentry/sentry#129974",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah, this one's clear. If an issue would end up closing before it even opened, because a failure showed up late, it now just ends at the start time and logs a warning instead of crashing. I don't know exactly what a DataError is, but \"end before start\" explains it well enough."
+ },
+ {
+  "key": "b-g129974-s2",
+  "pr": "getsentry/sentry#129974",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "I get what it does: the update date coming in gets turned into a real date instead of being passed along as whatever it arrived as. What I don't get is why it's here or how it ties into the fix in step 1, and the last line about what happens with a bad value just leaves me hanging."
+ },
+ {
+  "key": "b-g129974-s3",
+  "pr": "getsentry/sentry#129974",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yep. They set up the exact race: a second failure gets handled after the OK that should've come after it. Then they check the issue still ends up resolved and that second period starts and ends at the same moment. \"Check-in\" isn't explained, but it's easy enough to guess."
+ },
+ {
+  "key": "b-g130001-s1",
+  "pr": "getsentry/sentry#130001",
+  "level": "verify",
+  "clear": false,
+  "clear_note": "Not really. I can tell commits now get saved before some big transaction instead of inside it, but \"upserts\", \"atomic block\", \"swap transaction\" and \"receiver side effects\" all stack up. It also never says why, which is speed (the PR's a perf fix) since doing it inside meant a savepoint per commit. That's the part I'd actually need."
+ },
+ {
+  "key": "b-g130001-s2",
+  "pr": "getsentry/sentry#130001",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Yeah, mostly. Instead of linking each commit to the release one at a time, it builds the whole list and saves it in one go. The bits in parentheses and the last line about last_commit_id are just noise to me, but the main change comes through."
+ },
+ {
+  "key": "b-g130001-s3",
+  "pr": "getsentry/sentry#130001",
+  "level": "cleared",
+  "clear": true,
+  "clear_note": "Yep, an import that isn't used anymore gets removed. Nothing to it."
+ },
+ {
+  "key": "b-g130001-s4",
+  "pr": "getsentry/sentry#130001",
+  "level": "verify",
+  "clear": true,
+  "clear_note": "Mostly. One test checks the big transaction no longer does the per-commit work and all 70 commits keep their order. The other fakes a crash and checks the commit change and its issue link both get undone together, then work on retry. \"Savepoints\" would lose some people, but the second test is really easy to picture."
+ }
+]
