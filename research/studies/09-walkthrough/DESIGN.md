@@ -52,3 +52,26 @@ the Verify spots), shown as its lines highlighted in that step's code:
 
 About $1 for the Guide on 15 pull requests (batch). Nahuel's time: about
 45 minutes.
+
+## Changes before any rating
+
+**27 Nov 2026, after the walkthroughs were generated, before Nahuel rated
+anything: "points there" counts spots outside the Briefer's places, not
+outside Verify steps.** One Briefer place makes its whole step Verify, so
+40 of the 64 steps are Verify and only 1 spot that mattered sits in a Skim
+or Cleared step: too few to say anything. The question this measure is for
+is the one study 08 left open: the spots that mattered outside the
+Briefer's places (about 1 in 4), where the walkthrough's explanation is all
+a reviewer has. So it now covers every spot that mattered that no Briefer
+place covers (same file, within 3 lines, as study 08 scored Verify),
+whatever its step's level. The step levels shown are unchanged, as the
+product shows them. That 40 of 64 steps came out Verify is itself a
+finding, reported with the results.
+
+**27 Nov 2026, still before any rating: "points there" covers the whole
+test set (Nahuel's call).** The 15 sampled PRs have only 3 spots that
+mattered outside the Briefer's places (3 of 26; across all 105 test PRs
+it's 53 of 215). So the Guide also writes walkthroughs for the other 90
+test PRs, and their spots outside the Briefer's places are rated for
+"points there" too, with the same question and the same view. Accuracy
+and clarity stay on the 15 sampled PRs, with the bar unchanged.
