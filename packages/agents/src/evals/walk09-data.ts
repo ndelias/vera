@@ -4,7 +4,8 @@
 // diff, each step's code, and the spots that mattered outside the Verify steps.
 // No rating or lean from Claude is included.
 //
-//   node packages/agents/src/evals/walk09-data.ts <out.json>
+//   node packages/agents/src/evals/walk09-data.ts <out.json>          round 1
+//   node packages/agents/src/evals/walk09-data.ts <out.json> b        round 2 (Guide v2, sample-b, steps only)
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -42,13 +43,14 @@ function lines(text: string): { start: number; lines: Line[] } {
   return { start: Number(m?.[2] ?? 0), lines: out };
 }
 
-const sample = JSON.parse(readFileSync(join(ROOT, "research/studies/09-walkthrough/sample.json"), "utf8")) as string[];
-const rest = (db.prepare("SELECT id FROM sk_prs WHERE split = 'test' ORDER BY id").all() as { id: string }[]).map((r) => r.id).filter((id) => !sample.includes(id));
+const round2 = process.argv[3] === "b";
+const sample = JSON.parse(readFileSync(join(ROOT, `research/studies/09-walkthrough/${round2 ? "sample-b" : "sample"}.json`), "utf8")) as string[];
+const rest = round2 ? [] : (db.prepare("SELECT id FROM sk_prs WHERE split = 'test' ORDER BY id").all() as { id: string }[]).map((r) => r.id).filter((id) => !sample.includes(id));
 const out = [];
 // The 15 sampled PRs: every step is rated. The other 90: only their spots outside the Briefer's places.
 for (const id of [...sample, ...rest]) {
   const rate = sample.includes(id);
-  const system = rate ? "walk09" : "walk09-rest";
+  const system = round2 ? "walk09b" : rate ? "walk09" : "walk09-rest";
   const [repo, num] = id.split("#") as [string, string];
   const title = execFileSync("gh", ["api", `repos/${repo}/pulls/${num}`, "-q", ".title"], { encoding: "utf8" }).trim();
   const rows = db.prepare("SELECT n, path, new_start, new_len, added, deleted, text FROM sk_hunks WHERE pr = ? ORDER BY n").all(id) as
@@ -72,7 +74,8 @@ for (const id of [...sample, ...rest]) {
   const kept = steps.filter((s) => s.hunks.some((h) => (hunks.find((x) => x.id === h)?.changed ?? 0) > 0));
   const byHunk = new Map<number, number>();
   kept.forEach((s, i) => s.hunks.forEach((h) => byHunk.set(h, i)));
-  const short = `${repo.split("/")[0]!.slice(0, 1).toLowerCase()}${num}`;
+  // Grafana and getsentry both start with g; their PR numbers don't collide here, and round 2 has its own prefix.
+  const short = `${round2 ? "b-" : ""}${repo.split("/")[0]!.slice(0, 1).toLowerCase()}${num}`;
   const stepsOut = walk.map((w, i) => ({
     key: `${short}-s${i + 1}`, n: i + 1, title: w.title, explain: w.explain, level: w.level,
     hunks: kept[i]!.hunks.map((h) => rows.find((r) => r.n === h)!).map((r) => ({ path: r.path, ...lines(r.text) })),
@@ -87,7 +90,7 @@ for (const id of [...sample, ...rest]) {
     if (s.side !== "RIGHT") { const r = rows.find((x) => x.n === s.hunk)!; [a, b] = [r.new_start, r.new_start + Math.max(r.new_len, 1) - 1]; }
     return places.some((pl) => { const sp = span(pl.lines); return pl.file === s.path && !!sp && sp[0] <= b + 3 && a - 3 <= sp[1]; });
   };
-  const points = spots.flatMap((s, k) => {
+  const points = round2 ? [] : spots.flatMap((s, k) => {
     const i = byHunk.get(s.hunk);
     if (i === undefined || covered(s)) return [];
     const r = rows.find((x) => x.n === s.hunk)!;
