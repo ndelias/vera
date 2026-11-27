@@ -75,3 +75,22 @@ it's 53 of 215). So the Guide also writes walkthroughs for the other 90
 test PRs, and their spots outside the Briefer's places are rated for
 "points there" too, with the same question and the same view. Accuracy
 and clarity stay on the 15 sampled PRs, with the bar unchanged.
+
+## Round 2: Guide v2 on a fresh sample (written 27 Nov 2026, before any v2 walkthrough)
+
+Round 1 missed both bars (accurate 81%, clear 79.7%; findings 13), rated by
+Nahuel with AI assistance.
+
+- **Guide v2** (`guide.ts`, tuned on round 1's 15 PRs only): never claim
+  more than the code shows ("only", "every", "unless" only when proven), the
+  exact verb for what happens, up to 70 words for steps that change logic,
+  data, permissions, error handling or anything other code calls (with what
+  changes for callers and what can fail), 35 for the rest, tests described
+  by what they check, routine edits called what they are, and test fakes
+  flagged when they share state.
+- **Fresh sample:** 15 test PRs Nahuel has seen nothing of (not in round
+  1's sample, and no spot of theirs was on the rating page), 5 per repo at
+  random (seed `20261127b-<repo>`), in `sample-b.json`.
+- **Rated by Nahuel alone, without AI help** (his call): accuracy and
+  clarity only, same questions, same view.
+- **Same bar:** accurate at least 9 in 10 steps, clear at least 8 in 10.

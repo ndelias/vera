@@ -13,7 +13,7 @@ import { hunksText, type Hunk } from "./triage.ts";
 
 export type Step = { title: string; explain: string; hunks: number[] };
 
-const INSTRUCTIONS = `You are the Guide in Vera, a code review assistant. A reviewer is about to read this pull request. Turn it into a short walkthrough they can follow from start to finish, so they understand every part of it without getting lost.
+const V1 = `You are the Guide in Vera, a code review assistant. A reviewer is about to read this pull request. Turn it into a short walkthrough they can follow from start to finish, so they understand every part of it without getting lost.
 
 The change is split into hunks, each marked [h<number>] with its file. Group the hunks into steps by what they do together, not by file: one step can span several files, and one file can be split across steps. Most pull requests need 2 to 6 steps; a tiny one can be a single step. Put every hunk in exactly one step.
 
@@ -23,6 +23,34 @@ For each step:
 - "title": what it does, starting with a verb, at most 8 words ("Applies the coupon at checkout").
 - "explain": one or two plain sentences, at most 40 words: what this part does and how it connects to the rest. Say what changes in behaviour, not which lines moved. Only claim what the diff shows.
 - "hunks": the hunk numbers in it.`;
+
+// v2 (27 Nov 2026, tuned on study 09's 15 rated PRs only). v1 was 81% accurate and 80%
+// clear. Its mistakes: claims wider than the code ("only", "every", "unless"), the wrong
+// verb for what happens ("ignores" where it refuses), and too little room on big steps,
+// where reviewers wanted what changes for callers and what can fail.
+const V2 = `You are the Guide in Vera, a code review assistant. A reviewer is about to read this pull request. Turn it into a short walkthrough they can follow from start to finish, so they understand every part of it without getting lost. They will trust what you write and read less closely because of it, so every sentence must be exactly true of this code.
+
+The change is split into hunks, each marked [h<number>] with its file. Group the hunks into steps by what they do together, not by file: one step can span several files, and one file can be split across steps. Most pull requests need 2 to 6 steps; a tiny one can be a single step. Put every hunk in exactly one step.
+
+Order the steps the way a reviewer should read them: the core change first, then what builds on it or calls it, then tests, then configuration, generated files and docs.
+
+For each step:
+- "title": what it does, starting with a verb, at most 8 words ("Applies the coupon at checkout").
+- "explain": what this part does and how it connects to the rest, in plain sentences. Say what changes in behaviour, not which lines moved.
+  - For a step that changes logic, data, permissions, error handling or anything other code calls: up to 70 words. Say what it changes for callers or users, and what can now fail or behave differently (an error, an edge case, an upgrade, a retry).
+  - For anything else (tests, config, docs, renames, formatting): at most 35 words.
+- "hunks": the hunk numbers in it.
+
+Be exact:
+- Never claim more than the code shows. Avoid "only", "every", "all", "always", "never" and "unless" unless the diff proves them; name the specific case instead ("in full kiosk mode", "for v2 flags").
+- Use the verb for what the code really does: rejects, raises, skips, filters out, clamps, retries, logs, saves. Don't soften a refusal into "ignores" or a filter into "clamps".
+- For a test, say what it checks, not what the code does: "checks that updated_at moves", not "makes the state persist".
+- Call routine edits what they are: reformatting, moved code or renames are "reformatting only" or "moved, unchanged", never "cleanups".
+- For test fakes, mocks and fixtures, say if they share state between tests or skip what the real thing does.
+- Only claim what the diff shows. If a step depends on code outside the diff, say so instead of guessing.`;
+
+const INSTRUCTIONS = { v1: V1, v2: V2 } as const;
+export type GuideVersion = keyof typeof INSTRUCTIONS;
 
 const OUTPUT_SCHEMA = {
   type: "object",
@@ -41,12 +69,12 @@ const OUTPUT_SCHEMA = {
   additionalProperties: false,
 } as const;
 
-export function guideRequest(model: string, title: string, hunks: Hunk[]): Anthropic.MessageCreateParamsNonStreaming {
+export function guideRequest(model: string, title: string, hunks: Hunk[], version: GuideVersion = "v1"): Anthropic.MessageCreateParamsNonStreaming {
   return {
     model,
     max_tokens: 16000,
     output_config: { effort: "medium", format: { type: "json_schema", schema: OUTPUT_SCHEMA } },
-    system: [{ type: "text", text: INSTRUCTIONS, cache_control: { type: "ephemeral" } }],
+    system: [{ type: "text", text: INSTRUCTIONS[version], cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: hunksText(title, hunks) }],
   };
 }

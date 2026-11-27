@@ -64,6 +64,19 @@ async function requests(job: string, model: string, from?: string): Promise<Req[
     }
     return out;
   }
+  if (job === "walk09b") {
+    // Study 09, round 2: Guide v2 on a fresh 15 from the test PRs Nahuel has seen nothing of.
+    const sample = JSON.parse(readFileSync(join(ROOT, "research/studies/09-walkthrough/sample-b.json"), "utf8")) as string[];
+    const hunks = db.prepare("SELECT n, path, text FROM sk_hunks WHERE pr = ? ORDER BY n");
+    const out: Req[] = [];
+    for (const id of sample) {
+      const [repo, n] = id.split("#") as [string, string];
+      const title = execFileSync("gh", ["api", `repos/${repo}/pulls/${n}`, "-q", ".title"], { encoding: "utf8" }).trim();
+      const hs = (hunks.all(id) as { n: number; path: string; text: string }[]).map((h): Hunk => ({ id: h.n, path: h.path, text: h.text }));
+      out.push({ custom_id: cid(id), params: guideRequest(model, title, hs, "v2") });
+    }
+    return out;
+  }
   if (job === "walk09" || job === "walk09-rest") {
     // Study 09: the Guide's walkthrough, on the same diffs as study 08: the 15 sampled test PRs
     // (walk09), or the other 90 test PRs (walk09-rest), whose spots outside the Briefer's places
