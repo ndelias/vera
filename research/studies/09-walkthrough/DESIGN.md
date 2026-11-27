@@ -94,3 +94,20 @@ Nahuel with AI assistance.
 - **Rated by Nahuel alone, without AI help** (his call): accuracy and
   clarity only, same questions, same view.
 - **Same bar:** accurate at least 9 in 10 steps, clear at least 8 in 10.
+
+**27 Nov 2026, before round 2's ratings or any checker result: accuracy is
+checked by a model; Nahuel rates clarity only.** Nahuel isn't trained to
+read code, so rating whether an explanation is true of it isn't a judgment
+he can make reliably (his words). So:
+
+- **Clarity:** Nahuel, alone and without AI, rates round 2's 54 steps:
+  "from this explanation, would you understand what this part of the change
+  does?" Bar unchanged: at least 8 in 10.
+- **Accuracy:** Claude Opus 5.5 (`packages/agents/src/evals/judge-walk.ts`)
+  lists every claim in a step's explanation and checks each against that
+  step's code: holds, doesn't hold (contradicted or wider than the code), or
+  not shown. A step is accurate only if no claim fails. It checks every
+  rated step of both rounds (v1: 64, v2: 54), so v1 and v2 face the same
+  judge. Bar unchanged: at least 9 in 10, for v2. Reported as "checked by a
+  model", not as a human rating. Its verdicts on round 1 are also compared
+  with round 1's ratings, as a rough check on the checker.

@@ -26,6 +26,7 @@ import { answersRequest, examRequest, gradeRequest, parseJson, type Exam, type G
 import { files as gitlabFiles } from "./gitlab.ts";
 import { triageRequest, type Hunk } from "../triage.ts";
 import { guideRequest } from "../guide.ts";
+import { judgeRequest, type Line } from "./judge-walk.ts";
 import { execFileSync } from "node:child_process";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../../../..");
@@ -61,6 +62,15 @@ async function requests(job: string, model: string, from?: string): Promise<Req[
       const pull = await gh.pull({ owner, repo: name, number: Number(n), url: `https://github.com/${repo}/pull/${n}` });
       const files = pull.files.map((f) => ({ path: f.path, diff: f.patch ?? "", generated: false, tooLarge: !f.patch && f.additions + f.deletions > 0 }));
       out.push({ custom_id: cid(id), params: briefRequest(model, { title: pull.title, files }, "engineer", job === "brief2" ? "v2" : "v1") });
+    }
+    return out;
+  }
+  if (job === "judge09") {
+    // Study 09: the accuracy checker on every rated step of both rounds (Guide v1 and v2).
+    const out: Req[] = [];
+    for (const round of ["round1", "round2"]) {
+      const prs = JSON.parse(readFileSync(join(DATA, "walk09", `${round}.json`), "utf8")) as { rate: boolean; steps: { key: string; title: string; explain: string; hunks: { path: string; lines: Line[] }[] }[] }[];
+      for (const p of prs) if (p.rate) for (const st of p.steps) out.push({ custom_id: cid(st.key), params: judgeRequest(model, st) });
     }
     return out;
   }
