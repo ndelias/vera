@@ -1,0 +1,953 @@
+{
+ "steps": [
+  {
+   "key": "g135227-s1",
+   "pr": "grafana/grafana#135227",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "The explanation leaves out the small rewording in the troubleshooting step (\"ensure you trust\u2026\" becomes \"confirm the plugin comes from a source you trust\u2026\"). It doesn't need its own step, but \"also rewords the troubleshooting step\" would make the explanation cover the whole diff.",
+   "clear_note": ""
+  },
+  {
+   "key": "g135227-s2",
+   "pr": "grafana/grafana#135227",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "he explanation could mention that the \"securely isolate\" sentence is gone too, not just the list.",
+   "clear_note": "The overview never mentions the deprecation. A reader who only sees this section would think the feature is still supported. That's a gap a reviewer might flag, and the explanation could point it out (\"does not mention the deprecation\")."
+  },
+  {
+   "key": "g135315-s1",
+   "pr": "grafana/grafana#135315",
+   "level": "verify",
+   "accurate": true,
+   "clear": false,
+   "accurate_note": "",
+   "clear_note": "Add the data-store rescan after a slow event-store scan, and that it can return items twice. Add the calledRecently shortcut (the reason maxWriteCommitDelay exists). Define 'effective RV' (sinceRv after the lookback). Mention that the debug logs still report sinceRvAge."
+  },
+  {
+   "key": "g135315-s2",
+   "pr": "grafana/grafana#135315",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Say that the empty-store test also checks the data-store fallback, not only the checkpoint. Flag that the rescan test sleeps 2.5s against a ~2s threshold (slow, timing-sensitive on CI)."
+  },
+  {
+   "key": "g136831-s1",
+   "pr": "grafana/grafana#136831",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Say that the time is now frozen at mount, so a picker left open (e.g. across a DST change) can show an old offset. Note that adding now to the memo deps does nothing at runtime."
+  },
+  {
+   "key": "g136831-s2",
+   "pr": "grafana/grafana#136831",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "Run only once' should say the Math.random() call runs only once; useState already ignored the value after the first render.",
+   "clear_note": ""
+  },
+  {
+   "key": "g136831-s3",
+   "pr": "grafana/grafana#136831",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Say why ruleAbilities gets an arrow wrapper instead of useState, and that one use-memo suppression is still there (count 2 to 1)."
+  },
+  {
+   "key": "g136831-s4",
+   "pr": "grafana/grafana#136831",
+   "level": "verify",
+   "accurate": true,
+   "clear": false,
+   "accurate_note": "True as written. 'Unused' Date.now key in JoinByLabels isn't backed by the diff: say how that was checked, or drop 'unused'.",
+   "clear_note": "Add that headId still runs idCounter++ on every render, so the IDs and both useMemos still change each render. As written it reads as if the IDs are now stable."
+  },
+  {
+   "key": "g136831-s5",
+   "pr": "grafana/grafana#136831",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Name the rule (react-hooks/use-memo) instead of 'use-memo-style lint warning'."
+  },
+  {
+   "key": "g136831-s6",
+   "pr": "grafana/grafana#136831",
+   "level": "skim",
+   "accurate": false,
+   "clear": true,
+   "accurate_note": "Not every removed entry was fixed in this PR: the react-hooks/refs entry (count 3) for LogLineDetailsDisplayedFields.tsx is removed, but no step touches that file. Say whether it was stale.",
+   "clear_note": ""
+  },
+  {
+   "key": "g137321-s1",
+   "pr": "grafana/grafana#137321",
+   "level": "verify",
+   "accurate": false,
+   "clear": true,
+   "accurate_note": "Non-kiosk' should be 'not in full kiosk mode': the code only checks KioskMode.Full, so the buttons still show in other kiosk modes.",
+   "clear_note": "Mention the pendingChangesHistory vs undoStack fallback, which drives both the disabled state and the tooltip, and the new e2e selectors tagged 13.4.0."
+  },
+  {
+   "key": "g137321-s2",
+   "pr": "grafana/grafana#137321",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Say that it renders unconditionally and hides itself, so it doesn't share Save's showSaveButton condition."
+  },
+  {
+   "key": "g137321-s3",
+   "pr": "grafana/grafana#137321",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention the tooltip format change: 'Undo Move panel' becomes 'Undo: Move panel'."
+  },
+  {
+   "key": "g137321-s4",
+   "pr": "grafana/grafana#137321",
+   "level": "cleared",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": ""
+  },
+  {
+   "key": "g137321-s5",
+   "pr": "grafana/grafana#137321",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Say whether any e2e spec used the dropped Undo/Redo page-object names. Optionally mention the 'time controls hidden' test, and that no test covers new layouts off."
+  },
+  {
+   "key": "g137465-s1",
+   "pr": "grafana/grafana#137465",
+   "level": "verify",
+   "accurate": true,
+   "clear": false,
+   "accurate_note": "",
+   "clear_note": "Say what happens on upgrade: the old plaintext KV credential is neither migrated nor deleted, so during a rolling upgrade old and new instances hold different credentials and can't route to each other. Mention the main org's namespace and why the name uses ':'. Note that every decrypt failure, transient DB errors included, is reported as undecryptable."
+  },
+  {
+   "key": "g137465-s2",
+   "pr": "grafana/grafana#137465",
+   "level": "verify",
+   "accurate": false,
+   "clear": false,
+   "accurate_note": "Only ProvideServer takes the encryption manager, value store and migrated marker; newServer takes the routeCredentialStore built from them. 'Warns once' is once per run of undecryptable failures: a different error in between resets the flag, so it can warn again.",
+   "clear_note": "Add that ProvideServer now fails at startup when discovery is on and any Secrets Manager dependency is nil. Say the namespace comes from GetNamespaceMapper(cfg)(1), and that the migrated marker is only nil-checked: it's there to order startup."
+  },
+  {
+   "key": "g137465-s3",
+   "pr": "grafana/grafana#137465",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention that RegisterDependencies drops its features and cfg parameters, and that most wire_gen churn is alias renumbering. Flag that ProvideDatabaseMigrated returns the marker even when RunSecretsDBMigrations is off, so it doesn't guarantee the tables exist, despite SecretDBMigrated's comment."
+  },
+  {
+   "key": "g137465-s4",
+   "pr": "grafana/grafana#137465",
+   "level": "cleared",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": ""
+  },
+  {
+   "key": "g137465-s5",
+   "pr": "grafana/grafana#137465",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention the discovery integration test changes (deleteRouteCredential, sqlTestCredentials) and the new goleak ignore for bleve. Flag that testDataKeys is a package-level global shared by every test, and that the KV fake keeps one row whatever the namespace, unlike the real table."
+  },
+  {
+   "key": "g137465-s6",
+   "pr": "grafana/grafana#137465",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention the register_test helper (registerTestDependencies) and the new requireNotStored check. Note that no test covers upgrading from the old KV credential."
+  },
+  {
+   "key": "p109422-s1",
+   "pr": "PostHog/posthog#109422",
+   "level": "verify",
+   "accurate": true,
+   "clear": false,
+   "accurate_note": "",
+   "clear_note": "Say that update_flag also disables the flag, not only bumps the version; that v2 flags skip the experiment key-rename (the 'continue' comes first); that approval policies now apply to bulk delete; and that only APIException is caught, so any other error fails the request after v1 flags were already deleted."
+  },
+  {
+   "key": "p109422-s2",
+   "pr": "PostHog/posthog#109422",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention that the main test also checks that a stale write after bulk delete raises Conflict. Say what 'still soft-deletes unsupported formats' means: they take the old path, staying active with the version unchanged."
+  },
+  {
+   "key": "p109422-s3",
+   "pr": "PostHog/posthog#109422",
+   "level": "cleared",
+   "accurate": false,
+   "clear": true,
+   "accurate_note": "Only the file-system trash soft-deletes without bumping the version' is true of v2 flags only: bulk delete still leaves the version alone for v1 flags (the step 2 test shows version 5 unchanged). The comment gives the trash as an example; the explanation turns it into 'only'.",
+   "clear_note": "Say that these are comment-only changes: ConfigFormatError for other formats is existing behavior that the comment now describes, not new code."
+  },
+  {
+   "key": "p109422-s4",
+   "pr": "PostHog/posthog#109422",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Say that the test pins existing behavior, since no code changes. Flag for the reviewer that raising here sits against the facade's 'enrollment cleanup must never fail' rule; the comment says it's fine only because no caller reaches it."
+  },
+  {
+   "key": "p114732-s1",
+   "pr": "PostHog/posthog#114732",
+   "level": "verify",
+   "accurate": true,
+   "clear": false,
+   "accurate_note": "",
+   "clear_note": "Say what changes per check: a missing action and lost requester access now mark the request FAILED, which makes access loss terminal (step 3). Ownership and validation already did, so they rely on step 2 to keep their message. Note that transient prepare_context errors now fail the request for good, and every pre-apply failure logs at error level."
+  },
+  {
+   "key": "p114732-s2",
+   "pr": "PostHog/posthog#114732",
+   "level": "verify",
+   "accurate": false,
+   "clear": true,
+   "accurate_note": "Makes the failed state persist' isn't shown by this code: skipping and update_fields keep the earlier message and avoid clobbering other fields, but nothing here changes whether the state is saved. If state were set to FAILED without a save, the handler would now skip saving it.",
+   "clear_note": "Say why it's needed: step 1 now sends the ownership and validation failures, which already saved their own message, into these handlers. Say that updated_at is listed because update_fields only writes auto_now fields when they're named, and that update_fields avoids overwriting fields such as validation_status."
+  },
+  {
+   "key": "p114732-s3",
+   "pr": "PostHog/posthog#114732",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "True of the docstring. The claim that periodic validation only checks pending and approved requests can't be confirmed from this diff.",
+   "clear_note": "Say that this documents a behavior change made in step 1 (access loss is now caught and marked FAILED), not a docs-only fix: before, the request came back on its own once access returned."
+  },
+  {
+   "key": "p114732-s4",
+   "pr": "PostHog/posthog#114732",
+   "level": "verify",
+   "accurate": false,
+   "clear": true,
+   "accurate_note": "The first edited test (the undecryptable payload) only checks that updated_at moved, not that the request is FAILED. 'Commits the failed state' is read back from the database inside the test transaction, so a real commit isn't tested.",
+   "clear_note": "Note what isn't tested: a missing action now marking the request failed, and ownership or validation failures keeping their own message, which is the point of step 2."
+  },
+  {
+   "key": "p125271-s1",
+   "pr": "PostHog/posthog#125271",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "Nothing to add. ('After 4 attempts' means 4 calls in total, so 3 retries.)",
+   "clear_note": "Note that the 30s cap can't be reached at 4 attempts (longest sleep 6s) and the backoff is linear with no jitter. Say time.sleep blocks the activity up to 12s per window, which matters with a heartbeat timeout. Mention why: Modal's gRPC client deliberately doesn't retry RESOURCE_EXHAUSTED."
+  },
+  {
+   "key": "p125271-s2",
+   "pr": "PostHog/posthog#125271",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Note that the retry is per window, so a sync over many rate-limited windows can sleep up to 12s for each. Only the report call is retried, not the other Modal calls."
+  },
+  {
+   "key": "p125271-s3",
+   "pr": "PostHog/posthog#125271",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Note that both tests fail on the first window, so 'without saving state' is the trivial case. No test covers a rate limit after earlier windows have saved state, which is the resume path the helper's comment relies on."
+  },
+  {
+   "key": "p125704-s1",
+   "pr": "PostHog/posthog#125704",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Say that folder delete now writes a 'deleted' activity entry per view, which it didn't before, and re-fetches each view by id (an extra query each). Flag that the logic layer now raises a DRF ValidationError, and that a failed dependents check is still logged and swallowed, so the delete goes ahead."
+  },
+  {
+   "key": "p125704-s2",
+   "pr": "PostHog/posthog#125704",
+   "level": "verify",
+   "accurate": false,
+   "clear": true,
+   "accurate_note": "''Materialize ignores the option' is wrong: passing delete_view to a materialize suggestion is refused, not ignored. 'Otherwise defers to normal deprecation' reads as a fallback after a refusal; it only defers when delete_view is false, and a refusal raises a 409. The contract also adds materialized to DeprecatePayload, not mentioned.",
+   "clear_note": "Say that a deleted view is not marked deprecated in the catalog (the test expects no certification). Flag that this path is now reachable from the MCP agent while a failed dependents check still lets the delete go ahead (see step 1)."
+  },
+  {
+   "key": "p125704-s3",
+   "pr": "PostHog/posthog#125704",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Explain why LIVE is the outcome when the view is gone (deletion counts as the suggestion landing). Say plain views score 0 and rank last, and give the reason for 30 to 27 days. Flag a question: a view deprecated with keep_materialized stays materialized, so _is_done is false and it may be suggested again."
+  },
+  {
+   "key": "p125704-s4",
+   "pr": "PostHog/posthog#125704",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention that the generated tool definitions flip destructiveHint to true for every accept, not only deletes. Note that materialized is optional, and the frontend treats a missing value as materialized, so older suggestions keep their refresh messaging."
+  },
+  {
+   "key": "p125704-s5",
+   "pr": "PostHog/posthog#125704",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention that choosing delete hides the materialization choice, and that deleteView resets when the modal opens or closes. Flag that the 'Deleted' toast is picked by created_asset having a saved_query_id, which UnmaterializationAsset also has: it works today only because deprecate never returns one."
+  },
+  {
+   "key": "p125704-s6",
+   "pr": "PostHog/posthog#125704",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention that TestDeprecateCandidate moves from SimpleTestCase to BaseTest (it now hits the database), and that the job test now expects a plain view that reads another view to be suggested. Note what isn't tested: delete_view refused on certify and materialize, folder delete writing activity entries, and the feeds-person-properties refusal."
+  },
+  {
+   "key": "p125704-s7",
+   "pr": "PostHog/posthog#125704",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Flag for the reviewer: the confirmation message says 'If delete_view is true, the view is deleted for good' but doesn't fill in the actual value, so the user typing 'confirm' isn't told whether this call deletes. Note that destructive now applies to every accept kind."
+  },
+  {
+   "key": "p133282-s1",
+   "pr": "PostHog/posthog#133282",
+   "level": "verify",
+   "accurate": true,
+   "clear": false,
+   "accurate_note": "",
+   "clear_note": "Spell out when it raises: only when the query compares the join's event with $feature_flag_called by = or IN and the join can't take the pin (no top-level pin, unsafe join type, or a subquery that groups, limits, aggregates or windows). Otherwise the join keeps reading events. Flag that _passes_rows_through treats any value but None, [] or {} as set."
+  },
+  {
+   "key": "p133282-s2",
+   "pr": "PostHog/posthog#133282",
+   "level": "skim",
+   "accurate": true,
+   "clear": false,
+   "accurate_note": "",
+   "clear_note": "Say that scope, not view_name, now gates two other things: recording literal spans and the top-level check for saved views that still read flag calls from events. A join swap passes a scope, so it skips both. Flag the question this raises: whether a lazy join whose subquery reads such a view is still caught."
+  },
+  {
+   "key": "p133282-s3",
+   "pr": "PostHog/posthog#133282",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention that the set of joins inside wrappers is now computed once and reused for the filter. Note that the hook runs after the field overrides and before the clone, and that the wrapper refusal resolves the join an extra time when it finds a comparison."
+  },
+  {
+   "key": "p133282-s4",
+   "pr": "PostHog/posthog#133282",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": ""
+  },
+  {
+   "key": "p133282-s5",
+   "pr": "PostHog/posthog#133282",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention that the SQL-parity tests run with the new events schema off, and that most cases run twice (union on and off), which adds a lot of ClickHouse test time. Note gaps: no case with a GLOBAL join prefix, and the rows-pass-through refusals are tested by patching the resolver rather than with real joins."
+  },
+  {
+   "key": "g126551-s1",
+   "pr": "getsentry/sentry#126551",
+   "level": "verify",
+   "accurate": false,
+   "clear": true,
+   "accurate_note": "Not every prop carries over: the old LogoSvg set color to content.primary, and the new LogoSentry only gets a height, so the logo's color now comes from whatever it inherits. The header, container and step props do match, including padding-bottom falling back to 60px without a footer.",
+   "clear_note": "Say why this needs step 2: the new container re-anchors position: fixed descendants, which is why the footer has to be portaled out. Flag that any other fixed-position element inside a step is now positioned against the container too. Note that the 60px paddings now sit in inline style instead of tokens."
+  },
+  {
+   "key": "g126551-s2",
+   "pr": "getsentry/sentry#126551",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention what moving the footer to document.body changes besides positioning: it no longer inherits CSS from the page's elements, and its buttons leave the main landmark, which changes how screen readers group them. Its z-index now stacks against body."
+  },
+  {
+   "key": "g126551-s3",
+   "pr": "getsentry/sentry#126551",
+   "level": "verify",
+   "accurate": true,
+   "clear": false,
+   "accurate_note": "",
+   "clear_note": "Say that the welcome grid's two-column switch point changes, not just its kind: it moves from the viewport's sm width to the container's xl width, measured inside the 2xl padding. Flag that everything in onboarding that uses container queries now resolves against the new page container; the removed comment says project creation used to resolve against #main."
+  },
+  {
+   "key": "g126551-s4",
+   "pr": "getsentry/sentry#126551",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Note that it checks only where the footer is in the DOM, on one step (setup-docs), and not that it stays fixed to the viewport or that the welcome grid's breakpoints still work."
+  },
+  {
+   "key": "g126643-s1",
+   "pr": "getsentry/sentry#126643",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Say the Scraps changelog policy also changes from simple to auto, and root minVersion goes from 2.20.0 to 2.33.1 (the explicit bump-version.sh is Craft's default, so no change). Flag that the tag prefix changes from scraps-v to scraps@: auto versioning finds the last release by tag, so it may not see the existing scraps-v tags."
+  },
+  {
+   "key": "g126643-s2",
+   "pr": "getsentry/sentry#126643",
+   "level": "verify",
+   "accurate": false,
+   "clear": true,
+   "accurate_note": "Select a workspace instead of a path' is true only for the Scraps workflow. The Sentry release workflow had no path; it just gains workspace: sentry.",
+   "clear_note": "Mention that the Craft pin moves from a commit labeled only 'v2' to one labeled exactly v2.33.1, which matches the new minVersion. Note that the .craft.yml trigger also runs the Scraps CI when only the sentry workspace changes."
+  },
+  {
+   "key": "g126643-s3",
+   "pr": "getsentry/sentry#126643",
+   "level": "cleared",
+   "accurate": false,
+   "clear": false,
+   "accurate_note": "The README speaks to whoever prepares a release, not to reviewers.",
+   "clear_note": "Say that it also deletes the paragraph on what happens after the workflow runs: the scraps/release branch, the request in getsentry/publish, and the release manager's approval before publishing. All of that still applies under the new config, so the README now leaves it out."
+  },
+  {
+   "key": "g126895-s1",
+   "pr": "getsentry/sentry#126895",
+   "level": "verify",
+   "accurate": false,
+   "clear": false,
+   "accurate_note": "Unless one already exists' covers only creating the PR. The branch is force-pushed every time, so an open cleanup PR is overwritten with a fresh commit from master. 'Run manually' works only from master: the job's if skips any other ref.",
+   "clear_note": "Say that the force-push wipes any edits someone made on the bot branch, and that when nothing changed the run exits without closing an open, now-stale PR. Mention why it uses the app token: a PR opened with the default GITHUB_TOKEN wouldn't trigger CI. Note that the run stops with no PR if lint:js fails."
+  },
+  {
+   "key": "g126895-s2",
+   "pr": "getsentry/sentry#126895",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "True as far as the diff shows. The ratchet step that sets budgets to 'stale' isn't in the diff, so whether it exists can't be checked here.",
+   "clear_note": "Point to where budgets = 'stale' is set, or say it already exists. Note that pruning depends on the oxlint job running on the master push: if that job is skipped (for example, by its changed-files check), stale budgets never trigger a prune."
+  },
+  {
+   "key": "g126895-s3",
+   "pr": "getsentry/sentry#126895",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Nothing to add. (The new line's spacing is two characters off from its neighbors, which is cosmetic.)"
+  },
+  {
+   "key": "g130051-s1",
+   "pr": "getsentry/sentry#130051",
+   "level": "verify",
+   "accurate": true,
+   "clear": false,
+   "accurate_note": "",
+   "clear_note": "Say why the instanceof checks are needed: useQuery types errors as Error, not RequestError, and the child props lose it too. Flag that query keys change shape from [url] to apiOptions' key, so code still invalidating, prefetching or sharing cache under the old key (e.g. build-details elsewhere) no longer matches."
+  },
+  {
+   "key": "g130051-s2",
+   "pr": "getsentry/sentry#130051",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Say the rerun invalidation works only because compareOptions and the query in sizeCompareMainContent build the same key separately, so they must stay in sync; the mutation still uses getCompareApiUrl, so the URL lives in two places. Note the snapshots retry rule is rewritten but behaves the same."
+  },
+  {
+   "key": "g130051-s3",
+   "pr": "getsentry/sentry#130051",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Note that orgStats' error type becomes Error instead of RequestError, so any render-prop consumer that reads its status has to narrow first. The same key-shape change applies to the stats_v2 queries here: other callers of that endpoint no longer share their cache. (teamUnresolvedIssues is still typed as ProjectReleaseCount, as before.)"
+  },
+  {
+   "key": "g130051-s4",
+   "pr": "getsentry/sentry#130051",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Note that the auth settings errors lose RequestError typing the same way, and that relocationDetails still passes host as '' when no locality is found, as before. acceptProjectTransfer and userPermissionsModal still import getApiUrl for their mutations."
+  },
+  {
+   "key": "g131112-s1",
+   "pr": "getsentry/sentry#131112",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Note that onSelectionStart fires on every drag start, before the too-small-drag check, so a plain click on the plot also clears the heat map's selection. The pixel box is relative to the chart's origin as read on mouse-up."
+  },
+  {
+   "key": "g131112-s2",
+   "pr": "getsentry/sentry#131112",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention the new grid option, which changes the layout of every heat map widget, not only the spans one. Flag: the no-dependency effect drops drawn lines every render; the selection box keeps its pixel position on resize; zrender listeners are never removed; plottables[0] is read before the plottablesCanBeVisualized check, so an empty list throws a TypeError."
+  },
+  {
+   "key": "g131112-s3",
+   "pr": "getsentry/sentry#131112",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Mention that FloatingTrigger is split out into a reusable FloatingTriggerMenu. Note that zoom rounds out to the minute and resets cursors, and builds on useQueryParamsQuery while the fetch uses the query prop. The percentile lines are fetched without the outlier bounds the heat map applies."
+  },
+  {
+   "key": "g131112-s4",
+   "pr": "getsentry/sentry#131112",
+   "level": "verify",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Note that the range filter is >= min and < max (half-open), and that the hint formats the bounds as milliseconds, which holds for span.duration and span.self_time. yAttribute comes from the visualize at chartIndex now, so it can drift if the visualize changes after the selection was made."
+  },
+  {
+   "key": "g131112-s5",
+   "pr": "getsentry/sentry#131112",
+   "level": "verify",
+   "accurate": false,
+   "clear": false,
+   "accurate_note": "''Clamping Y bounds' is wrong: the bounds are added to the query as filters, so spans outside them are dropped (the comment says the endpoint would otherwise clamp them into the edge rows). The heat map waits for the bounds only while outliers are hidden.",
+   "clear_note": "Say outliers are hidden by default only for an unfiltered query, the bound is fit over the last hour at high accuracy, nothing is cut at the low end, and the toggle resets when the query, visualizes or page filters change. Mention that the dropped-data layer is now disabled via the hook's enabled option, so !isHeatMap was removed from its control."
+  },
+  {
+   "key": "g131112-s6",
+   "pr": "getsentry/sentry#131112",
+   "level": "skim",
+   "accurate": true,
+   "clear": true,
+   "accurate_note": "",
+   "clear_note": "Note that the taller chart applies to every Explore chart for users with explore-dev-features, not just heat maps. Flag that a tooltip on a disabled button often doesn't show, because disabled buttons don't fire pointer events."
+  }
+ ],
+ "points": [
+  {
+   "key": "g136831-p2",
+   "pr": "grafana/grafana#136831",
+   "level": "verify",
+   "points": false,
+   "points_note": ""
+  },
+  {
+   "key": "g137465-p1",
+   "pr": "grafana/grafana#137465",
+   "level": "skim",
+   "points": false,
+   "points_note": "No: it names the fakes, but the step is marked Skim and gives no reason to look closely. Likely issues: the global testDataKeys makes tests share state and depend on order; kvEncryptedValues.Create ignores the namespace; Encrypt ignores rand.Read's error; both fakes embed nil interfaces that panic on any other method."
+  },
+  {
+   "key": "g131112-p1",
+   "pr": "getsentry/sentry#131112",
+   "level": "verify",
+   "points": true,
+   "points_note": "Would the explanation have led you there? Yes for the chip: 'a chip toggle in the chart title' points straight at these lines. It says nothing about the other change in them, removing !isHeatMap from the dropped-data layer control, so a comment on that part wouldn't have been prompted by it."
+  },
+  {
+   "key": "p113133-p3",
+   "pr": "PostHog/posthog#113133",
+   "level": "verify",
+   "points": false,
+   "points_note": "No. It only covers adding badges. It never says 'never present a proposed or drifted result as the answer' is loosened to 'as canonical', which lets the agent answer with a proposed or drifted metric, and it says nothing new about drifted metrics. If the highlight is on this line, the explanation gave no reason to look."
+  },
+  {
+   "key": "p113133-p4",
+   "pr": "PostHog/posthog#113133",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes: it describes both badges, but gets two details wrong. The one-sentence reason is required either way, even when the agent decides not to use the proposed metric. And the link isn't in this section; it comes from the run tool's description. The section also adds a metric-describe call for the approver and date."
+  },
+  {
+   "key": "p113133-p6",
+   "pr": "PostHog/posthog#113133",
+   "level": "skim",
+   "points": true,
+   "points_note": "Would the explanation have led you there? Yes: 'the prompt size budget is raised to fit the added text' points straight at it. It doesn't give the size of the raise (about 19%), which is what a reviewer would push on, since the comment above it says the budget exists so that growth fails the build."
+  },
+  {
+   "key": "p117651-p1",
+   "pr": "PostHog/posthog#117651",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: 'not selected by default' points at this test. But only carrier_types and child_users are added, so if the third new table (report types) is selected by default, 'the new schemas' overstates it. The comment still says 'both endpoints' and gives no reason why the two new ones are restricted."
+  },
+  {
+   "key": "p119655-p1",
+   "pr": "PostHog/posthog#119655",
+   "level": "verify",
+   "points": true,
+   "points_note": "Would the explanation have led you there? Yes: 'a new setting supplies the default target size' points at it. It doesn't give the default (32 MiB) or note the naming: the neighbor above uses BATCH_EXPORTS_ and this one uses BATCH_EXPORT_, which is the kind of thing a reviewer comments on."
+  },
+  {
+   "key": "p119655-p2",
+   "pr": "PostHog/posthog#119655",
+   "level": "verify",
+   "points": true,
+   "points_note": "Would the explanation have led you there? Yes: 'only records histogram metrics inside an activity or workflow, and otherwise just logs' is what the new docstring says."
+  },
+  {
+   "key": "p119655-p4",
+   "pr": "PostHog/posthog#119655",
+   "level": "verify",
+   "points": false,
+   "points_note": "No, not to the new parts. 'JSON columns skip dictionaries and statistics' points at the writer but not the real fix: those options now get Parquet leaf paths (e.g. tags.list.element) from the new get_parquet_column_paths helper, since top-level names didn't match nested columns. The 5% early-close rule isn't mentioned. (Assumes the helper and constants were highlighted.)"
+  },
+  {
+   "key": "p119655-p5",
+   "pr": "PostHog/posthog#119655",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes for the buffering: 'holds record batches until a target size is reached' describes the loop. It doesn't say the metric keeps its old name while now timing whole row groups, so existing dashboards change meaning, or that the yield moved outside the timed block. (Assumes the loop was highlighted.)"
+  },
+  {
+   "key": "p121092-p1",
+   "pr": "PostHog/posthog#121092",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes: it names the flag, its default and purpose. It leaves out what the doc comment admits: with the switch off, a composed cohort added over already-seeded leaves finishes its backfill with no members. So turning it off brings the bug back rather than being a safe fallback."
+  },
+  {
+   "key": "p121092-p2",
+   "pr": "PostHog/posthog#121092",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes: 'a new counter tracks how often this happens' points at it. But 'reports absent or corrupt ones' reads as if absent means a missing row; the counter's comment says absent also covers every non-member, whose row never exists. So the repair recomposes non-members on every seed run, a steady cost the reviewer likely raised."
+  },
+  {
+   "key": "p121371-p1",
+   "pr": "PostHog/posthog#121371",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes, but only just: 'tunable config' and 'lock and budget gates' name the file's job without a reason to read it. Not mentioned: the model, stack-trace limit and cap are placeholders; the lock is never released, so it throttles retries for 5 minutes; teams get 100 summaries, then about 120 a day; and a blocked try waits an hour."
+  },
+  {
+   "key": "p123052-p1",
+   "pr": "PostHog/posthog#123052",
+   "level": "cleared",
+   "points": false,
+   "points_note": "No. The line says 'Added as disbursements and disbursement_distributions' but its box is still unchecked. The explanation's 'notes the disbursement tables' repeats that gap as if intended, and the step is marked Cleared, so nothing prompts a second look. (Assumes the disbursements line was highlighted.)"
+  },
+  {
+   "key": "p123052-p2",
+   "pr": "PostHog/posthog#123052",
+   "level": "cleared",
+   "points": false,
+   "points_note": "No. 'Marks payouts as covered' hints at neither issue: the table holds only settled payouts (Mono documents only that status filter), so the 'payout status' analysis it lists doesn't apply; and the edit adds a typo, 'payoutstatus'. (Assumes the payout line was highlighted.)"
+  },
+  {
+   "key": "p124525-p1",
+   "pr": "PostHog/posthog#124525",
+   "level": "verify",
+   "points": true,
+   "points_note": "Would the explanation have led you there? Yes: 'a CohortQueryFailed variant that looks like an internal error to clients but counts as a database failure' is exactly these lines. What a reviewer would check: whether the String in 'Internal error: {0}' carries the raw query error out to clients, which FlagError::internal may not do."
+  },
+  {
+   "key": "p124525-p3",
+   "pr": "PostHog/posthog#124525",
+   "level": "verify",
+   "points": true,
+   "points_note": "Would the explanation have led you there? Yes: 'flag matching marks persons need ... so degraded requests are classified' is what these two asserts check."
+  },
+  {
+   "key": "p124525-p4",
+   "pr": "PostHog/posthog#124525",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes: 'outcome marks are carried on the canonical log' names this field. It leaves out the catch in its comment: marks set on rayon threads are lost. With parallel evaluation, a degraded request may not be classified, which is likely what the reviewer raised."
+  },
+  {
+   "key": "p124525-p5",
+   "pr": "PostHog/posthog#124525",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: it describes the file accurately. It leaves out that two asserts pin today's known-bad behavior and will fail once #122930 and #122931 land; that the tests take an ACCESS EXCLUSIVE lock on posthog_person; and that the global metrics recorder panics if another recorder is installed in the process."
+  },
+  {
+   "key": "p128860-p2",
+   "pr": "PostHog/posthog#128860",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: 'no-cohort teams still draining' is what this assert checks. It doesn't say the check is tacked onto an unrelated test rather than being its own, the likely review point, since a failure would show under the wrong test name."
+  },
+  {
+   "key": "p133748-p1",
+   "pr": "PostHog/posthog#133748",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes: three labels, the .ph-no-capture rule, size thresholds and stripes are what the file does. Not mentioned: the label blames 'the site's settings' though .ph-no-capture is a class the site's code adds, and other block methods get no label; the text is hard-coded English; a multi-KB base64 PNG is inlined into every replay's style; and the thresholds rely on a clamp() trick."
+  },
+  {
+   "key": "p134537-p1",
+   "pr": "PostHog/posthog#134537",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes: it names the facade function, the single query and the alias. It leaves out the trade-off the docstring admits: the old Exists subquery was one query, now there are two reads, so results can mix an experiment write newer than the flags. The helper also has no team filter and relies on callers passing team-scoped ids."
+  },
+  {
+   "key": "p134537-p3",
+   "pr": "PostHog/posthog#134537",
+   "level": "skim",
+   "points": true,
+   "points_note": "Would the explanation have led you there? Yes: 'tests also cover has_experiment in the per-team and batch loaders' is this change. It doesn't say the separate batch test is folded into the parameterized one, or that a second flag is added so the test now also checks that a flag without an experiment reads False."
+  },
+  {
+   "key": "g126129-p1",
+   "pr": "getsentry/sentry#126129",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: a labelled 'Payment method' section replacing the data-test-id is these lines. Likely review points: aria-label repeats the visible h2, where aria-labelledby would keep one source; and removing data-test-id=\"credit-card-panel\" breaks any test that still looks for it."
+  },
+  {
+   "key": "g126939-p1",
+   "pr": "getsentry/sentry#126939",
+   "level": "skim",
+   "points": true,
+   "points_note": "Would the explanation have led you there? Yes: 'disambiguates the search inputs' is this change. It doesn't say how: by placeholder text ('Search\u2026', with a Unicode ellipsis), which is brittle and against Testing Library's preferred queries. Scoping with within() or a role query with an accessible name is the likely review ask."
+  },
+  {
+   "key": "g127368-p1",
+   "pr": "getsentry/sentry#127368",
+   "level": "verify",
+   "points": false,
+   "points_note": "No. These lines only re-wrap existing code with no behavior change, which looks like formatter churn. 'The legacy menu gets only minor cleanups' tells a reviewer to skip them, so nothing hints at unrelated reformatting a reviewer would ask to revert."
+  },
+  {
+   "key": "g128444-p1",
+   "pr": "getsentry/sentry#128444",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: 'a strict URL pattern by numeric id, no trailing slash' is this route. It doesn't flag that the comment's reasoning is off: Python's int() never refuses a long number; the risk is a 19-digit id exceeding bigint's maximum and failing the lookup with a 500. The catch-all route group (.+) isn't mentioned either."
+  },
+  {
+   "key": "g128444-p2",
+   "pr": "getsentry/sentry#128444",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes: grant check, org and flag check, relay, and token-free reports are what the file does. Not mentioned: no auth, permission or rate-limit classes, so the grant is the only gate; the grant is verified twice; a push is held whole in memory; every header, the grant included, goes to GitServer; and a chunked body under uwsgi raises NotImplementedError."
+  },
+  {
+   "key": "g128444-p5",
+   "pr": "getsentry/sentry#128444",
+   "level": "skim",
+   "points": true,
+   "points_note": "Would the explanation have led you there? Yes: 'the generated API URL type is updated to match' is this line. A reviewer might still ask why an internal endpoint that only Seer's credential proxy can reach is listed among the frontend's known URLs."
+  },
+  {
+   "key": "g128663-p1",
+   "pr": "getsentry/sentry#128663",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes, but it blurs the key point: it says 'replaces', then 'expands to' and 'adds'. The code replaces: a token loses org:read itself and keeps only its translations, so endpoints still requiring org:read would refuse it, while the metric counts only what's added. A reviewer would likely ask whether it should add rather than replace."
+  },
+  {
+   "key": "g129095-p3",
+   "pr": "getsentry/sentry#129095",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: the explanation lists these tests' cases. Not raised: the service account uses a hard-coded id (910001); one test runs validation, creation, reuse and revocation in sequence, so failures are hard to place; a reused investigation keeps the service account as creator even when a user triggers it; and ActorId(USER, True) passes a bool as an id."
+  },
+  {
+   "key": "g129313-p1",
+   "pr": "getsentry/sentry#129313",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes, though only through the word 'descriptions'. Not hinted: they name specific features (stars, recent searches, dismissed prompts), which goes stale once another preference uses the scope; and the write description doesn't say write doesn't imply read, unlike most scopes."
+  },
+  {
+   "key": "g129734-p1",
+   "pr": "getsentry/sentry#129734",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes: 'the serializer is adapted to the new shape' is these lines. Not raised: ConnectedMonitors becomes a bare list[tuple[int, int]] read by position; the argument is no longer optional, so callers passing None break; and project_ids now come from all connected monitors, which may show users ids of projects they can't access."
+  },
+  {
+   "key": "g129767-p1",
+   "pr": "getsentry/sentry#129767",
+   "level": "verify",
+   "points": false,
+   "points_note": "No. It describes what POST does, not these module-level lines; only 'writes an audit entry' touches them. It doesn't mention the new SeerAgentResponse (service account id, scopes, projects in the response) or that the endpoint imports service_accounts models directly instead of using that module's service, the likely review point."
+  },
+  {
+   "key": "g130055-p1",
+   "pr": "getsentry/sentry#130055",
+   "level": "cleared",
+   "points": true,
+   "points_note": "Yes: the Linked tabs section, demo, sample, route-derived value and keyboard notes are exactly this. But the step is marked Cleared and flags nothing: the demo and sample are the same code pasted twice; 'Automatic selection does not navigate to a link' is unclear; the keyboard notes may contradict the section below; and an unknown linkedTab selects no tab."
+  },
+  {
+   "key": "g130079-p1",
+   "pr": "grafana/grafana#130079",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: an integration test where a stopped node makes peers reload without a tick is this test. Not raised: it's deliberately not named TestIntegration*, so it runs in every unit run and isn't skipped in short mode, while starting three NATS servers; and it asserts exactly 1.0 wakes per peer, which breaks if a wake is ever sent twice."
+  },
+  {
+   "key": "g133125-p1",
+   "pr": "grafana/grafana#133125",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: three histograms by mode and query type plus an events counter is this file. Not raised: no Buckets are set, so client_golang also exposes classic histograms with the default seconds buckets (0.005 to 10), which fit duration but are useless for the document and check counts; anyone without native histogram ingestion gets only those."
+  },
+  {
+   "key": "g134074-p1",
+   "pr": "grafana/grafana#134074",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes: retrying on clock regression or a non-increasing RV, up to a max wait, with cancellation and metrics is this helper. Not raised: it sleeps while still holding this resource's lease, so other writers to it wait too; a negative max wait disables retries; the metric keeps only the first wait reason; and a zero computed wait would retry with no sleep."
+  },
+  {
+   "key": "g134254-p1",
+   "pr": "grafana/grafana#134254",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: the explanation names this test. Worth noting: it builds Service as a struct literal from private fields (store, cache, log, roles, actionResolver) instead of a constructor, so it breaks whenever the struct changes. (The three spots show the same code; the paste doesn't show which lines each highlights.)"
+  },
+  {
+   "key": "g134254-p2",
+   "pr": "grafana/grafana#134254",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: 'checks the cache stays empty' is this part. Worth noting: require.Empty(service.cache.Items()) only proves the whole cache is empty, not that the search key is absent; and only the 'basic roles' and 'permission search' failures are covered."
+  },
+  {
+   "key": "g134254-p3",
+   "pr": "grafana/grafana#134254",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: 'a later successful call is cached and reused' is this loop. Worth noting: reuse is proven only implicitly, because the store mocks are .Once() and the second call would fail if it hit the store. An explicit check that the second call didn't reach the store would make the intent clear."
+  },
+  {
+   "key": "g134254-p5",
+   "pr": "grafana/grafana#134254",
+   "level": "verify",
+   "points": true,
+   "points_note": "Yes: the fixture and the eight scenario groups are what the file holds. Not raised: searchPermissionsStore counts searches 'to distinguish a cache hit' but no test reads the count, and the fixture's cache field is unused; Validation pins 500s for client errors (bad type, malformed id, unknown id); and Identities runs each assertSearch twice."
+  },
+  {
+   "key": "g134477-p1",
+   "pr": "grafana/grafana#134477",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: isFolderAlreadyExists and the duplicate-UID and conflict paths are these tests. But 'expectations are updated to the new messages' undersells it: already-exists used to answer 412 version-mismatch and now answers 409. It also doesn't flag that a bare gRPC AlreadyExists is treated as a retryable conflict ('please retry') rather than a duplicate."
+  },
+  {
+   "key": "g134638-p1",
+   "pr": "grafana/grafana#134638",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: a fake blob server returning embedded errors, checked with conversion off and on, is this test. Worth noting: the off/on loop doesn't use t.Run, so a failure doesn't say which mode broke; only one code (403 to PermissionDenied) is tested; and the get stream checks only its first message."
+  },
+  {
+   "key": "g134690-p1",
+   "pr": "grafana/grafana#134690",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: late Mermaid source after an error or timeout not being posted, with status staying error, is this test. Worth noting: the 15000 ms timeout is hard-coded rather than read from the component's constant; the test also sends a late 'rendered' and expects it ignored, which isn't mentioned; and it asserts postMessage with target origin '*'."
+  },
+  {
+   "key": "g136584-p1",
+   "pr": "grafana/grafana#136584",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: FolderPathItem and the folderPaths map are these lines. Worth noting: a folder the caller can't read still appears in the path, by name and marked detached, so its name is exposed to someone without access; paths are silently left out when missing; and the root folder has no entry, which clients must handle."
+  },
+  {
+   "key": "g136750-p1",
+   "pr": "grafana/grafana#136750",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: client_listen, the three cluster_tls_* paths and the tls_* note are these lines. Worth noting: client_port is now closed by default, which breaks anyone using the nats CLI against the embedded server; when opened it has no TLS or auth; and since mixed TLS modes can't connect, turning on cluster TLS can't be done as a rolling change."
+  },
+  {
+   "key": "g136750-p3",
+   "pr": "grafana/grafana#136750",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: 'adds certificate helpers' covers this file. Worth noting: logHook drops messages once its 1024 buffer is full, so waitForLog can miss the log it waits for; and requireRoute republishes in a tight loop with no pause until the 15 s guard."
+  },
+  {
+   "key": "g136750-p4",
+   "pr": "grafana/grafana#136750",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: mTLS routes, rotation, concurrent reloads, the closed client port and the logger are these tests. Worth noting: freePort closes its listener before the server binds, so the port can be taken in between; the tests set private fields (kv, log, clusterTLS.interval); and the logger test shows Fatalf now logs instead of exiting, a behavior change."
+  },
+  {
+   "key": "g136812-p4",
+   "pr": "grafana/grafana#136812",
+   "level": "skim",
+   "points": true,
+   "points_note": "Yes: delegate combined with a concrete scope, a wildcard for mutations and none for reads, is this table. Worth noting: it pins that a delegate scope adds '*' to role writes, deletes and assignments, which is a broad grant a reviewer should confirm is intended; the delegate scope stays in the output next to '*'; and the namespace check is disabled."
+  },
+  {
+   "key": "g137166-p1",
+   "pr": "grafana/grafana#137166",
+   "level": "cleared",
+   "points": true,
+   "points_note": "Yes: the phases and status semantics are described. Worth noting: 'database' lumps collection resolution, vector search, external full-text search and cache calls into one label, so slow cache calls can't be told apart from slow searches. The step is marked Cleared, so nothing flags this. (Both spots show the same lines; this assumes the table.)"
+  },
+  {
+   "key": "g137166-p2",
+   "pr": "grafana/grafana#137166",
+   "level": "cleared",
+   "points": true,
+   "points_note": "Yes: the PromQL query and the overlap warning are described. Worth noting: the query doesn't filter on status, so failed calls are averaged in with successful ones; a mean hides tail latency, where histogram_quantile would help; and 'query embedding is shared across resource targets' is unclear. (This assumes the query and notes.)"
+  }
+ ]
+}
